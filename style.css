@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'PT-Sans';
+  src: url('./fonts/PTSans-Regular.ttf') format('truetype');
+}
+
 body {
-  font-family: "PT Sans", sans-serif;
+  font-family: 'PT-Sans';
 }
