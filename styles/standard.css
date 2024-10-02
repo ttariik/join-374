@@ -4,5 +4,10 @@
     scroll-behavior: smooth;
     box-sizing: border-box;
     cursor: pointer;
-    background-color: #fff;
+   
+}
+
+body{
+    background-color: #F6F7F8;
+    overflow: hidden;
 }
