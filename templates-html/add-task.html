@@ -11,52 +11,51 @@
   </head>
   <body>
     <div w3-include-html="../navbar.html"></div>
-    <div>
-      <h1>Add Task</h1>
-      <form action="">
-        <div class="firstbox">
-          <div class="title2">
-            <h3>Title*</h3>
-            <input placeholder="Enter a title" type="text" />
-          </div>
-          <div class="descriptioninput">
-            <div><h3>Description</h3></div>
-            <div><textarea name="Enter a Description" id=""></textarea></div>
-          </div>
-          <div class="selectbox">
-            <div><h3>Assigned to</h3></div>
-            <div>
-              <select name="" id="">
-                <option value="Select Contacts to asign">
-                  Select Contacts to asign
-                </option>
-              </select>
-            </div>
+    <h1>Add Task</h1>
+    <form action="">
+      <div class="firstbox">
+        <div class="title2">
+          <h3>Title*</h3>
+          <input class="titleinput" placeholder="Enter a title" type="text" />
+        </div>
+        <div class="descriptioninput">
+          <div><h3>Description</h3></div>
+          <div><textarea name="Enter a Description" id=""></textarea></div>
+        </div>
+        <div class="selectbox">
+          <div><h3>Assigned to</h3></div>
+          <div>
+            <select name="" id="">
+              <option value="Select Contacts to asign">
+                Select Contacts to asign
+              </option>
+            </select>
           </div>
         </div>
-        <div class="line"></div>
-        <div>
-          <div><h3>Due date*</h3></div>
-          <div class="emailinput">
-            <input type="email" placeholder="dd/mm/yyyy" /><img
-              src="/img/event.png"
-              alt=""
-            />
+      </div>
+      <div class="line"></div>
+      <div>
+        <div><h3>Due date*</h3></div>
+        <div class="emailinput">
+          <input
+            class="emailinput2"
+            type="email"
+            placeholder="dd/mm/yyyy"
+          /><img src="/img/event.png" alt="" />
+        </div>
+        <div class="buttons">
+          <div>
+            <button>Urgent <img src="/img/Capa 2 (1).png" alt="" /></button>
           </div>
-          <div class="buttons">
-            <div>
-              <button>Urgent <img src="/img/Capa 2 (1).png" alt="" /></button>
-            </div>
-            <div>
-              <button>Medium <img src="/img/Capa 2.png" alt="" /></button>
-            </div>
-            <div>
-              <button>Low <img src="/img/Prio alta.png" alt="" /></button>
-            </div>
+          <div>
+            <button>Medium <img src="/img/Capa 2.png" alt="" /></button>
+          </div>
+          <div>
+            <button>Low <img src="/img/Prio alta.png" alt="" /></button>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
     <script>
       includeHTML();
     </script>
