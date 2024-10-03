@@ -1,0 +1,104 @@
+.background {
+  background-image: url(../img/Frame195.png);
+  width: 453px;
+  height: 594px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.completebox {
+  width: 1212px;
+  height: 592px;
+  display: flex;
+}
+
+.contactside {
+  width: 759px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.logo {
+  margin-left: 30px;
+}
+
+.textinput,
+.emailinput,
+.telefoneinput {
+  width: 380px;
+  height: 24px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  padding: 13px 21px 13px 21px;
+}
+
+.inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  margin-top: 51px;
+}
+
+.inputpart {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 37px;
+}
+
+.deletebutton {
+  width: 113px;
+  height: 55px;
+  border: 1px solid #2a3647;
+  border-radius: 10px;
+  background-color: #ffffff;
+  font-weight: 400;
+  font-size: 21px;
+}
+
+.savebutton {
+  width: 111px;
+  height: 57px;
+  border-radius: 10px;
+  border: none;
+  background-color: #2a3647;
+  font-weight: 700;
+  font-size: 21px;
+  color: white;
+}
+
+.textinputarea {
+  display: flex;
+  align-items: center;
+}
+
+.textinputarea img {
+  position: relative;
+  right: 30px;
+}
+
+.emailinputarea {
+  display: flex;
+  align-items: center;
+}
+
+.emailinputarea img {
+  position: relative;
+  right: 30px;
+}
+
+.telefoneinputarea {
+  display: flex;
+  align-items: center;
+}
+
+.telefoneinputarea img {
+  position: relative;
+  right: 30px;
+}
+
+.buttonsalignment {
+  display: flex;
+  gap: 25px;
+}

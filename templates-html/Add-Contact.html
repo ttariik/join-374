@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Contact</title>
+    <link rel="stylesheet" href="../styles/Add-Contact.css" />
+  </head>
+  <body>
+    <div class="completebox">
+      <div class="background"></div>
+      <div class="contactside">
+        <div class="logo">
+          <img src="../img/Frame 79.png" alt="" />
+        </div>
+        <div class="inputpart">
+          <div class="inputs">
+            <div class="textinputarea">
+              <input class="textinput" placeholder="Name" type="text" /><img
+                src="../img/person.png"
+                alt=""
+              />
+            </div>
+            <div class="emailinputarea">
+              <input class="emailinput" placeholder="Email" type="email" /><img
+                src="../img/mail.png"
+                alt=""
+              />
+            </div>
+            <div class="telefoneinputarea">
+              <input
+                type="tel"
+                id="phone"
+                placeholder="+49 123 456 7890"
+                pattern="^\+49\s?\d{3}\s?\d{3,12}$"
+                class="telefoneinput"
+                required
+              />
+              <img src="../img/call.png" alt="" />
+            </div>
+          </div>
+          <div class="buttonsalignment">
+            <button class="deletebutton">Delete</button
+            ><button class="savebutton">
+              Save <img src="../img/check.png" alt="" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

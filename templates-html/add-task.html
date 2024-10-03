@@ -14,76 +14,93 @@
     <h1>Add Task</h1>
     <div class="wholebox">
       <form action="">
-        <div class="firstbox">
-          <div class="title2">
-            <h3>Title*</h3>
-            <input class="titleinput" placeholder="Enter a title" type="text" />
+        <div style="display: flex; gap: 54px">
+          <div class="firstbox">
+            <div class="title2">
+              <h3>Title*</h3>
+              <input
+                class="titleinput"
+                placeholder="Enter a title"
+                type="text"
+              />
+            </div>
+            <div class="descriptioninput">
+              <div><h3>Description</h3></div>
+              <div><textarea name="Enter a Description" id=""></textarea></div>
+            </div>
+            <div class="selectbox">
+              <div><h3>Assigned to</h3></div>
+              <div>
+                <select name="" id="">
+                  <option value="Select Contacts to asign">
+                    Select Contacts to asign
+                  </option>
+                </select>
+              </div>
+            </div>
           </div>
-          <div class="descriptioninput">
-            <div><h3>Description</h3></div>
-            <div><textarea name="Enter a Description" id=""></textarea></div>
-          </div>
-          <div class="selectbox">
-            <div><h3>Assigned to</h3></div>
-            <div>
-              <select name="" id="">
-                <option value="Select Contacts to asign">
-                  Select Contacts to asign
-                </option>
-              </select>
+          <div class="line"></div>
+          <div class="secondbox">
+            <div class="firsthalfbox">
+              <div class="emailbox">
+                <div><h3>Due date*</h3></div>
+                <div class="emailinput">
+                  <input
+                    class="emailinput2"
+                    type="datetime"
+                    name="date"
+                    id="date"
+                    placeholder="dd/mm/yyyy"
+                    maxlength="10"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="buttons">
+                <span>Prio</span>
+                <div class="buttons2">
+                  <div>
+                    <button class="buttons2_1">
+                      Urgent <img src="/img/Capa 2.png" alt="" />
+                    </button>
+                  </div>
+                  <div>
+                    <button class="buttons2_2">
+                      Medium <img src="/img/Capa 2 (1).png" alt="" />
+                    </button>
+                  </div>
+                  <div>
+                    <button class="buttons2_3">
+                      Low <img src="/img/Prio alta.png" alt="" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="secondhalfbox">
+              <div>
+                <span>Category*</span>
+                <select name="" id="">
+                  <option value="Select Task Category">
+                    Select Task Category
+                  </option>
+                </select>
+              </div>
+              <div>
+                <span>Subtasks</span>
+                <select name="" id="">
+                  <option value="Select Task Category">Add New Task</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
-        <div class="line"></div>
-        <div class="secondbox">
-          <div class="firsthalfbox">
-            <div class="emailbox">
-              <div><h3>Due date*</h3></div>
-              <div class="emailinput">
-                <input
-                  class="emailinput2"
-                  type="datetime"
-                  name="date"
-                  id="date"
-                  placeholder="dd/mm/yyyy"
-                  maxlength="10"
-                  required
-                />
-              </div>
-            </div>
-            <div class="buttons">
-              <span>Prio</span>
-              <div class="buttons2">
-                <div>
-                  <button>Urgent <img src="/img/Capa 2.png" alt="" /></button>
-                </div>
-                <div>
-                  <button>
-                    Medium <img src="/img/Capa 2 (1).png" alt="" />
-                  </button>
-                </div>
-                <div>
-                  <button>Low <img src="/img/Prio alta.png" alt="" /></button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="secondhalfbox">
-            <div>
-              <span>Category*</span>
-              <select name="" id="">
-                <option value="Select Task Category">
-                  Select Task Category
-                </option>
-              </select>
-            </div>
-            <div>
-              <span>Subtasks</span>
-              <select name="" id="">
-                <option value="Select Task Category">Add New Task</option>
-              </select>
-            </div>
-          </div>
+        <div style="display: flex; justify-content: flex-end; gap: 39px">
+          <button class="bt1">
+            Clear <img src="../img/Vector.png" alt="" /></button
+          ><button onclick="" disabled class="bt2">
+            Create Task <img src="../img/check.png" alt="" />
+          </button>
         </div>
       </form>
     </div>
