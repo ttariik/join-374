@@ -35,13 +35,19 @@
       </div>
       <div class="line"></div>
       <div>
-        <div><h3>Due date*</h3></div>
-        <div class="emailinput">
-          <input
-            class="emailinput2"
-            type="email"
-            placeholder="dd/mm/yyyy"
-          /><img src="/img/event.png" alt="" />
+        <div class="emailbox">
+          <div><h3>Due date*</h3></div>
+          <div class="emailinput">
+            <input
+              class="emailinput2"
+              type="datetime"
+              name="date"
+              id="date"
+              placeholder="dd/mm/yyyy"
+              maxlength="10"
+              required
+            />
+          </div>
         </div>
         <div class="buttons">
           <div>
