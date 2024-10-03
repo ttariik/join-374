@@ -120,8 +120,20 @@ button {
   gap: 5px;
 }
 
+.secondbox {
+  width: 440px;
+  height: 416px;
+}
+
 @media (max-width: 1133px) {
   form {
     flex-direction: column;
+  }
+  .line {
+    height: unset;
+    width: 440px;
+  }
+  .secondbox {
+    height: unset;
   }
 }
