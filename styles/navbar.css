@@ -58,7 +58,7 @@
   flex-direction: column;
   padding-top: 243px;
   gap: 8px;
-  padding-bottom: 64px;
+  padding-bottom: 59px;
 }
 
 .legal-links a {
@@ -72,7 +72,7 @@
 }
 
 .legal-links a:hover {
-  color: rgb(41,171,226);
+  color: rgb(41, 171, 226);
   font-weight: bold;
 }
 
@@ -108,4 +108,3 @@
 .help-icon:hover {
   scale: 1.25;
 }
-
