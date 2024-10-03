@@ -4,6 +4,7 @@
 }
 
 body {
+  display: flex;
   font-family: 'PT-Sans';
   margin: 0;
 }
