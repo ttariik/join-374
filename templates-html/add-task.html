@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Task</title>
+    <link rel="stylesheet" href="/styles/add-task.css" />
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <div w3-include-html="navbar.html"></div>
+
+    <h1>Add Task</h1>
+    <form action="">
+      <div class="firstbox">
+        <div class="title2">
+          <h3>Title*</h3>
+          <input placeholder="Enter a title" type="text" />
+        </div>
+        <div class="descriptioninput">
+          <div><h3>Description</h3></div>
+          <div><textarea name="Enter a Description" id=""></textarea></div>
+        </div>
+        <div class="selectbox">
+          <div><h3>Assigned to</h3></div>
+          <div>
+            <select name="" id="">
+              <option value="Select Contacts to asign">
+                Select Contacts to asign
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="line"></div>
+      <div>
+        <div><h3>Due date*</h3></div>
+        <div class="emailinput">
+          <input type="email" placeholder="dd/mm/yyyy" /><img
+            src="/img/event.png"
+            alt=""
+          />
+        </div>
+        <div class="buttons">
+          <div>
+            <button>Urgent <img src="/img/Capa 2 (1).png" alt="" /></button>
+          </div>
+          <div>
+            <button>Medium <img src="/img/Capa 2.png" alt="" /></button>
+          </div>
+          <div>
+            <button>Low <img src="/img/Prio alta.png" alt="" /></button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <script>
+      includeHTML();
+    </script>
+  </body>
+</html>
