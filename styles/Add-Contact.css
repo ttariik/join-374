@@ -55,6 +55,13 @@
   background-color: #ffffff;
   font-weight: 400;
   font-size: 21px;
+  cursor: pointer;
+}
+
+.deletebutton:hover {
+  color: #29abe2;
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translate(-0.06em, -0.06em);
 }
 
 .savebutton {
@@ -66,6 +73,11 @@
   font-weight: 700;
   font-size: 21px;
   color: white;
+  cursor: pointer;
+}
+
+.savebutton:hover {
+  background-color: #29abe2;
 }
 
 .textinputarea {
