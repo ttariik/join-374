@@ -200,9 +200,23 @@ select {
   gap: 13px;
 }
 
+.alignment2 {
+  display: flex;
+  gap: 54px;
+}
+
 @media (max-width: 1405px) {
   .wholebox {
     width: fit-content;
+    top: 0;
+  }
+  .alignment2 {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  h1 {
+    top: 0;
   }
 
   form {
@@ -214,8 +228,18 @@ select {
     height: unset;
     width: 440px;
   }
+
+  .firsthalfbox {
+    gap: 3px;
+  }
+
+  .secondhalfbox {
+    margin-bottom: 15px;
+    gap: 11px;
+  }
   .secondbox {
     height: unset;
+    gap: 12px;
   }
   .emailinput2 {
     width: 92%;
