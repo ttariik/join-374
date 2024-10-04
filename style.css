@@ -3,6 +3,12 @@
   src: url('./fonts/PTSans-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'PT-Sans-bold';
+  src: url('./fonts/PTSans-Bold.ttf') format('truetype');
+}
+
+
 body {
   font-family: 'PT-Sans';
   margin: 0;
