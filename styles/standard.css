@@ -1,6 +1,5 @@
 *{
     margin: 0;
-    padding: 0;
     scroll-behavior: smooth;
     box-sizing: border-box;
     cursor: pointer;
@@ -10,5 +9,7 @@
 body{
     background-color: #F6F7F8;
     overflow: hidden;
+    font-family: 'PT-Sans';
+    margin: 0;
     height: 100vh;
 }

@@ -8,7 +8,3 @@
   src: url('./fonts/PTSans-Bold.ttf') format('truetype');
 }
 
-body {
-  font-family: 'PT-Sans';
-  margin: 0;
-}
