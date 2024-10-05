@@ -1,10 +1,11 @@
 .background {
-  background-image: url(../img/Frame195.png);
   max-width: 453px;
   height: 594px;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-color: #2a3647;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .completebox {
@@ -25,6 +26,30 @@
 
 .logo {
   margin-left: 30px;
+}
+
+.alignwords {
+  display: flex;
+  flex-direction: column;
+}
+
+.maintitle {
+  font-weight: 700;
+  font-size: 61px;
+  color: white;
+}
+
+.subwords {
+  font-weight: 400;
+  font-size: 27px;
+  color: white;
+}
+
+.logodesign {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 74%;
 }
 
 .textinput,
@@ -90,6 +115,8 @@
 .textinputarea {
   display: flex;
   align-items: center;
+  width: 364px;
+  margin-left: auto;
 }
 
 .textinputarea img {
@@ -100,6 +127,8 @@
 .emailinputarea {
   display: flex;
   align-items: center;
+  width: 364px;
+  margin-left: auto;
 }
 
 .emailinputarea img {
@@ -110,6 +139,8 @@
 .telefoneinputarea {
   display: flex;
   align-items: center;
+  width: 364px;
+  margin-left: auto;
 }
 
 .telefoneinputarea img {
@@ -125,8 +156,40 @@
 @media (max-width: 1050px) {
   .completebox {
     flex-direction: column;
+    max-width: 396px;
+    height: 760px;
   }
   .contactside {
     flex-direction: column;
+    gap: unset;
+  }
+  .alignimage {
+    display: none;
+  }
+  .inputpart {
+    align-items: center;
+  }
+  .background {
+    max-width: 396px;
+    height: 352px;
+  }
+  .logo {
+    margin-left: unset;
+    position: absolute;
+    top: 281px;
+  }
+  .logodesign {
+    width: 94%;
+  }
+  .inputs {
+    gap: 37px;
+    margin-top: 76px;
+    max-width: 400px;
+  }
+  .textinputarea,
+  .emailinputarea,
+  .telefoneinputarea {
+    max-width: 364px;
+    width: 100%;
   }
 }
