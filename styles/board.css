@@ -1,0 +1,12 @@
+
+.container{
+    height: 1210px;
+    width: 235px;
+}
+
+h2{
+position: absolute;
+left: 300px;
+size: 60px;
+font-weight: 700;
+}
