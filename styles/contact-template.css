@@ -1,0 +1,24 @@
+.contact_box {
+  max-width: 461px;
+  width: 100%;
+  height: 364px;
+}
+
+.firstpartofthebox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordstyle {
+  font-weight: 500;
+  font-size: 47px;
+}
+
+.secondsquare {
+  max-width: 207px;
+  height: 74px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
