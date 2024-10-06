@@ -52,8 +52,30 @@
   width: 74%;
 }
 
-.textinput,
-.emailinput,
+.textinput {
+  max-width: 380px;
+  height: 24px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  padding: 13px 21px 13px 21px;
+  width: 100%;
+  background-image: url(../img/person.png);
+  background-repeat: no-repeat;
+  background-position: 337px 12px;
+}
+
+.emailinput {
+  max-width: 380px;
+  height: 24px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  padding: 13px 21px 13px 21px;
+  width: 100%;
+  background-image: url(../img/mail.png);
+  background-repeat: no-repeat;
+  background-position: 338px 11px;
+}
+
 .telefoneinput {
   max-width: 380px;
   height: 24px;
@@ -61,6 +83,9 @@
   border: 1px solid #d1d1d1;
   padding: 13px 21px 13px 21px;
   width: 100%;
+  background-image: url(../img/call.png);
+  background-repeat: no-repeat;
+  background-position: 342px 14px;
 }
 
 .inputs {
@@ -74,7 +99,7 @@
 .inputpart {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 37px;
   width: 100%;
 }
