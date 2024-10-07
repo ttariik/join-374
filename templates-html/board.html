@@ -11,9 +11,97 @@
   </head>
   <body onload="includeHTML()">
     <div w3-include-html="../navbar.html"></div>
-
-      <div class="conatiner">
+    <div class="content">
+      <header class="board-header">
         <h2>Board</h2>
+        <div>
+          <div class="input-container">
+            <div class="search-wrapper">
+              <input class="search-input" type="text" placeholder="Find Task" />
+              <span class="separator"></span>
+              <img class="search-icon" src="" alt="" />
+            </div>
+            <button class="task-button">
+              <span class="button-text">Add Task</span>
+              <img class="button-image" src="./img/add.png" alt="add-logo" />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="lala">
+      <div class="task-status">
+        <div class="status-item">
+          <span class="status-text">To Do</span>
+          <img class="status-item-png" src="./img/status-item.png" alt="">
+        </div>
       </div>
+
+      <span class="puffer"></span>
+
+      <div class="task-status">
+        <div class="status-item">
+          <span class="status-text">In progress</span>
+          <img class="status-item-png" src="./img/status-item.png" alt="">
+        </div>
+      </div>
+
+      <span class="puffer"></span>
+
+      <div class="task-status">
+        <div class="status-item">
+          <span class="status-text">Await feedback</span>
+          <img class="status-item-png" src="./img/status-item.png" alt="">
+        </div>
+      </div>
+
+
+      <div class="task-status">
+        <div class="status-item">
+          <span class="status-text done-text">Done</span>
+        </div>
+      </div>
+
+    </div>
+    </div>
+      </header>
+    </div>
+
+    <div class="drag-drop-conent">
+        <div class="folder" id="todo-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <div class="task" draggable="true" ondragstart="drag(event)" id="task1">Task 1</div>
+    <div class="task" draggable="true" ondragstart="drag(event)" id="task2">Task 2</div>
+  </div>
+
+
+  <div class="folder" id="inprogress-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+  </div>
+
+  <div class="folder" id="review-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+  </div>
+  <div class="folder" id="done-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+  </div>
+</div>
+
+
+<script>
+
+function allowDrop(event) {
+    event.preventDefault();
+  }
+  
+
+  function drag(event) {
+    event.dataTransfer.setData("text", event.target.id);
+  }
+  
+
+  function drop(event) {
+    event.preventDefault();
+    const data = event.dataTransfer.getData("text");
+    const task = document.getElementById(data);
+    event.target.appendChild(task);
+  }
+</script>
   </body>
 </html>
