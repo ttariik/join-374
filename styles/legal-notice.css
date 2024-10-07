@@ -7,6 +7,9 @@
     max-width: 1016px;
     gap: 30px;
     margin-right: 64px;
+    overflow: scroll;
+    scrollbar-width: none;
+    max-height: 1014px;
 }
 
 .legal-headline {
@@ -36,6 +39,7 @@
 .btn-arrow {
     cursor: pointer;
 }
+
 
 .btn-arrow:hover {
     scale: 1.2;

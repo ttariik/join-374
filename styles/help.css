@@ -7,6 +7,10 @@
     max-width: 1016px;
     gap: 30px;
     margin-right: 64px;
+    max-height: 1014px;
+    overflow: scroll;
+    scrollbar-width: none;
+    z-index: 1000;
 }
 
 .help-headline {
