@@ -29,3 +29,33 @@ function includeHTML() {
     }
   }
 }
+
+
+function reloadLastPage() {
+  const lastVisitedPage = localStorage.getItem('lastVisitedPage');
+  if (lastVisitedPage) {
+    window.location.href = lastVisitedPage; // Seite neu laden
+  } else {
+    alert("Keine letzte Seite gefunden.");
+  }
+}
+
+// Speichern der aktuellen URL in localStorage, wenn die Seite gewechselt wird
+window.addEventListener('beforeunload', function () {
+  const currentUrl = window.location.href;
+  localStorage.setItem('lastVisitedPage', currentUrl);
+});
+
+// Warten, bis das DOM vollständig geladen ist
+document.addEventListener('DOMContentLoaded', function () {
+  const reloadButton = document.getElementById('reloadLastPage');
+
+  // Überprüfen, ob das Element existiert, bevor wir den Event-Listener setzen
+  if (reloadButton) {
+    reloadButton.onclick = reloadLastPage; // Event-Listener nur setzen, wenn der Button existiert
+  }
+});
+
+
+
+
