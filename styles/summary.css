@@ -50,6 +50,14 @@ h1 {
     gap: 18px;
 }
 
+.summary-current-tasks:hover {
+    background-color: #2a3647;;
+    color: white;
+    scale: 1.1;
+    transition: 0.2s;
+}
+
+
 .sum-tasks {
     display: flex;
     flex-direction: column;
@@ -83,6 +91,13 @@ h1 {
     max-width: 568px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     color: rgb(42,54,71)
+}
+
+.summary-current-date:hover {
+    background-color: #2a3647;;
+    color: white;
+    scale: 1.1;
+    transition: 0.2s;
 }
 
 .current-date {
@@ -138,6 +153,13 @@ h1 {
     gap: 18px;
 }
 
+.summary-current-progress:hover {
+    background-color: #2a3647;;
+    color: white;
+    scale: 1.1;
+    transition: 0.2s;
+}
+
 .summary-content {
     display: flex;
     flex-direction: column;
@@ -163,3 +185,6 @@ h1 {
     margin-block-end: 0em;
 }
 
+.img-white {
+    display: none;
+}
