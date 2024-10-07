@@ -10,7 +10,6 @@
     max-height: 1014px;
     overflow: scroll;
     scrollbar-width: none;
-    z-index: 1000;
 }
 
 .help-headline {
