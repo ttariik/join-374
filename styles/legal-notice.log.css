@@ -40,7 +40,6 @@
     cursor: pointer;
 }
 
-
 .btn-arrow:hover {
     scale: 1.2;
     background-color: rgba(128, 128, 128, 0.082);
