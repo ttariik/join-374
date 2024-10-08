@@ -225,6 +225,10 @@ select {
   gap: 54px;
 }
 
+.activelink2 {
+  background-color: rgb(9,25,49) !important;
+}
+
 @media (max-width: 1174px) {
   .wholebox {
     top: 0;

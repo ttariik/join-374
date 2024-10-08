@@ -46,3 +46,10 @@
     background-color: rgba(128, 128, 128, 0.082);
     border-radius: 50%;
 }
+
+.activelink5 {
+    display: flex;
+    justify-content: center;
+    width: 232px;
+    background-color: rgb(9,25,49) !important;
+}
