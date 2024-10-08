@@ -36,6 +36,11 @@ h1 {
     gap: 30px;
 }
 
+.summary-content a {
+    text-decoration: none;
+    color: black;
+}
+
 .summary-current-tasks {
     display: flex;
     justify-content: center;
@@ -48,15 +53,42 @@ h1 {
     border-radius: 30px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     gap: 18px;
+    position: relative;
+    transition: 0.2s;
 }
 
 .summary-current-tasks:hover {
-    background-color: #2a3647;;
+    background-color: #2a3647;
     color: white;
     scale: 1.1;
     transition: 0.2s;
 }
 
+.img-original-todo,
+.img-original-done {
+    display: block;
+}
+
+.img-white-todo,
+.img-white-done {
+    display: none;
+}
+
+.summary-current-tasks:hover .img-original-todo {
+    display: none;
+}
+
+.summary-current-tasks:hover .img-white-todo {
+    display: block;
+}
+
+.summary-current-tasks:hover .img-original-done {
+    display: none;
+}
+
+.summary-current-tasks:hover .img-white-done {
+    display: block;
+}
 
 .sum-tasks {
     display: flex;
@@ -79,6 +111,7 @@ h1 {
     background-color: rgba(0, 0, 0, 0.16);
 }
 
+
 .summary-current-date {
     display: flex;
     align-items: center;
@@ -93,11 +126,16 @@ h1 {
     color: rgb(42,54,71)
 }
 
-.summary-current-date:hover {
+.summary-current-date:hover  {
     background-color: #2a3647;;
     color: white;
     scale: 1.1;
     transition: 0.2s;
+
+}
+
+.summary-current-date:hover .seperator-urgent {
+    background-color: white;
 }
 
 .current-date {
@@ -188,6 +226,8 @@ h1 {
 .img-white {
     display: none;
 }
+
+
 
 .activelink1 {
     background-color: rgb(9,25,49) !important;
