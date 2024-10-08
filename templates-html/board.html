@@ -7,9 +7,9 @@
     <link rel="icon" href="/img/Capa2.png" />
     <link rel="stylesheet" href="/styles/board.css" />
     <link rel="stylesheet" href="/style.css" />
-    <script src="../script.js"></script>
+    <script src="/script.js"></script>
   </head>
-  <body onload="includeHTML()">
+  <body>
     <div w3-include-html="../navbar.html"></div>
     <div class="content">
       <header class="board-header">
@@ -17,78 +17,101 @@
         <div>
           <div class="input-container">
             <div class="search-wrapper">
-              <input class="search-input" id="input-search" type="text" placeholder="Find Task" />
+              <input
+                class="search-input"
+                id="input-search"
+                type="text"
+                placeholder="Find Task"
+              />
               <span class="separator"></span>
               <img class="search-icon" src="/img/search.png" alt="" />
             </div>
-            <button class="task-button" >
+            <button class="task-button" onclick="opentasktemplate()">
               <div class="button-items">
-              <span class="button-text">Add Task</span>
-              <img class="button-image" src="/img/plus.png" alt="add-logo" />
-            </div>
+                <span class="button-text">Add Task</span>
+                <img class="button-image" src="/img/plus.png" alt="add-logo" />
+              </div>
             </button>
           </div>
         </div>
       </header>
 
       <div class="center">
-      <div class="task-status">
-        <div class="status-item">
-          <span class="status-text">To Do</span>
-          <img class="status-item-png" src="/img/status-item.png" alt="">
+        <div class="task-status">
+          <div class="status-item">
+            <span class="status-text">To Do</span>
+            <img class="status-item-png" src="/img/status-item.png" alt="" />
+          </div>
+        </div>
+
+        <span class="puffer"></span>
+
+        <div class="task-status">
+          <div class="status-item">
+            <span class="status-text">In progress</span>
+            <img class="status-item-png" src="/img/status-item.png" alt="" />
+          </div>
+        </div>
+
+        <span class="puffer"></span>
+
+        <div class="task-status">
+          <div class="status-item">
+            <span class="status-text">Await feedback</span>
+            <img class="status-item-png" src="/img/status-item.png" alt="" />
+          </div>
+        </div>
+
+        <div class="task-status">
+          <div class="status-item">
+            <span class="status-text done-text">Done</span>
+          </div>
         </div>
       </div>
-
-      <span class="puffer"></span>
-
-      <div class="task-status">
-        <div class="status-item">
-          <span class="status-text">In progress</span>
-          <img class="status-item-png" src="/img/status-item.png" alt="">
-        </div>
-      </div>
-
-      <span class="puffer"></span>
-
-      <div class="task-status">
-        <div class="status-item">
-          <span class="status-text">Await feedback</span>
-          <img class="status-item-png" src="/img/status-item.png" alt="">
-        </div>
-      </div>
-
-
-      <div class="task-status">
-        <div class="status-item">
-          <span class="status-text done-text">Done</span>
-        </div>
-      </div>
-
-    </div>
-    </div>
-      </header>
     </div>
 
     <div class="drag-drop-content">
-        <div class="folder" id="todo-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <div class="task" draggable="true" ondragstart="drag(event)" id="task1" >Task 1</div>
-    <div class="task" draggable="true" ondragstart="drag(event)" id="task2" >Task 2</div>
-  </div>
+      <div
+        class="folder"
+        id="todo-folder"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <div class="task" draggable="true" ondragstart="drag(event)" id="task1">
+          Task 1
+        </div>
+        <div class="task" draggable="true" ondragstart="drag(event)" id="task2">
+          Task 2
+        </div>
+      </div>
 
+      <div
+        class="folder"
+        id="inprogress-folder"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      ></div>
 
-  <div class="folder" id="inprogress-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
-  </div>
+      <div
+        class="folder"
+        id="review-folder"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      ></div>
+      <div
+        class="folder"
+        id="done-folder"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      ></div>
+    </div>
+    <div w3-include-html="/templates-html/overlay.html"></div>
 
-  <div class="folder" id="review-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
-  </div>
-  <div class="folder" id="done-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
-  </div>
-</div>
+    <!--  -->
 
-<!--  -->
-
-<script src="/scripts/board.js"></script>
-
-
+    <script src="/scripts/board.js"></script>
+    <script>
+      includeHTML();
+    </script>
   </body>
 </html>
