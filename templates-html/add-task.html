@@ -8,33 +8,42 @@
     <link rel="stylesheet" href="../styles/add-task.css" />
     <link rel="stylesheet" href="/style.css" />
     <script src="../script.js"></script>
+    <script src="../scripts/add-task.js"></script>
   </head>
   <body>
     <div w3-include-html="../navbar.html"></div>
     <h1>Add Task</h1>
     <div class="wholebox">
-      <form action="">
+      <form id="myform" action="">
         <div class="alignment2">
           <div class="firstbox">
             <div class="title2">
-              <h3>Title*</h3>
+              <label>Title*</label>
               <input
-                required
+                id="title"
                 class="titleinput"
                 placeholder="Enter a title"
                 type="text"
               />
             </div>
             <div class="descriptioninput">
-              <div><h3>Description</h3></div>
+              <div><label>Description</label></div>
               <div>
-                <textarea name="Enter a Description" id="" required></textarea>
+                <textarea
+                  id="description"
+                  name="Enter a Description"
+                  id=""
+                ></textarea>
               </div>
             </div>
             <div class="selectbox">
-              <div><h3>Assigned to</h3></div>
+              <div><label>Assigned to</label></div>
               <div>
-                <select name="" id="">
+                <select
+                  name=""
+                  id="asignment"
+                  placeholder="Select Contacts to asign"
+                >
                   <option value="Select Contacts to asign">
                     Select Contacts to asign
                   </option>
@@ -46,7 +55,7 @@
           <div class="secondbox">
             <div class="firsthalfbox">
               <div class="emailbox">
-                <div><h3>Due date*</h3></div>
+                <div><label>Due date*</label></div>
                 <div class="emailinput">
                   <input
                     class="emailinput2"
@@ -55,26 +64,43 @@
                     id="date"
                     placeholder="dd/mm/yyyy"
                     maxlength="10"
-                    required
                   />
                 </div>
               </div>
               <div class="buttons">
-                <span>Prio</span>
+                <label>Prio</label>
                 <div class="buttons2">
                   <div style="width: 136px">
-                    <button class="buttons2_1">
-                      Urgent <img src="/img/Capa 2.png" alt="" />
+                    <button
+                      type="button"
+                      id="button1"
+                      class="buttons2_1"
+                      onclick="selectbutton_1()"
+                    >
+                      <span id="urgent">Urgent</span>
+                      <img src="/img/Prio alta.png" alt="" />
                     </button>
                   </div>
                   <div style="width: 136px">
-                    <button class="buttons2_2">
-                      Medium <img src="/img/Capa 2 (1).png" alt="" />
+                    <button
+                      type="button"
+                      onclick="selectbutton_2()"
+                      id="button2"
+                      class="buttons2_2"
+                    >
+                      <span id="medium">Medium</span>
+                      <img src="/img/Capa 2.png" alt="" />
                     </button>
                   </div>
                   <div style="width: 136px">
-                    <button class="buttons2_3">
-                      Low <img src="/img/Prio alta.png" alt="" />
+                    <button
+                      type="button"
+                      onclick="selectbutton_3()"
+                      id="button3"
+                      class="buttons2_3"
+                    >
+                      <span id="low">Low</span>
+                      <img src="/img/Prio baja.png" alt="" />
                     </button>
                   </div>
                 </div>
@@ -82,35 +108,35 @@
             </div>
             <div class="secondhalfbox">
               <div>
-                <span>Category*</span>
-                <select name="" id="">
+                <label>Category*</label>
+                <select name="" id="subtasks">
                   <option value="Select Task Category">
                     Select Task Category
                   </option>
+                  <option value="Technical Task">Technical Task</option>
+                  <option value="User Story">User Story</option>
                 </select>
               </div>
               <div>
-                <span>Subtasks</span>
-                <select name="" id="">
+                <label>Subtasks</label>
+                <select name="subtasks" id="subtasks">
                   <option value="Select Task Category">Add New Task</option>
                 </select>
               </div>
             </div>
           </div>
         </div>
-        <div
-          style="
-            display: flex;
-            justify-content: flex-end;
-            gap: 39px;
-            max-width: 990.25px;
-          "
-        >
-          <button class="bt1">
-            Clear <img src="../img/Vector.png" alt="" /></button
-          ><button onclick="" disabled class="bt2">
-            Create Task <img src="../img/check.png" alt="" />
-          </button>
+        <div class="buttonsalignment">
+          <div class="buttonsalignment_1">
+            <span style="color: red">*</span>This field is required
+          </div>
+          <div class="buttonsalignment_2">
+            <button type="button" class="bt1" onclick="clearinputs()">
+              Clear <img src="../img/Vector.png" alt="" /></button
+            ><button onclick="" disabled class="bt2">
+              Create Task <img src="../img/check.png" alt="" />
+            </button>
+          </div>
         </div>
       </form>
     </div>

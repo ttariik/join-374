@@ -47,10 +47,11 @@ form {
   height: 96px;
 }
 
-h3 {
+label {
   margin: 0;
   font-size: 20px;
   font-weight: 400;
+  width: 100%;
 }
 
 .titleinput {
@@ -91,10 +92,6 @@ select {
   border-radius: 10px;
 }
 
-.buttons span {
-  width: 100%;
-}
-
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -118,6 +115,10 @@ select {
   cursor: pointer;
   border: 1px solid #ffffff;
   box-shadow: 0px 0px 4px 0px #0000001a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .buttons2_2 {
@@ -129,6 +130,10 @@ select {
   cursor: pointer;
   border: 1px solid #ffffff;
   box-shadow: 0px 0px 4px 0px #0000001a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .buttons2_3 {
@@ -140,6 +145,10 @@ select {
   cursor: pointer;
   border: 1px solid #ffffff;
   box-shadow: 0px 0px 4px 0px #0000001a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .emailinput img {
@@ -226,7 +235,78 @@ select {
 }
 
 .activelink2 {
-  background-color: rgb(9,25,49) !important;
+  background-color: rgb(9, 25, 49) !important;
+}
+
+.lightred {
+  max-width: 136px;
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  box-shadow: 0px 0px 4px 0px #0000001a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #ff3d00;
+}
+
+.lightorange {
+  max-width: 136px;
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  box-shadow: 0px 0px 4px 0px #0000001a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffa800;
+}
+
+.lightgreen {
+  max-width: 136px;
+  width: 100%;
+  height: 56px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #ffffff;
+  box-shadow: 0px 0px 4px 0px #0000001a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #7ae229;
+}
+
+.buttonsalignment {
+  display: flex;
+  justify-content: space-between;
+  gap: 39px;
+  max-width: 990.25px;
+  align-items: center;
+}
+
+.buttonsalignment_1 {
+  margin-top: 35px;
+  font-size: 16px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+}
+
+.buttonsalignment_1 span {
+  color: red;
+  font-size: 28px;
+}
+
+.buttonsalignment_2 {
+  display: flex;
+  gap: 16px;
 }
 
 @media (max-width: 1174px) {
