@@ -71,7 +71,12 @@
   padding: 8px 0px;
 }
 
-.legal-links a:hover {
+.activelink5 a:hover {
+  color: rgb(41, 171, 226);
+  font-weight: bold;
+}
+
+.activelink6 a:hover {
   color: rgb(41, 171, 226);
   font-weight: bold;
 }

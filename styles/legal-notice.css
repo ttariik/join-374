@@ -40,7 +40,6 @@
     cursor: pointer;
 }
 
-
 .btn-arrow:hover {
     scale: 1.2;
     background-color: rgba(128, 128, 128, 0.082);
@@ -52,4 +51,8 @@
     justify-content: center;
     width: 232px;
     background-color: rgb(9,25,49) !important;
+}
+
+.activelink6 a:hover{
+    pointer-events: none !important;
 }

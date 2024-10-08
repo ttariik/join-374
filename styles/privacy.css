@@ -10,7 +10,6 @@
     overflow: scroll;
     scrollbar-width: none;
     max-height: 1014px;
-
 }
 
 .privacy-headline {
@@ -52,4 +51,8 @@
     justify-content: center;
     width: 232px;
     background-color: rgb(9,25,49) !important;
+}
+
+.activelink5 a:hover {
+    pointer-events: none !important;
 }
