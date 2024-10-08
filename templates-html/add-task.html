@@ -39,11 +39,7 @@
             <div class="selectbox">
               <div><label>Assigned to</label></div>
               <div>
-                <select
-                  name=""
-                  id="asignment"
-                  placeholder="Select Contacts to asign"
-                >
+                <select name="" id="asignment">
                   <option
                     disabled
                     selected
@@ -125,7 +121,9 @@
               <div>
                 <label>Subtasks</label>
                 <select name="subtasks" id="subtasks">
-                  <option value="Select Task Category">Add New Task</option>
+                  <option disabled selected hidden value="Add New Task">
+                    Add New Task
+                  </option>
                 </select>
               </div>
             </div>

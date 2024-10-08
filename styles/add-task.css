@@ -309,7 +309,7 @@ select {
   gap: 16px;
 }
 
-@media (max-width: 1174px) {
+@media (max-width: 1357px) {
   .wholebox {
     top: 0;
     max-width: 440px;

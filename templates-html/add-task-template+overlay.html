@@ -1,40 +1,14 @@
-// Event Listener für die Eingabe im Suchfeld
-document.getElementById("input-search").addEventListener("input", function () {
-  const searchQuery = this.value.toLowerCase(); // Suchbegriff in Kleinbuchstaben
-  const tasks = document.querySelectorAll(".task"); // Alle Task-Elemente auswählen
-
-  tasks.forEach(function (task) {
-    const title = task.getAttribute("data-title").toLowerCase(); // Task-Titel in Kleinbuchstaben
-
-    if (title.includes(searchQuery)) {
-      task.style.display = "block"; // Task anzeigen, wenn der Suchbegriff übereinstimmt
-    } else {
-      task.style.display = "none"; // Task ausblenden, wenn der Suchbegriff nicht passt
-    }
-  });
-});
-
-function allowDrop(event) {
-  event.preventDefault();
-}
-
-function drag(event) {
-  event.dataTransfer.setData("text", event.target.id);
-}
-
-function drop(event) {
-  event.preventDefault();
-  const data = event.dataTransfer.getData("text");
-  const task = document.getElementById(data);
-  event.target.appendChild(task);
-}
-
-function opentasktemplate() {
-  document.getElementById();
-}
-
-function addtasktemplate() {
-  return `  <div
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/add-task.css" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div
       style="
         display: flex;
         justify-content: center;
@@ -193,5 +167,6 @@ function addtasktemplate() {
           </form>
         </div>
       </div>
-    </div>`;
-}
+    </div>
+  </body>
+</html>
