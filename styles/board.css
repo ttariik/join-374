@@ -51,16 +51,20 @@
     margin-left: 40px;
     cursor: pointer;
   }
+
+  .button-items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
   
   .button-text {
     margin-right: 10px;
   }
   
   .button-image {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    top: 3px;
+    width: 30px;  
   }
   
   .input-container {
@@ -105,7 +109,7 @@
   }
   
   .search-icon {
-    width: 18px;
+    width: 32px;
     margin: 0 8px;
   }
   
@@ -167,7 +171,7 @@
   
   /*  */
   
-  .drag-drop-conent{
+  .drag-drop-content{
     margin-left: 280px;
     display: flex;
     justify-content: space-around;
@@ -175,12 +179,10 @@
   
   
   .folder {
-    width: 300px;
+    width: 330px;
     min-height: 300px;
     margin: 10px;
     padding: 10px;
-    border: 2px dashed #ccc;
-    background-color: #fff;
     text-align: center;
     display: inline-block;
     vertical-align: top;
@@ -188,10 +190,10 @@
   
   .task {
     padding: 10px;
-    margin: 5px;
+    margin-bottom: 5px;
     background-color: #e0e0e0;
     border-radius: 5px;
-    cursor: move;
+    cursor: pointer;
   }
 
   .activelink3 {

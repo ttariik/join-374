@@ -22,8 +22,10 @@
               <img class="search-icon" src="/img/search.png" alt="" />
             </div>
             <button class="task-button" >
+              <div class="button-items">
               <span class="button-text">Add Task</span>
               <img class="button-image" src="/img/plus.png" alt="add-logo" />
+            </div>
             </button>
           </div>
         </div>
@@ -67,10 +69,10 @@
       </header>
     </div>
 
-    <div class="drag-drop-conent">
+    <div class="drag-drop-content">
         <div class="folder" id="todo-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
-    <div class="task" draggable="true" ondragstart="drag(event)" id="task1">Task 1</div>
-    <div class="task" draggable="true" ondragstart="drag(event)" id="task2">Task 2</div>
+    <div class="task" draggable="true" ondragstart="drag(event)" id="task1" >Task 1</div>
+    <div class="task" draggable="true" ondragstart="drag(event)" id="task2" >Task 2</div>
   </div>
 
 
@@ -82,6 +84,8 @@
   <div class="folder" id="done-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
   </div>
 </div>
+
+<!--  -->
 
 <script src="/scripts/board.js"></script>
 
