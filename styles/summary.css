@@ -111,7 +111,6 @@ h1 {
     background-color: rgba(0, 0, 0, 0.16);
 }
 
-
 .summary-current-date {
     display: flex;
     align-items: center;
@@ -131,7 +130,6 @@ h1 {
     color: white;
     scale: 1.1;
     transition: 0.2s;
-
 }
 
 .summary-current-date:hover .seperator-urgent {
@@ -226,8 +224,6 @@ h1 {
 .img-white {
     display: none;
 }
-
-
 
 .activelink1 {
     background-color: rgb(9,25,49) !important;
