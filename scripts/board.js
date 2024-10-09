@@ -30,10 +30,9 @@ function drop(event) {
 }
 
 function opentasktemplate() {
-  document.getElementById("overlay").style.display = "flex";
   document.querySelector(".overlay").style.transform = "translateX(0%)";
 }
 
 function closeaddtasktemplate() {
-  document.getElementById("overlay").style.display = "none";
+  document.querySelector(".overlay").style.transform = "translateX(126%)";
 }

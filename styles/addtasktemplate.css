@@ -46,9 +46,21 @@ h1 {
   z-index: 99;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: none;
-  transform: translateX(123%);
-  transition: transform 10s ease, visibility 0s 10s;
+  display: flex;
+  transform: translateX(126%);
+  transition: transform 0.2s ease, visibility 0.2s;
+}
+
+.boxtemplate {
+  border: 1px solid;
+  border-radius: 30px;
+  width: 1116px;
+  height: 721px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffff;
 }
 
 form {
