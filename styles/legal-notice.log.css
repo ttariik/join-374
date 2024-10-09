@@ -46,16 +46,11 @@
     border-radius: 50%;
 }
 
-.activelink6 {
-    display: flex;
-    justify-content: center;
-    width: 232px;
-    background-color: rgb(9,25,49) !important;
-}
-
 .activelink8 {
     display: flex;
     justify-content: center;
     width: 232px;
     background-color: rgb(9,25,49) !important;
+    pointer-events: none !important;
 }
+

@@ -51,8 +51,6 @@
     justify-content: center;
     width: 232px;
     background-color: rgb(9,25,49) !important;
-}
-
-.activelink6 a:hover{
     pointer-events: none !important;
 }
+

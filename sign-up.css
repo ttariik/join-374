@@ -330,6 +330,11 @@
   .legal-notice {
     padding: 8px;
   }
+
+  .legal-notice a:hover {
+    color: rgb(41, 171, 226);
+    font-weight: bold;
+  }
   
   .puffer {
     margin: 0 16px;
