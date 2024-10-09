@@ -18,6 +18,7 @@
           <div class="input-container">
             <div class="search-wrapper">
               <input
+                id="searchInput"
                 class="search-input"
                 id="input-search"
                 type="text"
@@ -71,18 +72,25 @@
     </div>
 
     <div class="drag-drop-content">
+      
       <div
         class="folder"
         id="todo-folder"
         ondrop="drop(event)"
         ondragover="allowDrop(event)"
       >
+
+      <div class="article">
         <div class="task" draggable="true" ondragstart="drag(event)" id="task1">
-          Task 1
+          Milch 1: Gebäck.
         </div>
         <div class="task" draggable="true" ondragstart="drag(event)" id="task2">
-          Task 2
+          Müsli 2: Crossaint 2.
         </div>
+      </div>
+
+
+      
       </div>
 
       <div
@@ -106,8 +114,6 @@
       ></div>
     </div>
     <div w3-include-html="/templates-html/overlay.html"></div>
-
-    <!--  -->
 
     <script src="/scripts/board.js"></script>
     <script>

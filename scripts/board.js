@@ -1,18 +1,23 @@
-// Event Listener für die Eingabe im Suchfeld
-document.getElementById("input-search").addEventListener("input", function () {
-  const searchQuery = this.value.toLowerCase(); // Suchbegriff in Kleinbuchstaben
-  const tasks = document.querySelectorAll(".task"); // Alle Task-Elemente auswählen
+const searchInput = document.getElementById("searchInput");
+const tasks = document.querySelectorAll(".task");
 
-  tasks.forEach(function (task) {
-    const title = task.getAttribute("data-title").toLowerCase(); // Task-Titel in Kleinbuchstaben
+searchInput.addEventListener("input", function () {
+  const filter = searchInput.value.toLowerCase();
 
-    if (title.includes(searchQuery)) {
-      task.style.display = "block"; // Task anzeigen, wenn der Suchbegriff übereinstimmt
+  tasks.forEach((task) => {
+    const taskText = task.textContent.toLowerCase();
+
+    if (taskText.includes(filter)) {
+      task.style.display = "";
     } else {
-      task.style.display = "none"; // Task ausblenden, wenn der Suchbegriff nicht passt
+      task.style.display = "none";
     }
   });
 });
+
+
+
+
 
 function allowDrop(event) {
   event.preventDefault();
