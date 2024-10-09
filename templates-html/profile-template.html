@@ -9,15 +9,9 @@
   </head>
   <body>
     <div class="boxtemplate">
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        "
-      >
+      <div class="header">
         <div class="userbox">
-          <span style="font-size: 23px; font-weight: 400">User Story</span>
+          <span class="task-title">User Story</span>
         </div>
         <div><img src="../img/close.png" alt="" /></div>
       </div>
@@ -27,20 +21,20 @@
       <div class="description">
         <span>Build start page with recipe recommendation.</span>
       </div>
-      <div style="display: flex; width: 100%; gap: 25px">
+      <div class="due-date-container">
         <div><span class="duedate">Due date: </span></div>
         <div><span class="duedate">10/05/2023</span></div>
       </div>
-      <div style="display: flex; gap: 25px; align-items: center">
+      <div class="priority-container">
         <div><span>Priority: </span></div>
         <div>
-          <span style="display: flex; gap: 10px; padding: 4px 18px 4px 18px"
+          <span class="priority-indicator"
             ><div>Medium</div>
             <div><img src="../img/Capa 2.png" alt="" /></div
           ></span>
         </div>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 8px">
+      <div class="assigned-container">
         <div><span>Assigned To:</span></div>
         <div class="align">
           <img src="../img/Profile badge.png" alt="" /><span
@@ -56,22 +50,20 @@
           >
         </div>
       </div>
-      <div style="display: flex; flex-direction: column; gap: 8px">
+      <div class="subtasks-container">
         <span>Subtasks</span>
-        <div style="display: flex; gap: 16px">
-          <input type="checkbox" /><span
-            style="font-size: 16px; font-weight: 400"
+        <div class="subtask">
+          <input type="checkbox" /><span class="subtask-title"
             >Implement Recipe Recommendation</span
           >
         </div>
-        <div style="display: flex; gap: 16px">
-          <input type="checkbox" /><span
-            style="font-size: 16px; font-weight: 400"
+        <div class="subtask">
+          <input type="checkbox" /><span class="subtask-title"
             >Start Page Layout</span
           >
         </div>
       </div>
-      <div style="display: flex; justify-content: flex-end; gap: 8px">
+      <div class="button-container">
         <button class="button1">
           <img src="../img/delete.png" alt="" /><span>Delete</span>
         </button>

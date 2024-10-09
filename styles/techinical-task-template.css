@@ -10,10 +10,67 @@
   border-radius: 30px;
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.task-title {
+  font-size: 23px;
+  font-weight: 400;
+}
+
+.due-date-container {
+  display: flex;
+  width: 100%;
+  gap: 25px;
+}
+
+.priority-container {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.priority-indicator {
+  display: flex;
+  gap: 10px;
+  padding: 4px 18px 4px 18px;
+}
+
+.assigned-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtasks-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.subtask {
+  display: flex;
+  gap: 16px;
+}
+
+.subtask-title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
 .userbox {
   max-width: 144px;
   width: 100%;
-  background: #0038ff;
+  background-color: #1fd7c1;
   color: white;
   padding: 4px 24px 4px 24px;
   border-radius: 8px;
