@@ -299,6 +299,14 @@ select {
   align-items: center;
 }
 
+.required-indicator {
+  color: red;
+}
+
+.button-container {
+  width: 136px;
+}
+
 .buttonsalignment_1 span {
   color: red;
   font-size: 28px;

@@ -51,6 +51,28 @@ h1 {
   transition: transform 0.2s ease, visibility 0.2s;
 }
 
+.close-btn {
+  border: none;
+  background-color: #ffff;
+  cursor: pointer;
+}
+
+.button-container {
+  width: 136px;
+}
+
+.task-header {
+  width: 89%;
+  width: 88.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.required-indicator {
+  color: red;
+}
+
 .boxtemplate {
   border: 1px solid;
   border-radius: 30px;

@@ -10,20 +10,9 @@
   <body>
     <div id="overlay" class="overlay">
       <div class="boxtemplate">
-        <div
-          style="
-            width: 89%;
-            width: 88.5%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-          "
-        >
+        <div class="task-header">
           <h1>Add Task</h1>
-          <button
-            onclick="closeaddtasktemplate()"
-            style="border: none; background-color: #ffff; cursor: pointer"
-          >
+          <button onclick="closeaddtasktemplate()" class="close-btn">
             <img src="/img/close.png" alt="" />
           </button>
         </div>
@@ -85,7 +74,7 @@
                   <div class="buttons">
                     <label>Prio</label>
                     <div class="buttons2">
-                      <div style="width: 136px">
+                      <div class="button-container">
                         <button
                           type="button"
                           id="button1"
@@ -96,7 +85,7 @@
                           <img src="/img/Prio alta.png" alt="" />
                         </button>
                       </div>
-                      <div style="width: 136px">
+                      <div class="button-container">
                         <button
                           type="button"
                           onclick="selectbutton_2()"
@@ -107,7 +96,7 @@
                           <img src="/img/Capa 2.png" alt="" />
                         </button>
                       </div>
-                      <div style="width: 136px">
+                      <div class="button-container">
                         <button
                           type="button"
                           onclick="selectbutton_3()"
@@ -150,7 +139,7 @@
             </div>
             <div class="buttonsalignment">
               <div class="buttonsalignment_1">
-                <span style="color: red">*</span>This field is required
+                <span class="required-indicator">*</span>This field is required
               </div>
               <div class="buttonsalignment_2">
                 <button type="button" class="bt1" onclick="clearinputs()">
