@@ -16,6 +16,9 @@ searchInput.addEventListener("input", function () {
 });
 
 
+
+
+
 function allowDrop(event) {
   event.preventDefault();
 }
