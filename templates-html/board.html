@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/styles/board.css" />
     <link rel="stylesheet" href="/style.css" />
     <script src="/script.js"></script>
+    <script src="/scripts/add-task.js"></script>
   </head>
   <body>
     <div w3-include-html="../navbar.html"></div>
@@ -72,25 +73,30 @@
     </div>
 
     <div class="drag-drop-content">
-      
       <div
         class="folder"
         id="todo-folder"
         ondrop="drop(event)"
         ondragover="allowDrop(event)"
       >
-
-      <div class="article">
-        <div class="task" draggable="true" ondragstart="drag(event)" id="task1">
-          Milch 1: Gebäck.
+        <div class="article">
+          <div
+            class="task"
+            draggable="true"
+            ondragstart="drag(event)"
+            id="task1"
+          >
+            Milch 1: Gebäck.
+          </div>
+          <div
+            class="task"
+            draggable="true"
+            ondragstart="drag(event)"
+            id="task2"
+          >
+            Müsli 2: Crossaint 2.
+          </div>
         </div>
-        <div class="task" draggable="true" ondragstart="drag(event)" id="task2">
-          Müsli 2: Crossaint 2.
-        </div>
-      </div>
-
-
-      
       </div>
 
       <div

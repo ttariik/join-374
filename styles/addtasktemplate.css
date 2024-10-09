@@ -36,7 +36,7 @@ h1 {
 }
 
 .overlay {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -46,7 +46,6 @@ h1 {
   z-index: 99;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
   transform: translateX(126%);
   transition: transform 0.2s ease, visibility 0.2s;
 }

@@ -15,10 +15,6 @@ searchInput.addEventListener("input", function () {
   });
 });
 
-
-
-
-
 function allowDrop(event) {
   event.preventDefault();
 }
@@ -35,7 +31,10 @@ function drop(event) {
 }
 
 function opentasktemplate() {
-  document.querySelector(".overlay").style.transform = "translateX(0%)";
+  document.querySelector(".overlay").style.display = "flex";
+  setTimeout(() => {
+    document.querySelector(".overlay").style.transform = "translateX(0%)";
+  }, 10);
 }
 
 function closeaddtasktemplate() {
