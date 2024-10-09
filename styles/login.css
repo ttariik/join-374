@@ -296,31 +296,30 @@ input[type="password"] {
 }
 
 footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 80px;
   width: 100%;
   text-align: center;
-  padding: 20px 0;
+  padding: 80px 0;
   margin-top: auto;
+  gap: 8px;
+}
+
+footer a:hover {
+  color: rgb(41, 171, 226);
+  font-weight: bold;
+  scale: 1.05;
 }
 
 a {
-  font-size: 20px;
+  font-size: 16px;
   text-decoration: none;
   color: #a8a8a8;
-}
-
-.legal-notice {
   padding: 8px;
 }
 
-.legal-notice a:hover {
-  color: rgb(41, 171, 226);
-  font-weight: bold;
-}
-
-.puffer {
-  margin: 0 16px;
-}
 
 /*  */
 

@@ -48,6 +48,8 @@
   
   .legal-links a:hover {
     color: rgb(41, 171, 226);
+    font-weight: bold;
+    scale: 1.03;
   }
   
   .main-page-content {
