@@ -1,19 +1,15 @@
-const GLOBAL =
-  "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
-function loaddata() {
-  fetch(GLOBAL).then((response) => {
-    if (!response.ok) {
-      throw new Error("funktioniert");
-    }
-    return response.json();
-  });
-  then((data) => {
-    console.log(data);
-  }).catch((error) => {
-    console.error("keine ahung");
-  });
+
+function onLoadFunc() {
+    console.log('test');
+    loadData("")
 }
 
+const GLOBAL = "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
-loaddata();
+async function loadData(path ="") {
+    let response = await fetch (BASE_URL + path + ".json");
+    let responseToJson = await response.json();
+    console.log(responseToJson);
+    
+}
