@@ -1,4 +1,4 @@
-let GLOBAL =
+const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
 function onLoadFunc() {
