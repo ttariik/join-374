@@ -126,3 +126,49 @@
   background-color: #d1d1d1;
   width: 1px;
 }
+
+@media (max-height: 220px) {
+  .boxtemplate {
+    max-width: 252px;
+    height: 263px;
+    padding: 16px;
+    border-radius: 24px;
+  }
+  .userbox {
+    max-width: 113px;
+    padding: 4px 16px 4px 16px;
+  }
+  .task-title {
+    font-size: 16px;
+  }
+  .titlebox {
+    max-width: 220px;
+  }
+  .titlebox span {
+    font-size: 16px;
+  }
+  .description {
+    max-width: 220px;
+  }
+  .description span {
+    font-size: 16px;
+  }
+  .due-date-container {
+    display: none;
+  }
+  .button-container {
+    display: none;
+  }
+  .priority-container {
+    display: none;
+  }
+  .assigned-container {
+    display: none;
+  }
+  .subtasks-container {
+    display: none;
+  }
+  .button-container {
+    display: none;
+  }
+}
