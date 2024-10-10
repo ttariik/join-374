@@ -2,8 +2,7 @@ const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
 function onLoadFunc() {
-  console.log("test");
-  postData("/name", { name: "rama" });
+  postData("O8qLwXTcpuwmcg1hMwW/", { name: "page" });
 }
 
 async function loadData() {
