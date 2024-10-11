@@ -30,10 +30,20 @@
         <div class="inputpart">
           <div class="inputs">
             <div class="textinputarea">
-              <input class="textinput" placeholder="Name" type="text" />
+              <input
+                class="textinput"
+                id="name"
+                placeholder="Name"
+                type="text"
+              />
             </div>
             <div class="emailinputarea">
-              <input class="emailinput" placeholder="Email" type="email" />
+              <input
+                class="emailinput"
+                id="email"
+                placeholder="Email"
+                type="email"
+              />
             </div>
             <div class="telefoneinputarea">
               <input
@@ -47,8 +57,8 @@
             </div>
           </div>
           <div class="buttonsalignment">
-            <button class="deletebutton">Delete</button
-            ><button class="savebutton">
+            <button class="deletebutton">Delete</button>
+            <button class="savebutton" onclick="onLoadFunc()">
               Save <img src="../img/check.png" alt="" />
             </button>
           </div>

@@ -4,7 +4,9 @@ const GLOBAL =
 
 async function onLoadFunc() {
   let userResponse = await getAllUsers("users");
-
+  let telefonename = document.getElementById("name").value;
+  let email = document.getElementById("email").value;
+  let phone = document.getElementById("phone").value;
   let UserKeyArray = Object.keys(userResponse);
   for (let index = 0; index < UserKeyArray.length; index++) {
     users.push({
@@ -18,10 +20,19 @@ async function onLoadFunc() {
     username: "Ioannis",
     password: "123",
     email: "gianniskarakasidhs@hotmail.com",
-    contacts: {
-      name: "peter",
-      telefone: "123456789",
-    },
+    contacts: [
+      {
+        name: `telefonename${index}`,
+        email: "email1@example.com",
+        telefone: "1234567890",
+      },
+      {
+        name: "telefonename1",
+        email: "email1@example.com",
+        telefone: "1234567890",
+      },
+    ],
+
     tasks: {
       name: "Log in / Sign up Logik",
     },
@@ -35,7 +46,13 @@ async function onLoadFunc() {
       name: "board drag and drop",
     },
   });
-  console.log(users);
+  emptyinputs();
+}
+
+function emptyinputs() {
+  document.getElementById("name").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("phone").value = "";
 }
 
 async function putData(path = "", data = {}) {
