@@ -26,11 +26,6 @@ async function onLoadFunc() {
         email: email,
         telefone: phone,
       },
-      {
-        name: "telefonename1",
-        email: "email1@example.com",
-        telefone: "1234567890",
-      },
     ],
 
     tasks: {
@@ -66,8 +61,8 @@ async function putData(path = "", data = {}) {
   return (responsetoJson = await response.json());
 }
 
-async function addEditSingleUser(id = 1, user = { name: "Kevin" }) {
-  putData(`users/${id}`, user);
+async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
+  putData(`users/${id}`, contact);
 }
 
 async function getAllUsers(path) {
