@@ -22,7 +22,7 @@ async function onLoadFunc() {
     email: "gianniskarakasidhs@hotmail.com",
     contacts: [
       {
-        name: `telefonename${index}`,
+        name: `telefonename`,
         email: "email1@example.com",
         telefone: "1234567890",
       },
