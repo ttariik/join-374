@@ -17,6 +17,7 @@ async function onLoadFunc() {
     lastname: "Karakasidis",
     username: "Ioannis",
     password: "123",
+    email: "gianniskarakasidhs@hotmail.com",
     contacts: {
       name: "peter",
       telefone: "123456789",
