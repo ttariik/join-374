@@ -354,6 +354,17 @@ select {
   gap: 16px;
 }
 
+.button-word-clear {
+  font-size: 20px;
+  font-weight: 400;
+  color: #2a3647;
+}
+
+.button-word-create {
+  font-size: 21px;
+  font-weight: 700;
+}
+
 @media (max-width: 1357px) {
   .wholebox {
     top: 0;
