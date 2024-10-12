@@ -1,0 +1,66 @@
+.contact-menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  top: 0;
+  left: 232px;
+  max-width: 408px;
+  box-shadow: 4px 0px 6px 0px #00000014;
+  height: 857px;
+}
+
+.contact-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.contact-menu-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px 32px 24px;
+}
+
+.contact-header-section {
+  max-width: 352px;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.add-contact-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  background-color: #2a3647;
+  border-radius: 10px;
+  padding: 12px 0 12px 0;
+}
+
+.contact-list-section {
+  width: 24px;
+  height: 100%;
+}
+
+.contact-list-section::-webkit-scrollbar {
+  width: 16px;
+}
+
+.contact-list-section::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.contact-list-section::-webkit-scrollbar-thumb {
+  background-color: #d4aa70;
+  border-radius: 100px;
+}
