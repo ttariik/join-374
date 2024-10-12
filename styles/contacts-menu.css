@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .contact-menu-wrapper {
   display: flex;
   flex-direction: column;
@@ -44,6 +48,26 @@
   background-color: #2a3647;
   border-radius: 10px;
   padding: 12px 0 12px 0;
+  cursor: pointer;
+}
+
+.overlay2 {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 99;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translateX(126%);
+  transition: transform 0.2s ease, visibility 0.2s;
+}
+
+.add-contact-button-whiteletters {
+  color: white;
 }
 
 .contact-list-section {

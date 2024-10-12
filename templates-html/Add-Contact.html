@@ -11,6 +11,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <script src="/db.js"></script>
+    <script src="/scripts/contact-menu.js"></script>
   </head>
   <body>
     <div class="completebox">
@@ -24,43 +25,53 @@
         </div>
       </div>
       <div class="contactside">
-        <div class="logo">
-          <img src="../img/Group 13.png" alt="" />
+        <div class="contactside-header">
+          <button
+            class="contactside-closebutton"
+            onclick="closecontactstemplate()"
+          >
+            <img src="/img/close.png" alt="" />
+          </button>
         </div>
-        <div class="inputpart">
-          <div class="inputs">
-            <div class="textinputarea">
-              <input
-                class="textinput"
-                id="name"
-                placeholder="Name"
-                type="text"
-              />
-            </div>
-            <div class="emailinputarea">
-              <input
-                class="emailinput"
-                id="email"
-                placeholder="Email"
-                type="email"
-              />
-            </div>
-            <div class="telefoneinputarea">
-              <input
-                type="tel"
-                id="phone"
-                placeholder="+49 123 456 7890"
-                pattern="^\+49\s?\d{3}\s?\d{3,12}$"
-                class="telefoneinput"
-                required
-              />
-            </div>
+        <div class="contactside-form">
+          <div class="logo">
+            <img src="../img/Group 13.png" alt="" />
           </div>
-          <div class="buttonsalignment">
-            <button class="deletebutton">Delete</button>
-            <button type="button" class="savebutton" onclick="addcontact()">
-              Save <img src="../img/check.png" alt="" />
-            </button>
+          <div class="inputpart">
+            <div class="inputs">
+              <div class="textinputarea">
+                <input
+                  class="textinput"
+                  id="name"
+                  placeholder="Name"
+                  type="text"
+                />
+              </div>
+              <div class="emailinputarea">
+                <input
+                  class="emailinput"
+                  id="email"
+                  placeholder="Email"
+                  type="email"
+                />
+              </div>
+              <div class="telefoneinputarea">
+                <input
+                  type="tel"
+                  id="phone"
+                  placeholder="+49 123 456 7890"
+                  pattern="^\+49\s?\d{3}\s?\d{3,12}$"
+                  class="telefoneinput"
+                  required
+                />
+              </div>
+            </div>
+            <div class="buttonsalignment">
+              <button class="deletebutton">Delete</button>
+              <button type="button" class="savebutton" onclick="addcontact()">
+                Save <img src="../img/check.png" alt="" />
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/styles/contacts-menu.css" />
     <script src="../script.js"></script>
+    <script src="/scripts/contact-menu.js"></script>
   </head>
   <body onload="includeHTML()">
     <div w3-include-html="../navbar.html"></div>
@@ -16,14 +17,15 @@
       <div class="contact-content-wrapper">
         <div class="contact-menu-content">
           <div class="contact-header-section">
-            <button class="add-contact-button">
-              <span>Add new contact</span
+            <button class="add-contact-button" onclick="opencontactstemplate()">
+              <span class="add-contact-button-whiteletters"
+                >Add new contact</span
               ><img src="/img/person_add.png" alt="" />
             </button>
           </div>
         </div>
-        <div class="contact-list-section"></div>
       </div>
     </div>
+    <div class="overlay2" w3-include-html="Add-Contact.html"></div>
   </body>
 </html>
