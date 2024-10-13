@@ -1,6 +1,7 @@
 let users = [];
 const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
+let nextnumber = 0 + 1;
 
 async function addcontact() {
   let userResponse = await getAllUsers("users");
@@ -15,13 +16,9 @@ async function addcontact() {
     });
   }
   await addEditSingleUser((id = 1), {
-    contacts: [
-      {
-        name: telefonename,
-        email: email,
-        telefone: phone,
-      },
-    ],
+    name: telefonename,
+    email: email,
+    telefone: phone,
   });
   emptyinputs();
 }
@@ -44,7 +41,7 @@ async function putData(path = "", data = {}) {
 }
 
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
-  putData(`users/${id}`, contact);
+  putData(`users/${id}/contacts/${nextnumber}`, contact);
 }
 
 async function getAllUsers(path) {
