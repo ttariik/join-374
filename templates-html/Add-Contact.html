@@ -11,7 +11,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
   </head>
-  <body>
+  <body onload="checkwidth()">
     <div class="completebox">
       <div class="background">
         <div class="logodesign">
@@ -28,17 +28,18 @@
             class="contactside-closebutton"
             onclick="closecontactstemplate()"
           >
-            <img src="/img/close.png" alt="" />
+            <img id="closeimage" src="/img/close.png" alt="" />
           </button>
         </div>
         <div class="contactside-form">
           <div class="logo">
             <img src="../img/Group 13.png" alt="" />
           </div>
-          <div class="inputpart">
+          <form class="inputpart">
             <div class="inputs">
               <div class="textinputarea">
                 <input
+                  required
                   class="textinput"
                   id="name"
                   placeholder="Name"
@@ -51,6 +52,7 @@
                   id="email"
                   placeholder="Email"
                   type="email"
+                  required
                 />
               </div>
               <div class="telefoneinputarea">
@@ -68,11 +70,16 @@
               <button class="deletebutton" onclick="closecontactstemplate()">
                 Delete
               </button>
-              <button type="button" class="savebutton" onclick="addcontact()">
+              <button
+                type="button"
+                class="savebutton"
+                id="addbutton"
+                onclick="addcontact()"
+              >
                 Save <img src="../img/check.png" alt="" />
               </button>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
