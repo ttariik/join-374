@@ -1,7 +1,6 @@
 let users = [];
 const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
-let nextnumber = 0 + 1;
 
 async function addcontact() {
   let userResponse = await getAllUsers("users");
@@ -41,7 +40,16 @@ async function putData(path = "", data = {}) {
 }
 
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
-  putData(`users/${id}/contacts/${nextnumber}`, contact);
+  let userContacts = await getUserContacts(id);
+
+  let nextIndex = Object.keys(userContacts).length;
+
+  putData(`users/${id}/contacts/${nextIndex}`, contact);
+}
+
+async function getUserContacts(id) {
+  let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  return await response.json();
 }
 
 async function getAllUsers(path) {

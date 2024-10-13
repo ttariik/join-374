@@ -209,10 +209,13 @@
     flex-direction: column;
     max-width: 396px;
     height: 760px;
+    position: relative;
   }
   .contactside {
     flex-direction: column;
     gap: unset;
+    padding: unset;
+    border-radius: 0 0 20px 20px;
   }
   .alignimage {
     display: none;
@@ -223,14 +226,17 @@
   .background {
     max-width: 396px;
     height: 352px;
+    border-radius: 20px 20px 0px 0px;
   }
   .logo {
     margin-left: unset;
     position: absolute;
-    top: 281px;
+    top: 213px;
+    left: 127px;
   }
   .logodesign {
     width: 94%;
+    text-align: center;
   }
   .inputs {
     gap: 37px;
@@ -242,5 +248,12 @@
   .telefoneinputarea {
     max-width: 364px;
     width: 100%;
+  }
+}
+
+@media (max-width: 330px) {
+  .logo {
+    top: 254px;
+    left: 91px;
   }
 }
