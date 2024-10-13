@@ -41,10 +41,8 @@ async function putData(path = "", data = {}) {
 
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id);
-
   let nextIndex = Object.keys(userContacts).length;
-
-  putData(`users/${id}/contacts/${nextIndex}`, contact);
+  putData(`users/${id}/contacts/${nextIndex + 1}`, contact);
 }
 
 async function getUserContacts(id) {
