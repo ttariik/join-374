@@ -228,3 +228,34 @@ h1 {
 .activelink1 {
     background-color: rgb(9,25,49) !important;
 }
+
+@media (max-width:1300px) {
+
+    .summary-all {
+        left: 280px;
+    }
+    
+    .summary-headline {
+        left: 280px;
+    }
+}
+
+@media (max-width:1259px) {
+
+    .summary-all {
+        display: flex;
+        justify-content: center;
+        left: 0px;
+        top: 0;
+    }
+    
+    .summary-headline {
+        display: flex;
+        position: static;
+        justify-content: center;
+        left: 0px;
+    }
+    .welcome {
+        display: none;
+    }
+}
