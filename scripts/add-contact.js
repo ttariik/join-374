@@ -2,7 +2,16 @@ let users = [];
 const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
-async function addcontact() {
+let nextIndex = 1;
+
+async function addcontact(event) {
+  event.preventDefault();
+  let form = document.querySelector("form");
+
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
   let userResponse = await getAllUsers("users");
   let telefonename = document.getElementById("name").value;
   let email = document.getElementById("email").value;
@@ -41,8 +50,9 @@ async function putData(path = "", data = {}) {
 
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id);
-  let nextIndex = Object.keys(userContacts).length;
-  putData(`users/${id}/contacts/${nextIndex + 1}`, contact);
+
+  await putData(`users/${id}/contacts/${nextIndex}`, contact);
+  nextIndex++;
 }
 
 async function getUserContacts(id) {

@@ -35,15 +35,17 @@
           <div class="logo">
             <img src="../img/Group 13.png" alt="" />
           </div>
-          <form class="inputpart">
+          <form class="inputpart" onsubmit="return addcontact(event)">
             <div class="inputs">
               <div class="textinputarea">
                 <input
                   required
+                  pattern="[a-zA-Z\s\-]+"
                   class="textinput"
                   id="name"
                   placeholder="Name"
                   type="text"
+                  maxlength="10"
                 />
               </div>
               <div class="emailinputarea">
@@ -53,6 +55,7 @@
                   placeholder="Email"
                   type="email"
                   required
+                  maxlength="254"
                 />
               </div>
               <div class="telefoneinputarea">
@@ -60,7 +63,7 @@
                   type="tel"
                   id="phone"
                   placeholder="+49 123 456 7890"
-                  pattern="^\+49\s?\d{3}\s?\d{3,12}$"
+                  pattern="^\+?[\d\s\-\(\)]{10,15}$"
                   class="telefoneinput"
                   required
                 />
@@ -70,12 +73,7 @@
               <button class="deletebutton" onclick="closecontactstemplate()">
                 Delete
               </button>
-              <button
-                type="button"
-                class="savebutton"
-                id="addbutton"
-                onclick="addcontact()"
-              >
+              <button class="savebutton" id="addbutton">
                 Save <img src="../img/check.png" alt="" />
               </button>
             </div>
