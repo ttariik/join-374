@@ -59,8 +59,14 @@ async function putData(path = "", data = {}) {
   return (responsetoJson = await response.json());
 }
 
-async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
-  putData(`users/${id}`, contact);
+async function addEditSingleUser(
+  id = 1,
+  tasks = { name: "Log in / Sign up Logik" }
+) {
+  let userContacts = await getUserContacts(id);
+
+  await putData(`users/${id}/tasks/${nextIndex}`, tasks);
+  nextIndex++;
 }
 
 async function getAllUsers(path) {

@@ -2,7 +2,7 @@ let users = [];
 const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
-let nextIndex = 1;
+let nextIndex = 0;
 
 async function addcontact(event) {
   event.preventDefault();
@@ -51,8 +51,10 @@ async function putData(path = "", data = {}) {
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id);
 
+  let nextIndex = Object.keys(userContacts).length;
+  console.log(nextIndex);
+
   await putData(`users/${id}/contacts/${nextIndex}`, contact);
-  nextIndex++;
 }
 
 async function getUserContacts(id) {
