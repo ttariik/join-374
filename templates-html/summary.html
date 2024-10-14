@@ -29,9 +29,9 @@
                 <a href="board.html">
                     <div class="summary-current-tasks">
                         <img src="/icons/todo.png" class="img-original-todo" width="69px" height="69px">
-                        <img src="/icons/todowhite.png" class="img-white-todo " width="69px" height="69px">
+                        <img src="/icons/todowhite.png" class="img-white-todo" width="69px" height="69px">
                         <div class="sum-tasks">
-                            <span>1</span>
+                            <span id="todo-count">0</span> <!-- Zahl der To-do-Aufgaben -->
                             <p>To-do</p>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                             <p>Done</p>
                         </div>
                     </div>
-                </a> 
+                </a>
             </div>
             <a href="board.html">
                 <div class="summary-current-date">
@@ -64,33 +64,34 @@
                 </div>
             </a>
             <a href="board.html">
-            <div class="summary-progress">
-                <div class="summary-current-progress">
-                    <div class="sum-tasks">
-                        <span>5</span>
-                        <p>Tasks in<br> Board</p>
+                <div class="summary-progress">
+                    <div class="summary-current-progress">
+                        <div class="sum-tasks">
+                            <span>5</span>
+                            <p>Tasks in<br> Board</p>
+                        </div>
+                    </div>
+                    <div class="summary-current-progress">
+                        <div class="sum-tasks">
+                            <span>2</span>
+                            <p>Tasks in<br> Progress</p>
+                        </div>
+                    </div>
+                    <div class="summary-current-progress">
+                        <div class="sum-tasks">
+                            <span>2</span>
+                            <p>Awaiting<br> Feedback</p>
+                        </div>
                     </div>
                 </div>
-                <div class="summary-current-progress">
-                    <div class="sum-tasks">
-                        <span>2</span>
-                        <p>Tasks in<br> Progress</p>
-                    </div>
-                </div>
-                <div class="summary-current-progress">
-                    <div class="sum-tasks">
-                        <span>2</span>
-                        <p>Awaiting<br> Feedback</p>
-                    </div>
-                </div>
-            </div>
-        </a>
+            </a>
         </div>
         <div class="welcome">
             <span>Good morning,
                 <p>Sofia Müller</p>
             </span>
         </div>
+        <script src="/scripts/summary.js"></script>
 </body>
 
 </html>

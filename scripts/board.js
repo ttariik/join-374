@@ -40,3 +40,5 @@ function opentasktemplate() {
 function closeaddtasktemplate() {
   document.querySelector(".overlay").style.transform = "translateX(126%)";
 }
+
+
