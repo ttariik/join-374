@@ -68,6 +68,8 @@ textarea {
   border-radius: 10px;
   border: 1px solid #d1d1d1;
   width: calc(100% - 6px);
+  font-weight: 400;
+  font-size: 20px;
 }
 
 .firstbox {
@@ -354,5 +356,8 @@ select {
   .secondbox {
     height: unset;
     gap: 0px;
+  }
+  textarea {
+    font-size: 16px;
   }
 }
