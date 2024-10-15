@@ -2,15 +2,15 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 206px;
+    padding-top: 103px;
+    padding-bottom: 32px;
     left: 328px;
     max-width: 1016px;
     gap: 30px;
     margin-right: 64px;
     overflow: scroll;
     scrollbar-width: none;
-    max-height: 1014px;
-
+    max-height: -webkit-fill-available;
 }
 
 .privacy-headline {
@@ -54,3 +54,28 @@
     background-color: rgb(9,25,49) !important;
     pointer-events: none !important;
 }
+
+@media (max-width:1259px) {
+
+    .privacy-container {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: auto;
+        padding: 128px 20px;
+    }
+}
+
+@media (max-width: 440px) {
+
+    .privacy-headline p {
+        font-size: 47px;
+    }
+  }
+
+  @media (max-width: 380px) {
+
+    .privacy-headline  p {
+        font-size: 40px;
+    }
+  }
