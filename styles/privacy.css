@@ -54,4 +54,13 @@
     pointer-events: none !important;
 }
 
+@media (max-width:1259px) {
 
+    .privacy-container {
+        position: relative;
+        left: 0;
+        top: 0;
+        margin: 32px 32px 80px 32px;
+       max-height: 80vh;
+    }
+}

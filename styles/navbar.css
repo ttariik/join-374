@@ -143,7 +143,6 @@
 
 .menu-nav-bar-responsive {
   display: flex;
-
   align-items: center;
   gap: 32px;
 }
@@ -186,4 +185,20 @@
 .nav-bar-responsive-wrapper {
   display: flex;
 }
+}
+
+@media (max-width: 440px) {
+
+  .responsive-menu {
+    font-size: 14px;
+  }
+
+  .responsive-menu img {
+    height: 24px;
+    width: auto;
+  }
+
+  .menu-nav-bar-responsive {
+    gap: 8px;
+  }
 }
