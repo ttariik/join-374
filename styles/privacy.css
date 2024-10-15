@@ -9,7 +9,6 @@
     margin-right: 64px;
     overflow: scroll;
     scrollbar-width: none;
-    max-height: 1014px;
 }
 
 .privacy-headline {
@@ -60,7 +59,7 @@
         position: relative;
         left: 0;
         top: 0;
-        margin: 32px 32px 80px 32px;
-       max-height: 80vh;
+        margin: 32px 32px;
+        padding: 20px 20px;;
     }
 }

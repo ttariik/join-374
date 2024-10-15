@@ -7,7 +7,6 @@
     max-width: 1016px;
     gap: 30px;
     margin-right: 64px;
-    max-height: 1014px;
     overflow: scroll;
     scrollbar-width: none;
 }
@@ -70,4 +69,29 @@
 .endline-help {
     font-size: 27px;
     font-family: 'PT-sans-bold';
+}
+
+
+.help-container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 206px;
+    left: 328px;
+    max-width: 1016px;
+    gap: 30px;
+    margin-right: 64px;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+@media (max-width:1259px) {
+
+    .help-container {
+        position: relative;
+        left: 0;
+        top: 0;
+        padding: 128px 20px;
+        max-height: 1575px;
+    }
 }
