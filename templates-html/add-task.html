@@ -14,7 +14,7 @@
     <div w3-include-html="../navbar.html"></div>
     <h1>Add Task</h1>
     <div class="wholebox">
-      <form id="myform" action="">
+      <form id="myform" onsubmit="return addtask(event)">
         <div class="alignment2">
           <div class="firstbox">
             <div class="title2">
@@ -48,6 +48,7 @@
                   >
                     Select Contacts to asign
                   </option>
+                  <option value="task1">task1</option>
                 </select>
               </div>
             </div>
@@ -76,7 +77,7 @@
                       type="button"
                       id="button1"
                       class="buttons2_1"
-                      onclick="selectbutton_1()"
+                      onclick="selectbutton_1();handleButtonClick('Urgent')"
                     >
                       <span id="urgent">Urgent</span>
                       <img src="/img/Prio alta.png" alt="" />
@@ -85,7 +86,7 @@
                   <div class="button-container">
                     <button
                       type="button"
-                      onclick="selectbutton_2()"
+                      onclick="selectbutton_2();handleButtonClick('Medium')"
                       id="button2"
                       class="buttons2_2"
                     >
@@ -96,7 +97,7 @@
                   <div class="button-container">
                     <button
                       type="button"
-                      onclick="selectbutton_3()"
+                      onclick="selectbutton_3();handleButtonClick('Low')"
                       id="button3"
                       class="buttons2_3"
                     >
@@ -110,7 +111,7 @@
             <div class="secondhalfbox">
               <div>
                 <label>Category*</label>
-                <select name="" id="subtasks">
+                <select name="" id="Category">
                   <option disabled selected hidden value="Select Task Category">
                     Select Task Category
                   </option>
@@ -124,6 +125,7 @@
                   <option disabled selected hidden value="Add New Task">
                     Add New Task
                   </option>
+                  <option value="task1">task1</option>
                 </select>
               </div>
             </div>
@@ -136,7 +138,7 @@
           <div class="buttonsalignment_2">
             <button type="button" class="bt1" onclick="clearinputs()">
               Clear <img src="../img/Vector.png" alt="" /></button
-            ><button onclick="addtask()" class="bt2">
+            ><button class="bt2">
               Create Task <img src="../img/check.png" alt="" />
             </button>
           </div>
