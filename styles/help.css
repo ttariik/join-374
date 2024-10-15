@@ -81,6 +81,11 @@
         margin: auto;
         padding: 128px 20px;
     }
+
+    .btn-arrow {
+        position: fixed;
+        right: 32px;
+}
 }
 
 @media (max-width: 440px) {
