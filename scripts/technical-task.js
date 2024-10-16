@@ -3,6 +3,11 @@ function editinputs() {
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.getElementById("title").innerHTML = titletemplate();
   document.getElementById("descriptioninput").innerHTML = descriptiontemplate();
+  document.getElementById("duedatecontainer").innerHTML = duedatetemplate();
+  document.getElementById("priority-containercontent").innerHTML =
+    prioritytemplate();
+  document.getElementById("assigned-containercontent").innerHTML =
+    assignedtotemplate();
 }
 
 function titletemplate() {
@@ -19,4 +24,73 @@ function descriptiontemplate() {
     <textarea class="descriptionpartinput" placeholder="Enter a Description"></textarea>
     </div>
     `;
+}
+
+function duedatetemplate() {
+  return `
+<div class="duedateinputcontainer">
+   <label>Due date</label>
+   <input type="date" class="duedateinput">
+</div>  `;
+}
+
+function prioritytemplate() {
+  return `<div class="buttons">
+                <label>Prio</label>
+                <div class="buttons2">
+                  <div class="button-container1">
+                    <button
+                      type="button"
+                      id="button1"
+                      class="buttons2_1"
+                      onclick="selectbutton_1();handleButtonClick('Urgent')"
+                    >
+                      <span id="urgent">Urgent</span>
+                      <img src="/img/Prio alta.png" alt="" />
+                    </button>
+                  </div>
+                  <div class="button-container1">
+                    <button
+                      type="button"
+                      onclick="selectbutton_2();handleButtonClick('Medium')"
+                      id="button2"
+                      class="buttons2_2"
+                    >
+                      <span id="medium">Medium</span>
+                      <img src="/img/Capa 2.png" alt="" />
+                    </button>
+                  </div>
+                  <div class="button-container1">
+                    <button
+                      type="button"
+                      onclick="selectbutton_3();handleButtonClick('Low')"
+                      id="button3"
+                      class="buttons2_3"
+                    >
+                      <span id="low">Low</span>
+                      <img src="/img/Prio baja.png" alt="" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+}
+
+function assignedtotemplate() {
+  return `<div class="selectbox">
+              <div><label>Assigned to</label></div>
+              <div>
+                <select class="selection" name="" id="asignment">
+                  <option
+                    disabled
+                    selected
+                    hidden
+                    value="Select Contacts to asign"
+                  >
+                    Select Contacts to asign
+                  </option>
+                  <option value="task1">task1</option>
+                </select>
+              </div>
+            </div>`;
 }
