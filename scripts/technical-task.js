@@ -2,7 +2,7 @@ function editinputs() {
   document.getElementById("type").remove();
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.getElementById("title").innerHTML = titletemplate();
-  document.getElementById("description").innerHTML = descriptiontemplate();
+  document.getElementById("descriptioninput").innerHTML = descriptiontemplate();
 }
 
 function titletemplate() {

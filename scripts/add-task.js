@@ -89,21 +89,15 @@ async function putData(path = "", data = {}) {
 }
 
 async function addEditSingleUser(id = 1, tasks) {
-  // Fetch user tasks
   let usertasks = await getUserTasks(id);
 
-  // If no tasks exist, set usertasks to an empty object
   if (!usertasks) {
     usertasks = {};
   }
 
-  // Calculate next available index for new task
   let nextIndex = Object.keys(usertasks).length;
 
-  // Add the new task at the next index
   await putData(`users/${id}/tasks/${nextIndex}`, tasks);
-
-  // No need to increment nextIndex unless further logic depends on it
 }
 
 async function getUserTasks(id) {
