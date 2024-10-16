@@ -26,7 +26,7 @@ h1 {
     display: flex;
     position: relative;
     align-items: center;
-    top: 335px;
+    top: 280px;
     left: 320px;
     gap: 64px;
 }
@@ -122,11 +122,12 @@ h1 {
     border-radius: 30px;
     max-width: 568px;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-    color: rgb(42,54,71)
+    color: rgb(42, 54, 71)
 }
 
-.summary-current-date:hover  {
-    background-color: #2a3647;;
+.summary-current-date:hover {
+    background-color: #2a3647;
+    ;
     color: white;
     scale: 1.1;
     transition: 0.2s;
@@ -142,7 +143,7 @@ h1 {
 
 .current-date p {
     font-size: 16px;
-    font-family:'PT-Sans' !important; 
+    font-family: 'PT-Sans' !important;
 }
 
 .sum-tasks-date {
@@ -190,7 +191,8 @@ h1 {
 }
 
 .summary-current-progress:hover {
-    background-color: #2a3647;;
+    background-color: #2a3647;
+    ;
     color: white;
     scale: 1.1;
     transition: 0.2s;
@@ -208,14 +210,14 @@ h1 {
     align-items: center;
 }
 
-.welcome  {
+.welcome {
     font-size: 47px;
     font-weight: bold;
 }
 
 .welcome p {
     font-size: 64px;
-    color: rgb(41, 171, 226) ;
+    color: rgb(41, 171, 226);
     font-weight: bolder;
     margin-block-start: 0em;
     margin-block-end: 0em;
@@ -226,7 +228,12 @@ h1 {
 }
 
 .activelink1 {
-    background-color: rgb(9,25,49) !important;
+    background-color: rgb(9, 25, 49) !important;
+}
+
+.summary-container img {
+    width: 69px;
+    height: 69px;
 }
 
 @media (max-width:1300px) {
@@ -234,7 +241,7 @@ h1 {
     .summary-all {
         left: 280px;
     }
-    
+
     .summary-headline {
         left: 280px;
     }
@@ -248,14 +255,146 @@ h1 {
         left: 0px;
         top: 0;
     }
-    
+
     .summary-headline {
         display: flex;
-        position: static;
+        position: relative;
         justify-content: center;
         left: 0px;
+        top: 0;
+        padding-top: 164px;
     }
+
     .welcome {
         display: none;
+    }
+}
+
+@media (max-width: 649px) {
+    
+    .summary-headline {
+        flex-direction: column;
+        gap: 16px;
+        margin-left: 20px;
+        margin-bottom: 64px;
+        top: 0;
+    }
+
+    .summary-all {
+        top: 0;
+    }
+
+    h1 {
+        margin-block-end: 0em;
+        margin-block-start: 0em;
+    }
+
+    .seperator {
+        display: none;
+    }
+
+    .seperator-responsive {
+        width: 110px;
+        height: 5px;
+        background-color: rgb(41, 171, 226);
+
+    }
+
+    .summary-content{
+       padding-bottom: 124px;
+    }
+
+    .summary-current-tasks {
+        width: 200px;
+    }
+
+    .summary-current-progress {
+        width: 130px;
+    }
+}
+
+@media (max-width:475px) {
+
+    .summary-headline {
+        align-items: flex-start;
+        margin-left: 20px;
+    }
+
+    .summary-all {
+        margin: 0 20px;
+        justify-content: left;
+    }
+
+    .summary-container {
+        gap: 15px;
+    }
+
+    .summary-current-tasks {
+        width: 180px;
+        height: 100px;
+        font-size: 42px;
+    }
+
+    .summary-current-date {
+        font-size: 42px;
+        justify-content: space-around;
+        padding: 10px;
+    }
+
+    .summary-current-progress {
+        font-size: 42px;
+        width: 120px;
+        height: 120px;
+    }
+
+    .sum-tasks p {
+        font-size: 16px;
+    }
+
+    .summary-content img {
+        width: 47px;
+        height: 47px;
+    }
+}
+
+@media (max-width:410px) {
+
+    .summary-headline {
+        margin-left: 10px;
+    }
+
+    .summary-all {
+        margin-left: 10px;
+    }
+}
+
+@media (max-width:395px) {
+
+    h1 {
+        font-size: 42px;
+    }
+
+    .summary-headline-content {
+        font-size: 20px ;
+    }
+
+    .summary-current-tasks {
+        width: 140px;
+        height: 100px;
+        font-size: 36px;
+    }
+
+    .summary-current-date {
+        font-size: 36px;
+    }
+    
+    .current-date {
+        font-size: 16px;
+    }
+  
+    .summary-current-progress {
+        font-size: 36px;
+        width: 100px;
+        height: 100px;
     }
 }

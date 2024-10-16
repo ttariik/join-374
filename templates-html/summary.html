@@ -14,7 +14,7 @@
 <body onload="includeHTML()">
 
     <div w3-include-html="../navbar.html"></div>
-
+<div class="test">
     <div class="summary-headline">
         <h1>Join 360</h1>
         <div class="seperator">
@@ -22,14 +22,16 @@
         <div class="summary-headline-content">
             <span>Key Metrics at a Glance</span>
         </div>
+        <div class="seperator-responsive">
+        </div>
     </div>
     <div class="summary-all">
         <div class="summary-content">
             <div class="summary-container">
                 <a href="board.html">
                     <div class="summary-current-tasks">
-                        <img src="/icons/todo.png" class="img-original-todo" width="69px" height="69px">
-                        <img src="/icons/todowhite.png" class="img-white-todo" width="69px" height="69px">
+                        <img src="/icons/todo.png" class="img-original-todo" >
+                        <img src="/icons/todowhite.png" class="img-white-todo" >
                         <div class="sum-tasks">
                             <span id="todo-count">0</span> <!-- Zahl der To-do-Aufgaben -->
                             <p>To-do</p>
@@ -38,8 +40,8 @@
                 </a>
                 <a href="board.html">
                     <div class="summary-current-tasks">
-                        <img src="/icons/done.png" class="img-original-done" width="69px" height="69px">
-                        <img src="/icons/donewhite.png" class="img-white-done" width="69px" height="69px">
+                        <img src="/icons/done.png" class="img-original-done">
+                        <img src="/icons/donewhite.png" class="img-white-done">
                         <div class="sum-tasks">
                             <span>1</span>
                             <p>Done</p>
@@ -50,7 +52,7 @@
             <a href="board.html">
                 <div class="summary-current-date">
                     <div class="sum-tasks-date">
-                        <img src="/icons/urgent.png" width="69px" height="69px">
+                        <img src="/icons/urgent.png">
                         <div class="date-done">
                             <span>1</span>
                             <p>Urgent</p>
@@ -86,11 +88,13 @@
                 </div>
             </a>
         </div>
+    
         <div class="welcome">
             <span>Good morning,
                 <p>Sofia Müller</p>
             </span>
         </div>
+    </div>
         <script src="/scripts/summary.js"></script>
 </body>
 
