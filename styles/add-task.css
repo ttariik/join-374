@@ -222,6 +222,8 @@ select {
   width: 183px;
   height: 56px;
   display: flex;
+  font-family: 'PT-Sans-bold';
+  font-size: 20px;
   justify-content: center;
   align-items: center;
   gap: 13px;
@@ -398,6 +400,7 @@ select {
     width: unset;
     height: unset;
     padding: 20px;
+    font-size: 16px;
 
   }
 
