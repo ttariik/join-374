@@ -11,148 +11,177 @@
     <script src="../script.js"></script>
     <script src="../scripts/add-task.js"></script>
   </head>
-  <body>
+  <body onload="loadtasks()">
     <div w3-include-html="../navbar.html"></div>
 
-      <div class="test123">
-        <div class="test">
-          <div class="add-task-headline">
-    <h1>Add Task</h1>
-  </div>
-    <div class="wholebox">
-      <form id="myform" onsubmit="return addtask(event)">
-        <div class="alignment2">
-          <div class="firstbox">
-            <div class="title2">
-              <label>Title*</label>
-              <input
-                id="title"
-                class="titleinput"
-                placeholder="Enter a title"
-                type="text"
-              />
-            </div>
-            <div class="descriptioninput">
-              <div><label>Description</label></div>
-              <div>
-                <textarea
-                  id="description"
-                  placeholder="Enter a Description"
-                  id=""
-                ></textarea>
-              </div>
-            </div>
-            <div class="selectbox">
-              <div><label>Assigned to</label></div>
-              <div>
-                <select name="" id="asignment">
-                  <option
-                    disabled
-                    selected
-                    hidden
-                    value="Select Contacts to asign"
-                  >
-                    Select Contacts to asign
-                  </option>
-                  <option value="task1">task1</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="line"></div>
-          <div class="secondbox">
-            <div class="firsthalfbox">
-              <div class="emailbox">
-                <div><label>Due date*</label></div>
-                <div class="emailinput">
+    <div class="test123">
+      <div class="test">
+        <div class="add-task-headline">
+          <h1>Add Task</h1>
+        </div>
+        <div class="wholebox">
+          <form id="myform" onsubmit="return addtask(event)">
+            <div class="alignment2">
+              <div class="firstbox">
+                <div class="title2">
+                  <label>Title*</label>
                   <input
-                    class="emailinput2"
-                    type="datetime"
-                    name="date"
-                    id="date"
-                    placeholder="dd/mm/yyyy"
-                    maxlength="10"
+                    id="title"
+                    class="titleinput"
+                    placeholder="Enter a title"
+                    type="text"
+                    required
                   />
                 </div>
+                <div class="descriptioninput">
+                  <div><label>Description</label></div>
+                  <div>
+                    <textarea
+                      id="description"
+                      placeholder="Enter a Description"
+                      id=""
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+                <div class="selectbox">
+                  <div><label>Assigned to</label></div>
+                  <div>
+                    <select name="" id="asignment">
+                      <option
+                        required
+                        disabled
+                        selected
+                        hidden
+                        value="Select Contacts to asign"
+                      >
+                        Select Contacts to asign
+                      </option>
+                      <option value="task1">task1</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div class="buttons">
-                <label>Prio</label>
-                <div class="buttons2">
-                  <div class="button-container">
-                    <button
-                      type="button"
-                      id="button1"
-                      class="buttons2_1"
-                      onclick="selectbutton_1();handleButtonClick('Urgent')"
-                    >
-                      <span id="urgent">Urgent</span>
-                      <img src="/img/Prio alta.png" alt="" />
-                    </button>
+              <div class="line"></div>
+              <div class="secondbox">
+                <div class="firsthalfbox">
+                  <div class="emailbox">
+                    <div><label>Due date*</label></div>
+                    <div class="emailinput">
+                      <input
+                        required
+                        class="emailinput2"
+                        type="datetime"
+                        name="date"
+                        id="date"
+                        placeholder="dd/mm/yyyy"
+                        maxlength="10"
+                      />
+                    </div>
                   </div>
-                  <div class="button-container">
-                    <button
-                      type="button"
-                      onclick="selectbutton_2();handleButtonClick('Medium')"
-                      id="button2"
-                      class="buttons2_2"
-                    >
-                      <span id="medium">Medium</span>
-                      <img src="/img/Capa 2.png" alt="" />
-                    </button>
+                  <div class="buttons">
+                    <label>Prio</label>
+                    <div class="buttons2">
+                      <div class="button-container">
+                        <button
+                          type="button"
+                          id="button1"
+                          class="buttons2_1"
+                          onclick="selectbutton_1();handleButtonClick('Urgent')"
+                        >
+                          <span id="urgent">Urgent</span>
+                          <img src="/img/Prio alta.png" alt="" />
+                        </button>
+                      </div>
+                      <div class="button-container">
+                        <button
+                          type="button"
+                          onclick="selectbutton_2();handleButtonClick('Medium')"
+                          id="button2"
+                          class="buttons2_2"
+                        >
+                          <span id="medium">Medium</span>
+                          <img src="/img/Capa 2.png" alt="" />
+                        </button>
+                      </div>
+                      <div class="button-container">
+                        <button
+                          type="button"
+                          onclick="selectbutton_3();handleButtonClick('Low')"
+                          id="button3"
+                          class="buttons2_3"
+                        >
+                          <span id="low">Low</span>
+                          <img src="/img/Prio baja.png" alt="" />
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="button-container">
-                    <button
-                      type="button"
-                      onclick="selectbutton_3();handleButtonClick('Low')"
-                      id="button3"
-                      class="buttons2_3"
-                    >
-                      <span id="low">Low</span>
-                      <img src="/img/Prio baja.png" alt="" />
-                    </button>
+                </div>
+                <div class="secondhalfbox">
+                  <div>
+                    <label>Category*</label>
+                    <select name="" id="Category" required>
+                      <option
+                        disabled
+                        selected
+                        hidden
+                        value="Select Task Category"
+                      >
+                        Select Task Category
+                      </option>
+                      <option value="Technical Task">Technical Task</option>
+                      <option value="User Story">User Story</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>Subtasks</label>
+                    <div class="subtaskcontainer">
+                      <input
+                        required
+                        onclick="subtaskchangeicons()"
+                        type="text"
+                        id="subtaskinput"
+                        placeholder="Add New Subtask"
+                        class="inputsubtask"
+                      />
+                      <button class="subtaskbutton" id="inputsubtask1">
+                        <img src="/img/add.png" alt="" />
+                      </button>
+                      <button class="subtaskbutton2 d-none" id="inputsubtask2">
+                        <img src="/img/Vector.png" alt="" />
+                      </button>
+                      <div class="seperateline d-none" id="seperate"></div>
+                      <button
+                        type="button"
+                        onclick="addsubtask()"
+                        class="subtaskbutton3 d-none"
+                        id="inputsubtask3"
+                      >
+                        <img src="/img/Subtasks icons11 (1).png" alt="" />
+                      </button>
+                      <div id="subtasksbox" class="subtasksbox1"></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="secondhalfbox">
-              <div>
-                <label>Category*</label>
-                <select name="" id="Category">
-                  <option disabled selected hidden value="Select Task Category">
-                    Select Task Category
-                  </option>
-                  <option value="Technical Task">Technical Task</option>
-                  <option value="User Story">User Story</option>
-                </select>
+            <div class="buttonsalignment">
+              <div class="buttonsalignment_1">
+                <span class="required-indicator">*</span>This field is required
               </div>
-              <div>
-                <label>Subtasks</label>
-                <select name="subtasks" id="subtasks">
-                  <option disabled selected hidden value="Add New Task">
-                    Add New Task
-                  </option>
-                  <option value="task1">task1</option>
-                </select>
+              <div class="buttonsalignment_2">
+                <button type="button" class="bt1" onclick="clearinputs()">
+                  Clear <img src="../img/Vector.png" alt="" /></button
+                ><button class="bt2">
+                  Create Task <img src="../img/check.png" alt="" />
+                </button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
-        <div class="buttonsalignment">
-          <div class="buttonsalignment_1">
-            <span class="required-indicator">*</span>This field is required
-          </div>
-          <div class="buttonsalignment_2">
-            <button type="button" class="bt1" onclick="clearinputs()">
-              Clear <img src="../img/Vector.png" alt="" /></button
-            ><button class="bt2">
-              Create Task <img src="../img/check.png" alt="" />
-            </button>
-          </div>
-        </div>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
     <script>
       includeHTML();
     </script>

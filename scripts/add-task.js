@@ -45,8 +45,10 @@ async function addtask(event) {
   let asignedto = document.getElementById("asignment").value;
   let duedate = document.getElementById("date").value;
   let category = document.getElementById("Category").value;
-  let subtask = document.getElementById("subtasks").value;
+  let subtask = document.getElementById("subtaskinput").value;
   let UserKeyArray = Object.keys(userResponse);
+  console.log(UserKeyArray);
+
   if (!selectedPriority) {
     alert("Please select a priority!");
     return;
@@ -108,4 +110,37 @@ async function getUserTasks(id) {
 async function getAllUsers(path) {
   let response = await fetch(GLOBAL + path + ".json");
   return (responsetoJson = await response.json());
+}
+
+function subtaskchangeicons() {
+  document.getElementById("inputsubtask1").classList.add("d-none");
+  document.getElementById("inputsubtask2").classList.remove("d-none");
+  document.getElementById("inputsubtask3").classList.remove("d-none");
+  document.getElementById("seperate").classList.remove("d-none");
+}
+
+function subtaskiconsreset() {
+  document.getElementById("inputsubtask1").classList.remove("d-none");
+  document.getElementById("inputsubtask2").classList.add("d-none");
+  document.getElementById("inputsubtask3").classList.add("d-none");
+  document.getElementById("seperate").classList.add("d-none");
+  document.getElementById("subtaskinput").value = "";
+}
+
+function addsubtask() {
+  let subtaskinput1 = document.getElementById("subtaskinput").value;
+  document.getElementById("subtasksbox").innerHTML +=
+    subtaskstemplate(subtaskinput1);
+  subtaskiconsreset();
+}
+
+function subtaskstemplate(subtaskinput1) {
+  return /*html*/ `
+    <div class="subbox">
+      <div>•</div>
+      <div>${subtaskinput1}</div>
+      <button class="d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
+      <button class="d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
+    </div>
+  `;
 }
