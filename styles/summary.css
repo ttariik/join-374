@@ -261,7 +261,7 @@ h1 {
         top: 0;
     }
 
-    .test123 {
+    .content-responsiv-all {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -376,7 +376,7 @@ h1 {
 
 @media (max-width:380px) {
 
-    .test123 {
+    .content-responsiv-all {
         padding: 64px 0;
     }
 }
