@@ -1,7 +1,3 @@
-let users = [];
-const GLOBAL =
-  "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
-
 let nextIndex = 0;
 
 async function addcontact(event) {

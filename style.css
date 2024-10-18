@@ -10,17 +10,13 @@
 
 body {
   margin: 0;
-  font-family: 'PT-Sans';
-  background-color: rgb(246,247,248)
-
+  font-family: "PT-Sans";
+  background-color: rgb(246, 247, 248);
+  overflow: hidden;
 }
 
 @media (max-width: 1259px) {
-
   body::-webkit-scrollbar {
     display: none;
   }
 }
-
-
-

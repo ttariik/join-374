@@ -10,8 +10,9 @@
     <link rel="stylesheet" href="/styles/contacts-menu.css" />
     <script src="../script.js"></script>
     <script src="/scripts/contact-menu.js"></script>
+    <script src="/db.js"></script>
   </head>
-  <body onload="includeHTML()">
+  <body onload="includeHTML();getUsercontacts();showcontacts();">
     <div w3-include-html="../navbar.html"></div>
     <div class="contact-menu-wrapper">
       <div class="contact-content-wrapper">
@@ -24,6 +25,7 @@
             </button>
           </div>
         </div>
+        <div id="contactmenu"></div>
       </div>
     </div>
     <div class="overlay2" w3-include-html="Add-Contact.html"></div>
