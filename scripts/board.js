@@ -42,3 +42,45 @@ function closeaddtasktemplate() {
 }
 
 
+
+
+
+function countTasks() {
+
+  const todoFolder = document.getElementById('todo-folder');
+  const inprogressFolder = document.getElementById('inprogress-folder');
+  const reviewFolder = document.getElementById('review-folder');
+  const doneFolder = document.getElementById('done-folder');
+
+  const todoCount = todoFolder.getElementsByClassName('task').length;
+  const inprogressCount = inprogressFolder.getElementsByClassName('task').length;
+  const reviewCount = reviewFolder.getElementsByClassName('task').length;
+  const doneCount = doneFolder.getElementsByClassName('task').length;
+
+  localStorage.setItem('todoCount', todoCount);
+  localStorage.setItem('inprogressCount', inprogressCount);
+  localStorage.setItem('reviewCount', reviewCount);
+  localStorage.setItem('doneCount', doneCount);
+}
+
+document.addEventListener('DOMContentLoaded', countTasks);
+
+function countAndStoreTasks() {
+  const folders = ['todo-folder', 'inprogress-folder', 'review-folder', 'done-folder'];
+  let totalTaskCount = 0; 
+
+  folders.forEach(folderId => {
+    const folder = document.getElementById(folderId);
+    const taskCount = folder ? folder.getElementsByClassName('task').length : 0;
+    localStorage.setItem(`${folderId}Count`, taskCount);
+    totalTaskCount += taskCount; 
+  });
+
+  localStorage.setItem('totalTaskCount', totalTaskCount);
+}
+
+document.addEventListener('DOMContentLoaded', countAndStoreTasks);
+
+
+
+
