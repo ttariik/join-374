@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../styles/techinical-task-template.css" />
     <script src="/scripts/technical-task.js"></script>
+    <script src="/db.js"></script>
   </head>
-  <body>
+  <body onload="getUserTaskss()">
     <div class="boxtemplate">
       <div class="header">
         <div class="userbox" id="type">
-          <span class="task-title">Technical Task</span>
+          <span class="task-title" id="typeoftask">Technical Task</span>
         </div>
         <div><img src="../img/close.png" alt="" /></div>
       </div>
@@ -24,20 +25,22 @@
       </div>
       <div class="due-date-container" id="duedatecontainer">
         <div><span class="duedate">Due date: </span></div>
-        <div><span class="duedate">02/09/2023</span></div>
+        <div>
+          <span class="duedate" id="due-date-containerinput">02/09/2023</span>
+        </div>
       </div>
       <div class="priority-container" id="priority-containercontent">
         <div><span>Priority: </span></div>
         <div>
           <span class="priority-indicator"
-            ><div>Urgent</div>
+            ><div id="showprio">Urgent</div>
             <div><img src="../img/Prio alta.png" alt="" /></div
           ></span>
         </div>
       </div>
       <div class="assigned-container" id="assigned-containercontent">
         <div><span>Assigned To:</span></div>
-        <div class="align">
+        <div class="align" id="showassignedperson">
           <img src="../img/Profile badge (2).png" alt="" /><span
             >Sofia Müller (You)</span
           >
@@ -51,7 +54,7 @@
       <div class="subtasks-container">
         <span>Subtasks</span>
         <div class="subtask">
-          <input type="checkbox" /><span class="subtask-title"
+          <input type="checkbox" /><span class="subtask-title" id="showsubtask"
             >Establish CSS Methodology</span
           >
         </div>

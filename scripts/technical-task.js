@@ -94,3 +94,25 @@ function assignedtotemplate() {
               </div>
             </div>`;
 }
+
+async function getUserTaskss(id = 1) {
+  let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
+  let responsestoJson = await responses.json();
+  document.getElementById(
+    "typeoftask"
+  ).innerHTML = `${responsestoJson[0].category}`;
+  document.getElementById("title").innerHTML = `${responsestoJson[0].title}`;
+  document.getElementById(
+    "descriptioninput"
+  ).innerHTML = `${responsestoJson[0].description}`;
+  document.getElementById(
+    "due-date-containerinput"
+  ).innerHTML = `${responsestoJson[0].duedate}`;
+  document.getElementById("showprio").innerHTML = `${responsestoJson[0].prio}`;
+  document.getElementById(
+    "showassignedperson"
+  ).innerHTML = `${responsestoJson[0].asignedto}`;
+  document.getElementById(
+    "showsubtask"
+  ).innerHTML = `${responsestoJson[0].subtask}`;
+}

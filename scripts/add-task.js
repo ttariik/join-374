@@ -66,7 +66,10 @@ async function addtask(event) {
     prio: selectedPriority,
     duedate: duedate,
     category: category,
-    subtask: subtask,
+    subtask: {
+      subtask: subtask,
+      completed: false,
+    },
   });
   emptyinputs();
 }
@@ -102,6 +105,12 @@ async function addEditSingleUser(id = 1, tasks) {
   await putData(`users/${id}/tasks/${nextIndex}`, tasks);
 }
 
+async function getUserTaskss(id = 1) {
+  let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
+  let responsestoJson = await responses.json();
+  console.log(responsestoJson[0].asignedto);
+}
+
 async function getUserTasks(id) {
   let response = await fetch(GLOBAL + `users/${id}/tasks.json`);
   return await response.json();
@@ -132,6 +141,11 @@ function addsubtask() {
   document.getElementById("subtasksbox").innerHTML +=
     subtaskstemplate(subtaskinput1);
   subtaskiconsreset();
+}
+
+function resetsubtask() {
+  let subtaskinput1 = document.getElementById("subtaskinput").value;
+  subtaskinput1.reset();
 }
 
 function subtaskstemplate(subtaskinput1) {
