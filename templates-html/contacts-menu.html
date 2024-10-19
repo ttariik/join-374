@@ -8,24 +8,41 @@
     <link rel="stylesheet" href="/styles/contacs.css" />
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/styles/contacts-menu.css" />
+    <link rel="stylesheet" href="/styles/contact-template.css" />
     <script src="../script.js"></script>
-    <script src="/scripts/contact-menu.js"></script>
     <script src="/db.js"></script>
   </head>
-  <body onload="includeHTML();getUsercontacts();showcontacts();">
+  <body onload="includeHTML();showcontacts();">
     <div w3-include-html="../navbar.html"></div>
-    <div class="contact-menu-wrapper">
-      <div class="contact-content-wrapper">
-        <div class="contact-menu-content">
-          <div class="contact-header-section">
-            <button class="add-contact-button" onclick="opencontactstemplate()">
-              <span class="add-contact-button-whiteletters"
-                >Add new contact</span
-              ><img src="/img/person_add.png" alt="" />
-            </button>
+    <div class="content">
+      <div class="contact-menu-wrapper">
+        <div class="contact-content-wrapper">
+          <div class="contact-menu-content">
+            <div class="contact-header-section">
+              <button
+                class="add-contact-button"
+                onclick="opencontactstemplate()"
+              >
+                <span class="add-contact-button-whiteletters"
+                  >Add new contact</span
+                ><img src="/img/person_add.png" alt="" />
+              </button>
+            </div>
           </div>
+          <div id="contactmenu" class="contactmenu-design"></div>
         </div>
-        <div id="contactmenu"></div>
+      </div>
+      <div class="boxalignment">
+        <div class="phrase">
+          <span class="phrase_1">Contacts</span>
+          <div class="seperator"></div>
+          <span class="phrase_2">Better with a team</span>
+        </div>
+        <div
+          id="contacttemplate"
+          class="contacttemplatedesing"
+          w3-include-html="./contact-template.html"
+        ></div>
       </div>
     </div>
     <div class="overlay2" w3-include-html="Add-Contact.html"></div>

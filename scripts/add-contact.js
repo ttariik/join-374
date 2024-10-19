@@ -1,5 +1,5 @@
 let nextIndex = 0;
-
+let initialsarray = [];
 async function addcontact(event) {
   event.preventDefault();
   let form = document.querySelector("form");
@@ -10,6 +10,10 @@ async function addcontact(event) {
   }
   let userResponse = await getAllUsers("users");
   let telefonename = document.getElementById("name").value;
+  let nameParts = telefonename.trim().split(" ");
+  let firstname = nameParts[0].charAt(0).toUpperCase();
+  let lastname = nameParts[1]?.charAt(0).toUpperCase();
+  let initials = firstname + lastname;
   let email = document.getElementById("email").value;
   let phone = document.getElementById("phone").value;
   let UserKeyArray = Object.keys(userResponse);
@@ -23,8 +27,14 @@ async function addcontact(event) {
     name: telefonename,
     email: email,
     telefone: phone,
+    initials: initials,
   });
   emptyinputs();
+}
+
+async function firstlastnameletters(id) {
+  let contacts = await getUserContacts(id);
+  console.log(contacts);
 }
 
 function emptyinputs() {
@@ -47,8 +57,10 @@ async function putData(path = "", data = {}) {
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id);
 
-  let nextIndex = Object.keys(userContacts).length;
-  console.log(nextIndex);
+  let existingIndexes = Object.keys(userContacts).map(Number);
+
+  let nextIndex =
+    existingIndexes.length > 0 ? Math.max(...existingIndexes) + 1 : 1;
 
   await putData(`users/${id}/contacts/${nextIndex}`, contact);
 }
@@ -56,6 +68,31 @@ async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
 async function getUserContacts(id) {
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   return await response.json();
+}
+
+async function showinitials(id = 1, initials) {
+  let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  let responsestoJson = await responses.json();
+
+  responsestoJson = responsestoJson.filter(
+    (contact) => contact && contact.name
+  );
+
+  responsestoJson.sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+  for (let index = 0; index < responsestoJson.length; index++) {
+    let firstlastname = responsestoJson[index].name.trim().split(" ");
+    let firstname = firstlastname[0].charAt(0).toUpperCase();
+    let lastname = firstlastname[1].charAt(0).toUpperCase();
+    let initials = firstname + lastname;
+    initialsarray.push(initials);
+  }
 }
 
 async function getAllUsers(path) {

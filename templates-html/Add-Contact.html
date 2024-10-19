@@ -10,8 +10,9 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
+    <script src="/db.js"></script>
   </head>
-  <body onload="checkwidth()">
+  <body onload="checkwidth();showinitials()">
     <div class="completebox">
       <div class="background">
         <div class="logodesign">
@@ -43,9 +44,9 @@
                   pattern="[a-zA-Z\s\-]+"
                   class="textinput"
                   id="name"
-                  placeholder="Name"
+                  placeholder="First and last name"
                   type="text"
-                  maxlength="10"
+                  maxlength="20"
                 />
               </div>
               <div class="emailinputarea">
@@ -77,6 +78,7 @@
                 Save <img src="../img/check.png" alt="" />
               </button>
             </div>
+            <div id="box"></div>
           </form>
         </div>
       </div>

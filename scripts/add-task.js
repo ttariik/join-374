@@ -28,7 +28,6 @@ function clearinputs() {
 
 function handleButtonClick(priority) {
   selectedPriority = priority;
-  console.log("Selected Priority: " + selectedPriority);
 }
 
 async function addtask(event) {
@@ -95,25 +94,24 @@ async function putData(path = "", data = {}) {
 
 async function addEditSingleUser(id = 1, tasks) {
   let usertasks = await getUserTasks(id);
-
   if (!usertasks) {
     usertasks = {};
   }
-
-  let nextIndex = Object.keys(usertasks).length;
-
+  let existingIndexes = Object.keys(usertasks).map(Number);
+  let nextIndex =
+    existingIndexes.length > 0 ? Math.max(...existingIndexes) + 1 : 1;
   await putData(`users/${id}/tasks/${nextIndex}`, tasks);
 }
 
 async function getUserTaskss(id = 1) {
   let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   let responsestoJson = await responses.json();
-  console.log(responsestoJson[0].asignedto);
 }
 
 async function getUserTasks(id) {
   let response = await fetch(GLOBAL + `users/${id}/tasks.json`);
   return await response.json();
+  console.log(response);
 }
 
 async function getAllUsers(path) {
