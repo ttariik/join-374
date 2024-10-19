@@ -149,9 +149,10 @@
 @media (max-height: 263px) {
   .boxtemplate {
     max-width: 252px;
-    height: fit-content;
     padding: 16px;
     border-radius: 24px;
+    height: 230px;
+    gap: 10px;
   }
   .userbox {
     max-width: 113px;
@@ -178,12 +179,6 @@
   .button-container {
     display: none;
   }
-  .priority-container {
-    display: none;
-  }
-  .assigned-container {
-    display: none;
-  }
   .subtasks-container {
     display: none;
   }
@@ -192,5 +187,39 @@
   }
   .d-none {
     display: flex;
+  }
+  .align span {
+    display: none;
+  }
+  .align img {
+    display: flex;
+  }
+  .assignedtitle {
+    display: none;
+  }
+  .assigned-container {
+    flex-direction: row;
+    gap: unset;
+    position: relative;
+    top: 42px;
+  }
+  .prio {
+    display: none;
+  }
+  .priotitle {
+    display: none;
+  }
+  .prioicondiv {
+    position: absolute;
+    right: 6px;
+    bottom: 25px;
+  }
+  .outsidebox {
+    width: 84%;
+    display: flex;
+    position: absolute;
+    bottom: 83px;
+    align-items: center;
+    gap: 16px;
   }
 }

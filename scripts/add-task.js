@@ -111,7 +111,6 @@ async function getUserTaskss(id = 1) {
 async function getUserTasks(id) {
   let response = await fetch(GLOBAL + `users/${id}/tasks.json`);
   return await response.json();
-  console.log(response);
 }
 
 async function getAllUsers(path) {

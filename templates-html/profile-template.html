@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../styles/profile-template.css" />
     <link rel="stylesheet" href="../style.css" />
     <script src="/db.js"></script>
+    <script src="/scripts/profiletemplatelogik.js"></script>
   </head>
   <body>
     <div class="boxtemplate">
@@ -22,21 +23,29 @@
       <div class="description">
         <span>Build start page with recipe recommendation.</span>
       </div>
+      <div class="d-none outsidebox">
+        <div class="d-none progressbar">
+          <div class="progressbar-inside"></div>
+        </div>
+        <div><span>1/2 Subtasks</span></div>
+      </div>
       <div class="due-date-container">
         <div><span class="duedate">Due date: </span></div>
         <div><span class="duedate">10/05/2023</span></div>
       </div>
+
       <div class="priority-container">
-        <div><span>Priority: </span></div>
-        <div>
+        <div class="prio"><span>Priority: </span></div>
+        <div class="prioicondiv">
           <span class="priority-indicator"
-            ><div>Medium</div>
-            <div><img src="../img/Capa 2.png" alt="" /></div
+            ><div class="priotitle">Medium</div>
+            <div class="prioicon"><img src="../img/Capa 2.png" alt="" /></div
           ></span>
         </div>
       </div>
+
       <div class="assigned-container">
-        <div><span>Assigned To:</span></div>
+        <div class="assignedtitle"><span>Assigned To:</span></div>
         <div class="align">
           <img src="../img/Profile badge.png" alt="" /><span
             >Emmanuel Mauer</span
@@ -72,9 +81,6 @@
         <button class="button1">
           <img src="../img/edit.png" alt="" /><span>Edit</span>
         </button>
-      </div>
-      <div class="d-none progressbar">
-        <div class="progressbar-inside"></div>
       </div>
     </div>
   </body>
