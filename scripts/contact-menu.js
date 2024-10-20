@@ -20,6 +20,7 @@ async function showcontacts(id = 1) {
     (contact) => contact && contact.name
   );
   let displayedLetters = new Set();
+  console.log(responsestoJson);
 
   responsestoJson.sort((a, b) => {
     const nameA = a.name.toLowerCase();
@@ -71,9 +72,9 @@ function getColorFromString(str) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
 
-  let r = (hash >> 24) & 0xFF;
-  let g = (hash >> 16) & 0xFF;
-  let b = (hash >> 8) & 0xFF;
+  let r = (hash >> 24) & 0xff;
+  let g = (hash >> 16) & 0xff;
+  let b = (hash >> 8) & 0xff;
 
   const lightnessFactor = 0.4;
   r = Math.floor(r + (255 - r) * lightnessFactor);
@@ -82,7 +83,6 @@ function getColorFromString(str) {
 
   return `rgb(${r}, ${g}, ${b})`;
 }
-
 
 async function showcontacttemplate(index, id = 1) {
   document.getElementById("contacttemplate").style.display = "block";

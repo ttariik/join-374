@@ -1,4 +1,3 @@
-let nextIndex = 0;
 let initialsarray = [];
 async function addcontact(event) {
   event.preventDefault();
@@ -14,7 +13,7 @@ async function addcontact(event) {
   let firstname = nameParts[0].charAt(0).toUpperCase();
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
   let initials = firstname + lastname;
-  let email = document.getElementById("email").value;
+  let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
   let UserKeyArray = Object.keys(userResponse);
   for (let index = 0; index < UserKeyArray.length; index++) {
@@ -30,6 +29,7 @@ async function addcontact(event) {
     initials: initials,
   });
   emptyinputs();
+  closecontactstemplate();
 }
 
 async function firstlastnameletters(id) {
@@ -39,8 +39,9 @@ async function firstlastnameletters(id) {
 
 function emptyinputs() {
   document.getElementById("name").value = "";
-  document.getElementById("email").value = "";
+  document.getElementById("emailarea").value = "";
   document.getElementById("phone").value = "";
+  showcontacts();
 }
 
 async function putData(path = "", data = {}) {
@@ -70,7 +71,7 @@ async function getUserContacts(id) {
   return await response.json();
 }
 
-async function showinitials(id = 1, initials) {
+async function showinitials(id = 1) {
   let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await responses.json();
 
