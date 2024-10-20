@@ -49,7 +49,7 @@ signIn.addEventListener('click', (event) => {
         if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
             showMessage('Incorrect Email or Password', 'signInMessage');
         } else {
-            showMessage('An error occurred during sign in.', 'signInMessage');
+            showMessage('Incorrect Email or Password', 'signInMessage');
         }
     });
 
