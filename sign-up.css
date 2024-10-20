@@ -336,5 +336,17 @@
     color: #a8a8a8;
   }
   
+  .messageDiv {
+    background-color: rgb(41,171,226);
+    color: white;
+    position: absolute;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    font-size: 1rem;
+    opacity: 0;
+    animation: fadeOut 7s forwards;
+    z-index: 10;
+  }
   
   

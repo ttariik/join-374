@@ -1,4 +1,3 @@
-
 * {
   margin: 0;
   padding: 0;
@@ -227,10 +226,11 @@ input[type="password"] {
   transition: 100ms ease-in-out;
 }
 
-.checkbox-wrapper-29 .checkbox__input:checked ~ .checkbox__label:after {
+.checkbox-wrapper-29 .checkbox__input:checked~.checkbox__label:after {
   border-top-style: none;
   border-right-style: none;
-  -ms-transform: rotate(-45deg); /* IE9 */
+  -ms-transform: rotate(-45deg);
+  /* IE9 */
   transform: rotate(-45deg);
   height: calc(var(--size) * 0.5);
   border-color: green;
@@ -323,6 +323,17 @@ a {
   padding: 8px;
 }
 
+.messageDiv {
+  background-color: rgb(41, 171, 226);
+  color: white;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  opacity: 0;
+  animation: fadeOut 7s forwards;
+  z-index: 10;
+}
 
 /*  */
 
@@ -332,45 +343,55 @@ a {
     top: 790px;
     right: 10px;
   }
+
   input[type="email"] {
     width: 365px;
     height: 48px;
   }
+
   input[type="password"] {
     width: 365px;
     height: 48px;
   }
+
   .container {
     margin-top: 120px;
     width: 396px;
     height: 515px;
   }
+
   .email-icon {
     left: 340px;
     top: 190px;
   }
+
   .password-icon {
     left: 340px;
     top: 257px;
   }
+
   .login-guest-buttons {
     flex-direction: column;
     gap: 21px;
     left: 105px;
     top: 375px;
   }
+
   .login-button {
     width: 177px;
   }
+
   .legal-notice {
     position: relative;
     top: 100px;
     right: -10px;
   }
-  .sign-up-p{
+
+  .sign-up-p {
     font-size: 19px;
   }
-  .sign-up-button{
+
+  .sign-up-button {
     font-size: 21px;
     width: 104px;
     height: 49px;

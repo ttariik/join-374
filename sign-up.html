@@ -1,73 +1,70 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./sign-up.css" />
-    <link rel="icon" href="./img/Capa2.png">
-    <title>Sign Up</title>
-  </head>
-  <body>
-    <div class="content-limitation">
-      <header>
-        <img class="logo" src="./img/logo.png" alt="" />
-        </div>
-      </header>
-    </div>
-    <div class="content-limitation">
-      <div class="container">
-        <h2>Sign Up</h2>
-        <a href="./index.html" target="_blank">
-        <img class="arrow-logo" src="./icons/arrow.png" alt="arrow-logo">
-        </a>
-        <div class="blue-line"></div>
-        <form>
-          <div class="input-fields">
-            <div class="email">
-              <input type="text" placeholder="Name" required />
-              <img class="person-icon" src="./img/person.png" alt="person-logo" />
-            </div>
-            <div class="email">
-                <input type="email" placeholder="Email" required />
-                <img class="email-icon" src="./icons/email.png" alt="email-logo" />
-              </div>
-            <div>
-              <input type="password" placeholder="Password" required />
-              <img
-                class="password-icon"
-                src="./icons/password.png"
-                alt="password-logo"
-              />
-            </div>
-            <div>
-                <input type="password" placeholder="Confirm Password" required />
-                <img
-                  class="confrim-password-logo"
-                  src="./icons/password.png"
-                  alt="confrim-password-logo"
-                />
-              </div>
-          </div>
-          <div class="checkbox-wrapper-29">
-            <label class="checkbox">
-              <input type="checkbox" class="checkbox__input" />
-              <span class="checkbox__label"></span>
-              <p class="checkbox-text">I accept the <a class="sign-up-a" href="./">Privacy policy</a></p>
-            </label>
-          </div>
-          <div class="login-guest-buttons">
-            <button class="sign-up-button-footer">Sign Up</button>
-          </div>
-        </form>
-      </div>
-    </div>
 
-    <footer>
-      <div class="legal-links">
-        <a href="/templates-html/privacy-log.html" target="_blank">Privacy Policy</a>
-        <a href="/templates-html/legal-notice-log.html" target="_blank">Legal notice</a>
-      </div>
-    </footer>
-    <script src="./db.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./sign-up.css" />
+  <link rel="icon" href="./img/Capa2.png">
+  <title>Sign Up</title>
+</head>
+
+<body>
+  <div class="content-limitation">
+    <header>
+      <img class="logo" src="./img/logo.png" alt="" />
+  </div>
+  </header>
+  </div>
+  <div class="content-limitation">
+    <div class="container">
+      <h2>Sign Up</h2>
+      <a href="./index.html" target="_blank">
+        <img class="arrow-logo" src="./icons/arrow.png" alt="arrow-logo">
+      </a>
+      <div class="blue-line"></div>
+      <form>
+        <div id="signUpMessage" class="messageDiv" style="display: none;"></div>
+        <div class="input-fields">
+
+          <div class="email">
+            <input id="rName" type="text" placeholder="Name" required />
+            <img class="person-icon" src="./img/person.png" alt="person-logo" />
+          </div>
+          <div class="email">
+            <input id="rEmail" type="email" placeholder="Email" required />
+            <img class="email-icon" src="./icons/email.png" alt="email-logo" />
+          </div>
+          <div>
+            <input id="rPassword" type="password" placeholder="Password" required />
+            <img class="password-icon" src="./icons/password.png" alt="password-logo" />
+          </div>
+          <div>
+            <input type="password" id="rConfirmPassword" placeholder="Confirm Password" required>
+            <img class="confrim-password-logo" src="./icons/password.png" alt="confrim-password-logo" />
+          </div>
+        </div>
+        <div class="checkbox-wrapper-29">
+          <label class="checkbox">
+            <input type="checkbox" class="checkbox__input" />
+            <span class="checkbox__label"></span>
+            <p class="checkbox-text">I accept the <a class="sign-up-a" href="./">Privacy policy</a></p>
+          </label>
+        </div>
+        <div class="login-guest-buttons">
+          <button id="submitSignUp" class="sign-up-button-footer">Sign Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <footer>
+    <div class="legal-links">
+      <a href="/templates-html/privacy-log.html" target="_blank">Privacy Policy</a>
+      <a href="/templates-html/legal-notice-log.html" target="_blank">Legal notice</a>
+    </div>
+  </footer>
+  <script src="./db.js"></script>
+  <script type="module" src="/scripts/SignUp-Auth.js"></script>
+</body>
+
 </html>
