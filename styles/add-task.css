@@ -60,7 +60,7 @@ label {
   border-radius: 10px;
   border: 1px solid #d1d1d1;
   padding: 12px 21px 12px 21px;
-  max-width: calc(100% - 42px);
+  max-width: calc(100% - 44px);
   width: 100%;
 }
 
@@ -294,7 +294,7 @@ select {
 
 .secondbox {
   max-width: 440px;
-  height: 416px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   gap: 59px;
@@ -426,21 +426,26 @@ select {
   gap: 16px;
 }
 
-@media (max-width: 1330px) {
-  form {
-    width: 90%;
+@media (max-width: 1370px) {
+  .wholebox {
+    max-width: 396px;
   }
-}
-
-@media (max-width: 1259px) {
   .test {
-    margin-top: 13px;
+    padding: 123px 10px 0px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    max-width: 396px;
+    width: 100%;
+  }
+  .add-task-headline {
+    width: 100%;
   }
   .test123 {
-    display: flex;
     height: 100vh;
+    display: flex;
     justify-content: center;
-    align-items: center;
   }
 
   .wholebox {
@@ -460,47 +465,40 @@ select {
   }
 }
 
-@media (max-width: 475px) {
+@media (max-width: 830px) {
+  .alignment2 {
+    gap: 20px;
+    flex-direction: column;
+  }
   .add-task-headline h1 {
-    font-size: 48px;
-    margin-bottom: 16px;
+    margin-bottom: unset;
   }
-
-  .test {
-    width: 90%;
-  }
-
-  .bt2 {
-    width: unset;
-    height: unset;
-    padding: 20px;
-    font-size: 16px;
-  }
-
-  form {
-    gap: 16px;
-  }
-
   .firstbox {
     height: unset;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .firsthalfbox {
+    gap: 10px;
   }
 
+  .secondhalfbox {
+    display: none;
+  }
+  .line {
+    display: none;
+  }
   textarea {
-    height: 80px;
-    margin-bottom: 16px;
+    height: 88px;
   }
-
+  form {
+    gap: 29px;
+  }
+  .bt1 {
+    display: none;
+  }
   .buttonsalignment_1 {
-    font-size: 14px;
-  }
-
-  .alignment2 {
-    gap: 16px;
-  }
-}
-
-@media (max-width: 390px) {
-  .test123 {
-    padding: 120px 0;
+    margin-top: unset;
   }
 }
