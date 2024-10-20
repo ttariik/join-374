@@ -436,6 +436,7 @@ select {
     width: 100%;
   }
   .add-task-headline {
+    max-width: 990px;
     width: 100%;
   }
   .test123 {
@@ -462,6 +463,9 @@ select {
 }
 
 @media (max-width: 830px) {
+  .add-task-headline {
+    max-width: 396px;
+  }
   .alignment2 {
     gap: 20px;
     flex-direction: column;
