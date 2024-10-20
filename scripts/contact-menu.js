@@ -48,15 +48,41 @@ function contactsmenutemplate(responsestoJson, index, displayedLetters, i) {
     <div class="lineseperator"></div>`;
     displayedLetters.add(firstletter);
   }
+
+  const color = getColorFromString(responsestoJson[index].name);
+
   return /*html*/ `
       ${title}
-  <div class="align" id="${index}"onclick="showcontacttemplate(id)">
-    <div class="badge">${responsestoJson[index].initials}</div><div class="secondpart"><div class="name">${responsestoJson[index].name}</div>
-    <div class="email">${responsestoJson[index].email}</div></div>
+  <div class="align" id="${index}" onclick="showcontacttemplate(id)">
+    <div class="badge" style="background-color: ${color};">
+      ${responsestoJson[index].initials}
+    </div>
+    <div class="secondpart">
+      <div class="name">${responsestoJson[index].name}</div>
+      <div class="email">${responsestoJson[index].email}</div>
+    </div>
   </div>
-  
   `;
 }
+
+function getColorFromString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let r = (hash >> 24) & 0xFF;
+  let g = (hash >> 16) & 0xFF;
+  let b = (hash >> 8) & 0xFF;
+
+  const lightnessFactor = 0.4;
+  r = Math.floor(r + (255 - r) * lightnessFactor);
+  g = Math.floor(g + (255 - g) * lightnessFactor);
+  b = Math.floor(b + (255 - b) * lightnessFactor);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 
 async function showcontacttemplate(index, id = 1) {
   document.getElementById("contacttemplate").style.display = "block";
