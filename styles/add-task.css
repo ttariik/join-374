@@ -426,17 +426,13 @@ select {
   gap: 16px;
 }
 
-@media (max-width: 1370px) {
-  .wholebox {
-    max-width: 396px;
-  }
+@media (max-width: 1329px) {
   .test {
     padding: 123px 10px 0px 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     align-items: center;
-    max-width: 396px;
     width: 100%;
   }
   .add-task-headline {
@@ -469,6 +465,9 @@ select {
   .alignment2 {
     gap: 20px;
     flex-direction: column;
+  }
+  .wholebox {
+    max-width: 396px;
   }
   .add-task-headline h1 {
     margin-bottom: unset;
