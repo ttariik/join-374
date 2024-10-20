@@ -3,6 +3,7 @@ const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 
 let selectedPriority = null;
+let subtasks = [];
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
@@ -26,6 +27,10 @@ function clearinputs() {
   document.getElementById("myform").reset();
 }
 
+function resetsubtaskinput() {
+  subtaskiconsreset();
+}
+
 function handleButtonClick(priority) {
   selectedPriority = priority;
 }
@@ -46,7 +51,6 @@ async function addtask(event) {
   let category = document.getElementById("Category").value;
   let subtask = document.getElementById("subtaskinput").value;
   let UserKeyArray = Object.keys(userResponse);
-  console.log(UserKeyArray);
 
   if (!selectedPriority) {
     alert("Please select a priority!");
@@ -66,7 +70,7 @@ async function addtask(event) {
     duedate: duedate,
     category: category,
     subtask: {
-      subtask: subtask,
+      subtask: subtasks,
       completed: false,
     },
   });
@@ -137,6 +141,7 @@ function addsubtask() {
   let subtaskinput1 = document.getElementById("subtaskinput").value;
   document.getElementById("subtasksbox").innerHTML +=
     subtaskstemplate(subtaskinput1);
+  subtasks.push(subtaskinput1);
   subtaskiconsreset();
 }
 
@@ -154,4 +159,42 @@ function subtaskstemplate(subtaskinput1) {
       <button class="d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
     </div>
   `;
+}
+
+async function showcontacts(id = 1) {
+  let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  let responsestoJson = await response.json();
+  responsestoJson = responsestoJson.filter(
+    (contact) => contact && contact.name
+  );
+  for (let index = 0; index < responsestoJson.length; index++) {
+    document.getElementById("asignment").innerHTML += contactstemplate(
+      responsestoJson,
+      index
+    );
+  }
+}
+
+function resetasignedtotemplate() {
+  return `<option
+                        disabled
+                        selected
+                        hidden
+                        id="placeholderinput"
+                        value="Select Contacts to asign"
+                      >
+                        Select Contacts to asign
+                      </option>`;
+}
+
+function contactstemplate(responsestoJson, index) {
+  return /*html*/ `
+  <option value=""><div>${responsestoJson[index].initials}<div> <div>${responsestoJson[index].name}</div></option>
+  `;
+}
+
+function filternumbers(input) {
+  let date = document.getElementById("date").value;
+  date = date.replace(/[^0-9:-]/g, "");
+  document.getElementById("date").value = date;
 }

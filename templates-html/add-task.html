@@ -47,17 +47,17 @@
                 <div class="selectbox">
                   <div><label>Assigned to</label></div>
                   <div>
-                    <select name="" id="asignment">
+                    <select name="" id="asignment" onclick="showcontacts()">
                       <option
-                        required
                         disabled
                         selected
                         hidden
+                        id="placeholderinput"
                         value="Select Contacts to asign"
                       >
                         Select Contacts to asign
                       </option>
-                      <option value="task1">task1</option>
+                      <option id="contactswindow" value="template"></option>
                     </select>
                   </div>
                 </div>
@@ -69,6 +69,7 @@
                     <div><label>Due date*</label></div>
                     <div class="emailinput">
                       <input
+                        oninput="filternumbers(this)"
                         required
                         class="emailinput2"
                         type="datetime"
@@ -138,7 +139,6 @@
                     <label>Subtasks</label>
                     <div class="subtaskcontainer">
                       <input
-                        required
                         onclick="subtaskchangeicons()"
                         type="text"
                         id="subtaskinput"
@@ -148,7 +148,12 @@
                       <button class="subtaskbutton" id="inputsubtask1">
                         <img src="/img/add.png" alt="" />
                       </button>
-                      <button class="subtaskbutton2 d-none" id="inputsubtask2">
+                      <button
+                        class="subtaskbutton2 d-none"
+                        onclick="resetsubtaskinput()"
+                        type="button"
+                        id="inputsubtask2"
+                      >
                         <img src="/img/Vector.png" alt="" />
                       </button>
                       <div class="seperateline d-none" id="seperate"></div>
@@ -160,7 +165,7 @@
                       >
                         <img src="/img/Subtasks icons11 (1).png" alt="" />
                       </button>
-                      <div id="subtasksbox" class="subtasksbox1"></div>
+                      <div id="subtasksbox" required class="subtasksbox1"></div>
                     </div>
                   </div>
                 </div>
