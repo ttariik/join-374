@@ -30,9 +30,14 @@ signUp.addEventListener('click', (event) => {
     event.preventDefault(); 
 
     const checkbox = document.getElementById('checkPrivacy');
+    const checkboxError = document.getElementById('checkboxError');
+
+  
     if (!checkbox.checked) {
-        alert('Please accept the privacy policy');
+        checkboxError.style.display = 'inline'; 
         return; 
+    } else {
+        checkboxError.style.display = 'none'; 
     }
 
     const email = document.getElementById('rEmail').value;

@@ -12,6 +12,7 @@
     margin: 0;
     padding: 0;
     background-color: #f6f7f8;
+    overflow-y: hidden;
   }
   
   .content-limitation {
@@ -313,7 +314,6 @@
     width: 100%;
     text-align: center;
     padding: 80px 0;
-    margin-top: auto;
   }
   
   footer a:hover {
@@ -332,7 +332,7 @@
     padding: 8px;
   }
 
-
+  
   
   .checkbox-text {
     color: #a8a8a8;

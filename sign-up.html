@@ -42,6 +42,7 @@
             <img class="confrim-password-logo" src="./icons/password.png" alt="confrim-password-logo" />
           </div>
         </div>
+
         <div class="checkbox-wrapper-29">
           <label class="checkbox">
             <input type="checkbox" id="checkPrivacy" class="checkbox__input" required />
@@ -50,7 +51,9 @@
               I accept the <a class="sign-up-a" href="./">Privacy policy</a>
             </p>
           </label>
+          <span id="checkboxError" style="display: none; color: red;">This field must be accepted!</span>
         </div>
+
         <div class="login-guest-buttons">
           <button id="submitSignUp" class="sign-up-button-footer" type="submit">Sign Up</button>
         </div>
@@ -58,12 +61,18 @@
       
     </div>
   </div>
+
   <footer>
     <div class="legal-links">
       <a href="/templates-html/privacy-log.html" target="_blank">Privacy Policy</a>
       <a href="/templates-html/legal-notice-log.html" target="_blank">Legal notice</a>
     </div>
   </footer>
+
+  </div>
+
+
+  
   <script src="./db.js"></script>
   <script type="module" src="/scripts/SignUp-Auth.js"></script>
 </body>
