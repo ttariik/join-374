@@ -42,7 +42,7 @@
         <div class="task-status">
           <div class="status-item">
             <span class="status-text">To Do</span>
-            <img class="status-item-png" src="/img/status-item.png" alt="" />
+            <img class="status-item-png" src="/img/status-item.png" alt="status-item" onclick="opentasktemplate()" style="cursor: pointer;"/>
           </div>
         </div>
 
@@ -51,7 +51,7 @@
         <div class="task-status">
           <div class="status-item">
             <span class="status-text">In progress</span>
-            <img class="status-item-png" src="/img/status-item.png" alt="" />
+            <img class="status-item-png" src="/img/status-item.png" alt="status-item" onclick="opentasktemplate()" style="cursor: pointer;"/>
           </div>
         </div>
 
@@ -60,7 +60,7 @@
         <div class="task-status">
           <div class="status-item">
             <span class="status-text">Await feedback</span>
-            <img class="status-item-png" src="/img/status-item.png" alt="" />
+            <img class="status-item-png" src="/img/status-item.png" alt="status-item" onclick="opentasktemplate()" style="cursor: pointer;"/>
           </div>
         </div>
 
@@ -121,7 +121,7 @@
     </div>
     <div w3-include-html="/templates-html/overlay.html"></div>
 
-    <script src="/scripts/board.js"></script>
+    <script src="/scripts/board.js" defer></script>
     <script>
       includeHTML();
     </script>
