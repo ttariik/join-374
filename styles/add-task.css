@@ -18,7 +18,7 @@ nav {
 .add-task-headline h1 {
   margin: 0;
   position: relative;
-  top: 139px;
+  top: 40px;
   left: 325px;
   display: flex;
   width: fit-content;
@@ -504,4 +504,43 @@ select {
   .buttonsalignment_1 {
     margin-top: unset;
   }
+}
+
+
+
+
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  margin-top: 45px;
+}
+
+input {
+  padding: 15px 20px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+input::placeholder {
+  color: #d1d1d1;
+  font-size: 16px;
+  line-height: 1.5;
+  padding-left: 3px;
+}
+
+input:focus {
+  border-color: #4caf50;
+  box-shadow: 0 0 8px rgba(38, 59, 153, 0.5);
+}
+
+input[type="text"] {
+  width: 420px;
+  height: 25px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

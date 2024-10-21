@@ -14,6 +14,7 @@
   <body onload="getUserTaskss()">
     <div w3-include-html="../navbar.html"></div>
 
+    
     <div class="test123">
       <div class="test">
         <div class="add-task-headline">
@@ -24,7 +25,9 @@
             <div class="alignment2">
               <div class="firstbox">
                 <div class="title2">
-                  <label>Title*</label>
+                  <div class="buttonsalignment_1">
+                    Title <span class="required-indicator">*</span>
+                  </div>
                   <input
                     id="title"
                     class="titleinput"
@@ -66,7 +69,9 @@
               <div class="secondbox">
                 <div class="firsthalfbox">
                   <div class="emailbox">
-                    <div><label>Due date*</label></div>
+                    <div class="buttonsalignment_1">
+                      Due Date <span class="required-indicator">*</span>
+                    </div>
                     <div class="emailinput">
                       <input
                         oninput="filternumbers(this)"
