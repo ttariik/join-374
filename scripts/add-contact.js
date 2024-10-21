@@ -10,9 +10,16 @@ async function addcontact(event) {
   let userResponse = await getAllUsers("users");
   let telefonename = document.getElementById("name").value;
   let nameParts = telefonename.trim().split(" ");
+  let initials = "";
   let firstname = nameParts[0].charAt(0).toUpperCase();
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
-  let initials = firstname + lastname;
+  if (firstname && lastname) {
+    let initials = firstname + lastname;
+    initialsarray.push(initials);
+  } else {
+    let initials = firstname;
+    initialsarray.push(initials);
+  }
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
   let UserKeyArray = Object.keys(userResponse);
@@ -34,7 +41,6 @@ async function addcontact(event) {
 
 async function firstlastnameletters(id) {
   let contacts = await getUserContacts(id);
-  console.log(contacts);
 }
 
 function emptyinputs() {
@@ -91,8 +97,13 @@ async function showinitials(id = 1) {
     let firstlastname = responsestoJson[index].name.trim().split(" ");
     let firstname = firstlastname[0].charAt(0).toUpperCase();
     let lastname = firstlastname[1].charAt(0).toUpperCase();
-    let initials = firstname + lastname;
-    initialsarray.push(initials);
+    if (firstname && lastname) {
+      let initials = firstname + lastname;
+      initialsarray.push(initials);
+    } else {
+      let initials = firstname;
+      initialsarray.push(initials);
+    }
   }
 }
 
