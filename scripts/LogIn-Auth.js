@@ -1,16 +1,17 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBd0pN6k7g1-JTajsrebcmW_E5uxomtV5M",
-    authDomain: "login-form-f8aa0.firebaseapp.com",
-    projectId: "login-form-f8aa0",
-    storageBucket: "login-form-f8aa0.appspot.com",
-    messagingSenderId: "606123084207",
-    appId: "1:606123084207:web:6d83a901d7d5637060475a",
-    measurementId: "G-DBXXGLYQHX"
-};
+    apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
+    authDomain: "join-backend-dd268.firebaseapp.com",
+    databaseURL: "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "join-backend-dd268",
+    storageBucket: "join-backend-dd268.appspot.com",
+    messagingSenderId: "399648374722",
+    appId: "1:399648374722:web:563373ff4a688596bba05b",
+    measurementId: "G-D3K960J8WM"
+  };
 
 function showMessage(message, divId) {
     var messageDiv = document.getElementById(divId);
