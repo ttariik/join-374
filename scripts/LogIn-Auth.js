@@ -34,23 +34,22 @@ signIn.addEventListener('click', (event) => {
     const db = getFirestore();
 
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        showMessage('Login is successful', 'signInMessage');
-        const user = userCredential.user;
-        localStorage.setItem('loggedInUserid', user.uid);
-        
-        setTimeout(() => {
-            window.location.href = '/templates-html/summary.html';
-        }, 2000);  
-    })
-    .catch((error) => {
-        console.error("Error during sign in:", error);
-        const errorCode = error.code;
-        if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
-            showMessage('Incorrect Email or Password', 'signInMessage');
-        } else {
-            showMessage('Incorrect Email or Password', 'signInMessage');
-        }
-    });
+        .then((userCredential) => {
+            const user = userCredential.user;
+            localStorage.setItem('loggedInUserId', user.uid);
+
+            setTimeout(() => {
+                window.location.href = '/templates-html/summary.html';
+            }, 2000);
+        })
+        .catch((error) => {
+            console.error("Error during sign in:", error);
+            const errorCode = error.code;
+            if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
+                showMessage('Incorrect Email or Password', 'signInMessage');
+            } else {
+                showMessage('Incorrect Email or Password', 'signInMessage');
+            }
+        });
 
 });

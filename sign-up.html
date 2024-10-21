@@ -26,7 +26,6 @@
       <form>
         <div id="signUpMessage" class="messageDiv" style="display: none;"></div>
         <div class="input-fields">
-
           <div class="email">
             <input id="rName" type="text" placeholder="Name" required />
             <img class="person-icon" src="./img/person.png" alt="person-logo" />
@@ -40,21 +39,24 @@
             <img class="password-icon" src="./icons/password.png" alt="password-logo" />
           </div>
           <div>
-            <input type="password" id="rConfirmPassword" placeholder="Confirm Password" required>
+            <input type="password" id="rConfirmPassword" placeholder="Confirm Password" required />
             <img class="confrim-password-logo" src="./icons/password.png" alt="confrim-password-logo" />
           </div>
         </div>
         <div class="checkbox-wrapper-29">
           <label class="checkbox">
-            <input type="checkbox" class="checkbox__input" />
+            <input type="checkbox" id="checkPrivacy" class="checkbox__input" required />
             <span class="checkbox__label"></span>
-            <p class="checkbox-text">I accept the <a class="sign-up-a" href="./">Privacy policy</a></p>
+            <p class="checkbox-text">
+              I accept the <a class="sign-up-a" href="./">Privacy policy</a>
+            </p>
           </label>
         </div>
         <div class="login-guest-buttons">
-          <button id="submitSignUp" class="sign-up-button-footer">Sign Up</button>
+          <button id="submitSignUp" class="sign-up-button-footer" type="submit">Sign Up</button>
         </div>
       </form>
+      
     </div>
   </div>
   <footer>

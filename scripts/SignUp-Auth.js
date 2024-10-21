@@ -26,16 +26,22 @@ const app = initializeApp(firebaseConfig);
 
 const signUp = document.getElementById('submitSignUp');
 signUp.addEventListener('click', (event) => {
-    event.preventDefault();
+    event.preventDefault(); 
+
+    const checkbox = document.getElementById('checkPrivacy');
+    if (!checkbox.checked) {
+        alert('Please accept the privacy policy');
+        return; 
+    }
+
     const email = document.getElementById('rEmail').value;
     const password = document.getElementById('rPassword').value;
-    const confirmPassword = document.getElementById('rConfirmPassword').value;  // Bestätigungsfeld
+    const confirmPassword = document.getElementById('rConfirmPassword').value;
     const name = document.getElementById('rName').value;
 
-    // Überprüfen, ob das Passwort mit dem Bestätigungspasswort übereinstimmt
     if (password !== confirmPassword) {
         showMessage('Passwords do not match', 'signUpMessage');
-        return;  // Registrierung abbrechen
+        return;  
     }
 
     const auth = getAuth();
@@ -51,16 +57,16 @@ signUp.addEventListener('click', (event) => {
             showMessage('Account Created Successfully', 'signUpMessage');
             const docRef = doc(db, "users", user.uid);
             setDoc(docRef, userData)
-            .then(() => {
-                showMessage('Account Created Successfully', 'signUpMessage');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000); 
-            })
-            .catch((error) => {
-                console.error("Error writing document", error);
-            });
-        
+                .then(() => {
+                    showMessage('Account Created Successfully', 'signUpMessage');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 2000);
+                })
+                .catch((error) => {
+                    console.error("Error writing document", error);
+                });
+
         })
         .catch((error) => {
             const errorCode = error.code;
