@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBd0pN6k7g1-JTajsrebcmW_E5uxomtV5M",
@@ -39,7 +39,7 @@ signIn.addEventListener('click', (event) => {
 
             setTimeout(() => {
                 window.location.href = '/templates-html/summary.html';
-            }, 2000);
+            }, 1000);
         })
         .catch((error) => {
             console.error("Error during sign in:", error);

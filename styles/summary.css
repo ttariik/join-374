@@ -207,7 +207,7 @@ h1 {
 .welcome {
     display: flex;
     justify-content: center;
-    align-items: center;
+    flex-direction: column;
 }
 
 .welcome {
