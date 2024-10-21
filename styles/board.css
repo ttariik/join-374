@@ -164,20 +164,22 @@
   /*  */
   
   .drag-drop-content{
-    margin-left: 280px;
+    margin-left: 260px;
     display: flex;
-    justify-content: space-around;
+    max-width: 100%;
+    width: 1440px;
   }
   
   
   .folder {
-    width: 330px;
+    width: 200px;
     min-height: 300px;
     margin: 10px;
     padding: 10px;
     text-align: center;
     display: inline-block;
     vertical-align: top;
+    margin-right: 80px;
   }
   
   .task {
