@@ -33,7 +33,6 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-
 document.addEventListener('DOMContentLoaded', function () {
 
   const todoCount = localStorage.getItem('todoCount') || 0;

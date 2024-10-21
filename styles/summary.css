@@ -236,18 +236,9 @@ h1 {
     height: 69px;
 }
 
-@media (max-width:1300px) {
 
-    .summary-all {
-        left: 280px;
-    }
 
-    .summary-headline {
-        left: 280px;
-    }
-}
-
-@media (max-width:1259px) {
+@media (max-width:1325px) {
 
     .summary-all {
         position: unset;

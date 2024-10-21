@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   width: 232px;
-  height: 100vh;
+  height: 100%;
   background-color: #2a3647;
   position: fixed;
 }
