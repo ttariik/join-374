@@ -30,7 +30,6 @@ signIn.addEventListener('click', (event) => {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const auth = getAuth();
-
     const db = getFirestore();
 
     signInWithEmailAndPassword(auth, email, password)
@@ -45,11 +44,13 @@ signIn.addEventListener('click', (event) => {
         .catch((error) => {
             console.error("Error during sign in:", error);
             const errorCode = error.code;
-            if (errorCode === 'auth/wrong-password' || errorCode === 'auth/user-not-found') {
-                showMessage('Incorrect Email or Password', 'signInMessage');
-            } else {
-                showMessage('Incorrect Email or Password', 'signInMessage');
-            }
+            showMessage('Incorrect Email or Password', 'signInMessage');
         });
+});
 
+const guestLogin = document.getElementById('guestLogin');
+guestLogin.addEventListener('click', (event) => {
+    event.preventDefault();
+    localStorage.setItem('loggedInUserId', 'guest');
+    window.location.href = '/templates-html/summary.html';
 });
