@@ -14,24 +14,29 @@
 }
 
 .user-initials {
-  width: 60px; /* Breite des Kreises */
-  height: 60px; /* Höhe des Kreises */
-  background-color: #555; /* Farbe des Kreises */
-  color: white; /* Textfarbe */
+  width: 56px;
+  height: 56px;
+  background-color: white;
+  color: rgb(41,171,226);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%; /* Kreisform */
-  font-weight: bold; /* Fettdruck */
+  border: solid 3px #2A3647 ;
+  border-radius: 50%; 
+  font-weight: bold;
   text-transform: uppercase; /* Buchstaben großschreiben */
-  font-size: 1.2em; /* Schriftgröße */
+  font-size: 24px;
+  cursor: pointer;
 }
 
+.user-initials:hover {
+  background-color: rgba(128, 128, 128, 0.226);
+}
 
 .profileSection {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 16px;
 }
 
 .menu-nav-bar {
