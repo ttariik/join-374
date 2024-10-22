@@ -10,7 +10,7 @@
   </head>
   <body>
     <div id="overlay" class="overlay">
-      <div class="boxtemplate">
+      <div class="boxtemplates">
         <div class="task-header">
           <h1>Add Task</h1>
           <button onclick="closeaddtasktemplate()" class="close-btn">
@@ -36,7 +36,6 @@
                     <textarea
                       id="description"
                       name="Enter a Description"
-                      id=""
                     ></textarea>
                   </div>
                 </div>
@@ -48,9 +47,9 @@
                         disabled
                         selected
                         hidden
-                        value="Select Contacts to asign"
+                        value="Select Contacts to assign"
                       >
-                        Select Contacts to asign
+                        Select Contacts to assign
                       </option>
                     </select>
                   </div>
@@ -64,7 +63,7 @@
                     <div class="emailinput">
                       <input
                         class="emailinput2"
-                        type="datetime"
+                        type="datetime-local"
                         name="date"
                         id="date"
                         placeholder="dd/mm/yyyy"
@@ -73,7 +72,7 @@
                     </div>
                   </div>
                   <div class="buttons">
-                    <label>Prio</label>
+                    <label>Priority</label>
                     <div class="buttons2">
                       <div class="button-container">
                         <button
@@ -143,14 +142,11 @@
                 <span class="required-indicator">*</span>This field is required
               </div>
               <div class="buttonsalignment_2">
-                <button
-                  type="button"
-                  class="bt1"
-                  onclick="closeaddtasktemplate()"
-                >
+                <button type="button" class="bt1" onclick="hideTemplate()">
                   <span class="button-word-clear">Cancel</span>
-                  <img src="../img/Vector.png" alt="" /></button
-                ><button onclick="" disabled class="bt2">
+                  <img src="../img/Vector.png" alt="" />
+                </button>
+                <button onclick="" disabled class="bt2">
                   <span class="button-word-create">Create Task</span>
                   <img src="../img/check.png" alt="" />
                 </button>

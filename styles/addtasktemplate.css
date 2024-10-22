@@ -72,7 +72,7 @@ h1 {
   color: red;
 }
 
-.boxtemplate {
+.boxtemplates {
   border: 1px solid;
   border-radius: 30px;
   width: 1116px;
@@ -365,7 +365,7 @@ select {
   font-weight: 700;
 }
 
-@media (max-width: 1357px) {
+@media (max-height: 1357px) {
   .wholebox {
     top: 0;
     max-width: 440px;
