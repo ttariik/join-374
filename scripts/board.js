@@ -92,12 +92,19 @@ async function loadtasks(id = 1) {
         index
       );
     }
+    if (responsestoJson[index].category === "Technical Task") {
+      document.getElementById("article").innerHTML += Technicaltasktemplate(
+        responsestoJson,
+        index
+      );
+    }
   }
 }
 
 function userstorytemplate(responsestoJson, index) {
   return /*html*/ `
-  <div class="user-container">
+  <div class="user-container task"  draggable="true"
+  ondragstart="drag(event)"             id="task1">
   <div class="task-details">
     <span>${responsestoJson[index].category}</span>
   </div>
