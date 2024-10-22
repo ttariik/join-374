@@ -24,8 +24,10 @@
             <div class="alignment2">
               <div class="firstbox">
                 <div class="title2">
+                  <div class="input-fields">
                   <div class="buttonsalignment_1">
-                    Title <span class="required-indicator">*</span>
+                    <p class="titleAddTask">Title</p>
+                    <span class="required-indicator">*</span>
                   </div>
                   <input
                     id="title"
@@ -35,8 +37,15 @@
                     required
                   />
                 </div>
+              </div>
+
+
+              
+
                 <div class="descriptioninput">
-                  <div><label>Description</label></div>
+                  <div class="descriptionText">
+                   <p>Description</p>
+                  </div>
                   <div>
                     <textarea
                       id="description"
@@ -46,6 +55,9 @@
                     ></textarea>
                   </div>
                 </div>
+
+
+
                 <div class="selectbox">
                   <div><label>Assigned to</label></div>
                   <div>
@@ -195,6 +207,5 @@
       includeHTML();
     </script>
     <script type="module" src="/scripts/navbar.js"></script>
-
   </body>
 </html>
