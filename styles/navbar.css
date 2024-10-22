@@ -13,6 +13,27 @@
   padding: 64px 0;
 }
 
+.user-initials {
+  width: 60px; /* Breite des Kreises */
+  height: 60px; /* Höhe des Kreises */
+  background-color: #555; /* Farbe des Kreises */
+  color: white; /* Textfarbe */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Kreisform */
+  font-weight: bold; /* Fettdruck */
+  text-transform: uppercase; /* Buchstaben großschreiben */
+  font-size: 1.2em; /* Schriftgröße */
+}
+
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
 .menu-nav-bar {
   display: flex;
   flex-direction: column;
