@@ -146,71 +146,13 @@ function Technicaltasktemplate(responsestoJson, index) {
   `;
 }
 
-function opentechnicaltemplate() {
-  const template = document.getElementById("showtemplates");
-  const file = "/templates-html/techinical-task-template.html";
-
-  if (!document.getElementById("techinical-task-template")) {
-    const link = document.createElement("link");
-    link.id = "techinical-task-template";
-    link.rel = "stylesheet";
-    link.href = "/styles/techinical-task-template.css";
-    document.head.appendChild(link);
-
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-      if (this.status === 200) {
-        template.innerHTML = this.responseText;
-      } else {
-        template.innerHTML = "Error loading template: Page not found.";
-      }
-    };
-    xhttp.open("GET", file, true);
-    xhttp.send();
-  }
-  edit;
-}
-
-function showTemplate() {
-  const template = document.getElementById("template");
-  const file = "/templates-html/overlay.html";
-
-  if (!document.getElementById("addtasktemplate")) {
-    const link = document.createElement("link");
-    link.id = "addtasktemplate";
-    link.rel = "stylesheet";
-    link.href = "/styles/addtasktemplate.css";
-    document.head.appendChild(link);
-
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-      if (this.status === 200) {
-        template.innerHTML = this.responseText;
-      } else {
-        template.innerHTML = "Error loading template: Page not found.";
-      }
-    };
-    xhttp.open("GET", file, true);
-    xhttp.send();
-  }
-  opentasktemplate();
-}
-
-function hideTemplate() {
-  const template = document.getElementById("template");
-  template.innerHTML = "";
-}
-
 function opentasktemplate() {
-  document.querySelector(".overlay").style.display = "flex";
+  document.querySelector(".overlays").style.display = "flex";
   setTimeout(() => {
-    document.querySelector(".overlay").style.transform = "translateX(0%)";
+    document.querySelector(".overlays").style.transform = "translateX(0%)";
   }, 10);
 }
 
 function closeaddtasktemplate() {
-  document.querySelector(".overlay").style.transform = "translateX(126%)";
-  setTimeout(() => {
-    hideTemplate();
-  }, 10);
+  document.querySelector(".overlays").style.transform = "translateX(126%)";
 }

@@ -28,7 +28,7 @@
               <span class="separator"></span>
               <img class="search-icon" src="/img/search.png" alt="" />
             </div>
-            <button class="task-button" onclick="showTemplate()">
+            <button class="task-button" onclick="opentasktemplate()">
               <div class="button-items">
                 <span class="button-text">Add Task</span>
                 <img class="button-image" src="/img/plus.png" alt="add-logo" />
@@ -118,13 +118,12 @@
         ondragover="allowDrop(event)"
       ></div>
     </div>
-    <div id="template"></div>
-    <div id="showtemplates"></div>
+
+    <div w3-include-html="/templates-html/overlay.html"></div>
     <script src="/scripts/board.js" defer></script>
     <script>
       includeHTML();
     </script>
     <script type="module" src="/scripts/navbar.js"></script>
-
   </body>
 </html>

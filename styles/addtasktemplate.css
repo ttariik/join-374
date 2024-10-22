@@ -35,7 +35,7 @@ h1 {
   width: 100%;
 }
 
-.overlay {
+.overlays {
   display: none;
   justify-content: center;
   align-items: center;
@@ -365,7 +365,7 @@ select {
   font-weight: 700;
 }
 
-@media (max-height: 1357px) {
+@media (max-width: 1357px) {
   .wholebox {
     top: 0;
     max-width: 440px;
