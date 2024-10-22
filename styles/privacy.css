@@ -54,6 +54,10 @@
     pointer-events: none !important;
 }
 
+#profileUser {
+    display: none;
+}
+
 @media (max-width:1259px) {
 
     .privacy-container {

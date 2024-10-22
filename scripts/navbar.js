@@ -1,9 +1,8 @@
-// Firebase imports
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-// Firebase-Konfiguration
+
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
     authDomain: "join-backend-dd268.firebaseapp.com",
@@ -15,15 +14,15 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-// Firebase App initialisieren
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Benutzerdaten aus Firebase holen
+
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        const userDocRef = doc(db, "users", user.uid);  // Hier die UID verwenden, die im Firestore gespeichert ist
+        const userDocRef = doc(db, "users", user.uid);
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
@@ -44,15 +43,15 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// Funktion zum Erstellen der Initialen aus dem Namen
+
 function getInitials(name) {
-    const nameParts = name.split(' '); 
+    const nameParts = name.split(' ');
     const firstInitial = nameParts[0].charAt(0);
-    const lastInitial = nameParts.length > 1 ? nameParts[1].charAt(0) : ''; 
-    return firstInitial + lastInitial; 
+    const lastInitial = nameParts.length > 1 ? nameParts[1].charAt(0) : '';
+    return firstInitial + lastInitial;
 }
 
-// Funktion zum Anzeigen der Initialen in der Navbar
+
 function displayUserInitials(initials) {
     const initialsElement = document.getElementById('user-initials');
     if (initialsElement) {
