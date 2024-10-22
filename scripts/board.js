@@ -109,10 +109,10 @@ function userstorytemplate(responsestoJson, index) {
         <div class="progressbar">
           <div class="progressbar-inside"></div>
         </div>
-        <div class="subtask-info"><span>${responsestoJson[index].subtask}/2 Subtasks</span></div>
+        <div class="subtask-info"><span>${responsestoJson[index].subtask.subtask.length}/${responsestoJson[index].subtask.subtask.length} Subtasks</span></div>
         
     </div>
-    <div class="asignbox">
+    <div class="asignbox badge">
           ${responsestoJson[index].initials} <img src="/img/${responsestoJson[index].prio}.png" alt=""> 
         </div>
 </div>
