@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="/styles/add-task.css" />
     <script src="../script.js"></script>
     <script src="../scripts/add-task.js"></script>
-    <script src="/scripts/contact-menu.js"></script>
   </head>
   <body onload="getUserTaskss()">
     <div w3-include-html="../navbar.html"></div>
@@ -26,26 +25,23 @@
               <div class="firstbox">
                 <div class="title2">
                   <div class="input-fields">
-                  <div class="buttonsalignment_1">
-                    <p class="titleAddTask">Title</p>
-                    <span class="required-indicator">*</span>
+                    <div class="buttonsalignment_1">
+                      <p class="titleAddTask">Title</p>
+                      <span class="required-indicator">*</span>
+                    </div>
+                    <input
+                      id="title"
+                      class="titleinput"
+                      placeholder="Enter a title"
+                      type="text"
+                      required
+                    />
                   </div>
-                  <input
-                    id="title"
-                    class="titleinput"
-                    placeholder="Enter a title"
-                    type="text"
-                    required
-                  />
                 </div>
-              </div>
-
-
-              
 
                 <div class="descriptioninput">
                   <div class="descriptionText">
-                   <p>Description</p>
+                    <p>Description</p>
                   </div>
                   <div>
                     <textarea
@@ -56,8 +52,6 @@
                     ></textarea>
                   </div>
                 </div>
-
-
 
                 <div class="selectbox">
                   <div><label>Assigned to</label></div>

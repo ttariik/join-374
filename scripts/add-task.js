@@ -168,13 +168,16 @@ async function showcontacts(id = 1) {
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
 
+  // Filter valid contacts with names
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
 
+  // Reset the select element before appending new options
   document.getElementById("asignment").innerHTML = resetasignedtotemplate();
 
   for (let index = 0; index < responsestoJson.length; index++) {
+    // Add each contact to the select dropdown
     document.getElementById("asignment").innerHTML += contactstemplate(
       responsestoJson,
       index
@@ -185,6 +188,7 @@ async function showcontacts(id = 1) {
   }
 }
 
+// Function to reset the select template
 function resetasignedtotemplate() {
   return `<option
             disabled
@@ -197,6 +201,7 @@ function resetasignedtotemplate() {
           </option>`;
 }
 
+// Function to generate contact options for the dropdown
 function contactstemplate(responsestoJson, index) {
   return /*html*/ `
     <option onclick="showid(${index})" value="${responsestoJson[index].initials} ${responsestoJson[index].name}"> ${responsestoJson[index].initials} ${responsestoJson[index].name}</option>
@@ -209,6 +214,6 @@ function filternumbers(input) {
   document.getElementById("date").value = date;
 }
 
-function showid(index, responsestoJson) {
-  initialsarra.push(initials);
+function showid(index) {
+  console.log(index);
 }

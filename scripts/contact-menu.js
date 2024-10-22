@@ -104,11 +104,11 @@ async function showcontacttemplate(index, id = 1) {
 }
 
 function resetclick(index, id) {
-  document.getElementById("contacttemplate").style.display = "none";
+  document.getElementById("contacttemplate").style =
+    "transform: translateX(250%);";
   setTimeout(() => {
-    document.getElementById("contacttemplate").style =
-      "transform: translateX(250%);";
-  }, 10);
+    document.getElementById("contacttemplate").style.display = "none";
+  }, 100);
   document.getElementById(`${index}`).onclick = () =>
     showcontacttemplate(index, id);
 }
