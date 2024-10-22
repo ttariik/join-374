@@ -13,6 +13,77 @@
   padding: 64px 0;
 }
 
+.user-initials {
+  width: 56px;
+  height: 56px;
+  background-color: white;
+  color: rgb(41, 171, 226);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid 3px #2A3647;
+  border-radius: 50%;
+  font-weight: bold;
+  text-transform: uppercase; 
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.user-initials:hover {
+  background-color: rgba(128, 128, 128, 0.226);
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative; 
+  margin-right: 40px;
+}
+
+.dropdown-menu {
+  display: none; 
+  position: absolute; 
+  top: 100%; 
+  left: 0; 
+  margin-top: 18px;
+  height: 150px;
+  width: 150px;
+  background-color: #2A3647;
+  border: solid 1px #2A3647;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 100; 
+  border-radius: 20px  0 20px 20px ;
+}
+
+.dropdown-menu a {
+  color: #CDCDCD;
+  margin: 3px auto;
+  width: 120px;
+  height: 46px;
+  font-size: 16px;
+  display: block; 
+  text-decoration: none; 
+}
+
+.dropdown-menu a:hover {
+  background-color: #2a3d59;
+  transition: 0.4s;
+}
+
+.dropdown-links a{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.dropdown-menu a:hover {
+  background-color: #2a3d59;
+  transition: 0.4s;
+}
+
 .menu-nav-bar {
   display: flex;
   flex-direction: column;

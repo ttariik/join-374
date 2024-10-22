@@ -1,13 +1,10 @@
 function includeHTML() {
   var z, i, elmnt, file, xhttp;
-  /* Loop through a collection of all HTML elements: */
   z = document.getElementsByTagName("*");
   for (i = 0; i < z.length; i++) {
     elmnt = z[i];
-    /*search for elements with a certain atrribute:*/
     file = elmnt.getAttribute("w3-include-html");
     if (file) {
-      /* Make an HTTP request using the attribute value as the file name: */
       xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
@@ -17,14 +14,12 @@ function includeHTML() {
           if (this.status == 404) {
             elmnt.innerHTML = "Page not found.";
           }
-          /* Remove the attribute, and call this function once more: */
           elmnt.removeAttribute("w3-include-html");
           includeHTML();
         }
       };
       xhttp.open("GET", file, true);
       xhttp.send();
-      /* Exit the function: */
       return;
     }
   }
@@ -34,26 +29,44 @@ function includeHTML() {
 function reloadLastPage() {
   const lastVisitedPage = localStorage.getItem('lastVisitedPage');
   if (lastVisitedPage) {
-    window.location.href = lastVisitedPage; // Seite neu laden
+    window.location.href = lastVisitedPage; 
   } else {
     alert("Keine letzte Seite gefunden.");
   }
 }
 
-// Speichern der aktuellen URL in localStorage, wenn die Seite gewechselt wird
+
 window.addEventListener('beforeunload', function () {
   const currentUrl = window.location.href;
   localStorage.setItem('lastVisitedPage', currentUrl);
 });
 
-// Warten, bis das DOM vollständig geladen ist
+
 document.addEventListener('DOMContentLoaded', function () {
   const reloadButton = document.getElementById('reloadLastPage');
 
-  // Überprüfen, ob das Element existiert, bevor wir den Event-Listener setzen
+
   if (reloadButton) {
-    reloadButton.onclick = reloadLastPage; // Event-Listener nur setzen, wenn der Button existiert
+    reloadButton.onclick = reloadLastPage; 
   }
 });
+
+
+function toggleDropdown() {
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+}
+
+window.onclick = function (event) {
+  if (!event.target.matches('.user-initials')) {
+    const dropdowns = document.getElementsByClassName('dropdown-menu');
+    for (let i = 0; i < dropdowns.length; i++) {
+      const openDropdown = dropdowns[i];
+      if (openDropdown.style.display === 'block') {
+        openDropdown.style.display = 'none';
+      }
+    }
+  }
+};
 
 

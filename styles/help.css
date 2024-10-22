@@ -72,6 +72,10 @@
     font-family: 'PT-sans-bold';
 }
 
+.help-icon {
+    display: none;
+}
+
 @media (max-width:1259px) {
 
     .help-container {
