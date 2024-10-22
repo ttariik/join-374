@@ -10,14 +10,13 @@ async function addcontact(event) {
   let userResponse = await getAllUsers("users");
   let telefonename = document.getElementById("name").value;
   let nameParts = telefonename.trim().split(" ");
-  let initials = "";
   let firstname = nameParts[0].charAt(0).toUpperCase();
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
   if (firstname && lastname) {
-    let initials = firstname + lastname;
+    initials = firstname + lastname;
     initialsarray.push(initials);
   } else {
-    let initials = firstname;
+    initials = firstname;
     initialsarray.push(initials);
   }
   let email = document.getElementById("emailarea").value;
@@ -98,12 +97,11 @@ async function showinitials(id = 1) {
     let firstname = firstlastname[0].charAt(0).toUpperCase();
     let lastname = firstlastname[1].charAt(0).toUpperCase();
     if (firstname && lastname) {
-      let initials = firstname + lastname;
-      initialsarray.push(initials);
+      initials = firstname + lastname;
     } else {
-      let initials = firstname;
-      initialsarray.push(initials);
+      initials = firstname;
     }
+    initialsarray.push(initials);
   }
 }
 

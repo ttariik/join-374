@@ -49,9 +49,9 @@ async function addtask(event) {
   let asignedto = document.getElementById("asignment").value;
   let duedate = document.getElementById("date").value;
   let category = document.getElementById("Category").value;
-  let subtask = document.getElementById("subtaskinput").value;
-  let UserKeyArray = Object.keys(userResponse);
 
+  let UserKeyArray = Object.keys(userResponse);
+  let initials = initialsarray;
   if (!selectedPriority) {
     alert("Please select a priority!");
     return;
@@ -73,6 +73,7 @@ async function addtask(event) {
       subtask: subtasks,
       completed: false,
     },
+    initials: initials,
   });
   emptyinputs();
 }
