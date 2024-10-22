@@ -29,7 +29,7 @@ nav {
 
 .wholebox {
   position: relative;
-  top: 140px;
+  top: 50px;
   left: 325px;
   display: flex;
   max-width: 990px;
@@ -417,7 +417,7 @@ select {
 }
 
 .buttonsalignment_1 span {
-  color: red;
+color:   #FF8190;
   font-size: 28px;
 }
 
@@ -524,23 +524,42 @@ input {
   line-height: 1.5;
 }
 
+textarea{
+  padding: 15px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 input::placeholder {
   color: #d1d1d1;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.5;
   padding-left: 3px;
 }
 
-input:focus {
-  border-color: #4caf50;
+input:focus, textarea:focus{
   box-shadow: 0 0 8px rgba(38, 59, 153, 0.5);
 }
 
 input[type="text"] {
   width: 420px;
-  height: 25px;
   border-radius: 10px;
   border: 1px solid #d1d1d1;
-  margin-top: 10px;
-  margin-bottom: 20px;
 }
+
+.titleAddTask{
+  font-size: 20px;
+}
+
+.descriptionText{
+  font-size: 20px;
+  padding-top: 50px;
+}
+
+textarea::placeholder{
+  font-size: 20px;
+  color: #D1D1D1;
+}
+
