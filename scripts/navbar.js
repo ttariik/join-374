@@ -23,18 +23,15 @@ const db = getFirestore(app);
 // Benutzerdaten aus Firebase holen
 onAuthStateChanged(auth, async (user) => {
     if (user) {
-        console.log('Benutzer eingeloggt:', user);
         const userDocRef = doc(db, "users", user.uid);  // Hier die UID verwenden, die im Firestore gespeichert ist
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
             const userData = userDoc.data();
-            console.log('Benutzerdaten:', userData); // Überprüfen, ob die Benutzerdaten abgerufen werden
             const name = userData.name;
 
             if (name) {
                 const initials = getInitials(name);
-                console.log('Initialen:', initials); // Überprüfen, ob die Initialen korrekt generiert werden
                 displayUserInitials(initials);
             } else {
                 console.log('Kein Name im Firestore-Dokument vorhanden.');
