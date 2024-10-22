@@ -160,7 +160,6 @@
   width: 100%;
   height: 96px;
   background-color: rgb(255, 255, 255);
-  margin-right: 20px;
   box-shadow: rgba(33, 35, 38, 0.4) 0px 10px 10px -10px;
 }
 
@@ -178,16 +177,6 @@
 
 .help-icon:hover {
   scale: 1.25;
-}
-
-.head-bar-responsiv {
-  display: none;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  box-shadow: rgba(33, 35, 38, 0.4) 0px 10px 10px -10px;
-  z-index: 1;
-  background-color: white;
 }
 
 .head-bar-img {
@@ -250,6 +239,10 @@
 
   .head-bar-img {
     display: block;
+  }
+
+  .head-bar {
+    position: fixed;
   }
 
   .nav-bar-responsive-wrapper {
