@@ -86,17 +86,46 @@ async function loadtasks(id = 1) {
       task.title
   );
   for (let index = 0; index < responsestoJson.length; index++) {
-    if (responsestoJson[index].category === "Technical Task")
-      document.getElementById("todo-folder").innerHTML += Technicaltasktemplate(
+    if (responsestoJson[index].category === "User Story") {
+      document.getElementById("article").innerHTML += userstorytemplate(
         responsestoJson,
         index
       );
+    }
   }
+}
+
+function userstorytemplate(responsestoJson, index) {
+  return /*html*/ `
+  <div class="user-container">
+  <div class="task-details">
+    <span>${responsestoJson[index].category}</span>
+  </div>
+  <div class="titlecontainer">
+    <div class="section-one">${responsestoJson[index].title}</div>
+    <div class="section-two">${responsestoJson[index].description}</div>
+   </div>
+   <div class="outsidebox">
+        <div class="progressbar">
+          <div class="progressbar-inside"></div>
+        </div>
+        <div class="subtask-info"><span>${responsestoJson[index].subtask}/2 Subtasks</span></div>
+        
+    </div>
+    <div class="asignbox">
+          ${responsestoJson[index].initials} <img src="/img/${responsestoJson[index].prio}.png" alt=""> 
+        </div>
+</div>
+
+  `;
 }
 
 function Technicaltasktemplate(responsestoJson, index) {
   return /*html*/ `
-<div class="task-container" onclick="opentechnicaltemplate(${index})">
+<div class="task-container task" 
+            draggable="true"
+            ondragstart="drag(event)"             id="task1"
+            onclick="opentechnicaltemplate(${index})">
   <div class="task-category">
     <span class="task-category-name">${responsestoJson[index].category}</span>
   </div>
@@ -108,8 +137,9 @@ function Technicaltasktemplate(responsestoJson, index) {
       ${responsestoJson[index].description}
    </div>
   </div>
-  <div class="task-status">
-    ${responsestoJson[index].initials} ${responsestoJson[index].prio}
+  <div class="task-statuss">
+    ${responsestoJson[index].initials} <img src="/img/${responsestoJson[index].prio}.png" alt="" />
+
   </div>
 </div>
 

@@ -20,7 +20,6 @@ async function showcontacts(id = 1) {
     (contact) => contact && contact.name
   );
   let displayedLetters = new Set();
-  console.log(responsestoJson);
 
   responsestoJson.sort((a, b) => {
     const nameA = a.name.toLowerCase();
