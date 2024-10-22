@@ -239,12 +239,12 @@
     display: none;
   }
 
-  .head-bar {
+  .head-bar-slogan {
     display: none;
   }
 
   .head-bar-responsiv {
-    display: block;
+    display: flex;
     position: fixed;
   }
 
