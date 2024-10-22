@@ -31,6 +31,7 @@ async function showcontacts(id = 1) {
   });
 
   for (let index = 0; index < responsestoJson.length; index++) {
+    document.getElementById("contactmenu").innerHTML = "";
     document.getElementById("contactmenu").innerHTML += contactsmenutemplate(
       responsestoJson,
       index,

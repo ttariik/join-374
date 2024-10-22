@@ -105,7 +105,7 @@ function userstorytemplate(responsestoJson, index) {
   return /*html*/ `
   <div class="user-container task"  draggable="true"
   ondragstart="drag(event)"             id="task1">
-  <div class="task-details">
+  <div class="task-detailss">
     <span>${responsestoJson[index].category}</span>
   </div>
   <div class="titlecontainer">

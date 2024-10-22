@@ -68,10 +68,10 @@ async function addtask(event) {
     prio: selectedPriority,
     duedate: duedate,
     category: category,
-    subtask: {
-      subtask: subtasks,
+    subtask: subtasks.map((subtask) => ({
+      subtask: subtask,
       completed: false,
-    },
+    })),
     initials: initialsarra,
   });
   emptyinputs();

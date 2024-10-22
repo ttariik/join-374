@@ -73,10 +73,10 @@ body {
 }
 
 .boxalignment {
-  margin: 50px auto 0 auto;
+  margin: 50px 219px 0 269px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100% - 896px);
 }
 
 .contact-content-wrapper {
@@ -222,4 +222,15 @@ body {
 .contact-list-section::-webkit-scrollbar-thumb {
   background-color: #d4aa70;
   border-radius: 100px;
+}
+
+@media (max-width: 1325px) {
+  .boxalignment {
+    display: none;
+  }
+  .contact-menu-wrapper {
+    top: 0;
+    left: 0;
+    margin: 96px auto 96px auto;
+  }
 }
