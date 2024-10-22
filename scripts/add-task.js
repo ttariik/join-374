@@ -4,6 +4,7 @@ const GLOBAL =
 
 let selectedPriority = null;
 let subtasks = [];
+let initialsarra = [];
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
@@ -49,9 +50,7 @@ async function addtask(event) {
   let asignedto = document.getElementById("asignment").value;
   let duedate = document.getElementById("date").value;
   let category = document.getElementById("Category").value;
-
   let UserKeyArray = Object.keys(userResponse);
-  let initials = initialsarray;
   if (!selectedPriority) {
     alert("Please select a priority!");
     return;
@@ -73,10 +72,12 @@ async function addtask(event) {
       subtask: subtasks,
       completed: false,
     },
-    initials: initials,
+    initials: initialsarra,
   });
   emptyinputs();
 }
+
+function maketheinitials() {}
 
 function emptyinputs() {
   let form = document.querySelector("form");
@@ -163,34 +164,42 @@ function subtaskstemplate(subtaskinput1) {
 }
 
 async function showcontacts(id = 1) {
+  document.getElementById("asignment").onclick = "";
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
+
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
+
+  document.getElementById("asignment").innerHTML = resetasignedtotemplate();
+
   for (let index = 0; index < responsestoJson.length; index++) {
     document.getElementById("asignment").innerHTML += contactstemplate(
       responsestoJson,
       index
     );
+
+    // Push initials into the initialsarray
+    initialsarra.push(responsestoJson[index].initials);
   }
 }
 
 function resetasignedtotemplate() {
   return `<option
-                        disabled
-                        selected
-                        hidden
-                        id="placeholderinput"
-                        value="Select Contacts to asign"
-                      >
-                        Select Contacts to asign
-                      </option>`;
+            disabled
+            selected
+            hidden
+            id="placeholderinput"
+            value="Select Contacts to assign"
+          >
+            Select Contacts to assign
+          </option>`;
 }
 
 function contactstemplate(responsestoJson, index) {
   return /*html*/ `
-  <option value=""><div>${responsestoJson[index].initials}<div> <div>${responsestoJson[index].name}</div></option>
+    <option onclick="showid(${index})" value="${responsestoJson[index].initials} ${responsestoJson[index].name}"> ${responsestoJson[index].initials} ${responsestoJson[index].name}</option>
   `;
 }
 
@@ -198,4 +207,8 @@ function filternumbers(input) {
   let date = document.getElementById("date").value;
   date = date.replace(/[^0-9:-]/g, "");
   document.getElementById("date").value = date;
+}
+
+function showid(index, responsestoJson) {
+  initialsarra.push(initials);
 }

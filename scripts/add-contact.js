@@ -1,4 +1,5 @@
 let initialsarray = [];
+
 async function addcontact(event) {
   event.preventDefault();
   let form = document.querySelector("form");
@@ -14,11 +15,11 @@ async function addcontact(event) {
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
   if (firstname && lastname) {
     initials = firstname + lastname;
-    initialsarray.push(initials);
   } else {
     initials = firstname;
-    initialsarray.push(initials);
   }
+  initialsarray.push(initials);
+
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
   let UserKeyArray = Object.keys(userResponse);
@@ -103,6 +104,7 @@ async function showinitials(id = 1) {
     }
     initialsarray.push(initials);
   }
+  console.log(initialsarray);
 }
 
 async function getAllUsers(path) {
