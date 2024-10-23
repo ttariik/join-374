@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -11,7 +11,7 @@ const firebaseConfig = {
     messagingSenderId: "399648374722",
     appId: "1:399648374722:web:563373ff4a688596bba05b",
     measurementId: "G-D3K960J8WM"
-  };
+};
 
 function showMessage(message, divId) {
     var messageDiv = document.getElementById(divId);
@@ -24,14 +24,14 @@ function showMessage(message, divId) {
 }
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const db = getFirestore();
 
 const signIn = document.getElementById('submitSignIn');
 signIn.addEventListener('click', (event) => {
     event.preventDefault();
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    const auth = getAuth();
-    const db = getFirestore();
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
@@ -44,14 +44,29 @@ signIn.addEventListener('click', (event) => {
         })
         .catch((error) => {
             console.error("Error during sign in:", error);
-            const errorCode = error.code;
             showMessage('Incorrect Email or Password', 'signInMessage');
         });
 });
 
+
 const guestLogin = document.getElementById('guestLogin');
 guestLogin.addEventListener('click', (event) => {
     event.preventDefault();
-    localStorage.setItem('loggedInUserId', 'guest');
-    window.location.href = '/templates-html/summary.html';
+    
+    auth.onAuthStateChanged((user) => {
+        if (user) {
+            signOut(auth).then(() => {
+                localStorage.removeItem('loggedInUserId'); 
+                localStorage.setItem('isGuest', 'true'); 
+                window.location.href = '/templates-html/summary.html';
+            }).catch((error) => {
+                console.error("Error during sign out:", error);
+                showMessage('Error signing out, please try again.', 'signInMessage');
+            });
+        } else {
+            localStorage.removeItem('loggedInUserId');
+            localStorage.setItem('isGuest', 'true'); 
+            window.location.href = '/templates-html/summary.html';
+        }
+    });
 });

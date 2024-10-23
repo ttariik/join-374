@@ -31,7 +31,7 @@ body {
 header {
   height: 120px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -66,7 +66,7 @@ header {
 }
 
 .sign-up-p {
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
   line-height: 24px;
   font-weight: 400;
@@ -337,6 +337,50 @@ a {
 
 /*  */
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 20, 24, 0.39); 
+  z-index: 5;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none; 
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: auto;
+  z-index: 10;
+  transition: transform 1s ease-in-out;
+}
+
+
+.fly-in {
+  animation: flyInToHeader 1.8s ease forwards;
+}
+
+
+@keyframes flyInToHeader {
+  to {
+    top: 0px; 
+    left: 20px; 
+    transform: translate(0, 0);
+    width: 120px; 
+  }
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+/*  */
+
 @media (min-width: 320px) and (max-width: 1000px) {
   .sign-up-header {
     position: relative;
@@ -389,6 +433,7 @@ a {
 
   .sign-up-p {
     font-size: 19px;
+
   }
 
   .sign-up-button {
