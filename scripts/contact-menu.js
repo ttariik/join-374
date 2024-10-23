@@ -84,7 +84,7 @@ function getColorFromString(str) {
 }
 
 async function showcontacttemplate(index, id = 1) {
-  document.getElementById("contacttemplate").style.display = "block";
+  document.querySelector(".contacttemplatedesing").style.display = "flex";
 
   let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await responses.json();
@@ -108,7 +108,7 @@ function resetclick(index, id) {
     "transform: translateX(250%);";
   setTimeout(() => {
     document.getElementById("contacttemplate").style.display = "none";
-  }, 100);
+  }, 10);
   document.getElementById(`${index}`).onclick = () =>
     showcontacttemplate(index, id);
 }

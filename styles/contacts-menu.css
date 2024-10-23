@@ -12,7 +12,7 @@ body {
   left: 232px;
   max-width: 408px;
   box-shadow: 4px 0px 6px 0px #00000014;
-  height: 857px;
+  height: 100vh;
   width: 100%;
 }
 
@@ -22,6 +22,7 @@ body {
 }
 
 .contacttemplatedesing {
+  display: none;
   max-width: 461px;
   width: 100%;
   height: 364px;
@@ -53,7 +54,6 @@ body {
 }
 
 .phrase {
-  margin: 0 auto 0 auto;
   display: flex;
   max-width: 569px;
   justify-content: center;
@@ -152,7 +152,7 @@ body {
 }
 
 .secondpart {
-  max-width: 156px;
+  max-width: fit-content;
   height: 48px;
   display: flex;
   flex-direction: column;
@@ -224,7 +224,7 @@ body {
   border-radius: 100px;
 }
 
-@media (max-width: 1325px) {
+@media (max-width: 1259px) {
   .boxalignment {
     display: none;
   }
