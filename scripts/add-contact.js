@@ -1,4 +1,4 @@
-let initialsarray = [];
+let initialsarrays = [];
 
 async function addcontact(event) {
   event.preventDefault();
@@ -18,7 +18,7 @@ async function addcontact(event) {
   } else {
     initials = firstname;
   }
-  initialsarray.push(initials);
+  initialsarrays.push(initials);
 
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;

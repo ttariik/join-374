@@ -1,3 +1,4 @@
+let contactusers = [];
 function opencontactstemplate() {
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
@@ -15,7 +16,6 @@ function closecontactstemplate() {
 async function showcontacts(id = 1) {
   let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await responses.json();
-
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
@@ -29,6 +29,8 @@ async function showcontacts(id = 1) {
     if (nameA > nameB) return 1;
     return 0;
   });
+  contactusers.push(responsestoJson);
+
   document.getElementById("contactmenu").innerHTML = "";
   for (let index = 0; index < responsestoJson.length; index++) {
     document.getElementById("contactmenu").innerHTML += contactsmenutemplate(
@@ -53,7 +55,7 @@ function contactsmenutemplate(responsestoJson, index, displayedLetters, i) {
 
   return /*html*/ `
       ${title}
-  <div class="align" id="${index}" onclick="showcontacttemplate(id)">
+  <div class="align" id="${index}" onclick="showcontacttemplate(${index})">
     <div class="badge" style="background-color: ${color};">
       ${responsestoJson[index].initials}
     </div>
@@ -84,23 +86,38 @@ function getColorFromString(str) {
 }
 
 async function showcontacttemplate(index, id = 1) {
-  document.querySelector(".contacttemplatedesing").style.display = "flex";
-
+  // Fetch contacts data from the API
   let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await responses.json();
+
+  // Filter valid contacts
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
 
-  document.getElementById("badge").innerHTML = responsestoJson[index].initials;
-  document.getElementById("title").innerHTML = responsestoJson[index].name;
-  document.getElementById("email").innerHTML = responsestoJson[index].email;
-  document.getElementById("telefone").innerHTML =
-    responsestoJson[index].telefone;
+  // Get the element by id
+  const contactElement = document.getElementById(`task-${index}`);
 
-  document.getElementById("contacttemplate").style =
-    "transform: translateX(0%);";
-  document.getElementById(`${index}`).onclick = () => resetclick(index, id);
+  if (!contactElement) {
+    console.error(`Element with id task-${index} not found`);
+    return;
+  }
+
+  // Show contact template design
+  document.querySelector(".contacttemplatedesing").style.display = "flex";
+  document.querySelector(".contacttemplatedesing").style.transform =
+    "translateX(0%)";
+
+  // Update contact template with data from responsestoJson
+  const contact = responsestoJson[index];
+  if (contact) {
+    document.getElementById("badge").innerHTML = contact.initials;
+    document.getElementById("title").innerHTML = contact.name;
+    document.getElementById("email").innerHTML = contact.email;
+    document.getElementById("telefone").innerHTML = contact.telefone;
+  } else {
+    console.error("Contact not found at the given index");
+  }
 }
 
 function resetclick(index, id) {
