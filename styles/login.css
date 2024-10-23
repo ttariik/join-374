@@ -164,7 +164,7 @@ input[type="password"] {
   border: 1px solid #d1d1d1;
   position: absolute;
   top: 250px;
-  left: 120px
+  left: 120px;
 }
 
 .password-icon {
@@ -226,7 +226,7 @@ input[type="password"] {
   transition: 100ms ease-in-out;
 }
 
-.checkbox-wrapper-29 .checkbox__input:checked~.checkbox__label:after {
+.checkbox-wrapper-29 .checkbox__input:checked ~ .checkbox__label:after {
   border-top-style: none;
   border-right-style: none;
   -ms-transform: rotate(-45deg);
@@ -343,10 +343,10 @@ a {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 20, 24, 0.39); 
+  background-color: #ffffff;
   z-index: 5;
   transition: opacity 1s ease-in-out;
-  pointer-events: none; 
+  pointer-events: none;
 }
 
 .logo {
@@ -360,26 +360,42 @@ a {
   transition: transform 1s ease-in-out;
 }
 
-
 .fly-in {
-  animation: flyInToHeader 1.8s ease forwards;
+  animation: pauseInMiddle 0.5s ease, flyInToHeader 0.9s ease 0.5s forwards;
 }
 
+@keyframes pauseInMiddle {
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  100% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
 
 @keyframes flyInToHeader {
-  to {
-    top: 0px; 
-    left: 20px; 
+  0% {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+  }
+  100% {
+    top: 0px;
+    left: 20px;
     transform: translate(0, 0);
-    width: 120px; 
+    width: 120px;
   }
 }
 
 .fade-out {
   opacity: 0;
+  transition: opacity 0.9s ease-in-out;
 }
-
-
 
 /*  */
 
@@ -435,7 +451,6 @@ a {
 
   .sign-up-p {
     font-size: 19px;
-
   }
 
   .sign-up-button {
@@ -443,6 +458,9 @@ a {
     width: 104px;
     height: 49px;
   }
+}
+
+@media (min-width: 1001px) and (max-width: 1200px) {
 }
 
 /* @media (min-width: 393px) and (max-width: 478px) {
