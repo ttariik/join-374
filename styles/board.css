@@ -200,15 +200,6 @@ input::placeholder {
   gap: 20px;
 }
 
-.task-category {
-}
-
-.task-details {
-}
-
-.task-title {
-}
-
 .task-title-name {
   display: flex;
   width: 100%;
@@ -300,7 +291,6 @@ input::placeholder {
 .progressbar-inside {
   background-color: #4589ff;
   height: 8px;
-  width: 50%;
   border-radius: 10px;
 }
 
@@ -313,4 +303,14 @@ input::placeholder {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.badgestyle {
+  padding: 5px;
+  background-color: grey;
+  border-radius: 50% 50%;
+}
+
+.initialsbox {
+  display: flex;
 }

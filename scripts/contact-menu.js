@@ -29,9 +29,8 @@ async function showcontacts(id = 1) {
     if (nameA > nameB) return 1;
     return 0;
   });
-
+  document.getElementById("contactmenu").innerHTML = "";
   for (let index = 0; index < responsestoJson.length; index++) {
-    document.getElementById("contactmenu").innerHTML = "";
     document.getElementById("contactmenu").innerHTML += contactsmenutemplate(
       responsestoJson,
       index,

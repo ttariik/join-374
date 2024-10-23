@@ -1,3 +1,7 @@
+let completedtasks = 0;
+let fullnames = [];
+let colors = [];
+let initialsss = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
 
@@ -86,10 +90,17 @@ async function loadtasks(id = 1) {
       task.title
   );
   for (let index = 0; index < responsestoJson.length; index++) {
+    for (let k = 0; k < responsestoJson[index].subtask.length; k++) {
+      if (responsestoJson[index].subtask[k].completed === true) {
+        completedtasks++;
+      }
+    }
+
     if (responsestoJson[index].category === "User Story") {
       document.getElementById("article").innerHTML += userstorytemplate(
         responsestoJson,
-        index
+        index,
+        completedtasks
       );
     }
     if (responsestoJson[index].category === "Technical Task") {
@@ -101,9 +112,37 @@ async function loadtasks(id = 1) {
   }
 }
 
-function userstorytemplate(responsestoJson, index) {
+function getColorFromString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let r = (hash >> 24) & 0xff;
+  let g = (hash >> 16) & 0xff;
+  let b = (hash >> 8) & 0xff;
+
+  const lightnessFactor = 0.4;
+  r = Math.floor(r + (255 - r) * lightnessFactor);
+  g = Math.floor(g + (255 - g) * lightnessFactor);
+  b = Math.floor(b + (255 - b) * lightnessFactor);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function userstorytemplate(responsestoJson, index, completedtasks) {
+  for (let l = 0; l < fullnames.length; l++) {
+    const color = getColorFromString(fullnames[l]);
+    colors.push(color);
+  }
+  const initials = responsestoJson[index].initials;
+  let initialsHTML = "";
+
+  for (let a = 0; a < initials.length; a++) {
+    initialsHTML += `<div class="badgestyle" style="background-color:${colors[index]}">${initials[a]}</div>`;
+  }
   return /*html*/ `
-  <div class="user-container task"  draggable="true"
+  <div onclick="showtemplate(${index})" class="user-container task"  draggable="true"
   ondragstart="drag(event)"             id="task1">
   <div class="task-detailss">
     <span>${responsestoJson[index].category}</span>
@@ -114,20 +153,27 @@ function userstorytemplate(responsestoJson, index) {
    </div>
    <div class="outsidebox">
         <div class="progressbar">
-          <div class="progressbar-inside"></div>
+          <div class="progressbar-inside" style="width:${
+            completedtasks * 50
+          }%"></div>
         </div>
-        <div class="subtask-info"><span>${responsestoJson[index].subtask.subtask.length}/${responsestoJson[index].subtask.subtask.length} Subtasks</span></div>
+        <div class="subtask-info"><span>${completedtasks}/${
+    responsestoJson[index].subtask.length
+  } Subtasks</span></div>
         
     </div>
     <div class="asignbox badge">
-          ${responsestoJson[index].initials} <img src="/img/${responsestoJson[index].prio}.png" alt=""> 
+         <div  id="initialsarea" class="initialsbox" >${initialsHTML}</div>  <img src="/img/${
+    responsestoJson[index].prio
+  }.png" alt=""> 
         </div>
 </div>
-
   `;
 }
 
 function Technicaltasktemplate(responsestoJson, index) {
+  const color = getColorFromString(responsestoJson[index].name);
+
   return /*html*/ `
 <div class="task-container task" 
             draggable="true"
@@ -144,13 +190,24 @@ function Technicaltasktemplate(responsestoJson, index) {
       ${responsestoJson[index].description}
    </div>
   </div>
-  <div class="task-statuss">
+  <div class="task-statuss badge" style="background-color:${color}">
     ${responsestoJson[index].initials} <img src="/img/${responsestoJson[index].prio}.png" alt="" />
 
   </div>
 </div>
 
   `;
+}
+
+async function getusernames(id = 1) {
+  let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  let responsestoJson = await responses.json();
+  responsestoJson = responsestoJson.filter(
+    (contact) => contact && contact.name
+  );
+  for (let o = 0; o < responsestoJson.length; o++) {
+    fullnames.push(responsestoJson[o].name);
+  }
 }
 
 function opentasktemplate() {
