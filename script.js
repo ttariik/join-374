@@ -82,5 +82,5 @@ window.onload = function () {
 
   setTimeout(() => {
     overlay.classList.add('fade-out');
-  }, 500);
+  }, 100);
 };

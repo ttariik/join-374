@@ -337,7 +337,17 @@ a {
 
 /*  */
 
-
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 20, 24, 0.39); 
+  z-index: 5;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none; 
+}
 
 .logo {
   position: absolute;
@@ -351,20 +361,8 @@ a {
 }
 
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 255, 1); 
-  z-index: 5;
-  transition: opacity 1s ease-in-out;
-}
-
-
 .fly-in {
-  animation: flyInToHeader 1s ease forwards;
+  animation: flyInToHeader 1.8s ease forwards;
 }
 
 
