@@ -349,7 +349,7 @@ a {
   pointer-events: none; 
 }
 
-.logo {
+/* .logo {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -373,10 +373,46 @@ a {
     transform: translate(0, 0);
     width: 120px; 
   }
-}
+} */
 
 .fade-out {
   opacity: 0;
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px;
+  height: auto;
+  z-index: 10;
+  transition: transform 1s ease-in-out;
+}
+
+
+.fly-in {
+  animation: flyInToHeader 2s ease forwards, rotateLogo 2s ease forwards;
+}
+
+
+@keyframes flyInToHeader {
+  to {
+    top: 0; 
+    left: 20px; 
+    transform: translate(0, 0);
+    width: 120px; 
+  }
+}
+
+
+@keyframes rotateLogo {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg); 
+  }
+  100% {
+    transform: translate(0, 0) rotate(360deg); 
+  }
 }
 
 /*  */
