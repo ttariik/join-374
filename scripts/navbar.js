@@ -1,5 +1,5 @@
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 
@@ -60,3 +60,15 @@ function displayUserInitials(initials) {
         console.log('Element zum Anzeigen der Initialen nicht gefunden.');
     }
 }
+
+const logoutButton=document.getElementById('logout');
+
+logoutButton.addEventListener('click', () => {
+    localStorage.removeItem('loggedInUserId');
+    signOut(auth)
+    .then (() => {
+        window.location.href='index.html';
+    })
+        .catch ((error) =>
+        console.error('Error signing out', error) )
+});

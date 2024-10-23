@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebas
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
   authDomain: "join-backend-dd268.firebaseapp.com",
@@ -13,26 +14,33 @@ const firebaseConfig = {
   measurementId: "G-D3K960J8WM"
 };
 
-const app = initializeApp(firebaseConfig);
 
+const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 
+
 onAuthStateChanged(auth, (user) => {
-  const loggedInUserId = localStorage.getItem('loggedInUserId');
-  if (loggedInUserId) {
-    const docRef = doc(db, "users", loggedInUserId);
-    getDoc(docRef)
-      .then((docSnap) => {
-        if (docSnap.exists()) {
-          const userData = docSnap.data();
-          document.getElementById('loggedUserName').innerText = userData.name;
-        } else {
-          console.error('No such document!');
-        }
-      })
+  const loggedUserNameElement = document.getElementById('loggedUserName');
+  const welcomeTextElement = document.getElementById('welcomeText');
+  const userGuest = document.getElementById ('user-initials');
+  if (user) {
+      getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+          if (docSnap.exists()) {
+              loggedUserNameElement.innerText = docSnap.data().name;
+              localStorage.setItem('loggedInUserId', user.uid);
+          } else {
+              console.error('No such document!');
+          }
+      }).catch(console.error);
+  } else {
+      localStorage.removeItem('loggedInUserId');
+      loggedUserNameElement.innerText = '';
+      welcomeTextElement.innerText = 'Good morning'; 
+      userGuest.innerText = 'G';
   }
 });
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -46,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('review-task-count').textContent = reviewCount;
   document.getElementById('done-task-count').textContent = doneCount;
 });
+
 
 document.addEventListener('DOMContentLoaded', function () {
 
