@@ -226,7 +226,7 @@ input::placeholder {
   max-width: 144px;
 }
 
-.overlay {
+.overlays {
   display: flex;
   justify-content: center;
   align-items: center;

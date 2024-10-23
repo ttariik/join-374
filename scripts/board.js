@@ -2,6 +2,7 @@ let completedtasks = 0;
 let fullnames = [];
 let colors = [];
 let initialsss = [];
+let taskss = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
 
@@ -65,7 +66,9 @@ function countAndStoreTasks() {
 
   folders.forEach((folderId) => {
     const folder = document.getElementById(folderId);
-    const taskCount = folder ? folder.getElementsByClassName("article").length : 0;
+    const taskCount = folder
+      ? folder.getElementsByClassName("article").length
+      : 0;
     localStorage.setItem(`${folderId}Count`, taskCount);
     totalTaskCount += taskCount;
   });
@@ -89,6 +92,7 @@ async function loadtasks(id = 1) {
       task.subtask &&
       task.title
   );
+  taskss.push(responsestoJson);
   for (let index = 0; index < responsestoJson.length; index++) {
     for (let k = 0; k < responsestoJson[index].subtask.length; k++) {
       if (responsestoJson[index].subtask[k].completed === true) {
@@ -169,6 +173,28 @@ function userstorytemplate(responsestoJson, index, completedtasks) {
         </div>
 </div>
   `;
+}
+
+function showtemplate(index, category, title, description) {
+  document.getElementById("templateoverlay").classList.add("overlays");
+  fetch("profile-template.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.text(); // Parse the response as text (HTML content)
+    })
+    .then((html) => {
+      document.getElementById("templateoverlay").innerHTML = html;
+
+      const taskscategory = responsestoJson[index].category;
+      console.log(taskscategory);
+
+      // Inject the fetched HTML into the overlay div
+    })
+    .catch((error) => {
+      console.error("Error loading HTML:", error);
+    });
 }
 
 function Technicaltasktemplate(responsestoJson, index) {
