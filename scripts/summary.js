@@ -38,7 +38,7 @@ onAuthStateChanged(auth, (user) => {
       loggedUserNameElement.innerText = '';
       welcomeTextElement.innerText = greet = [
         'What are you doing that early?',
-        'Good aorning',
+        'Good morning',
         'Good afternoon',
         'Good evening'
       ][ parseInt(new Date().getHours() / 24 * 4) ];
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 var greet = [
   'What are you doing that early?',
-  'Good aorning,',
+  'Good morning,',
   'Good afternoon,',
   'Good evening,'
 ][ parseInt(new Date().getHours() / 24 * 4) ];
