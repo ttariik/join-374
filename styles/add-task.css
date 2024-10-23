@@ -65,7 +65,7 @@ label {
   font-size: 20px;
   font-weight: 400;
   background-color: #ffffff;
-  color: #d1d1d1;
+  color: black;
 }
 
 textarea {
@@ -77,7 +77,7 @@ textarea {
   font-size: 20px;
   padding: 18px 16px 18px 16px;
   background-color: #ffffff;
-  color: #d1d1d1;
+  color: black;
 }
 
 .contactswindows {
@@ -186,7 +186,7 @@ select {
   background-position: 97% 51%;
   font-size: 20px;
   font-weight: 400;
-  color: #d1d1d1;
+  color: black;
 }
 
 .subtaskcontainer {
@@ -202,7 +202,7 @@ select {
   border: 1px solid #dedede;
   font-size: 20px;
   font-weight: 400;
-  color: #d1d1d1;
+  color: black;
 }
 
 .subtaskbutton {
