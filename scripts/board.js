@@ -245,4 +245,7 @@ function opentasktemplate() {
 
 function closeaddtasktemplate() {
   document.querySelector(".overlays").style.transform = "translateX(126%)";
+  setTimeout(() => {
+    document.querySelector(".overlays").style.display = "none";
+  }, 50);
 }

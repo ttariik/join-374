@@ -109,6 +109,13 @@ select {
   border-radius: 10px;
 }
 
+.special-select {
+  padding: 12px 16px 12px 16px;
+  width: calc(100% - 34px);
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;

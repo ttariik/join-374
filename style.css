@@ -10,7 +10,7 @@
 
 body {
   margin: 0;
-  font-family: "PT-Sans";
+  font-family: "PT-Sans" !important;
   background-color: rgb(246, 247, 248);
   overflow: hidden;
 }
@@ -21,7 +21,4 @@ body {
   }
 }
 
-
 /*  */
-
-

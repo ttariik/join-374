@@ -150,6 +150,7 @@ function addsubtask() {
 function resetsubtask() {
   let subtaskinput1 = document.getElementById("subtaskinput").value;
   subtaskinput1.reset();
+  document.getElementById("subtasksbox").innerHTML = "";
 }
 
 function subtaskstemplate(subtaskinput1) {
