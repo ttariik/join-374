@@ -36,7 +36,13 @@ onAuthStateChanged(auth, (user) => {
   } else {
       localStorage.removeItem('loggedInUserId');
       loggedUserNameElement.innerText = '';
-      welcomeTextElement.innerText = 'Good morning'; 
+      welcomeTextElement.innerText = greet = [
+        'What are you doing that early?',
+        'Good aorning',
+        'Good afternoon',
+        'Good evening'
+      ][ parseInt(new Date().getHours() / 24 * 4) ];
+      document.getElementById("welcomeText").innerHTML = greet;
       userGuest.innerText = 'G';
   }
 });
@@ -71,3 +77,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const totalTaskCount = parseInt(todoCount) + parseInt(inprogressCount) + parseInt(reviewCount) + parseInt(doneCount);
   document.getElementById('total-task-count').textContent = totalTaskCount;
 });
+
+var greet = [
+  'What are you doing that early?',
+  'Good aorning,',
+  'Good afternoon,',
+  'Good evening,'
+][ parseInt(new Date().getHours() / 24 * 4) ];
+
+document.getElementById("welcomeText").innerHTML = greet;
+
