@@ -62,15 +62,22 @@ label {
   padding: 12px 21px 12px 21px;
   max-width: calc(100% - 44px);
   width: 100%;
+  font-size: 20px;
+  font-weight: 400;
+  background-color: #ffffff;
+  color: #d1d1d1;
 }
 
 textarea {
   height: 168px;
   border-radius: 10px;
   border: 1px solid #d1d1d1;
-  width: calc(100% - 6px);
+  width: calc(100% - 34px);
   font-weight: 400;
   font-size: 20px;
+  padding: 18px 16px 18px 16px;
+  background-color: #ffffff;
+  color: #d1d1d1;
 }
 
 .contactswindows {
@@ -177,6 +184,9 @@ select {
   background-image: url(/img/event.png);
   background-repeat: no-repeat;
   background-position: 97% 51%;
+  font-size: 20px;
+  font-weight: 400;
+  color: #d1d1d1;
 }
 
 .subtaskcontainer {
@@ -190,6 +200,9 @@ select {
   padding: 12px 33px 12px 16px;
   border-radius: 10px;
   border: 1px solid #dedede;
+  font-size: 20px;
+  font-weight: 400;
+  color: #d1d1d1;
 }
 
 .subtaskbutton {
