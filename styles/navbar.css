@@ -162,7 +162,7 @@
   height: 96px;
   background-color: rgb(255, 255, 255);
   box-shadow: rgba(33, 35, 38, 0.4) 0px 10px 10px -10px;
-  z-index: 1;
+  z-index: 999;
 }
 
 .head-bar-wrapper {
@@ -200,7 +200,7 @@
   bottom: 0px;
   width: 100%;
   background-color: #2a3647;
-  z-index: 1;
+  z-index: 999;
 }
 
 .menu-nav-bar-responsive {
@@ -269,3 +269,12 @@
     gap: 8px;
   }
 }
+
+
+
+
+
+
+
+
+

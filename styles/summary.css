@@ -236,6 +236,32 @@ h1 {
     height: 69px;
 }
 
+.welcome-wrapper-mobile {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    background-color: white;
+    z-index: 99;
+    height: 100vh;
+    width: 100%;
+    opacity: 1;
+    transition: opacity 1s ease; /* Sanfter Übergang in 1 Sekunde */
+  }
+  
+  .welcome-mobile p {
+    font-size: 64px;
+    color: rgb(41, 171, 226);
+    font-weight: bolder;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    z-index: 99;
+  }
+
+  .welcome-mobile span {
+    font-size: 47px;
+    font-weight: bold;
+  }
 
 
 @media (max-width:1325px) {
@@ -267,8 +293,14 @@ h1 {
     .welcome {
         display: none;
     }
-}
 
+    .welcome-wrapper-mobile {
+        display: flex;
+        opacity: 1;
+        transition: opacity 1s ease; /* Sanfter Übergang in 1 Sekunde */
+      }
+      
+}
 
 @media (max-width: 649px) {
     

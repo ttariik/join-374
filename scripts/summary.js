@@ -22,34 +22,37 @@ const db = getFirestore();
 
 onAuthStateChanged(auth, (user) => {
   const loggedUserNameElement = document.getElementById('loggedUserName');
+  const loggedUserNameMobile = document.getElementById('loggedUserName-mobile');
   const welcomeTextElement = document.getElementById('welcomeText');
-  const userGuest = document.getElementById ('user-initials');
+  const userGuest = document.getElementById('user-initials');
   if (user) {
-      getDoc(doc(db, "users", user.uid)).then((docSnap) => {
-          if (docSnap.exists()) {
-              loggedUserNameElement.innerText = docSnap.data().name;
-              localStorage.setItem('loggedInUserId', user.uid);
-          } else {
-              console.error('No such document!');
-          }
-      }).catch(console.error);
+    getDoc(doc(db, "users", user.uid)).then((docSnap) => {
+      if (docSnap.exists()) {
+        loggedUserNameElement.innerText = docSnap.data().name;
+        localStorage.setItem('loggedInUserId', user.uid);
+        loggedUserNameMobile.innerText = docSnap.data().name;
+        localStorage.setItem('loggedInUserId', user.uid);
+      } else {
+        console.error('No such document!');
+      }
+    }).catch(console.error);
   } else {
-      localStorage.removeItem('loggedInUserId');
-      loggedUserNameElement.innerText = '';
-      welcomeTextElement.innerText = greet = [
-        'What are you doing that early?',
-        'Good morning',
-        'Good afternoon',
-        'Good evening'
-      ][ parseInt(new Date().getHours() / 24 * 4) ];
-      document.getElementById("welcomeText").innerHTML = greet;
-      userGuest.innerText = 'G';
+    localStorage.removeItem('loggedInUserId');
+    loggedUserNameElement.innerText = '';
+    welcomeTextElement.innerText = greet = [
+      'What are you doing that early?',
+      'Good morning',
+      'Good afternoon',
+      'Good evening'
+    ][parseInt(new Date().getHours() / 24 * 4)];
+    document.getElementById("welcomeText").innerHTML = greet;
+    document.getElementById("welcomeText-mobile").innerHTML = greet;
+    userGuest.innerText = 'G';
   }
 });
 
 
 document.addEventListener('DOMContentLoaded', function () {
-
   const todoCount = localStorage.getItem('todoCount') || 0;
   const inprogressCount = localStorage.getItem('inprogressCount') || 0;
   const reviewCount = localStorage.getItem('reviewCount') || 0;
@@ -63,7 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-
   const todoCount = localStorage.getItem('todo-folderCount') || 0;
   const inprogressCount = localStorage.getItem('inprogress-folderCount') || 0;
   const reviewCount = localStorage.getItem('review-folderCount') || 0;
@@ -78,12 +80,21 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('total-task-count').textContent = totalTaskCount;
 });
 
+
 var greet = [
   'What are you doing that early?',
   'Good morning,',
   'Good afternoon,',
   'Good evening,'
-][ parseInt(new Date().getHours() / 24 * 4) ];
+][parseInt(new Date().getHours() / 24 * 4)];
 
 document.getElementById("welcomeText").innerHTML = greet;
+document.getElementById("welcomeText-mobile").innerHTML = greet;
 
+
+setTimeout(function() {
+  document.getElementById("welcomeWrapper").style.opacity = "0";
+}, 2000); 
+setTimeout(function() {
+  document.getElementById("welcomeWrapper").style.display = "none";
+}, 3000); 
