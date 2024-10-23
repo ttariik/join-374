@@ -40,11 +40,11 @@ function countTasks() {
   const reviewFolder = document.getElementById("review-folder");
   const doneFolder = document.getElementById("done-folder");
 
-  const todoCount = todoFolder.getElementsByClassName("task").length;
+  const todoCount = todoFolder.getElementsByClassName("article").length;
   const inprogressCount =
-    inprogressFolder.getElementsByClassName("task").length;
-  const reviewCount = reviewFolder.getElementsByClassName("task").length;
-  const doneCount = doneFolder.getElementsByClassName("task").length;
+    inprogressFolder.getElementsByClassName("article").length;
+  const reviewCount = reviewFolder.getElementsByClassName("article").length;
+  const doneCount = doneFolder.getElementsByClassName("article").length;
 
   localStorage.setItem("todoCount", todoCount);
   localStorage.setItem("inprogressCount", inprogressCount);
@@ -65,7 +65,7 @@ function countAndStoreTasks() {
 
   folders.forEach((folderId) => {
     const folder = document.getElementById(folderId);
-    const taskCount = folder ? folder.getElementsByClassName("task").length : 0;
+    const taskCount = folder ? folder.getElementsByClassName("article").length : 0;
     localStorage.setItem(`${folderId}Count`, taskCount);
     totalTaskCount += taskCount;
   });

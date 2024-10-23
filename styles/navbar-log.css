@@ -80,22 +80,11 @@
     font-size: 20px;
     padding: 20px 40px 20px 328px;
   }
-
-  .head-bar-responsiv {
-    display: none;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    box-shadow: rgba(33, 35, 38, 0.4) 0px 10px 10px -10px;
-    z-index: 1;
-    background-color: white;
-  }
   
   .head-bar-img {
     padding: 20px 16px;
     display: none;
   }
-  
 
   @media (max-width:1259px) {
 
@@ -103,7 +92,7 @@
       display: none;
     }
      
-    .head-bar {
+    .head-bar-slogan {
       display: none;
     }
     

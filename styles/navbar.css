@@ -214,7 +214,8 @@
   align-items: center;
   text-decoration: none;
   color: white;
-  padding: 12px;
+  height: 76px;
+  width: 80px;
   border-radius: 16px;
 }
 
@@ -253,6 +254,7 @@
 @media (max-width: 440px) {
   .responsive-menu {
     font-size: 14px;
+    width: 70px;
   }
 
   .responsive-menu img {
