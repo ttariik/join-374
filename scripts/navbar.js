@@ -2,6 +2,7 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
+
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
     authDomain: "join-backend-dd268.firebaseapp.com",
@@ -13,21 +14,22 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Funktion zur Abmeldung
+
 function setupLogout() {
     const logoutButton = document.getElementById('logoutID');
 
     if (logoutButton) {
         logoutButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Verhindert das Standardverhalten des Links
+            event.preventDefault(); 
             signOut(auth)
             .then(() => {
                 console.log('Erfolgreich abgemeldet.');
-                window.location.href = '../index.html'; // Korrekte Umleitung
+                window.location.href = '../index.html'; 
             })
             .catch((error) => {
                 console.error('Fehler beim Abmelden:', error);
@@ -38,22 +40,14 @@ function setupLogout() {
     }
 }
 
-// Überwachung des Authentifizierungsstatus
+
 onAuthStateChanged(auth, async (user) => {
+    let initials = "G"; 
+
     if (user) {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userDocRef);
-
+        const userDoc = await getDoc(doc(db, "users", user.uid));
         if (userDoc.exists()) {
-            const userData = userDoc.data();
-            const name = userData.name;
-
-            if (name) {
-                const initials = getInitials(name);
-                displayUserInitials(initials);
-            } else {
-                console.log('Kein Name im Firestore-Dokument vorhanden.');
-            }
+            initials = userDoc.data().name ? getInitials(userDoc.data().name) : initials;
         } else {
             console.log('Benutzerdokument nicht gefunden.');
         }
@@ -61,10 +55,11 @@ onAuthStateChanged(auth, async (user) => {
         console.log('Kein Benutzer eingeloggt.');
     }
 
-    setupLogout(); // Setup für Logout
+    displayUserInitials(initials); 
+    setupLogout(); 
 });
 
-// Funktion zur Ermittlung der Initialen
+
 function getInitials(name) {
     const nameParts = name.split(' ');
     const firstInitial = nameParts[0].charAt(0);
@@ -72,7 +67,6 @@ function getInitials(name) {
     return firstInitial + lastInitial;
 }
 
-// Funktion zur Anzeige der Initialen
 function displayUserInitials(initials) {
     const initialsElement = document.getElementById('user-initials');
     if (initialsElement) {
