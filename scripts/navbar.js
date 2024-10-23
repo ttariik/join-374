@@ -1,7 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
 
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
@@ -14,12 +13,32 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Funktion zur Abmeldung
+function setupLogout() {
+    const logoutButton = document.getElementById('logoutID');
 
+    if (logoutButton) {
+        logoutButton.addEventListener('click', (event) => {
+            event.preventDefault(); // Verhindert das Standardverhalten des Links
+            signOut(auth)
+            .then(() => {
+                console.log('Erfolgreich abgemeldet.');
+                window.location.href = '../index.html'; // Korrekte Umleitung
+            })
+            .catch((error) => {
+                console.error('Fehler beim Abmelden:', error);
+            });
+        });
+    } else {
+        console.error('Logout-Button nicht gefunden!');
+    }
+}
+
+// Überwachung des Authentifizierungsstatus
 onAuthStateChanged(auth, async (user) => {
     if (user) {
         const userDocRef = doc(db, "users", user.uid);
@@ -41,9 +60,11 @@ onAuthStateChanged(auth, async (user) => {
     } else {
         console.log('Kein Benutzer eingeloggt.');
     }
+
+    setupLogout(); // Setup für Logout
 });
 
-
+// Funktion zur Ermittlung der Initialen
 function getInitials(name) {
     const nameParts = name.split(' ');
     const firstInitial = nameParts[0].charAt(0);
@@ -51,7 +72,7 @@ function getInitials(name) {
     return firstInitial + lastInitial;
 }
 
-
+// Funktion zur Anzeige der Initialen
 function displayUserInitials(initials) {
     const initialsElement = document.getElementById('user-initials');
     if (initialsElement) {
@@ -60,15 +81,3 @@ function displayUserInitials(initials) {
         console.log('Element zum Anzeigen der Initialen nicht gefunden.');
     }
 }
-
-const logoutButton=document.getElementById('logout');
-
-logoutButton.addEventListener('click', () => {
-    localStorage.removeItem('loggedInUserId');
-    signOut(auth)
-    .then (() => {
-        window.location.href='index.html';
-    })
-        .catch ((error) =>
-        console.error('Error signing out', error) )
-});
