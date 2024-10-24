@@ -6,24 +6,49 @@
 }
 
 .selectbutton {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #f6f7f8;
-  padding: 12px 16px 12px 16px;
-  border: 1px solid #d1d1d1;
-  gap: 20px;
-  border-radius: 10px;
-  position: absolute;
-  bottom: 159px;
-  max-width: 441px;
-  z-index: 3;
+  width: 100%; /* Full width button */
+  display: flex; /* Flexbox for alignment */
+  justify-content: space-between; /* Space out elements */
+  align-items: center; /* Center vertically */
+  background-color: #f6f7f8; /* Background color */
+  padding: 12px 16px; /* Padding around the button */
+  border: 1px solid #d1d1d1; /* Border style */
+  border-radius: 10px; /* Rounded corners */
+  position: relative; /* Changed to relative for positioning */
+  z-index: 3; /* Stack order */
+  box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  cursor: pointer; /* Pointer cursor for better UX */
+}
+.selectbutton:hover {
   box-shadow: 0px 0px 14px 3px #0000000a;
 }
 
-.selectbutton:hover {
-  box-shadow: 0px 0px 14px 3px #0000000a;
+#contacts-box {
+  position: absolute;
+  top: 85%;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  display: none;
+  background-color: white;
+  border: 1px solid #d1d1d1;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 10px 10px;
+  margin-top: 5px;
+  flex-direction: column;
+  border-top: none;
+  max-width: 436px;
+}
+
+#contacts-box li {
+  padding: 10px; /* Padding for dropdown items */
+  cursor: pointer; /* Pointer cursor for items */
+}
+
+#assignedusers {
+  margin-top: 10px; /* Space between dropdown and assigned users */
 }
 
 .searchbar:focus {
@@ -38,16 +63,24 @@
 }
 
 .outsidedesign {
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  bottom: -8px;
-  max-width: 440px;
-  width: 100%;
-  background-color: #f6f7f8;
-  z-index: 2;
-  box-shadow: 0px 0px 14px 3px #0000000a;
-  cursor: pointer;
+  padding: 0; /* No padding for list */
+  margin: 0; /* No margin */
+  position: absolute; /* Absolute positioning */
+  top: 100%; /* Position just below the button */
+  left: 0; /* Align with the left edge of the button */
+  max-width: 440px; /* Max width to match your design */
+  width: 100%; /* Full width */
+  background-color: #f6f7f8; /* Background color */
+  z-index: 2; /* Stack order below the button */
+  box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+  display: none; /* Initially hidden */
+  border-radius: 10px; /* Rounded corners */
+  overflow-y: auto; /* Enable scrolling if necessary */
+}
+
+.outsidedesign li {
+  padding: 12px 16px; /* Padding for list items */
+  cursor: pointer; /* Pointer cursor for better UX */
 }
 
 .dark-blue {
@@ -122,7 +155,6 @@ form {
   display: flex;
   width: 100%;
   justify-content: flex-start;
-  gap: 59px;
   flex-direction: column;
 }
 
@@ -180,9 +212,10 @@ textarea {
 }
 
 .selectbox {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  position: relative; /* Establish relative positioning for dropdown */
+  width: 100%; /* Full width for container */
+  max-width: 441px; /* Max width to match your button */
+  margin: 0 auto; /* Center the container */
 }
 
 select {
@@ -361,15 +394,21 @@ select {
   display: flex;
   flex-direction: column;
   width: 100%;
-  justify-content: space-between;
+  height: 109px;
+  padding: 6px 16px 6px 16px;
 }
 
 .subbox {
   display: flex;
   max-width: 110px;
   width: 100%;
-  justify-content: space-around;
   align-items: center;
+  gap: 10px;
+}
+
+.subbox1 {
+  height: 109px;
+  padding: 6px 16px 6px 16px;
 }
 
 .d-none {
@@ -554,9 +593,6 @@ select {
 }
 
 @media (max-width: 1329px) {
-  .selectbutton {
-    bottom: 255px !important;
-  }
   .test {
     padding: 100px 10px 78px 10px;
     display: flex;
@@ -608,6 +644,7 @@ select {
     overflow: scroll;
     overflow-x: hidden;
     height: 597px;
+    scrollbar-width: none;
   }
   .add-task-headline h1 {
     margin-bottom: unset;
@@ -641,9 +678,6 @@ select {
     margin-top: unset;
     display: flex;
   }
-  .selectbutton {
-    position: unset;
-  }
   .buttonsalignment_2 {
     gap: 8px;
   }
@@ -661,5 +695,8 @@ select {
   }
   .wholebox {
     height: 530px;
+  }
+  #contacts-box {
+    top: 76%;
   }
 }

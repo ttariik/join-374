@@ -164,6 +164,7 @@ function subtaskstemplate(subtaskinput1) {
 }
 
 async function showcontacts(id = 1) {
+  document.getElementById("contacts-box").style.display = "flex";
   document.getElementById("selectboxbutton").onclick = "";
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
@@ -171,20 +172,6 @@ async function showcontacts(id = 1) {
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
-
-  document.getElementById("contacts-box").innerHTML = "";
-  if (window.innerWidth < 1329) {
-    document.querySelector(".outsidedesign").style =
-      "max-width: 376px;bottom: 220px";
-  }
-  if (window.innerWidth < 800) {
-    document.querySelector(".outsidedesign").style =
-      "max-width: 376px;bottom: 220px";
-  }
-  if (window.innerWidth < 396) {
-    document.querySelector(".outsidedesign").style =
-      "max-width: 371px;bottom: 220px";
-  }
 
   document.getElementById("selectboxbutton").innerHTML = searchbar();
   for (let index = 0; index < responsestoJson.length; index++) {
@@ -246,9 +233,10 @@ async function selectcontact(index, id = 1) {
     asignedtousers.push(responsestoJson[index]);
     console.log(asignedtousers);
   } else {
-    asignedtousers.pop();
-    console.log(asignedtousers);
-    document.getElementById("assignedusers").innerHTML = asignedtousers;
+    const userIndex = asignedtousers.findIndex((u) => u.name === user.name);
+    if (userIndex !== -1) {
+      asignedtousers.splice(userIndex, 1); // Remove the user from the array
+    }
   }
 }
 
@@ -279,12 +267,11 @@ function getColorFromString(str) {
 window.addEventListener("resize", () => {
   const requiredmessage = document.getElementById("requiredmessage");
   const parent = document.getElementById("parent");
-  const subtasksbox = document.getElementById("subtasksbox");
+  const spanplace = document.getElementById("spanplace");
 
   if (window.innerWidth < 400) {
-    subtasksbox.appendChild(requiredmessage);
+    spanplace.appendChild(requiredmessage);
   } else {
-    parent.appendChild(requiredmessage);
   }
 });
 
