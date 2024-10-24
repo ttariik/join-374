@@ -41,7 +41,7 @@
   padding: 0;
   margin: 0;
   position: absolute;
-  bottom: -42px;
+  bottom: -49px;
   max-width: 440px;
   width: 100%;
   background-color: #f6f7f8;
@@ -512,7 +512,7 @@ select {
     bottom: 255px !important;
   }
   .test {
-    padding: 123px 10px 0px 10px;
+    padding: 100px 10px 78px 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -547,15 +547,21 @@ select {
 }
 
 @media (max-width: 830px) {
+  .title2 {
+    height: unset;
+  }
   .add-task-headline {
     max-width: 396px;
   }
   .alignment2 {
-    gap: 20px;
+    gap: 16px;
     flex-direction: column;
   }
   .wholebox {
     max-width: 396px;
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 597px;
   }
   .add-task-headline h1 {
     margin-bottom: unset;
@@ -564,28 +570,49 @@ select {
     height: unset;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 16px;
   }
   .firsthalfbox {
-    gap: 10px;
+    gap: 16px;
   }
-
   .secondhalfbox {
-    display: none;
+    gap: 16px;
   }
   .line {
     display: none;
+  }
+  .secondbox {
+    gap: 16px;
   }
   textarea {
     height: 88px;
   }
   form {
-    gap: 29px;
-  }
-  .bt1 {
-    display: none;
+    gap: 16px;
+    height: fit-content;
   }
   .buttonsalignment_1 {
     margin-top: unset;
+  }
+  .selectbutton {
+    position: unset;
+  }
+  .buttonsalignment_2 {
+    gap: 8px;
+  }
+  .buttonsalignment {
+    position: fixed;
+    bottom: 76px;
+    padding: 12px 16px 12px 16px;
+    background-color: #f6f7f8;
+    width: 100%;
+    max-width: 362px;
+    justify-content: flex-end;
+  }
+  .buttonsalignment_1 {
+    display: none;
+  }
+  .subtasksbox1 {
+    height: 109px;
   }
 }

@@ -174,6 +174,18 @@ async function showcontacts(id = 1) {
   );
 
   document.getElementById("contacts-box").innerHTML = "";
+  if (window.innerWidth < 1329) {
+    document.querySelector(".outsidedesign").style =
+      "max-width: 376px;bottom: 220px";
+  }
+  if (window.innerWidth < 800) {
+    document.querySelector(".outsidedesign").style =
+      "max-width: 376px;bottom: 220px";
+  }
+  if (window.innerWidth < 396) {
+    document.querySelector(".outsidedesign").style =
+      "max-width: 371px;bottom: 220px";
+  }
 
   document.getElementById("selectboxbutton").innerHTML = searchbar();
   for (let index = 0; index < responsestoJson.length; index++) {
@@ -188,21 +200,18 @@ async function showcontacts(id = 1) {
 }
 
 function resetsearchbar() {
-  // Reset the button's inner HTML to the default state
   document.getElementById("selectboxbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
   `;
 
-  // Clear the contents of the contacts box
   document.getElementById("contacts-box").innerHTML = "";
 
   document.querySelector(".outsidedesign").style.position = "absolute";
   document.querySelector(".selectbutton").style.bottom = "180px";
 
-  // Set up the click event handler correctly without invoking it immediately
   document.getElementById("selectboxbutton").onclick = function () {
-    showcontacts(); // Call the function on click
+    showcontacts();
   };
 }
 
