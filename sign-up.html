@@ -8,7 +8,11 @@
   <link rel="icon" href="./img/Capa2.png">
   <title>Sign Up</title>
 </head>
+
 <body>
+  <div id="overlayDiv" class="messageDiv-overlay" style="display: none;">
+    <div id="signUpMessage" class="messageDiv"></div>
+  </div>
   <div class="content-limitation">
     <header>
       <img class="logo" src="./img/logo.png" alt="" />
@@ -23,7 +27,6 @@
       </a>
       <div class="blue-line"></div>
       <form>
-        <div id="signUpMessage" class="messageDiv" style="display: none;"></div>
         <div class="input-fields">
           <div class="email">
             <input id="rName" type="text" placeholder="Name" required />
@@ -38,7 +41,8 @@
             <img class="password-icon" src="./icons/password.png" alt="password-logo" />
           </div>
           <div>
-            <input class="password-confirm-media" type="password" id="rConfirmPassword" placeholder="Confirm Password" required />
+            <input class="password-confirm-media" type="password" id="rConfirmPassword" placeholder="Confirm Password"
+              required />
             <img class="confrim-password-logo" src="./icons/password.png" alt="confrim-password-logo" />
           </div>
         </div>
@@ -48,18 +52,16 @@
             <input type="checkbox" id="checkPrivacy" class="checkbox__input" required />
             <span class="checkbox__label"></span>
             <p class="checkbox-text">
-              I accept the <a class="sign-up-a" href="./">Privacy policy</a>
+                I accept the <a class="sign-up-a" href="./">Privacy policy</a>
             </p>
-          </label>
-          <span id="checkboxError" style="display: none; color: red;">This field must be accepted!</span>
-        </div>
-
+        </label>
         <div class="login-guest-buttons">
-          <button id="submitSignUp" class="sign-up-button-footer" type="submit">Sign Up</button>
+          <button id="submitSignUp" class="sign-up-button-footer" type="button">Sign Up</button>
         </div>
       </form>
-      
+
     </div>
+    <span id="checkboxError" style="display: none; color: red; font-size: 12px;">Privacy policy must be accepted!</span>    
   </div>
 
   <footer>
@@ -72,7 +74,7 @@
   </div>
 
 
-  
+
   <script src="./db.js"></script>
   <script type="module" src="/scripts/signup-auth.js"></script>
 </body>

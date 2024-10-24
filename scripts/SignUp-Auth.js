@@ -18,14 +18,24 @@ const auth = getAuth();
 const db = getFirestore();
 
 function showMessage(message, divId) {
-    var messageDiv = document.getElementById(divId);
-    messageDiv.style.display = "block";
+    let overlayDiv = document.getElementById('overlayDiv');
+    let messageDiv = document.getElementById(divId);
+    
+    // Zeige den Overlay-Bereich an
+    overlayDiv.style.display = "flex";
+    
+    // Setze die Nachricht in das Div
     messageDiv.innerHTML = message;
     messageDiv.style.opacity = 1;
+    
+    // Blende die Nachricht nach 2 Sekunden aus
     setTimeout(function () {
         messageDiv.style.opacity = 0;
-    }, 5000);
+        // Verstecke den Overlay-Bereich, wenn die Nachricht ausgeblendet wird
+        overlayDiv.style.display = "none";
+    }, 2000);
 }
+
 
 const signUp = document.getElementById('submitSignUp');
 signUp.addEventListener('click', (event) => {
@@ -35,10 +45,15 @@ signUp.addEventListener('click', (event) => {
     const checkboxError = document.getElementById('checkboxError');
     if (!checkbox.checked) {
         checkboxError.style.display = 'inline'; 
+        setTimeout(() => {
+            checkboxError.style.display = 'none';
+        }, 2000);
+    
         return; 
     } else {
         checkboxError.style.display = 'none'; 
     }
+    
     const email = document.getElementById('rEmail').value;
     const password = document.getElementById('rPassword').value;
     const confirmPassword = document.getElementById('rConfirmPassword').value;
