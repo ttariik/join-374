@@ -211,7 +211,7 @@ function searchbar() {
 
 function contactstemplate(responsestoJson, index, color) {
   return /*html*/ `
-    <li class="contact-menudesign "   id="div${index}" onclick="selectcontact(${index})"> 
+    <li class="contact-menudesign"  id="div${index}" onclick="selectcontact(${index})"> 
      <div class="splitdivs"><div class="contactbox-badge badge" style="background-color:${color}"> ${responsestoJson[index].initials} </div>
      <div> ${responsestoJson[index].name}</div></div>
      <label class="custom-checkbox">
