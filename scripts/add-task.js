@@ -77,8 +77,6 @@ async function addtask(event) {
   emptyinputs();
 }
 
-function maketheinitials() {}
-
 function emptyinputs() {
   let form = document.querySelector("form");
   form.reset();
@@ -208,7 +206,6 @@ function resetsearchbar() {
   document.getElementById("contacts-box").innerHTML = "";
 
   document.querySelector(".outsidedesign").style.position = "absolute";
-  document.querySelector(".selectbutton").style.bottom = "180px";
 
   document.getElementById("selectboxbutton").onclick = function () {
     showcontacts();
@@ -223,12 +220,20 @@ function searchbar() {
 
 function contactstemplate(responsestoJson, index) {
   return /*html*/ `
-    <li class="contact-menudesign"> 
+    <li class="contact-menudesign" id="div${index}" onclick="selectcontact(${index})"> 
      <div class="splitdivs"><div class="contactbox-badge"> ${responsestoJson[index].initials} </div>
      <div> ${responsestoJson[index].name}</div></div>
-     <input type="checkbox">
-</li>
+     <label class="custom-checkbox">
+    <input type="checkbox" id="checkbox${index}" class="checkboxdesign" />
+    <span class="checkmark"></span>
+  </label></li>
   `;
+}
+
+function selectcontact(index) {
+  document.getElementById(`div${index}`).classList.toggle("dark-blue");
+  document.getElementById(`checkbox${index}`).checked =
+    !document.getElementById(`checkbox${index}`).checked;
 }
 
 function filternumbers(input) {
@@ -258,3 +263,17 @@ function getColorFromString(str) {
 
   return `rgb(${r}, ${g}, ${b})`;
 }
+
+window.addEventListener("resize", () => {
+  const requiredmessage = document.getElementById("requiredmessage");
+  const parent = document.getElementById("parent");
+  const subtasksbox = document.getElementById("subtasksbox");
+
+  if (window.innerWidth < 400) {
+    subtasksbox.appendChild(requiredmessage);
+  } else {
+    parent.appendChild(requiredmessage);
+  }
+});
+
+window.dispatchEvent(new Event("resize"));

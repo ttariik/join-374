@@ -16,7 +16,7 @@
   gap: 20px;
   border-radius: 10px;
   position: absolute;
-  bottom: 175px;
+  bottom: 159px;
   max-width: 441px;
   z-index: 3;
   box-shadow: 0px 0px 14px 3px #0000000a;
@@ -41,12 +41,17 @@
   padding: 0;
   margin: 0;
   position: absolute;
-  bottom: -49px;
+  bottom: -67px;
   max-width: 440px;
   width: 100%;
   background-color: #f6f7f8;
   z-index: 2;
   box-shadow: 0px 0px 14px 3px #0000000a;
+  cursor: pointer;
+}
+
+.dark-blue {
+  background-color: #2a3647;
 }
 
 .splitdivs {
@@ -507,6 +512,47 @@ select {
   gap: 16px;
 }
 
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.custom-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  background-image: url("/img/Check button mobile.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-image: url("/img/Check button mobile (1).png");
+
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+    display: block;
+    left: 5px;
+    top: 2px;
+    width: 10px;
+    height: 10px;
+    background-image: url("/img/checked-icon.png");
+    background-size: cover;
+  }
+}
+
 @media (max-width: 1329px) {
   .selectbutton {
     bottom: 255px !important;
@@ -593,6 +639,7 @@ select {
   }
   .buttonsalignment_1 {
     margin-top: unset;
+    display: flex;
   }
   .selectbutton {
     position: unset;
@@ -609,10 +656,10 @@ select {
     max-width: 362px;
     justify-content: flex-end;
   }
-  .buttonsalignment_1 {
-    display: none;
-  }
   .subtasksbox1 {
     height: 109px;
+  }
+  .wholebox {
+    height: 530px;
   }
 }

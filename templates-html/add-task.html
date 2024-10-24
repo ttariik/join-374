@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/styles/add-task.css" />
     <script src="../script.js"></script>
-    <script src="../scripts/add-task.js"></script>
   </head>
   <body onload="getUserTaskss()">
     <div w3-include-html="../navbar.html"></div>
@@ -25,7 +24,7 @@
               <div class="firstbox">
                 <div class="title2">
                   <div class="input-fields">
-                    <div class="buttonsalignment_1">
+                    <div class="buttonsalignment_1-1">
                       <label class="titleAddTask"
                         >Title<span class="required-indicator">*</span></label
                       >
@@ -71,7 +70,7 @@
               <div class="secondbox">
                 <div class="firsthalfbox">
                   <div class="emailbox">
-                    <div class="buttonsalignment_1">
+                    <div class="buttonsalignment_1-2">
                       Due Date <span class="required-indicator">*</span>
                     </div>
                     <div class="emailinput">
@@ -180,9 +179,10 @@
                 </div>
               </div>
             </div>
-            <div class="buttonsalignment">
-              <div class="buttonsalignment_1">
-                <span class="required-indicator">*</span>This field is required
+            <div class="buttonsalignment" id="parent">
+              <div class="buttonsalignment_1" id="requiredmessage">
+                <span class="required-indicator" id="message">*</span>This field
+                is required
               </div>
               <div class="buttonsalignment_2">
                 <button type="button" class="bt1" onclick="clearinputs()">
@@ -200,5 +200,6 @@
       includeHTML();
     </script>
     <script type="module" src="/scripts/navbar.js"></script>
+    <script src="../scripts/add-task.js"></script>
   </body>
 </html>
