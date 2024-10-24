@@ -29,7 +29,7 @@ function includeHTML() {
 function reloadLastPage() {
   const lastVisitedPage = localStorage.getItem('lastVisitedPage');
   if (lastVisitedPage) {
-    window.location.href = lastVisitedPage;
+    window.location.href = lastVisitedPage; 
   } else {
     alert("Keine letzte Seite gefunden.");
   }
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   if (reloadButton) {
-    reloadButton.onclick = reloadLastPage;
+    reloadButton.onclick = reloadLastPage; 
   }
 });
 
@@ -56,15 +56,17 @@ function toggleDropdown() {
   const dropdownMenu = document.getElementById('dropdownMenu');
   dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
 }
+
+
 window.onclick = function (event) {
   if (!event.target.matches('.user-initials')) {
-    const dropdowns = document.getElementsByClassName('dropdown-menu');
-    for (let i = 0; i < dropdowns.length; i++) {
-      const openDropdown = dropdowns[i];
-      if (openDropdown.style.display === 'block') {
-        openDropdown.style.display = 'none';
+      const dropdowns = document.getElementsByClassName('dropdown-menu');
+      for (let i = 0; i < dropdowns.length; i++) {
+          const openDropdown = dropdowns[i];
+          if (openDropdown.style.display === 'block') {
+              openDropdown.style.display = 'none';
+          }
       }
-    }
   }
 };
 
@@ -72,15 +74,15 @@ window.onclick = function (event) {
 // 
 
 
-window.onload = function () {
+window.onload = function() {
   const logo = document.querySelector('.logo');
   const overlay = document.querySelector('.overlay');
-
+  
 
   logo.classList.add('fly-in');
-
+  
 
   setTimeout(() => {
     overlay.classList.add('fade-out');
-  }, 100);
+  }, 500); 
 };
