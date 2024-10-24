@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +16,7 @@
   <link rel="stylesheet" href="./styles/summary.css" />
   <link rel="stylesheet" href="./styles/login.css" />
 </head>
+
 <body>
   <div class="overlay"></div>
   <div class="content-limitation">
@@ -22,51 +24,54 @@
       <img class="logo" src="./img/logo.png" alt="" />
       <div class="sign-up-header">
         <p class="sign-up-p">Not a Join user?</p>
-        <a href="./sign-up.html" target="_blank">
+        <a href="./sign-up.html">
           <button class="sign-up-button" type="button">Sign Up</button>
         </a>
       </div>
     </header>
+  </div>
 
-  <div class="content-limitation">
-    <div class="container">
-      <h2>Log in</h2>
-      <div class="blue-line"></div>
-      <form>
-        <div id="signInMessage" class="messageDiv" style="display: none;"></div>
-        <div class="input-fields">
-          <div class="email">
-            <input id="email" type="email" placeholder="Email" required />
-            <img class="email-icon" src="./icons/email.png" alt="email-logo" />
+  <div class="content-wrapper">
+    <div class="content-limitation">
+      <div class="container">
+        <h2>Log in</h2>
+        <div class="blue-line"></div>
+        <form>
+          <div id="signInMessage" class="messageDiv" style="display: none;"></div>
+          <div class="input-fields">
+            <div class="email">
+              <div class="inputs">
+              <input id="email" type="email" placeholder="Email" required >
+              <img class="email-icon" src="./icons/email.png" alt="email-logo" />
+            </div>
+            </div>
+            <div>
+              <input id="password" type="password" placeholder="Password" required />
+              <img class="password-icon" src="./icons/password.png" alt="password-logo" />
+            </div>
           </div>
-          <div>
-            <input id="password" type="password" placeholder="Password" required />
-            <img class="password-icon" src="./icons/password.png" alt="password-logo" />
+          <div class="checkbox-wrapper-29">
+            <label class="checkbox">
+              <input type="checkbox" class="checkbox__input" />
+              <span class="checkbox__label"></span>
+              <p class="checkbox-text">Remember Me</p>
+            </label>
           </div>
-        </div>
-        <div class="checkbox-wrapper-29">
-          <label class="checkbox">
-            <input type="checkbox" class="checkbox__input" />
-            <span class="checkbox__label"></span>
-            <p class="checkbox-text">Remember Me</p>
-          </label>
-        </div>
-        <div class="login-guest-buttons">
-          <button id="submitSignIn" class="login-button">Log in</button>
-          <button id="guestLogin" class="guest-button">Guest Log in</button>
-        </div>
-      </form>
+          <div class="login-guest-buttons">
+            <button id="submitSignIn" class="login-button">Log in</button>
+            <button id="guestLogin" class="guest-button">Guest Log in</button>
+          </div>
+        </form>
+      </div>
+      <div class="legal-links">
+        <a href="/templates-html/privacy-log.html" target="_blank">Privacy Policy</a>
+        <a href="/templates-html/legal-notice-log.html" target="_blank">Legal notice</a>
+      </div>
     </div>
   </div>
-  <footer>
-    <div class="legal-links">
-      <a href="/templates-html/privacy-log.html" target="_blank">Privacy Policy</a>
-      <a href="/templates-html/legal-notice-log.html" target="_blank">Legal notice</a>
-    </div>
-  </div>
-  </footer>
   <script src="./script.js"></script>
   <script type="module" src="/scripts/login-auth.js"></script>
 
 </body>
+
 </html>

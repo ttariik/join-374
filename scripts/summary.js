@@ -40,7 +40,7 @@ onAuthStateChanged(auth, (user) => {
     localStorage.removeItem('loggedInUserId');
     loggedUserNameElement.innerText = '';
     welcomeTextElement.innerText = greet = [
-      'What are you doing that early?',
+      'Good Night',
       'Good morning',
       'Good afternoon',
       'Good evening'
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 var greet = [
-  'What are you doing that early?',
+  'Go to bed!',
   'Good morning,',
   'Good afternoon,',
   'Good evening,'
