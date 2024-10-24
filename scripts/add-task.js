@@ -5,6 +5,7 @@ const GLOBAL =
 let selectedPriority = null;
 let subtasks = [];
 let initialsarra = [];
+let asignedtousers = [];
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
@@ -187,6 +188,8 @@ async function showcontacts(id = 1) {
 
   document.getElementById("selectboxbutton").innerHTML = searchbar();
   for (let index = 0; index < responsestoJson.length; index++) {
+    users.push(responsestoJson[index].name);
+
     document.getElementById("contacts-box").innerHTML += contactstemplate(
       responsestoJson,
       index
@@ -230,20 +233,29 @@ function contactstemplate(responsestoJson, index) {
   `;
 }
 
-function selectcontact(index) {
+async function selectcontact(index, id = 1) {
+  let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  let responsestoJson = await response.json();
+  responsestoJson = responsestoJson.filter(
+    (contact) => contact && contact.name
+  );
   document.getElementById(`div${index}`).classList.toggle("dark-blue");
   document.getElementById(`checkbox${index}`).checked =
     !document.getElementById(`checkbox${index}`).checked;
+  if (document.getElementById(`checkbox${index}`).checked) {
+    asignedtousers.push(responsestoJson[index]);
+    console.log(asignedtousers);
+  } else {
+    asignedtousers.pop();
+    console.log(asignedtousers);
+    document.getElementById("assignedusers").innerHTML = asignedtousers;
+  }
 }
 
 function filternumbers(input) {
   let date = document.getElementById("date").value;
   date = date.replace(/[^0-9:/-]/g, "");
   document.getElementById("date").value = date;
-}
-
-function showid(index) {
-  console.log(index);
 }
 
 function getColorFromString(str) {
