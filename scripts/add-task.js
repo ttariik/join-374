@@ -165,7 +165,7 @@ function subtaskstemplate(subtaskinput1) {
 }
 
 async function showcontacts(id = 1) {
-  document.getElementById("asignment").onclick = "";
+  document.getElementById("selectboxbutton").onclick = "";
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
 
@@ -173,33 +173,52 @@ async function showcontacts(id = 1) {
     (contact) => contact && contact.name
   );
 
-  document.getElementById("asignment").innerHTML = resetasignedtotemplate();
+  document.getElementById("contacts-box").innerHTML = "";
 
+  document.getElementById("selectboxbutton").innerHTML = searchbar();
   for (let index = 0; index < responsestoJson.length; index++) {
-    document.getElementById("asignment").innerHTML += contactstemplate(
+    document.getElementById("contacts-box").innerHTML += contactstemplate(
       responsestoJson,
       index
     );
 
     initialsarra.push(responsestoJson[index].initials);
   }
+  document.getElementById("selectboxbutton").onclick = resetsearchbar;
 }
 
-function resetasignedtotemplate() {
-  return `<option
-            disabled
-            selected
-            hidden
-            id="placeholderinput"
-            value="Select Contacts to assign"
-          >
-            Select Contacts to assign
-          </option>`;
+function resetsearchbar() {
+  // Reset the button's inner HTML to the default state
+  document.getElementById("selectboxbutton").innerHTML = `
+      <span>Select contacts to assign</span>
+      <img src="/img/arrow_drop_down.png" alt="" />
+  `;
+
+  // Clear the contents of the contacts box
+  document.getElementById("contacts-box").innerHTML = "";
+
+  document.querySelector(".outsidedesign").style.position = "absolute";
+  document.querySelector(".selectbutton").style.bottom = "180px";
+
+  // Set up the click event handler correctly without invoking it immediately
+  document.getElementById("selectboxbutton").onclick = function () {
+    showcontacts(); // Call the function on click
+  };
+}
+
+function searchbar() {
+  return /*html*/ `
+  <input type="text" class="searchbar"> <img src="/img/drop-up-arrow.png" alt="">
+  `;
 }
 
 function contactstemplate(responsestoJson, index) {
   return /*html*/ `
-    <option onclick="showid(${index})" value="${responsestoJson[index].initials} ${responsestoJson[index].name}"> ${responsestoJson[index].initials} ${responsestoJson[index].name}</option>
+    <li class="contact-menudesign"> 
+     <div class="splitdivs"><div class="contactbox-badge"> ${responsestoJson[index].initials} </div>
+     <div> ${responsestoJson[index].name}</div></div>
+     <input type="checkbox">
+</li>
   `;
 }
 
@@ -211,4 +230,22 @@ function filternumbers(input) {
 
 function showid(index) {
   console.log(index);
+}
+
+function getColorFromString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let r = (hash >> 24) & 0xff;
+  let g = (hash >> 16) & 0xff;
+  let b = (hash >> 8) & 0xff;
+
+  const lightnessFactor = 0.4;
+  r = Math.floor(r + (255 - r) * lightnessFactor);
+  g = Math.floor(g + (255 - g) * lightnessFactor);
+  b = Math.floor(b + (255 - b) * lightnessFactor);
+
+  return `rgb(${r}, ${g}, ${b})`;
 }

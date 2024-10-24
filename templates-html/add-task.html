@@ -48,7 +48,6 @@
                     <textarea
                       id="description"
                       placeholder="Enter a Description"
-                      id=""
                       required
                     ></textarea>
                   </div>
@@ -56,12 +55,16 @@
 
                 <div class="selectbox">
                   <div><label>Assigned to</label></div>
-                  <div class="special-select">
-                    <button type="button">
-                      <span>Select contacts to assign</span
-                      ><img src="/img/arrow_drop_down.png" alt="" />
-                    </button>
-                  </div>
+                  <button
+                    id="selectboxbutton"
+                    type="button"
+                    class="selectbutton"
+                    onclick="showcontacts()"
+                  >
+                    <span>Select contacts to assign</span
+                    ><img src="/img/arrow_drop_down.png" alt="" />
+                  </button>
+                  <ul id="contacts-box" class="outsidedesign"></ul>
                 </div>
               </div>
               <div class="line"></div>
