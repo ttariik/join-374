@@ -40,15 +40,13 @@
   flex-direction: column;
   border-top: none;
   max-width: 436px;
-}
-
-#contacts-box li {
-  padding: 10px; /* Padding for dropdown items */
-  cursor: pointer; /* Pointer cursor for items */
+  scrollbar-width: thin;
 }
 
 #assignedusers {
-  margin-top: 10px; /* Space between dropdown and assigned users */
+  margin-top: 10px;
+  display: flex;
+  gap: 5px;
 }
 
 .searchbar:focus {
@@ -626,6 +624,16 @@ select {
     flex-direction: column;
     width: 100%;
   }
+}
+
+.badgeassigned {
+  width: 42px;
+  height: 42px;
+  border-radius: 50% 50%;
+  background-color: aqua;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @media (max-width: 830px) {

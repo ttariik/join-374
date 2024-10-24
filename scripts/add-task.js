@@ -48,7 +48,6 @@ async function addtask(event) {
   let userResponse = await getAllUsers("users");
   let title = document.getElementById("title").value;
   let description = document.getElementById("description").value;
-  let asignedto = document.getElementById("asignment").value;
   let duedate = document.getElementById("date").value;
   let category = document.getElementById("Category").value;
   let UserKeyArray = Object.keys(userResponse);
@@ -65,7 +64,7 @@ async function addtask(event) {
   await addEditSingleUser((id = 1), {
     title: title,
     description: description,
-    asignedto: asignedto,
+    asignedto: asignedtousers,
     prio: selectedPriority,
     duedate: duedate,
     category: category,
@@ -176,10 +175,12 @@ async function showcontacts(id = 1) {
   document.getElementById("selectboxbutton").innerHTML = searchbar();
   for (let index = 0; index < responsestoJson.length; index++) {
     users.push(responsestoJson[index].name);
+    const color = getColorFromString(responsestoJson[index].name);
 
     document.getElementById("contacts-box").innerHTML += contactstemplate(
       responsestoJson,
-      index
+      index,
+      color
     );
 
     initialsarra.push(responsestoJson[index].initials);
@@ -208,10 +209,10 @@ function searchbar() {
   `;
 }
 
-function contactstemplate(responsestoJson, index) {
+function contactstemplate(responsestoJson, index, color) {
   return /*html*/ `
-    <li class="contact-menudesign" id="div${index}" onclick="selectcontact(${index})"> 
-     <div class="splitdivs"><div class="contactbox-badge"> ${responsestoJson[index].initials} </div>
+    <li class="contact-menudesign "   id="div${index}" onclick="selectcontact(${index})"> 
+     <div class="splitdivs"><div class="contactbox-badge badge" style="background-color:${color}"> ${responsestoJson[index].initials} </div>
      <div> ${responsestoJson[index].name}</div></div>
      <label class="custom-checkbox">
     <input type="checkbox" id="checkbox${index}" class="checkboxdesign" />
@@ -223,19 +224,28 @@ function contactstemplate(responsestoJson, index) {
 async function selectcontact(index, id = 1) {
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
+
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
+
   document.getElementById(`div${index}`).classList.toggle("dark-blue");
   document.getElementById(`checkbox${index}`).checked =
     !document.getElementById(`checkbox${index}`).checked;
+
   if (document.getElementById(`checkbox${index}`).checked) {
-    asignedtousers.push(responsestoJson[index]);
+    const color = getColorFromString(responsestoJson[index].name);
+    asignedtousers.push(responsestoJson[index].initials);
     console.log(asignedtousers);
+    document.getElementById(
+      "assignedusers"
+    ).innerHTML += `<div class="badgeassigned badge" style="background-color:${color}">${asignedtousers[index]}</div>`;
   } else {
-    const userIndex = asignedtousers.findIndex((u) => u.name === user.name);
+    const userIndex = asignedtousers.findIndex(
+      (u) => u.name === responsestoJson[index].name
+    );
     if (userIndex !== -1) {
-      asignedtousers.splice(userIndex, 1); // Remove the user from the array
+      asignedtousers.splice(userIndex, 1);
     }
   }
 }
