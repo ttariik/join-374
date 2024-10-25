@@ -538,6 +538,7 @@ input[type="password"] {
 
   .content-wrapper {
     margin-top: 20px;
+    z-index: 99;
   }
 
   .sign-up-header-mobile {

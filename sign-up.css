@@ -47,6 +47,7 @@ header {
   border-radius: 30px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   position: relative;
+  margin-top: 80px;
 }
 
 .arrow-logo {
@@ -58,8 +59,8 @@ header {
 
 .logo {
   width: 120px;
-  margin-top: 50px;
-  margin-left: 20px;
+  margin-top: 125px;
+  margin-left: 40px;
 }
 
 .sign-up-header {
@@ -126,7 +127,7 @@ h2 {
 .input-fields {
   display: flex;
   flex-direction: column;
-  margin-top: 45px;
+  margin-top: 110px;
 }
 
 input {
@@ -293,14 +294,10 @@ input[type="password"] {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  left: 180px;
-  top: 500px;
-  gap: 35px;
+  margin-top: 24px;
 }
 
 .sign-up-button-footer {
-  position: absolute;
   top: 20px;
   left: 55px;
   height: 55px;
@@ -337,18 +334,119 @@ a {
   color: #a8a8a8;
 }
 
+.legal-links {
+  display: flex;
+  justify-content: center;
+  margin: 28px 0;
+  gap: 48px;
+}
+
 .legal-links a {
-  padding: 8px;
+  color: #A8A8A8;
+  text-decoration: none;
+}
+
+.legal-links a:hover {
+  color: #29ABE2;
+  scale: 1.05;
+  font-family: 'PT-sans-bold';
 }
 
 .checkbox-text {
   color: #a8a8a8;
 }
 
+.content-wrapper {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-@media (max-width:649px) {
+@media (max-width:699px) {
 
+  html, body {
+    overflow: unset;
+  }
 
+  .container {
+    width: 450px;
+  }
+ 
+  .person-icon, .email-icon, .password-icon, .confrim-password-logo {
+    left: 400px ;
+  }
+
+  .arrow-logo {
+    right: 0;
+    left: 30px;
+  }
 }
 
 
+@media (max-width:499px) {
+
+  .logo {
+    width: 80px;
+    margin-top: 80px;
+  }
+
+  .container {
+    width: 380px;
+    margin-top: 60px;
+  }
+ 
+  .person-icon, .email-icon, .password-icon, .confrim-password-logo {
+    left: 315px ;
+  }
+
+  .input-fields {
+    justify-content: center;
+    align-items: center;
+  }
+
+  input[type="text"], input[type="email"],input[type="password"]  {
+    width: 320px;
+  }
+}
+
+@media (max-width:409px) {
+
+  .container {
+    width: 300px;
+  }
+ 
+  .person-icon, .email-icon, .password-icon, .confrim-password-logo {
+    left: 250px ;
+  }
+
+  .input-fields {
+    justify-content: center;
+    align-items: center;
+  }
+
+  input[type="text"], input[type="email"],input[type="password"]  {
+    width: 275px;
+  }
+
+  
+  .arrow-logo {
+    right: 0;
+    left: 10px;
+  }
+}
+
+@media (max-width:409px) {
+
+  .container {
+    width: 300px;
+    margin-top: 180px;
+  }
+
+  .logo {
+    width: 60px;
+  }
+ 
+  
+}
