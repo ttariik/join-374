@@ -312,3 +312,8 @@ input::placeholder {
 .initialsbox {
   display: flex;
 }
+
+.initialsboxdesign {
+  display: flex;
+  gap: 5px;
+}

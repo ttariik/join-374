@@ -136,14 +136,15 @@ function getColorFromString(str) {
 
 function userstorytemplate(responsestoJson, index, completedtasks) {
   for (let l = 0; l < fullnames.length; l++) {
-    const color = getColorFromString(fullnames[l]);
+    getusernames(fullnames);
+    const color = getColorFromString(fullnames);
     colors.push(color);
   }
   const initials = responsestoJson[index].initials;
   let initialsHTML = "";
 
   for (let a = 0; a < initials.length; a++) {
-    initialsHTML += `<div class="badgestyle" style="background-color:${colors[index]}">${initials[a]}</div>`;
+    initialsHTML += `<div class="badgestyle" style="background-color:${colors[a]}">${initials[a]}</div>`;
   }
   return /*html*/ `
   <div onclick="showtemplate(${index})" class="user-container task"  draggable="true"
@@ -182,15 +183,13 @@ function showtemplate(index, category, title, description) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.text(); // Parse the response as text (HTML content)
+      return response.text();
     })
     .then((html) => {
       document.getElementById("templateoverlay").innerHTML = html;
 
       const taskscategory = responsestoJson[index].category;
       console.log(taskscategory);
-
-      // Inject the fetched HTML into the overlay div
     })
     .catch((error) => {
       console.error("Error loading HTML:", error);
@@ -198,8 +197,17 @@ function showtemplate(index, category, title, description) {
 }
 
 function Technicaltasktemplate(responsestoJson, index) {
-  const color = getColorFromString(responsestoJson[index].name);
+  let initials = responsestoJson[index].initials;
+  for (let m = 0; m < fullnames.length; m++) {
+    const color = getColorFromString(fullnames);
+    colors.push(color);
+  }
 
+  let initialsHTML = "";
+
+  for (let s = 0; s < initials.length; s++) {
+    initialsHTML += `<div class="badgestyle" style="background-color:${colors[index]}">${initials[s]}</div>`;
+  }
   return /*html*/ `
 <div class="task-container task" 
             draggable="true"
@@ -216,8 +224,8 @@ function Technicaltasktemplate(responsestoJson, index) {
       ${responsestoJson[index].description}
    </div>
   </div>
-  <div class="task-statuss badge" style="background-color:${color}">
-    ${responsestoJson[index].initials} <img src="/img/${responsestoJson[index].prio}.png" alt="" />
+  <div class="task-statuss">
+    <div id="initialsbox" class="initialsboxdesign" >${initialsHTML}</div> <img src="/img/${responsestoJson[index].prio}.png" alt="" />
 
   </div>
 </div>
