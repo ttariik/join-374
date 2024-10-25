@@ -208,12 +208,10 @@ h1 {
     display: flex;
     justify-content: center;
     flex-direction: column;
-}
-
-.welcome {
     font-size: 47px;
     font-weight: bold;
 }
+
 
 .welcome p {
     font-size: 64px;
@@ -263,6 +261,17 @@ h1 {
     font-size: 47px;
     font-weight: bold;
   }
+
+@media (max-width:1399px) {
+
+    .welcome p {
+        font-size: 52px;
+    }
+
+    #welcomeText {
+        font-size: 36px;
+    }
+}
 
 
 @media (max-width:1325px) {
@@ -365,6 +374,14 @@ h1 {
         width: 47px;
         height: 47px;
     }
+
+    #welcomeText-mobile {
+        font-size: 36px;
+    }
+
+    #loggedUserName-mobile {
+        font-size: 52px;
+    }
 }
 
 @media (max-width:420px) {
@@ -403,4 +420,13 @@ h1 {
     .content-responsiv-all {
         padding: 64px 0;
     }
+
+    #welcomeText-mobile {
+        font-size: 32px;
+    }
+
+    #loggedUserName-mobile {
+        font-size: 48px;
+    }
+
 }
