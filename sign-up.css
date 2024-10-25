@@ -337,7 +337,7 @@ a {
 .legal-links {
   display: flex;
   justify-content: center;
-  margin: 28px 0;
+  margin: 100px 0;
   gap: 48px;
 }
 
@@ -362,6 +362,13 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.checkboxError {
+  display: none;
+  color: red;
+  position:absolute;
+  top: 580px;
 }
 
 @media (max-width:699px) {
