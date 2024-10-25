@@ -31,8 +31,8 @@ h2 {
 
 .task-button {
   padding: 5px 10px;
-  margin-right: 60px;
-  width: 160px;
+  max-width: 160px;
+  width: 100%;
   height: 50px;
   background-color: #2a3647;
   border: 1px solid #2a3647;
@@ -40,7 +40,6 @@ h2 {
   font-size: 21px;
   color: #ffffff;
   font-weight: 700;
-  margin-left: 40px;
   cursor: pointer;
 }
 
@@ -63,42 +62,69 @@ h2 {
   display: flex;
   align-items: center;
   margin-top: 20px;
+  width: 100%;
+  max-width: 504px;
+  gap: 32px;
 }
 
 .search-wrapper {
+  max-width: 312px;
+  width: calc(100% - 300px);
   position: relative;
+  border: 1px solid;
+  height: 32px;
+  padding: 8px 16px 8px 16px;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
-  border: 1px solid #a8a8a8;
-  padding-right: 10px;
-  border-radius: 10px;
-  background-color: #fff;
-  padding: 2px;
 }
 
 .separator {
+  position: absolute;
+  right: 54px;
+  height: 31px;
   width: 1px;
-  height: 30px;
   background-color: #d1d1d1;
-  margin: 0 10px;
+  top: 7px;
 }
 
 input::placeholder {
   font-size: 20px;
   color: #d1d1d1;
   margin-top: 20px;
+  align-items: center;
+}
+
+input:focus {
+  outline: none;
 }
 
 .search-input {
-  max-width: 310px;
+  display: flex;
+  max-width: 100px;
   width: 100%;
   border: none;
-  padding: 10px;
-  padding-left: 10px;
-  outline: none;
-  flex-grow: 1;
-  font-size: 16px;
-  line-height: 30px;
+  height: 32px;
+}
+.search-wrapper button {
+  border: none;
+  position: absolute;
+  background: none;
+  right: 7px;
+  top: 5px;
+  max-width: 32px;
+  width: 100%;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  border-radius: 50% 50%;
+  padding: 5px;
+  align-items: center;
+}
+
+.search-wrapper button:hover {
+  background-color: aliceblue;
+  cursor: pointer;
 }
 
 .search-icon {
@@ -159,13 +185,23 @@ input::placeholder {
 }
 
 .drag-drop-content {
-  margin-left: 260px;
+  max-width: 1044px;
+  width: 100%;
   display: flex;
-  max-width: 100%;
-  width: 1440px;
+  gap: 26px;
+  padding: 0 64px 0 88px;
+}
+
+.content2 {
+  display: flex;
+  margin-left: 233px;
+  max-width: 1208px;
+  width: 100%;
 }
 
 .folder {
+  max-width: 253px;
+  width: 100%;
 }
 
 .task {

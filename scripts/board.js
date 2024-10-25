@@ -79,7 +79,6 @@ function countAndStoreTasks() {
 document.addEventListener("DOMContentLoaded", countAndStoreTasks);
 
 async function loadtasks(id = 1) {
-  getusernames(id);
   let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   let responsestoJson = await responses.json();
   responsestoJson = responsestoJson.filter(

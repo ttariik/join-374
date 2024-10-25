@@ -17,30 +17,26 @@
       <div class="box">
         <header class="board-header">
           <h2>Board</h2>
-          <div>
-            <div class="input-container">
-              <div class="search-wrapper">
-                <input
-                  id="searchInput"
-                  class="search-input"
-                  id="input-search"
-                  type="text"
-                  placeholder="Find Task"
-                />
-                <span class="separator"></span>
+          <div class="input-container">
+            <div class="search-wrapper">
+              <input
+                id="searchInput"
+                class="search-input"
+                id="input-search"
+                type="text"
+                placeholder="Find Task"
+              />
+              <span class="separator"></span>
+              <button>
                 <img class="search-icon" src="/img/search.png" alt="" />
-              </div>
-              <button class="task-button" onclick="opentasktemplate()">
-                <div class="button-items">
-                  <span class="button-text">Add Task</span>
-                  <img
-                    class="button-image"
-                    src="/img/plus.png"
-                    alt="add-logo"
-                  />
-                </div>
               </button>
             </div>
+            <button class="task-button" onclick="opentasktemplate()">
+              <div class="button-items">
+                <span class="button-text">Add Task</span>
+                <img class="button-image" src="/img/plus.png" alt="add-logo" />
+              </div>
+            </button>
           </div>
         </header>
 
@@ -92,34 +88,35 @@
         </div>
       </div>
     </div>
-
-    <div class="drag-drop-content">
-      <div
-        class="folder"
-        id="todo-folder"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      >
-        <div class="article" id="article"></div>
+    <div class="content2">
+      <div class="drag-drop-content">
+        <div
+          class="folder"
+          id="todo-folder"
+          ondrop="drop(event)"
+          ondragover="allowDrop(event)"
+        >
+          <div class="article" id="article"></div>
+        </div>
+        <div
+          class="folder"
+          id="inprogress-folder"
+          ondrop="drop(event)"
+          ondragover="allowDrop(event)"
+        ></div>
+        <div
+          class="folder"
+          id="review-folder"
+          ondrop="drop(event)"
+          ondragover="allowDrop(event)"
+        ></div>
+        <div
+          class="folder"
+          id="done-folder"
+          ondrop="drop(event)"
+          ondragover="allowDrop(event)"
+        ></div>
       </div>
-      <div
-        class="folder"
-        id="inprogress-folder"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      ></div>
-      <div
-        class="folder"
-        id="review-folder"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      ></div>
-      <div
-        class="folder"
-        id="done-folder"
-        ondrop="drop(event)"
-        ondragover="allowDrop(event)"
-      ></div>
     </div>
     <div w3-include-html="/templates-html/overlay.html"></div>
     <div id="templateoverlay"></div>
