@@ -265,7 +265,7 @@ h1 {
 @media (max-width:1399px) {
 
     .welcome p {
-        font-size: 52px;
+        font-size: 48px;
     }
 
     #welcomeText {
@@ -274,7 +274,7 @@ h1 {
 }
 
 
-@media (max-width:1325px) {
+@media (max-width:1259px) {
 
     .summary-all {
         position: unset;
