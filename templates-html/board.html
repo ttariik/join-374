@@ -14,78 +14,80 @@
   <body onload="loadtasks();getusernames()">
     <div w3-include-html="../navbar.html"></div>
     <div class="content">
-      <header class="board-header">
-        <h2>Board</h2>
-        <div>
-          <div class="input-container">
-            <div class="search-wrapper">
-              <input
-                id="searchInput"
-                class="search-input"
-                id="input-search"
-                type="text"
-                placeholder="Find Task"
-              />
-              <span class="separator"></span>
-              <img class="search-icon" src="/img/search.png" alt="" />
-            </div>
-            <button class="task-button" onclick="opentasktemplate()">
-              <div class="button-items">
-                <span class="button-text">Add Task</span>
-                <img class="button-image" src="/img/plus.png" alt="add-logo" />
+      <div class="box">
+        <header class="board-header">
+          <h2>Board</h2>
+          <div>
+            <div class="input-container">
+              <div class="search-wrapper">
+                <input
+                  id="searchInput"
+                  class="search-input"
+                  id="input-search"
+                  type="text"
+                  placeholder="Find Task"
+                />
+                <span class="separator"></span>
+                <img class="search-icon" src="/img/search.png" alt="" />
               </div>
-            </button>
+              <button class="task-button" onclick="opentasktemplate()">
+                <div class="button-items">
+                  <span class="button-text">Add Task</span>
+                  <img
+                    class="button-image"
+                    src="/img/plus.png"
+                    alt="add-logo"
+                  />
+                </div>
+              </button>
+            </div>
           </div>
-        </div>
-      </header>
+        </header>
 
-      <div class="center">
-        <div class="task-status">
-          <div class="status-item">
-            <span class="status-text">To Do</span>
-            <img
-              class="status-item-png"
-              src="/img/status-item.png"
-              alt="status-item"
-              onclick="opentasktemplate()"
-              style="cursor: pointer"
-            />
+        <div class="center">
+          <div class="task-status">
+            <div class="status-item">
+              <span class="status-text">To Do</span>
+              <img
+                class="status-item-png"
+                src="/img/status-item.png"
+                alt="status-item"
+                onclick="opentasktemplate()"
+                style="cursor: pointer"
+              />
+            </div>
           </div>
-        </div>
 
-        <span class="puffer"></span>
-
-        <div class="task-status">
-          <div class="status-item">
-            <span class="status-text">In progress</span>
-            <img
-              class="status-item-png"
-              src="/img/status-item.png"
-              alt="status-item"
-              onclick="opentasktemplate()"
-              style="cursor: pointer"
-            />
+          <div class="task-status">
+            <div class="status-item">
+              <span class="status-text">In progress</span>
+              <img
+                class="status-item-png"
+                src="/img/status-item.png"
+                alt="status-item"
+                onclick="opentasktemplate()"
+                style="cursor: pointer"
+              />
+            </div>
           </div>
-        </div>
 
-        <span class="puffer"></span>
-
-        <div class="task-status">
-          <div class="status-item">
-            <span class="status-text">Await feedback</span>
-            <img
-              class="status-item-png"
-              src="/img/status-item.png"
-              alt="status-item"
-              onclick="opentasktemplate()"
-              style="cursor: pointer"
-            />
+          <div class="task-status">
+            <div class="status-item">
+              <span class="status-text">Await feedback</span>
+              <img
+                class="status-item-png"
+                src="/img/status-item.png"
+                alt="status-item"
+                onclick="opentasktemplate()"
+                style="cursor: pointer"
+              />
+            </div>
           </div>
-        </div>
 
-        <div class="task-status">
-          <div class="status-item">
-            <span class="status-text done-text">Done</span>
+          <div class="task-status">
+            <div class="status-item">
+              <span class="status-text">Done</span>
+            </div>
           </div>
         </div>
       </div>
@@ -119,7 +121,6 @@
         ondragover="allowDrop(event)"
       ></div>
     </div>
-
     <div w3-include-html="/templates-html/overlay.html"></div>
     <div id="templateoverlay"></div>
     <script>

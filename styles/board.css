@@ -12,9 +12,8 @@ h2 {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  margin: auto auto auto 253px;
+  margin-left: 242px;
 }
 
 .board-header {
@@ -91,7 +90,8 @@ input::placeholder {
 }
 
 .search-input {
-  width: 310px;
+  max-width: 310px;
+  width: 100%;
   border: none;
   padding: 10px;
   padding-left: 10px;
@@ -121,19 +121,22 @@ input::placeholder {
 }
 
 .center {
-  padding: 0 64px 0 64px;
   display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 24px;
 }
 
 .task-status {
   margin-top: 100px;
+  max-width: 244px;
+  width: 100%;
 }
 
 .status-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 244px;
   height: 24px;
 }
 
@@ -148,15 +151,12 @@ input::placeholder {
   width: 24px;
 }
 
-.puffer {
-  margin: 30px;
+.box {
+  display: flex;
+  flex-direction: column;
+  max-width: 1056px;
+  width: 100%;
 }
-
-.done-text {
-  margin-left: 40px;
-}
-
-/*  */
 
 .drag-drop-content {
   margin-left: 260px;
@@ -166,14 +166,6 @@ input::placeholder {
 }
 
 .folder {
-  width: 200px;
-  min-height: 300px;
-  margin: 10px;
-  padding: 10px;
-  text-align: center;
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 80px;
 }
 
 .task {
@@ -320,4 +312,10 @@ input::placeholder {
 .initialsboxdesign {
   display: flex;
   gap: 5px;
+}
+
+@media (max-width: 1259px) {
+  .content {
+    padding: 107px 0 0 0px;
+  }
 }
