@@ -362,6 +362,10 @@ input[type="password"] {
   animation: pauseInMiddle 0.5s ease, flyInToHeader 0.9s ease 0.5s forwards;
 }
 
+.sign-up-header-mobile {
+  display: none;
+}
+
 @keyframes pauseInMiddle {
   0% {
     top: 50%;
@@ -396,3 +400,167 @@ input[type="password"] {
 }
 
 
+@media (max-width:699px) {
+
+  .container {
+    width: 450px;
+  }
+
+  input[type="email"]  {
+    left: 12px;
+  }
+
+  input[type="password"]  {
+    left: 12px;
+  }
+
+  .email-icon {
+    left: 400px;
+  }
+
+  .password-icon {
+    left: 400px;
+  }
+
+  .checkbox-wrapper-29 .checkbox {
+    left: 16px;
+  }
+
+  .login-guest-buttons {
+    left: 80px;
+  }
+
+  .sign-up-header {
+    display: none;
+  }
+
+  .sign-up-header-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    gap: 32px;
+  }
+
+  .legal-links {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width:499px) {
+
+  .container {
+    width: 380px;
+  }
+
+  input[type="email"]  {
+    width: 350px;
+  }
+
+  input[type="password"]  {
+    width: 350px;
+  }
+
+  .email-icon {
+    left: 330px;
+  }
+
+  .password-icon {
+    left: 330px;
+  }
+
+  .login-guest-buttons {
+    left: 40px;
+  }
+
+  .logo {
+    width: 80px;
+  }
+  
+  @keyframes flyInToHeader {
+    0% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80px;
+    }
+    100% {
+      top: 0px;
+      left: 20px;
+      transform: translate(0, 0);
+      width: 80px;
+    }
+  }  
+}
+
+
+@media (max-width:410px) {
+
+  .container {
+    width: 300px;
+  }
+
+  input[type="email"]  {
+    width: 275px;
+  }
+
+  input[type="password"]  {
+    width: 275px;
+  }
+
+  .email-icon {
+    left: 250px;
+  }
+
+  .password-icon {
+    left: 250px;
+  }
+
+  .login-guest-buttons {
+    left: 22px;
+    gap: 20px;
+  }
+
+  .guest-button {
+    width: 140px;
+  }
+
+  .content-wrapper {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width:399px) {
+
+  .logo {
+    width: 60px;
+  }
+
+  .content-wrapper {
+    margin-top: 20px;
+  }
+
+  .sign-up-header-mobile {
+    margin-top: 40px;
+  }
+  
+  .legal-links {
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  @keyframes flyInToHeader {
+    0% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+    }
+    100% {
+      top: 0px;
+      left: 20px;
+      transform: translate(0, 0);
+      width: 60px;
+    }
+  }  
+}
