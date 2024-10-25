@@ -20,18 +20,11 @@ const db = getFirestore();
 function showMessage(message, divId) {
     let overlayDiv = document.getElementById('overlayDiv');
     let messageDiv = document.getElementById(divId);
-    
-    // Zeige den Overlay-Bereich an
     overlayDiv.style.display = "flex";
-    
-    // Setze die Nachricht in das Div
     messageDiv.innerHTML = message;
     messageDiv.style.opacity = 1;
-    
-    // Blende die Nachricht nach 2 Sekunden aus
     setTimeout(function () {
         messageDiv.style.opacity = 0;
-        // Verstecke den Overlay-Bereich, wenn die Nachricht ausgeblendet wird
         overlayDiv.style.display = "none";
     }, 2000);
 }

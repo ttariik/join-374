@@ -20,7 +20,7 @@ function showMessage(message, divId) {
     messageDiv.style.opacity = 1;
     setTimeout(function () {
         messageDiv.style.opacity = 0;
-    }, 5000);
+    }, 2000);
 }
 
 const app = initializeApp(firebaseConfig);
