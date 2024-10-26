@@ -27,6 +27,7 @@ function selectbutton_3() {
 
 function clearinputs() {
   document.getElementById("myform").reset();
+  emptyinputs();
 }
 
 function resetsubtaskinput() {
@@ -80,6 +81,8 @@ async function addtask(event) {
 function emptyinputs() {
   let form = document.querySelector("form");
   form.reset();
+  document.getElementById("assignedusers").innerHTML = "";
+  document.getElementById("subtasksbox").innerHTML = "";
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button1").classList.remove("lightorange");
   document.getElementById("button1").classList.remove("lightgreen");
@@ -162,27 +165,27 @@ function subtaskstemplate(subtaskinput1) {
   `;
 }
 
-async function showcontacts(id = 1) {
+function smallerfunction() {
   document.getElementById("contacts-box").style.display = "flex";
   document.getElementById("selectboxbutton").onclick = "";
+}
+
+async function showcontacts(id = 1) {
+  smallerfunction();
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
-
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
-
   document.getElementById("selectboxbutton").innerHTML = searchbar();
   for (let index = 0; index < responsestoJson.length; index++) {
     users.push(responsestoJson[index].name);
     const color = getColorFromString(responsestoJson[index].name);
-
     document.getElementById("contacts-box").innerHTML += contactstemplate(
       responsestoJson,
       index,
       color
     );
-
     initialsarra.push(responsestoJson[index].initials);
   }
   document.getElementById("selectboxbutton").onclick = resetsearchbar;
@@ -193,11 +196,8 @@ function resetsearchbar() {
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
   `;
-
   document.getElementById("contacts-box").innerHTML = "";
-
   document.querySelector(".outsidedesign").style.position = "absolute";
-
   document.getElementById("selectboxbutton").onclick = function () {
     showcontacts();
   };
@@ -221,34 +221,63 @@ function contactstemplate(responsestoJson, index, color) {
   `;
 }
 
+function variables(index, responsestoJson) {
+  const contactDiv = document.getElementById(`div${index}`);
+  const checkbox = document.getElementById(`checkbox${index}`);
+  const initials = responsestoJson[index].initials;
+  const color = getColorFromString(responsestoJson[index].name);
+  const assignedUsersDiv = document.getElementById("assignedusers");
+  checkbox.checked = !checkbox.checked;
+  contactDiv.classList.toggle("dark-blue", checkbox.checked);
+  return { contactDiv, checkbox, initials, color, assignedUsersDiv };
+}
+
 async function selectcontact(index, id = 1) {
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
-
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
-
-  document.getElementById(`div${index}`).classList.toggle("dark-blue");
-  document.getElementById(`checkbox${index}`).checked =
-    !document.getElementById(`checkbox${index}`).checked;
-
-  if (document.getElementById(`checkbox${index}`).checked) {
-    const color = getColorFromString(responsestoJson[index].name);
-    asignedtousers.push(responsestoJson[index].initials);
-    console.log(asignedtousers);
-    document.getElementById(
-      "assignedusers"
-    ).innerHTML += `<div class="badgeassigned badge" style="background-color:${color}">${asignedtousers[index]}</div>`;
+  const { contactDiv, checkbox, initials, color, assignedUsersDiv } = variables(
+    index,
+    responsestoJson
+  );
+  if (checkbox.checked) {
+    iffunction(initials, color, contactDiv, assignedUsersDiv);
   } else {
-    const userIndex = asignedtousers.findIndex(
-      (u) => u.name === responsestoJson[index].name
-    );
-    if (userIndex !== -1) {
-      asignedtousers.splice(userIndex, 1);
-    }
+    elsefunction(initials);
   }
 }
+
+function iffunction(initials, color, contactDiv, assignedUsersDiv) {
+  if (!asignedtousers.includes(initials)) {
+    asignedtousers.push(initials);
+    console.log(asignedtousers);
+    const badge = document.createElement("div");
+    badge.className = "badgeassigned badge";
+    badge.style.backgroundColor = color;
+    badge.textContent = initials;
+    assignedUsersDiv.appendChild(badge);
+  }
+}
+
+function elsefunction(initials) {
+  const userIndex = asignedtousers.indexOf(initials);
+  if (userIndex !== -1) {
+    asignedtousers.splice(userIndex, 1);
+
+    const badges = document.querySelectorAll("#assignedusers .badgeassigned");
+    badges.forEach((badge) => {
+      if (badge.textContent === initials) {
+        badge.remove();
+      }
+    });
+  }
+}
+
+document.getElementById(`div${index}`).addEventListener("click", () => {
+  selectcontact(index, id);
+});
 
 function filternumbers(input) {
   let date = document.getElementById("date").value;
@@ -261,16 +290,13 @@ function getColorFromString(str) {
   for (let i = 0; i < str.length; i++) {
     hash = str.charCodeAt(i) + ((hash << 5) - hash);
   }
-
   let r = (hash >> 24) & 0xff;
   let g = (hash >> 16) & 0xff;
   let b = (hash >> 8) & 0xff;
-
   const lightnessFactor = 0.4;
   r = Math.floor(r + (255 - r) * lightnessFactor);
   g = Math.floor(g + (255 - g) * lightnessFactor);
   b = Math.floor(b + (255 - b) * lightnessFactor);
-
   return `rgb(${r}, ${g}, ${b})`;
 }
 

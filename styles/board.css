@@ -9,11 +9,11 @@ h2 {
 
 .content {
   max-width: 1208px;
-  width: 100%;
+  width: 63%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 242px;
+  margin: auto;
 }
 
 .board-header {
@@ -186,17 +186,17 @@ input:focus {
 
 .drag-drop-content {
   max-width: 1044px;
-  width: 100%;
+  width: 92%;
   display: flex;
   gap: 26px;
-  padding: 0 64px 0 88px;
+  padding: 0 64px 0 60px;
 }
 
 .content2 {
   display: flex;
-  margin-left: 233px;
+  margin: auto;
   max-width: 1208px;
-  width: 100%;
+  width: 70%;
 }
 
 .folder {
