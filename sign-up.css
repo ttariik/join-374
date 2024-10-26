@@ -389,6 +389,10 @@ a {
     right: 0;
     left: 30px;
   }
+
+  .legal-links {
+    margin: 52px 0;
+  }
 }
 
 
@@ -416,6 +420,11 @@ a {
   input[type="text"], input[type="email"],input[type="password"]  {
     width: 320px;
   }
+
+  .legal-links {
+    margin: 32px 0;
+  }
+
 }
 
 @media (max-width:409px) {
