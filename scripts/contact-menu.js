@@ -95,14 +95,6 @@ async function showcontacttemplate(index, id = 1) {
     (contact) => contact && contact.name
   );
 
-  // Get the element by id
-  const contactElement = document.getElementById(`task-${index}`);
-
-  if (!contactElement) {
-    console.error(`Element with id task-${index} not found`);
-    return;
-  }
-
   // Show contact template design
   document.querySelector(".contacttemplatedesing").style.display = "flex";
   document.querySelector(".contacttemplatedesing").style.transform =
