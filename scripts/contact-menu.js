@@ -86,21 +86,26 @@ function getColorFromString(str) {
 }
 
 async function showcontacttemplate(index, id = 1) {
-  // Fetch contacts data from the API
   let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await responses.json();
 
-  // Filter valid contacts
   responsestoJson = responsestoJson.filter(
     (contact) => contact && contact.name
   );
 
-  // Show contact template design
+  responsestoJson.sort((a, b) => {
+    const nameA = a.name.toLowerCase();
+    const nameB = b.name.toLowerCase();
+
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+
   document.querySelector(".contacttemplatedesing").style.display = "flex";
   document.querySelector(".contacttemplatedesing").style.transform =
     "translateX(0%)";
 
-  // Update contact template with data from responsestoJson
   const contact = responsestoJson[index];
   if (contact) {
     document.getElementById("badge").innerHTML = contact.initials;
