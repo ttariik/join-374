@@ -9,29 +9,31 @@
   </head>
   <body>
     <div class="contact_box">
-      <div class="firstpartofthebox">
-        <div id="badge" class="badgedesign">
+      <div class="contact-box__header">
+        <div id="badge" class="contact-box__badge">
           <img src="../img/Group 13.png" alt="" />
         </div>
-        <div style="margin-bottom: 27px">
-          <div><span id="title" class="wordstyle">Anton Mayer</span></div>
-          <div style="display: flex; gap: 16px">
-            <div style="display: flex; align-items: center; gap: 8px">
+        <div class="contact-box__title">
+          <span id="title" class="wordstyle">Anton Mayer</span>
+          <div class="contact-box__actions">
+            <button class="contact-box__action" id="editbutton" onclick="">
               <img src="../img/edit.png" alt="" /><span>Edit</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 8px">
+            </button>
+            <button class="contact-box__action" id="deletebutton" onclick="">
               <img src="../img/delete.png" alt="" /><span>Delete</span>
-            </div>
+            </button>
           </div>
         </div>
       </div>
-      <div class="secondsquare"><span>Contact Information</span></div>
-      <div style="display: flex; flex-direction: column; gap: 22px">
-        <div style="display: flex; flex-direction: column; gap: 11px">
+      <div class="contact-box__info-title">
+        <span>Contact Information</span>
+      </div>
+      <div class="contact-box__details">
+        <div class="contact-box__detail">
           <span>Email</span>
           <span id="email">antom@gmail.com</span>
         </div>
-        <div style="display: flex; flex-direction: column; gap: 11px">
+        <div class="contact-box__detail">
           <span>Phone</span>
           <span id="telefone">+49 1111 11 111 1</span>
         </div>

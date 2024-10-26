@@ -4,39 +4,58 @@ async function addcontact(event) {
   event.preventDefault();
   let form = document.querySelector("form");
 
+  // Check if the form is valid
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
   }
-  let userResponse = await getAllUsers("users");
+
+  // Get contact details from the form
   let telefonename = document.getElementById("name").value;
   let nameParts = telefonename.trim().split(" ");
   let firstname = nameParts[0].charAt(0).toUpperCase();
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
-  if (firstname && lastname) {
-    initials = firstname + lastname;
-  } else {
-    initials = firstname;
-  }
-  initialsarrays.push(initials);
+  let initials = firstname + (lastname || ""); // Generate initials
 
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
-  let UserKeyArray = Object.keys(userResponse);
-  for (let index = 0; index < UserKeyArray.length; index++) {
-    users.push({
-      id: UserKeyArray[index],
-      user: userResponse[UserKeyArray[index]],
+
+  // Check if the contacts object exists in users/1
+  const contactsResponse = await fetch(GLOBAL + "users/1/contacts.json");
+  const contactsData = await contactsResponse.json();
+
+  // If contacts is null or undefined, initialize it
+  if (!contactsData) {
+    await fetch(GLOBAL + "users/1/contacts.json", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}), // Initialize contacts as an empty object
     });
   }
-  await addEditSingleUser((id = 1), {
-    name: telefonename,
-    email: email,
-    telefone: phone,
-    initials: initials,
+
+  // Determine the next available index
+  const contactKeys = Object.keys(contactsData || {});
+  let nextIndex = 1; // Start from 1
+  if (contactKeys.length > 0) {
+    // Find the highest existing index
+    nextIndex = Math.max(...contactKeys.map(Number)) + 1;
+  }
+
+  // Add the new contact under `users/1/contacts`
+  await fetch(GLOBAL + `users/1/contacts/${nextIndex}.json`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: telefonename,
+      email: email,
+      telefone: phone,
+      initials: initials,
+    }),
   });
-  emptyinputs();
-  closecontactstemplate();
+
+  emptyinputs(); // Clear the form inputs
+  closecontactstemplate(); // Close the contact template/modal
+  showcontacts(1); // Refresh contact list to include the new contact
 }
 
 async function firstlastnameletters(id) {
