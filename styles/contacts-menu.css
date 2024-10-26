@@ -73,10 +73,10 @@ body {
 }
 
 .boxalignment {
-  margin: 50px 219px 0 269px;
+  margin: 50px 218px 0 267px;
   display: flex;
   flex-direction: column;
-  width: calc(100% - 896px);
+  width: 31%;
 }
 
 .contact-content-wrapper {
