@@ -1,3 +1,5 @@
+let displayedLetters = new Set(); // Changed to a Set for better management
+
 function opencontactstemplate() {
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
@@ -13,28 +15,28 @@ function closecontactstemplate() {
 }
 
 async function showcontacts(id = 1) {
-  const responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
-  let responsestoJson = await responses.json();
+  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  const responsestoJson = await response.json();
 
-  // Store Firebase data with keys
   contactUsers = Object.entries(responsestoJson || {})
     .map(([key, contact]) => ({ key, ...contact }))
     .filter((contact) => contact && contact.name)
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
 
-  let displayedLetters = new Set();
+  displayedLetters.clear();
   const contactMenu = document.getElementById("contactmenu");
   contactMenu.innerHTML = "";
+
   contactUsers.forEach((contact) => {
-    contactMenu.innerHTML += contactsmenutemplate(contact, displayedLetters);
+    contactMenu.innerHTML += contactsmenutemplate(contact);
   });
 }
 
-function contactsmenutemplate(contact, displayedLetters) {
+function contactsmenutemplate(contact) {
+  console.log(contact);
+
   let firstLetter = contact.name.charAt(0).toUpperCase();
 
-  // Title for new letter
-  let title = "";
   if (!displayedLetters.has(firstLetter)) {
     title = `<h2>${firstLetter}</h2>
              <div class="lineseperator"></div>`;
@@ -47,7 +49,7 @@ function contactsmenutemplate(contact, displayedLetters) {
       ${title}
       <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
     contact.key
-  }')">
+  }');">
         <div class="badge" style="background-color: ${color};">
           ${contact.initials || contact.name.charAt(0).toUpperCase()}
         </div>
@@ -76,35 +78,26 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function resetclick(contactKey) {
-  document.getElementById("contacttemplate").style =
-    "transform: translateX(250%);";
-  setTimeout(() => {
-    document.getElementById("contacttemplate").style.display = "none";
-  }, 10);
-  document.getElementById(contactKey).onclick = () =>
-    showcontacttemplate(contactKey);
-}
-
-async function edicontact(contactKey, id = 1) {
+async function edicontact(contactKey) {
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
     console.error("Contact not found");
     return;
   }
-
-  // Populate the form with the contact's details
   document.getElementById("name").value = contact.name;
   document.getElementById("emailarea").value = contact.email || "";
   document.getElementById("phone").value = contact.telefone || "";
-
   document.getElementById("spantitle").innerHTML = "Edit contact";
-  document.getElementById("spandescription").remove();
+  document.getElementById("spandescription").innerHTML = "";
+  document.getElementById("formid").onsubmit = function (event) {
+    event.preventDefault();
+    savedata(contactKey);
+  };
+
   opencontactstemplate();
 }
 
 async function deletecontact(contactKey) {
-  // Find the contact index using the key directly, and ensure it’s assigned before further operations
   const contactIndex = contactUsers.findIndex(
     (contact) => contact.key === contactKey
   );
@@ -113,10 +106,9 @@ async function deletecontact(contactKey) {
     return;
   }
 
-  // Perform the deletion in Firebase and refresh the UI
   await deleteData(`/users/1/contacts/${contactKey}`);
-  await showcontacts(1); // Refresh the UI
-  document.getElementById("contacttemplate").innerHTML = "";
+  await showcontacts(1);
+  closecontactstemplate();
 }
 
 async function deleteData(path = "", data = {}) {
@@ -126,35 +118,69 @@ async function deleteData(path = "", data = {}) {
   return await response.json();
 }
 
-function showcontacttemplate(contactKey) {
+async function showcontacttemplate(contactKey) {
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
     console.error("Contact not found");
     return;
   }
 
-  // Populate the template with contact details
-  document.getElementById("contacttemplate").style.display = "flex";
+  const contactTemplate = document.getElementById("contacttemplate");
+  contactTemplate.style.display = "flex";
+  contactTemplate.style.transform = "translateX(0%)";
+
   document.getElementById("title").innerHTML = contact.name;
   document.getElementById("email").innerHTML = contact.email || "";
   document.getElementById("telefone").innerHTML = contact.telefone || "";
 
-  // Update the edit button
   const editButton = document.getElementById("editbutton");
-  editButton.replaceWith(editButton.cloneNode(true)); // Clear previous listeners
-  document.getElementById("editbutton").addEventListener("click", function () {
-    edicontact(contactKey);
+  editButton.onclick = () => edicontact(contactKey);
+
+  const deleteButton = document.getElementById("deletebutton");
+  deleteButton.onclick = () => deletecontact(contactKey);
+}
+
+async function savedata(contactKey) {
+  const contact = contactUsers.find((user) => user.key === contactKey);
+
+  let name = document.getElementById("name").value;
+  let email = document.getElementById("emailarea").value;
+  let telefone = document.getElementById("phone").value;
+  putData(`/users/1/contacts/${contactKey}`, {
+    name: name,
+    email: email,
+    telefone: telefone,
+  });
+  await showcontacts(contactKey, (id = 1));
+  closecontactstemplate();
+  setTimeout(() => {
+    showcontacttemplate(contactKey);
+  }, 0.5);
+}
+
+async function putData(path = "", data = {}) {
+  console.log(`PUT request to ${GLOBAL + path}.json with data:`, data);
+
+  let response = await fetch(GLOBAL + path + ".json", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
   });
 
-  // Update the delete button
-  const deleteButton = document.getElementById("deletebutton");
-  deleteButton.replaceWith(deleteButton.cloneNode(true)); // Clear previous listeners
-  document
-    .getElementById("deletebutton")
-    .addEventListener("click", function () {
-      deletecontact(contactKey);
-    });
+  if (!response.ok) {
+    console.error("Failed to update data:", response.statusText);
+    return null;
+  }
 
-  // Show the template with the selected contact's information
-  document.getElementById("contacttemplate").style.transform = "translateX(0%)";
+  return await response.json();
+}
+
+async function addEditSingleUser(contactKey, contact) {
+  const result = await putData(`/users/1/contacts/${contactKey}`, contact);
+
+  if (result) {
+    console.log("Contact updated successfully:", result);
+  }
 }

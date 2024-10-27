@@ -4,62 +4,40 @@ async function addcontact(event) {
   event.preventDefault();
   let form = document.querySelector("form");
 
-  // Check if the form is valid
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
   }
 
-  // Get contact details from the form
+  // Check if "contacts" folder exists
+  let contactsPath = `/users/1/contacts`;
+  let contactsResponse = await fetch(GLOBAL + contactsPath + ".json");
+  let contactsData = await contactsResponse.json();
+
+  // If "contacts" folder does not exist, initialize it as an empty object
+  if (!contactsData) {
+    await putData(contactsPath, {}); // This will create an empty "contacts" folder if it doesn't exist
+  }
+
+  // Now proceed with adding the new contact
   let telefonename = document.getElementById("name").value;
   let nameParts = telefonename.trim().split(" ");
   let firstname = nameParts[0].charAt(0).toUpperCase();
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
-  let initials = firstname + (lastname || ""); // Generate initials
+  let initials = firstname + (lastname || "");
 
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
 
-  // Check if the contacts object exists in users/1
-  const contactsResponse = await fetch(GLOBAL + "users/1/contacts.json");
-  const contactsData = await contactsResponse.json();
-
-  // If contacts is null or undefined, initialize it
-  if (!contactsData) {
-    await fetch(GLOBAL + "users/1/contacts.json", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}), // Initialize contacts as an empty object
-    });
-  }
-
-  // Determine the next available index
-  const contactKeys = Object.keys(contactsData || {});
-  let nextIndex = 1; // Start from 1
-  if (contactKeys.length > 0) {
-    // Find the highest existing index
-    nextIndex = Math.max(...contactKeys.map(Number)) + 1;
-  }
-
-  // Add the new contact under `users/1/contacts`
-  await fetch(GLOBAL + `users/1/contacts/${nextIndex}.json`, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      name: telefonename,
-      email: email,
-      telefone: phone,
-      initials: initials,
-    }),
+  await addEditSingleUser(1, {
+    name: telefonename,
+    email: email,
+    telefone: phone,
+    initials: initials,
   });
 
-  emptyinputs(); // Clear the form inputs
-  closecontactstemplate(); // Close the contact template/modal
-  showcontacts(1); // Refresh contact list to include the new contact
-}
-
-async function firstlastnameletters(id) {
-  let contacts = await getUserContacts(id);
+  emptyinputs();
+  closecontactstemplate();
 }
 
 function emptyinputs() {
@@ -83,11 +61,18 @@ async function putData(path = "", data = {}) {
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id);
 
+  // If there are no contacts, initialize `userContacts` as an empty object
+  if (!userContacts) {
+    userContacts = {};
+  }
+
   let existingIndexes = Object.keys(userContacts).map(Number);
 
+  // Determine the next index for the contact
   let nextIndex =
     existingIndexes.length > 0 ? Math.max(...existingIndexes) + 1 : 1;
 
+  // Add the new contact with the calculated index
   await putData(`users/${id}/contacts/${nextIndex}`, contact);
 }
 
