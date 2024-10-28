@@ -186,7 +186,7 @@ input:focus {
 .drag-drop-content {
   max-width: 1044px;
   width: 100%;
-  min-height: 50vh;
+  height: 688px;
   display: flex;
   gap: 26px;
 }
