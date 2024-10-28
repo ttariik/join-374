@@ -201,7 +201,7 @@
   gap: 25px;
 }
 
-#closeimage-white { 
+#closeimage-white {
   display: none;
 }
 
@@ -260,10 +260,10 @@
     background-color: #2a3647;
   }
 
-  #closeimage-white { 
+  #closeimage-white {
     display: block;
   }
-  #closeimage { 
+  #closeimage {
     display: none;
   }
 }

@@ -36,7 +36,7 @@ h1 {
 }
 
 .overlays {
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -204,6 +204,19 @@ select {
   position: relative;
   right: 29px;
   top: 6px;
+}
+
+.text {
+  height: 168px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  width: calc(100% - 34px);
+  font-weight: 400;
+  font-size: 20px;
+  font-family: "PT-sans";
+  padding: 18px 16px 18px 16px;
+  background-color: #ffffff;
+  color: black;
 }
 
 .emailinput2 {

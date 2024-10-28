@@ -35,6 +35,7 @@
                   <div><label>Description</label></div>
                   <div>
                     <textarea
+                      class="text"
                       id="description"
                       name="Enter a Description"
                     ></textarea>
@@ -60,18 +61,16 @@
                 <div class="firsthalfbox">
                   <div class="emailbox">
                     <div><label>Due date*</label></div>
-                    <div class="emailinput">
-                      <input
-                        oninput="filternumbers(this)"
-                        required
-                        class="emailinput2"
-                        type="datetime"
-                        name="date"
-                        id="date"
-                        placeholder="dd/mm/yyyy"
-                        maxlength="10"
-                      />
-                    </div>
+                    <input
+                      oninput="filternumbers(this)"
+                      required
+                      class="emailinput2"
+                      type="datetime"
+                      name="date"
+                      id="date"
+                      placeholder="dd/mm/yyyy"
+                      maxlength="10"
+                    />
                   </div>
                   <div class="buttons">
                     <label>Priority</label>

@@ -6,7 +6,6 @@ let taskss = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
 
-// Search filter
 searchInput.addEventListener("input", function () {
   const filter = searchInput.value.toLowerCase();
   tasks.forEach((task) => {
@@ -15,7 +14,6 @@ searchInput.addEventListener("input", function () {
   });
 });
 
-// Drag and Drop Handlers
 function allowDrop(event) {
   event.preventDefault();
 }
@@ -264,10 +262,15 @@ async function calladdtasktemplate() {
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
-  document.getElementById("templateoverlay").classList.add("overlays");
-  document.querySelector(".overlayss").style.transform = "translateX(0%)";
-  document.querySelector(".overlays").style.display = "flex";
+  document.getElementById("templateoverlay").classList.add("overlayss");
+  document.getElementById("overlay").style.transform = "translateX(0%)";
 }
+
+document
+  .getElementById("add-tasktemplate")
+  .addEventListener("click", function () {
+    calladdtasktemplate();
+  });
 
 document
   .getElementById("add-tasktemplate")
