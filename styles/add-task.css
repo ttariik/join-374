@@ -187,7 +187,7 @@ textarea {
   width: calc(100% - 34px);
   font-weight: 400;
   font-size: 20px;
-  font-family: 'PT-sans';
+  font-family: "PT-sans";
   padding: 18px 16px 18px 16px;
   background-color: #ffffff;
   color: black;
@@ -342,6 +342,7 @@ select {
 
 .subtaskbutton:hover {
   background-color: #dadadb;
+  display: flex;
 }
 
 .subtaskbutton2 {

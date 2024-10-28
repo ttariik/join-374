@@ -75,6 +75,53 @@ function getColorFromString(str) {
 }
 
 // Load Tasks Function
+// Allow dropping
+function allowDrop(event) {
+  event.preventDefault(); // Prevent default behavior (Prevent it from treating the drop as a link)
+}
+
+// Start dragging
+function drag(event) {
+  event.dataTransfer.setData("text/plain", event.target.id); // Store the ID of the dragged task
+}
+
+// Handle the drop
+async function drop(event, newCategory) {
+  event.preventDefault(); // Prevent default action
+  const taskId = event.dataTransfer.getData("text/plain"); // Get the task ID
+  const taskElement = document.getElementById(taskId); // Find the task element
+
+  // Append the task to the new category
+  event.target.appendChild(taskElement);
+
+  // Update the task's category in Firebase
+  await updateTaskCategoryInFirebase(taskId, newCategory);
+}
+
+// Function to update the task category in Firebase
+async function updateTaskCategoryInFirebase(taskId, newCategory) {
+  const userId = 1; // Replace with the actual user ID
+  const url = `${GLOBAL}users/${userId}/tasks/${taskId}.json`;
+
+  const taskData = {
+    category: newCategory,
+    // Include other necessary fields as required
+  };
+
+  const response = await fetch(url, {
+    method: "PATCH", // Use PATCH to update only the category
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(taskData),
+  });
+
+  if (!response.ok) {
+    console.error("Error updating task:", response.statusText);
+  }
+}
+
+// Load tasks function (for reference)
 async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
@@ -100,18 +147,31 @@ async function loadtasks(id = 1) {
       (subtask) => subtask.completed
     ).length;
 
-    // Generate the HTML using userstorytemplate and add it to article
+    // Determine the template to use based on the task category
+    let taskHTML;
+    if (task.category === "Technical") {
+      taskHTML = Technicaltasktemplate(task, index); // Use technical task template
+    } else {
+      taskHTML = userstorytemplate(task, index, completedtasks);
+    }
+
+    // Generate the HTML and add it to article
     document
       .getElementById("article")
-      .insertAdjacentHTML(
-        "beforeend",
-        userstorytemplate(task, index, completedtasks)
-      );
+      .insertAdjacentHTML("beforeend", taskHTML);
 
-    // Attach the click event listener after inserting HTML
-    document.getElementById(`task${index}`).addEventListener("click", () => {
-      openprofiletemplate(index, task);
-    });
+    document
+      .getElementById(`task${index}`)
+      .addEventListener("click", function () {
+        if (task.category === "Technical") {
+          document.getElementById("templateoverlay").innerHTML =
+            Technicaltasktemplate(task, index); // Use technical task template
+        } else {
+          document.getElementById("templateoverlay").innerHTML =
+            userstorytemplate(task, index, completedtasks); // Use user story template
+        }
+      });
+    document.getElementById(`task${index}`).addEventListener("dragstart", drag);
   });
 }
 
@@ -178,6 +238,7 @@ function Technicaltasktemplate(task, index) {
 }
 
 async function openprofiletemplate(index, task) {
+  opentasktemplate();
   const response = await fetch("./profile-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
@@ -217,13 +278,16 @@ async function getusernames(id = 1) {
 }
 
 function opentasktemplate() {
-  const overlay = document.querySelector(".overlayss");
-  overlay.style.display = "flex";
-  setTimeout(() => (overlay.style.transform = "translateX(0%)"), 10);
+  document.getElementById("templateoverlay").classList.add("overlayss");
+  setTimeout(() => {
+    document.querySelector(".overlayss").style = "transform: translateX(0%);";
+  }, 0.5);
 }
 
 function closeaddtasktemplate() {
   const overlay = document.querySelector(".overlayss");
   overlay.style.transform = "translateX(126%)";
-  setTimeout(() => (overlay.style.display = "none"), 50);
+  document.getElementById("templateoverlay").classList.remove("overlayss");
+  document.getElementById("templateoverlay").innerHTML = "";
+  document.getElementById("templateoverlay").style = "";
 }
