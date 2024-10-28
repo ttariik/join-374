@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/styles/addtasktemplate.css" />
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/styles/Add-Contact.css" />
+    <link rel="stylesheet" href="/styles/addtasktemplate.css" />
     <script src="/scripts/add-task.js"></script>
   </head>
   <body>
@@ -41,19 +42,18 @@
                 </div>
                 <div class="selectbox">
                   <div><label>Assigned to</label></div>
-                  <div>
-                    <select name="" id="asignment">
-                      <option
-                        disabled
-                        selected
-                        hidden
-                        value="Select Contacts to assign"
-                      >
-                        Select Contacts to assign
-                      </option>
-                    </select>
-                  </div>
+                  <button
+                    id="selectboxbutton"
+                    type="button"
+                    class="selectbutton"
+                    onclick="showcontacts()"
+                  >
+                    <span>Select contacts to assign</span
+                    ><img src="/img/arrow_drop_down.png" alt="" />
+                  </button>
+                  <ul id="contacts-box" class="outsidedesign"></ul>
                 </div>
+                <div id="assignedusers"></div>
               </div>
               <div class="line"></div>
               <div class="secondbox">
@@ -62,8 +62,10 @@
                     <div><label>Due date*</label></div>
                     <div class="emailinput">
                       <input
+                        oninput="filternumbers(this)"
+                        required
                         class="emailinput2"
-                        type="datetime-local"
+                        type="datetime"
                         name="date"
                         id="date"
                         placeholder="dd/mm/yyyy"
@@ -128,11 +130,42 @@
                   </div>
                   <div>
                     <label>Subtasks</label>
-                    <select name="subtasks" id="subtasks">
-                      <option disabled selected hidden value="Add New Task">
-                        Add New Task
-                      </option>
-                    </select>
+                    <div class="subtaskcontainer">
+                      <input
+                        onclick="subtaskchangeicons()"
+                        type="text"
+                        id="subtaskinput"
+                        placeholder="Add New Subtask"
+                        class="inputsubtask"
+                      />
+                      <button
+                        type="button"
+                        onclick="subtaskchangeicons()"
+                        class="subtaskbutton"
+                        id="inputsubtask1"
+                      >
+                        <img src="/img/add.png" alt="" />
+                      </button>
+                      <button
+                        class="subtaskbutton2 d-none"
+                        onclick="resetsubtaskinput()"
+                        type="button"
+                        id="inputsubtask2"
+                      >
+                        <img src="/img/Vector.png" alt="" />
+                      </button>
+                      <div class="seperateline d-none" id="seperate"></div>
+                      <button
+                        type="button"
+                        onclick="addsubtask()"
+                        class="subtaskbutton3 d-none"
+                        id="inputsubtask3"
+                      >
+                        <img src="/img/Subtasks icons11 (1).png" alt="" />
+                      </button>
+                      <div id="subtasksbox" required class="subtasksbox1"></div>
+                      <div id="spanplace"></div>
+                    </div>
                   </div>
                 </div>
               </div>
