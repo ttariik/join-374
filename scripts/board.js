@@ -74,31 +74,24 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Load Tasks Function
-// Allow dropping
 function allowDrop(event) {
-  event.preventDefault(); // Prevent default behavior (Prevent it from treating the drop as a link)
+  event.preventDefault();
 }
 
-// Start dragging
 function drag(event) {
-  event.dataTransfer.setData("text/plain", event.target.id); // Store the ID of the dragged task
+  event.dataTransfer.setData("text/plain", event.target.id);
 }
 
-// Handle the drop
 async function drop(event, newCategory) {
-  event.preventDefault(); // Prevent default action
-  const taskId = event.dataTransfer.getData("text/plain"); // Get the task ID
-  const taskElement = document.getElementById(taskId); // Find the task element
+  event.preventDefault();
+  const taskId = event.dataTransfer.getData("text/plain");
+  const taskElement = document.getElementById(taskId);
 
-  // Append the task to the new category
   event.target.appendChild(taskElement);
 
   // Update the task's category in Firebase
   await updateTaskCategoryInFirebase(taskId, newCategory);
 }
-
-// Function to update the task category in Firebase
 async function updateTaskCategoryInFirebase(taskId, newCategory) {
   const userId = 1; // Replace with the actual user ID
   const url = `${GLOBAL}users/${userId}/tasks/${taskId}.json`;
