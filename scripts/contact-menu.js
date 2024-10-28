@@ -7,11 +7,6 @@ async function opencontactstemplate() {
 
     const htmlContent = await response.text();
     document.getElementById("overlap").innerHTML = htmlContent;
-
-    document.getElementById("formid").onsubmit = function (event) {
-      event.preventDefault();
-      savedata(contactKey);
-    };
   }
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
