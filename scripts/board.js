@@ -113,6 +113,9 @@ async function loadtasks(id = 1) {
         index
       );
     }
+    document.getElementById(`div${index}`).addEventListener("click", () => {
+      selectcontact(index, id);
+    });
   }
 }
 
@@ -176,7 +179,7 @@ function userstorytemplate(responsestoJson, index, completedtasks) {
   `;
 }
 
-function showtemplate(index, category, title, description) {
+function showtemplate(index, responsestoJson) {
   document.getElementById("templateoverlay").classList.add("overlays");
   fetch("profile-template.html")
     .then((response) => {

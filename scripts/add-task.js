@@ -276,10 +276,6 @@ function elsefunction(initials) {
   }
 }
 
-document.getElementById(`div${index}`).addEventListener("click", () => {
-  selectcontact(index, id);
-});
-
 function filternumbers(input) {
   let date = document.getElementById("date").value;
   date = date.replace(/[^0-9:/-]/g, "");
