@@ -95,20 +95,20 @@ async function loadtasks(id = 1) {
 
   document.getElementById("article").innerHTML = "";
 
-  tasks.forEach((task, index) => {
-    let completedtasks = task.subtask.filter(
+  for (const [index, task] of tasks.entries()) {
+    const completedtasks = task.subtask.filter(
       (subtask) => subtask.completed
     ).length;
 
-    // Determine the template to use based on the task category
+    // Await the HTML string from userstorytemplate
     let taskHTML;
     if (task.category === "Technical") {
-      taskHTML = Technicaltasktemplate(task, index); // Use technical task template
+      taskHTML = await Technicaltasktemplate(task, index); // Await technical task template
     } else {
-      taskHTML = userstorytemplate(task, index, completedtasks); // Use user story template
+      taskHTML = await userstorytemplate(task, index, completedtasks); // Await user story template
     }
 
-    // Generate the HTML and add it to article
+    // Insert the HTML into the DOM
     document
       .getElementById("article")
       .insertAdjacentHTML("beforeend", taskHTML);
@@ -121,20 +121,28 @@ async function loadtasks(id = 1) {
         openprofiletemplate(index, task); // Open the profile template for the clicked task
       }
     });
-  });
+  }
 }
 
 // User Story Template
-function userstorytemplate(task, index, completedtasks) {
+// Ensure data dependencies for userstorytemplate are met
+async function userstorytemplate(task, index, completedtasks) {
+  // Wait for colors to load if they're fetched asynchronously
+  if (!colors || colors.length === 0) {
+    colors = await fetchColors(task.initials); // Assume fetchColors is an async function that fetches colors
+  }
+
+  // Generate initials badges
   const initialsHTML = task.initials
     .map(
       (initial, a) =>
-        `<div class="badgestyle" style="background-color:${colors[a]}">${initial}</div>`
+        `<div class="badgestyle badge" style="background-color:${colors[a]}">${initial}</div>`
     )
     .join("");
 
-  return /*html*/ `
-    <div  class="user-container task" draggable="true" ondragstart="drag(event)" id="task${index}">
+  // Return the template HTML
+  return `
+    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="task${index}">
       <div class="task-detailss">
         <span>${task.category}</span>
       </div>
@@ -158,6 +166,16 @@ function userstorytemplate(task, index, completedtasks) {
       </div>
     </div>
   `;
+}
+
+// Helper function to simulate fetching colors based on initials
+async function fetchColors(initials) {
+  // Mock delay to simulate asynchronous fetch
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(initials.map((initial) => getColorFromString(initial)));
+    }, 500);
+  });
 }
 
 // Technical Task Template
@@ -246,7 +264,7 @@ async function calladdtasktemplate() {
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
-  document.getElementById("templateoverlay").classList.add("overlayss");
+  document.getElementById("templateoverlay").classList.add("overlays");
   document.querySelector(".overlayss").style.transform = "translateX(0%)";
   document.querySelector(".overlays").style.display = "flex";
 }

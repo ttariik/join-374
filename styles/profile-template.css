@@ -1,6 +1,6 @@
 .boxtemplate {
   max-width: 445px;
-  height: 835px;
+  height: fit-content;
   background-color: #ffffff;
   padding: 48px 40px 48px 40px;
   gap: 24px;
@@ -67,7 +67,7 @@
   font-weight: 400;
 }
 
-.button-container {
+.button-containers {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
