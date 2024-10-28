@@ -23,10 +23,8 @@ body {
 
 .contacttemplatedesing {
   display: none;
-  max-width: 461px;
   width: 100%;
   height: 364px;
-  margin: 0 auto 0 auto;
   transform: translateX(250%);
   transition: transform 0.2s ease, visibility 0.2s;
 }
@@ -56,15 +54,15 @@ body {
 .phrase {
   display: flex;
   max-width: 569px;
-  justify-content: center;
   align-items: center;
   width: 100%;
   gap: 30px;
+  margin-bottom: 32px;
 }
 
 .phrase_1 {
   font-size: 61px;
-  font-weight: 700;
+  font-family: 'PT-sans-bold';
 }
 
 .phrase_2 {
@@ -73,10 +71,10 @@ body {
 }
 
 .boxalignment {
-  margin: 50px 218px 0 267px;
+  margin: 50px 0 0 267px;
   display: flex;
   flex-direction: column;
-  width: 31%;
+  width: 100%;
 }
 
 .contact-content-wrapper {
@@ -193,8 +191,8 @@ body {
   flex-direction: column;
   width: 100%;
   height: 100%;
-  position: absolute;
-  z-index: 99;
+  position: fixed;
+  z-index: 999;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
   transform: translateX(126%);
@@ -203,6 +201,25 @@ body {
 
 .add-contact-button-whiteletters {
   color: white;
+}
+
+.add-contact-button-mobile {
+  display: none;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  background-color: #2a3647;
+  border-radius: 50%;
+  padding: 12px ;
+  cursor: pointer;
+  margin-right: 20px;
+}
+
+.add-contact-mobile {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
 }
 
 .contact-list-section {
@@ -225,12 +242,53 @@ body {
 }
 
 @media (max-width: 1259px) {
-  .boxalignment {
-    display: none;
-  }
+
   .contact-menu-wrapper {
     top: 0;
     left: 0;
     margin: 96px auto 96px auto;
   }
+
+  .boxalignment {
+    margin-left: 32px;
+    margin-top: 124px;
+    margin-right: 40px;
+  }
 }
+
+@media (max-width: 990px) {
+
+  .phrase_1{
+    font-size: 48px;
+  }
+
+  .phrase_2 {
+    font-size: 18px ;
+  }
+}
+
+
+@media (max-width: 849px) {
+
+  .boxalignment {
+    display: none;
+  }
+
+  .contact-menu-wrapper{
+    max-width: unset;
+  }
+}
+
+
+@media (max-width: 475px) {
+
+  .contact-menu-content{
+    display: none;
+  }
+
+  .add-contact-button-mobile{
+    display: flex;
+  }
+}
+
+
