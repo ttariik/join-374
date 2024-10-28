@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/styles/board.css" />
     <link rel="stylesheet" href="/style.css" />
     <script src="/script.js"></script>
+    <script src="/scripts/add-task.js"></script>
     <script src="/scripts/board.js" defer></script>
   </head>
   <body onload="loadtasks();getusernames()">
@@ -39,90 +40,72 @@
           </div>
         </header>
 
-        <div class="center">
-          <div class="task-status">
-            <div class="status-item">
-              <span class="status-text">To Do</span>
-              <img
-                class="status-item-png"
-                src="/img/status-item.png"
-                alt="status-item"
-                onclick="opentasktemplate()"
-                style="cursor: pointer"
-              />
+      <div class="center">
+        <div class="content2" style="display: flex; gap: 20px;"> <!-- Flexbox hinzugefügt für nebeneinander -->
+          <div class="folder-complete">
+            <div class="task-status">
+              <div class="status-item">
+                <span class="status-text">To Do</span>
+                <img class="status-item-png" src="/img/status-item.png" alt="status-item" onclick="opentasktemplate()"
+                  style="cursor: pointer" />
+              </div>
+            </div>
+            <div class="drag-drop-content">
+              <div class="folder" id="todo-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="article" id="article"></div>
+              </div>
             </div>
           </div>
-
-          <div class="task-status">
-            <div class="status-item">
-              <span class="status-text">In progress</span>
-              <img
-                class="status-item-png"
-                src="/img/status-item.png"
-                alt="status-item"
-                onclick="opentasktemplate()"
-                style="cursor: pointer"
-              />
+          <div class="folder-complete">
+            <div class="task-status">
+              <div class="status-item">
+                <span class="status-text">In progress</span>
+                <img class="status-item-png" src="/img/status-item.png" alt="status-item" onclick="opentasktemplate()"
+                  style="cursor: pointer" />
+              </div>
+            </div>
+            <div class="drag-drop-content">
+              <div class="folder" id="inprogress-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="article" id="article"></div>
+              </div>
             </div>
           </div>
-
-          <div class="task-status">
-            <div class="status-item">
-              <span class="status-text">Await feedback</span>
-              <img
-                class="status-item-png"
-                src="/img/status-item.png"
-                alt="status-item"
-                onclick="opentasktemplate()"
-                style="cursor: pointer"
-              />
+          <div class="folder-complete">
+            <div class="task-status">
+              <div class="status-item">
+                <span class="status-text">Await feedback</span>
+                <img class="status-item-png" src="/img/status-item.png" alt="status-item" onclick="opentasktemplate()"
+                  style="cursor: pointer" />
+              </div>
+            </div>
+            <div class="drag-drop-content">
+              <div class="folder" id="review-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="article" id="article"></div>
+              </div>
             </div>
           </div>
-
-          <div class="task-status">
-            <div class="status-item">
-              <span class="status-text">Done</span>
+          <div class="folder-complete">
+            <div class="task-status">
+              <div class="status-item">
+                <span class="status-text">Done</span>
+              </div>
+            </div>
+            <div class="drag-drop-content">
+              <div class="folder" id="done-folder" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <div class="article" id="article"></div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="content2">
-      <div class="drag-drop-content">
-        <div
-          class="folder"
-          id="todo-folder"
-          ondrop="drop(event)"
-          ondragover="allowDrop(event)"
-        >
-          <div class="article" id="article"></div>
-        </div>
-        <div
-          class="folder"
-          id="inprogress-folder"
-          ondrop="drop(event)"
-          ondragover="allowDrop(event)"
-        ></div>
-        <div
-          class="folder"
-          id="review-folder"
-          ondrop="drop(event)"
-          ondragover="allowDrop(event)"
-        ></div>
-        <div
-          class="folder"
-          id="done-folder"
-          ondrop="drop(event)"
-          ondragover="allowDrop(event)"
-        ></div>
-      </div>
-    </div>
+      
+
+
     <div w3-include-html="/templates-html/overlay.html"></div>
     <div id="templateoverlay"></div>
     <script>
       includeHTML();
     </script>
     <script type="module" src="/scripts/navbar.js"></script>
-    <script src="/scripts/add-task.js"></script>
   </body>
 </html>
