@@ -30,11 +30,8 @@
 }
 
 .contactside-closebutton {
-  border: none;
-  max-width: 32px;
-  height: 32px;
-  cursor: pointer;
-  background-color: #ffffff;
+  background-color: white;
+  width: 24px;
 }
 
 .contactside-header {
@@ -260,9 +257,22 @@
   }
 }
 
-@media (max-width: 330px) {
-  .logo {
-    top: 254px;
-    left: 91px;
+@media (max-width: 410px) {
+  .completebox {
+    width: unset;
+    margin: 0 10px;
   }
+  .logo {
+    top: 234px;
+    left: 100px;
+  }
+
+  .maintitle {
+    font-size: 52px;
+  }
+}
+
+
+@media (max-width: 330px) {
+
 }
