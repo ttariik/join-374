@@ -9,17 +9,13 @@ async function addcontact(event) {
     return;
   }
 
-  // Check if "contacts" folder exists
   let contactsPath = `/users/1/contacts`;
   let contactsResponse = await fetch(GLOBAL + contactsPath + ".json");
   let contactsData = await contactsResponse.json();
 
-  // If "contacts" folder does not exist, initialize it as an empty object
   if (!contactsData) {
-    await putData(contactsPath, {}); // This will create an empty "contacts" folder if it doesn't exist
+    await putData(contactsPath, {});
   }
-
-  // Now proceed with adding the new contact
   let telefonename = document.getElementById("name").value;
   let nameParts = telefonename.trim().split(" ");
   let firstname = nameParts[0].charAt(0).toUpperCase();
