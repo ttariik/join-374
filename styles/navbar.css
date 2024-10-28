@@ -13,6 +13,7 @@
   padding: 64px 0;
 }
 
+
 .user-initials {
   width: 56px;
   height: 56px;
@@ -101,6 +102,7 @@
   font-size: 16px;
   background-color: rgba(255, 255, 255, 0);
 }
+
 
 .menu-nav-bar a {
   color: #cdcdcd;

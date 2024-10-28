@@ -29,6 +29,7 @@ h2 {
   width: 18px;
 }
 
+
 .task-button {
   padding: 5px 10px;
   max-width: 160px;
@@ -219,6 +220,10 @@ input:focus {
   background-color: rgb(9, 25, 49) !important;
 }
 
+.activelink2 {
+  background-color: unset !important;
+}
+
 .hidden {
   display: none;
 }
@@ -277,6 +282,7 @@ input:focus {
   gap: 10px;
   text-align: left;
   cursor: pointer;
+  margin-bottom: 16px;
 }
 
 .task-details {
