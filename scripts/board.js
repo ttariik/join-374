@@ -152,7 +152,7 @@ function userstorytemplate(task, index, completedtasks) {
     task.subtask.length
   } Subtasks</span></div>
       </div>
-      <div class="asignbox badge">
+      <div class="asignbox">
         <div id="initialsarea" class="initialsbox">${initialsHTML}</div>
         <img src="/img/${task.prio}.png" alt="">
       </div>
