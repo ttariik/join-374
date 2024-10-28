@@ -201,6 +201,10 @@
   gap: 25px;
 }
 
+#closeimage-white { 
+  display: none;
+}
+
 @media (max-width: 1050px) {
   .completebox {
     flex-direction: column;
@@ -255,6 +259,13 @@
   .contactside-closebutton {
     background-color: #2a3647;
   }
+
+  #closeimage-white { 
+    display: block;
+  }
+  #closeimage { 
+    display: none;
+  }
 }
 
 @media (max-width: 410px) {
@@ -270,9 +281,4 @@
   .maintitle {
     font-size: 52px;
   }
-}
-
-
-@media (max-width: 330px) {
-
 }

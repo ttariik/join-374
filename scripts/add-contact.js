@@ -111,12 +111,3 @@ async function getAllUsers(path) {
   let response = await fetch(GLOBAL + path + ".json");
   return (responsetoJson = await response.json());
 }
-
-function checkwidth() {
-  if (window.innerWidth < 1050) {
-    document.getElementById("closeimage").src = "/img/close1.png";
-  } else {
-    document.getElementById("closeimage").src = "/img/close.png";
-  }
-}
-window.addEventListener("resize", checkwidth);
