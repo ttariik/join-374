@@ -100,12 +100,18 @@ async function loadtasks(id = 1) {
       (subtask) => subtask.completed
     ).length;
 
-    const template =
-      task.category === "User Story"
-        ? userstorytemplate(task, index, completedtasks)
-        : Technicaltasktemplate(task, index);
+    // Generate the HTML using userstorytemplate and add it to article
+    document
+      .getElementById("article")
+      .insertAdjacentHTML(
+        "beforeend",
+        userstorytemplate(task, index, completedtasks)
+      );
 
-    document.getElementById("article").innerHTML += template;
+    // Attach the click event listener after inserting HTML
+    document.getElementById(`task${index}`).addEventListener("click", () => {
+      openprofiletemplate(index, task);
+    });
   });
 }
 
@@ -119,7 +125,7 @@ function userstorytemplate(task, index, completedtasks) {
     .join("");
 
   return /*html*/ `
-    <div onclick="openprofiletemplate(${index})" class="user-container task" draggable="true" ondragstart="drag(event)" id="task${index}">
+    <div  class="user-container task" draggable="true" ondragstart="drag(event)" id="task${index}">
       <div class="task-detailss">
         <span>${task.category}</span>
       </div>
@@ -171,25 +177,24 @@ function Technicaltasktemplate(task, index) {
   `;
 }
 
-async function openprofiletemplate(index, responsestoJson) {
+async function openprofiletemplate(index, task) {
   const response = await fetch("./profile-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
-   console.log(taskss);
-   
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   document.getElementById("templateoverlay").classList.add("overlayss");
+  inputacess(task);
+  console.log(task.title);
 }
 
-function inputaccess(index) {
-  document.getElementById('profiletitle').innerHTML = 
-  document.getElementById('profiledescription').innerHTML = 
-  document.getElementById('profilesubsection').innerHTML = 
-  document.getElementById('profileduedate').innerHTML = 
-  document.getElementById('profilepriority').innerHTML = 
-  document.getElementById('profileicon').innerHTML = 
-  document.getElementById('profileassingedarea').innerHTML = 
-  document.getElementById('profilesubtaskarea').innerHTML = 
+function inputacess(task) {
+  document.getElementById("profiletitle").innerHTML = `${task.title}`;
+  document.getElementById(
+    "profiledescription"
+  ).innerHTML = `${task.description}`;
+  document.getElementById("profileduedate").innerHTML = `${task.duedate}`;
+  document.getElementById("profilepriority").innerHTML = `${task.prio}`;
+  document.getElementById("profileicon").src = `../img/${task.prio}.png`;
 }
 
 async function opentechnicaltemplate() {
@@ -198,6 +203,7 @@ async function opentechnicaltemplate() {
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   document.getElementById("templateoverlay").classList.add("overlays");
+  inputacess(task);
 }
 
 async function getusernames(id = 1) {
