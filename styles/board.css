@@ -13,7 +13,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 280px;
+  margin-left: 280px
 }
 
 .board-header {
@@ -186,7 +186,7 @@ input:focus {
 .drag-drop-content {
   max-width: 1044px;
   width: 100%;
-  height: 688px;
+  height: 100vh;
   display: flex;
   gap: 26px;
 }
@@ -244,6 +244,7 @@ input:focus {
   text-align: left;
 }
 
+
 .task-category-name {
   display: flex;
   padding: 4px 16px 4px 16px;
@@ -263,8 +264,6 @@ input:focus {
   z-index: 99999;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  transform: translateX(126%);
-  transition: transform 0.2s ease, visibility 0.2s;
 }
 
 .user-container {
@@ -351,7 +350,7 @@ input:focus {
   display: flex;
   flex-direction: column;
   width: 232px;
-  gap: 16px;
+  gap: 24px;
 }
 
 @media (max-width: 1259px) {
@@ -361,6 +360,6 @@ input:focus {
     width: 100%;
     padding-top: 128px;
     max-width: unset;
-    margin: 0 40px;
+    margin: 0 40px
   }
 }
