@@ -5,6 +5,7 @@ let initialsss = [];
 let taskss = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
+
 // Search filter
 searchInput.addEventListener("input", function () {
   const filter = searchInput.value.toLowerCase();
@@ -13,21 +14,6 @@ searchInput.addEventListener("input", function () {
     task.style.display = taskText.includes(filter) ? "" : "none";
   });
 });
-
-document
-  .getElementById("add-tasktemplate")
-  .addEventListener("click", function () {
-    calladdtasktemplate();
-  });
-
-async function calladdtasktemplate() {
-  const response = await fetch("./add-task.html");
-  if (!response.ok) throw new Error("Network response was not ok");
-  const htmlContent = await response.text();
-  document.getElementById("templateoverlay").classList.add("overlayss");
-  document.getElementById("templateoverlay").style.transform = "translateX(0%)";
-  document.getElementById("templateoverlay").innerHTML = htmlContent;
-}
 
 // Drag and Drop Handlers
 function allowDrop(event) {
@@ -88,47 +74,7 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function allowDrop(event) {
-  event.preventDefault();
-}
-
-function drag(event) {
-  event.dataTransfer.setData("text/plain", event.target.id);
-}
-
-async function drop(event, newCategory) {
-  event.preventDefault();
-  const taskId = event.dataTransfer.getData("text/plain");
-  const taskElement = document.getElementById(taskId);
-
-  event.target.appendChild(taskElement);
-
-  // Update the task's category in Firebase
-  await updateTaskCategoryInFirebase(taskId, newCategory);
-}
-async function updateTaskCategoryInFirebase(taskId, newCategory) {
-  const userId = 1; // Replace with the actual user ID
-  const url = `${GLOBAL}users/${userId}/tasks/${taskId}.json`;
-
-  const taskData = {
-    category: newCategory,
-    // Include other necessary fields as required
-  };
-
-  const response = await fetch(url, {
-    method: "PATCH", // Use PATCH to update only the category
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(taskData),
-  });
-
-  if (!response.ok) {
-    console.error("Error updating task:", response.statusText);
-  }
-}
-
-// Load tasks function (for reference)
+// Load Tasks Function
 async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
@@ -159,7 +105,7 @@ async function loadtasks(id = 1) {
     if (task.category === "Technical") {
       taskHTML = Technicaltasktemplate(task, index); // Use technical task template
     } else {
-      taskHTML = userstorytemplate(task, index, completedtasks);
+      taskHTML = userstorytemplate(task, index, completedtasks); // Use user story template
     }
 
     // Generate the HTML and add it to article
@@ -167,18 +113,14 @@ async function loadtasks(id = 1) {
       .getElementById("article")
       .insertAdjacentHTML("beforeend", taskHTML);
 
-    document
-      .getElementById(`task${index}`)
-      .addEventListener("click", function () {
-        if (task.category === "Technical") {
-          document.getElementById("templateoverlay").innerHTML =
-            Technicaltasktemplate(task, index); // Use technical task template
-        } else {
-          document.getElementById("templateoverlay").innerHTML =
-            userstorytemplate(task, index, completedtasks); // Use user story template
-        }
-      });
-    document.getElementById(`task${index}`).addEventListener("dragstart", drag);
+    // Attach the click event listener after inserting HTML
+    document.getElementById(`task${index}`).addEventListener("click", () => {
+      if (task.category === "Technical") {
+        opentechnicaltemplate(index, task); // Open the technical template for the clicked task
+      } else {
+        openprofiletemplate(index, task); // Open the profile template for the clicked task
+      }
+    });
   });
 }
 
@@ -298,3 +240,19 @@ function closeaddtasktemplate() {
   document.getElementById("templateoverlay").innerHTML = "";
   document.getElementById("templateoverlay").style = "";
 }
+
+async function calladdtasktemplate() {
+  const response = await fetch("./overlay.html");
+  if (!response.ok) throw new Error("Network response was not ok");
+  const htmlContent = await response.text();
+  document.getElementById("templateoverlay").innerHTML = htmlContent;
+  document.getElementById("templateoverlay").classList.add("overlayss");
+  document.querySelector(".overlayss").style.transform = "translateX(0%)";
+  document.querySelector(".overlays").style.display = "flex";
+}
+
+document
+  .getElementById("add-tasktemplate")
+  .addEventListener("click", function () {
+    calladdtasktemplate();
+  });
