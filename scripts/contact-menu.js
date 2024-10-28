@@ -1,17 +1,16 @@
-let displayedLetters = new Set(); // Changed to a Set for better management
+let displayedLetters = new Set();
 
 async function opencontactstemplate() {
   if (document.getElementById("overlap").childElementCount === 0) {
-    const response = await fetch("./Add-Contact.html"); // Fetch the HTML file
+    const response = await fetch("./Add-Contact.html");
     if (!response.ok) throw new Error("Network response was not ok");
 
-    const htmlContent = await response.text(); // Get the text content
-    document.getElementById("overlap").innerHTML = htmlContent; // Insert into div
+    const htmlContent = await response.text();
+    document.getElementById("overlap").innerHTML = htmlContent;
 
-    // Now attach the event listener after the form is added to the DOM
     document.getElementById("formid").onsubmit = function (event) {
-      event.preventDefault(); // Prevent the default form submission
-      savedata(contactKey); // Call your save data function
+      event.preventDefault();
+      savedata(contactKey);
     };
   }
   document.querySelector(".overlay2").style.display = "flex";
@@ -93,11 +92,11 @@ function getColorFromString(str) {
 
 async function edicontact(contactKey) {
   if (document.getElementById("overlap").childElementCount === 0) {
-    const response = await fetch("./Add-Contact.html"); // Fetch the HTML file
+    const response = await fetch("./Add-Contact.html");
     if (!response.ok) throw new Error("Network response was not ok");
 
-    const htmlContent = await response.text(); // Get the text content
-    document.getElementById("overlap").innerHTML = htmlContent; // Insert into div
+    const htmlContent = await response.text();
+    document.getElementById("overlap").innerHTML = htmlContent;
   }
   document.getElementById("spantitle").innerHTML = "Edit contact";
   const contact = contactUsers.find((user) => user.key === contactKey);
@@ -110,10 +109,9 @@ async function edicontact(contactKey) {
   document.getElementById("emailarea").value = contact.email || "";
   document.getElementById("phone").value = contact.telefone || "";
   document.getElementById("spandescription").innerHTML = "";
-  // Ensure you set the event listener after the HTML content is inserted
   document.getElementById("formid").onsubmit = function (event) {
-    event.preventDefault(); // Prevent the default form submission
-    savedata(contactKey); // Call your save data function
+    event.preventDefault();
+    savedata(contactKey);
   };
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
@@ -149,7 +147,6 @@ async function deleteData(path = "", data = {}) {
 }
 
 async function showcontacttemplate(contactKey) {
-  // Fetch the contact template if not already loaded
   if (document.getElementById("contacttemplate").childElementCount === 0) {
     try {
       const response = await fetch("./contact-template.html");
@@ -159,69 +156,53 @@ async function showcontacttemplate(contactKey) {
       document.getElementById("contacttemplate").innerHTML = htmlContent;
     } catch (error) {
       console.error("Error fetching contact template:", error);
-      return; // Exit the function to prevent further errors
+      return;
     }
   }
 
-  // Find the contact by key
   const contact = contactUsers.find((user) => user.key === contactKey);
 
-  // Update the UI with contact details
   document.getElementById("title").innerHTML = contact.name;
   document.getElementById("email").innerHTML = contact.email || "";
   document.getElementById("telefone").innerHTML = contact.telefone || "";
 
-  // Set up the edit and delete button actions
   document.getElementById("editbutton").onclick = () => edicontact(contact.key);
   document.getElementById("deletebutton").onclick = () =>
     deletecontact(contact.key);
 
-  // Show the contact template
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";
   contactTemplate.style.transform = "translateX(0%)";
 }
 
 async function savedata(contactKey) {
-  // Find the contact by key
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
     console.error("Contact not found");
     return;
   }
 
-  // Get values from the form
   let name = document.getElementById("name").value.trim();
   let email = document.getElementById("emailarea").value.trim();
   let telefone = document.getElementById("phone").value.trim();
 
-  // Validate the inputs
   if (!name || !email || !telefone) {
     alert("All fields must be filled out.");
     return;
   }
 
-  // Save the updated contact data
   const response = await putData(`/users/1/contacts/${contactKey}`, {
     name: name,
     email: email,
     telefone: telefone,
   });
 
-  // Check for response success
-  if (!response) {
-    console.error("Failed to save contact");
-    return;
-  }
-
-  // Refresh the contacts display
-  await showcontacts(1); // Ensure to specify the correct ID if needed
+  await showcontacts(1);
   closecontactstemplate();
 
-  // Show the updated contact template after a brief delay
   setTimeout(() => {
     showcontacttemplate(contactKey);
-  }, 500); // Use 500ms to ensure the overlay has closed
+  }, 500);
 }
 
 async function putData(path = "", data = {}) {
