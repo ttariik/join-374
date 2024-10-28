@@ -13,15 +13,19 @@
     <div class="boxtemplate">
       <div class="header">
         <div class="userbox">
-          <span class="task-title">User Story</span>
+          <span id="profiletitle" class="task-title">User Story</span>
         </div>
-        <div><img src="../img/close.png" alt="" /></div>
+        <button onclick="closeaddtasktemplate()">
+          <img src="../img/close.png" alt="" />
+        </button>
       </div>
       <div class="titlebox">
-        <span>Kochwelt Page & Recipe Recommender</span>
+        <span id="profiledescription">Kochwelt Page & Recipe Recommender</span>
       </div>
       <div class="description">
-        <span>Build start page with recipe recommendation.</span>
+        <span id="profilesubsection"
+          >Build start page with recipe recommendation.</span
+        >
       </div>
       <div class="d-none outsidebox">
         <div class="d-none progressbar">
@@ -31,22 +35,23 @@
       </div>
       <div class="due-date-container">
         <div><span class="duedate">Due date: </span></div>
-        <div><span class="duedate">10/05/2023</span></div>
+        <div><span class="duedate" id="profileduedate">10/05/2023</span></div>
       </div>
 
       <div class="priority-container">
         <div class="prio"><span>Priority: </span></div>
         <div class="prioicondiv">
           <span class="priority-indicator"
-            ><div class="priotitle">Medium</div>
-            <div class="prioicon"><img src="../img/Capa 2.png" alt="" /></div
+            ><div class="priotitle" id="profilepriority">Medium</div>
+            <div class="prioicon">
+              <img id="profileicon" src="../img/Medium.png" alt="" /></div
           ></span>
         </div>
       </div>
 
       <div class="assigned-container">
         <div class="assignedtitle"><span>Assigned To:</span></div>
-        <div class="align">
+        <div class="align" id="profileassingedarea">
           <img src="../img/Profile badge.png" alt="" /><span
             >Emmanuel Mauer</span
           >
@@ -62,7 +67,7 @@
       </div>
       <div class="subtasks-container">
         <span>Subtasks</span>
-        <div class="subtask">
+        <div class="subtask" id="profilesubtaskarea">
           <input type="checkbox" /><span class="subtask-title"
             >Implement Recipe Recommendation</span
           >

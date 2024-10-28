@@ -6,20 +6,16 @@ let taskss = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
 
+// Search filter
 searchInput.addEventListener("input", function () {
   const filter = searchInput.value.toLowerCase();
-
   tasks.forEach((task) => {
     const taskText = task.textContent.toLowerCase();
-
-    if (taskText.includes(filter)) {
-      task.style.display = "";
-    } else {
-      task.style.display = "none";
-    }
+    task.style.display = taskText.includes(filter) ? "" : "none";
   });
 });
 
+// Drag and Drop Handlers
 function allowDrop(event) {
   event.preventDefault();
 }
@@ -35,26 +31,7 @@ function drop(event) {
   event.target.appendChild(task);
 }
 
-function countTasks() {
-  const todoFolder = document.getElementById("todo-folder");
-  const inprogressFolder = document.getElementById("inprogress-folder");
-  const reviewFolder = document.getElementById("review-folder");
-  const doneFolder = document.getElementById("done-folder");
-
-  const todoCount = todoFolder.getElementsByClassName("article").length;
-  const inprogressCount =
-    inprogressFolder.getElementsByClassName("article").length;
-  const reviewCount = reviewFolder.getElementsByClassName("article").length;
-  const doneCount = doneFolder.getElementsByClassName("article").length;
-
-  localStorage.setItem("todoCount", todoCount);
-  localStorage.setItem("inprogressCount", inprogressCount);
-  localStorage.setItem("reviewCount", reviewCount);
-  localStorage.setItem("doneCount", doneCount);
-}
-
-document.addEventListener("DOMContentLoaded", countTasks);
-
+// Task Counters
 function countAndStoreTasks() {
   const folders = [
     "todo-folder",
@@ -78,47 +55,7 @@ function countAndStoreTasks() {
 
 document.addEventListener("DOMContentLoaded", countAndStoreTasks);
 
-async function loadtasks(id = 1) {
-  let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
-  let responsestoJson = await responses.json();
-  responsestoJson = responsestoJson.filter(
-    (task) =>
-      task &&
-      task.asignedto &&
-      task.category &&
-      task.description &&
-      task.duedate &&
-      task.prio &&
-      task.subtask &&
-      task.title
-  );
-  taskss.push(responsestoJson);
-  for (let index = 0; index < responsestoJson.length; index++) {
-    for (let k = 0; k < responsestoJson[index].subtask.length; k++) {
-      if (responsestoJson[index].subtask[k].completed === true) {
-        completedtasks++;
-      }
-    }
-
-    if (responsestoJson[index].category === "User Story") {
-      document.getElementById("article").innerHTML += userstorytemplate(
-        responsestoJson,
-        index,
-        completedtasks
-      );
-    }
-    if (responsestoJson[index].category === "Technical Task") {
-      document.getElementById("article").innerHTML += Technicaltasktemplate(
-        responsestoJson,
-        index
-      );
-    }
-    document.getElementById(`div${index}`).addEventListener("click", () => {
-      selectcontact(index, id);
-    });
-  }
-}
-
+// Color Generator
 function getColorFromString(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -137,125 +74,150 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function userstorytemplate(responsestoJson, index, completedtasks) {
-  for (let l = 0; l < fullnames.length; l++) {
-    getusernames(fullnames);
-    const color = getColorFromString(fullnames);
-    colors.push(color);
-  }
-  const initials = responsestoJson[index].initials;
-  let initialsHTML = "";
+// Load Tasks Function
+async function loadtasks(id = 1) {
+  const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
+  const responsestoJson = await responses.json();
 
-  for (let a = 0; a < initials.length; a++) {
-    initialsHTML += `<div class="badgestyle" style="background-color:${colors[a]}">${initials[a]}</div>`;
-  }
+  const tasks = Object.entries(responsestoJson || {})
+    .map(([taskID, task]) => ({ id: taskID, ...task }))
+    .filter(
+      (task) =>
+        task &&
+        task.asignedto &&
+        task.category &&
+        task.description &&
+        task.duedate &&
+        task.prio &&
+        task.subtask &&
+        task.title
+    );
+
+  document.getElementById("article").innerHTML = "";
+
+  tasks.forEach((task, index) => {
+    let completedtasks = task.subtask.filter(
+      (subtask) => subtask.completed
+    ).length;
+
+    const template =
+      task.category === "User Story"
+        ? userstorytemplate(task, index, completedtasks)
+        : Technicaltasktemplate(task, index);
+
+    document.getElementById("article").innerHTML += template;
+  });
+}
+
+// User Story Template
+function userstorytemplate(task, index, completedtasks) {
+  const initialsHTML = task.initials
+    .map(
+      (initial, a) =>
+        `<div class="badgestyle" style="background-color:${colors[a]}">${initial}</div>`
+    )
+    .join("");
+
   return /*html*/ `
-  <div onclick="showtemplate(${index})" class="user-container task"  draggable="true"
-  ondragstart="drag(event)"             id="task1">
-  <div class="task-detailss">
-    <span>${responsestoJson[index].category}</span>
-  </div>
-  <div class="titlecontainer">
-    <div class="section-one">${responsestoJson[index].title}</div>
-    <div class="section-two">${responsestoJson[index].description}</div>
-   </div>
-   <div class="outsidebox">
+    <div onclick="openprofiletemplate(${index})" class="user-container task" draggable="true" ondragstart="drag(event)" id="task${index}">
+      <div class="task-detailss">
+        <span>${task.category}</span>
+      </div>
+      <div class="titlecontainer">
+        <div class="section-one">${task.title}</div>
+        <div class="section-two">${task.description}</div>
+      </div>
+      <div class="outsidebox">
         <div class="progressbar">
           <div class="progressbar-inside" style="width:${
-            completedtasks * 50
+            (completedtasks / task.subtask.length) * 100
           }%"></div>
         </div>
         <div class="subtask-info"><span>${completedtasks}/${
-    responsestoJson[index].subtask.length
+    task.subtask.length
   } Subtasks</span></div>
-        
+      </div>
+      <div class="asignbox badge">
+        <div id="initialsarea" class="initialsbox">${initialsHTML}</div>
+        <img src="/img/${task.prio}.png" alt="">
+      </div>
     </div>
-    <div class="asignbox badge">
-         <div  id="initialsarea" class="initialsbox" >${initialsHTML}</div>  <img src="/img/${
-    responsestoJson[index].prio
-  }.png" alt=""> 
-        </div>
-</div>
   `;
 }
 
-function showtemplate(index, responsestoJson) {
-  document.getElementById("templateoverlay").classList.add("overlays");
-  fetch("profile-template.html")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      return response.text();
-    })
-    .then((html) => {
-      document.getElementById("templateoverlay").innerHTML = html;
+// Technical Task Template
+function Technicaltasktemplate(task, index) {
+  const initialsHTML = task.initials
+    .map(
+      (initial, a) =>
+        `<div class="badgestyle" style="background-color:${colors[a]}">${initial}</div>`
+    )
+    .join("");
 
-      const taskscategory = responsestoJson[index].category;
-      console.log(taskscategory);
-    })
-    .catch((error) => {
-      console.error("Error loading HTML:", error);
-    });
-}
-
-function Technicaltasktemplate(responsestoJson, index) {
-  let initials = responsestoJson[index].initials;
-  for (let m = 0; m < fullnames.length; m++) {
-    const color = getColorFromString(fullnames);
-    colors.push(color);
-  }
-
-  let initialsHTML = "";
-
-  for (let s = 0; s < initials.length; s++) {
-    initialsHTML += `<div class="badgestyle" style="background-color:${colors[index]}">${initials[s]}</div>`;
-  }
   return /*html*/ `
-<div class="task-container task" 
-            draggable="true"
-            ondragstart="drag(event)"             id="task1"
-            onclick="opentechnicaltemplate(${index})">
-  <div class="task-category">
-    <span class="task-category-name">${responsestoJson[index].category}</span>
-  </div>
-  <div class="task-details">
-    <div class="task-title">
-      <span class="task-title-name">${responsestoJson[index].title}</span>
+    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="task${index}" onclick="opentechnicaltemplate(${index})">
+      <div class="task-category">
+        <span class="task-category-name">${task.category}</span>
+      </div>
+      <div class="task-details">
+        <div class="task-title">${task.title}</div>
+        <div class="task-description">${task.description}</div>
+      </div>
+      <div class="task-statuss">
+        <div id="initialsbox" class="initialsboxdesign">${initialsHTML}</div>
+        <img src="/img/${task.prio}.png" alt="" />
+      </div>
     </div>
-    <div class="task-description">
-      ${responsestoJson[index].description}
-   </div>
-  </div>
-  <div class="task-statuss">
-    <div id="initialsbox" class="initialsboxdesign" >${initialsHTML}</div> <img src="/img/${responsestoJson[index].prio}.png" alt="" />
-  </div>
-</div>
-
   `;
+}
+
+async function openprofiletemplate(index, responsestoJson) {
+  const response = await fetch("./profile-template.html");
+  if (!response.ok) throw new Error("Network response was not ok");
+   console.log(taskss);
+   
+  const htmlContent = await response.text();
+  document.getElementById("templateoverlay").innerHTML = htmlContent;
+  document.getElementById("templateoverlay").classList.add("overlayss");
+}
+
+function inputaccess(index) {
+  document.getElementById('profiletitle').innerHTML = 
+  document.getElementById('profiledescription').innerHTML = 
+  document.getElementById('profilesubsection').innerHTML = 
+  document.getElementById('profileduedate').innerHTML = 
+  document.getElementById('profilepriority').innerHTML = 
+  document.getElementById('profileicon').innerHTML = 
+  document.getElementById('profileassingedarea').innerHTML = 
+  document.getElementById('profilesubtaskarea').innerHTML = 
+}
+
+async function opentechnicaltemplate() {
+  const response = await fetch("./techinical-task-template.html");
+  if (!response.ok) throw new Error("Network response was not ok");
+  const htmlContent = await response.text();
+  document.getElementById("templateoverlay").innerHTML = htmlContent;
+  document.getElementById("templateoverlay").classList.add("overlays");
 }
 
 async function getusernames(id = 1) {
-  let responses = await fetch(GLOBAL + `users/${id}/contacts.json`);
-  let responsestoJson = await responses.json();
-  responsestoJson = responsestoJson.filter(
-    (contact) => contact && contact.name
-  );
-  for (let o = 0; o < responsestoJson.length; o++) {
-    fullnames.push(responsestoJson[o].name);
-  }
+  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  const contacts = await response.json();
+
+  fullnames = contacts
+    .filter((contact) => contact && contact.name)
+    .map((contact) => contact.name);
+  colors = fullnames.map(getColorFromString);
 }
 
 function opentasktemplate() {
-  document.querySelector(".overlays").style.display = "flex";
-  setTimeout(() => {
-    document.querySelector(".overlays").style.transform = "translateX(0%)";
-  }, 10);
+  const overlay = document.querySelector(".overlayss");
+  overlay.style.display = "flex";
+  setTimeout(() => (overlay.style.transform = "translateX(0%)"), 10);
 }
 
 function closeaddtasktemplate() {
-  document.querySelector(".overlays").style.transform = "translateX(126%)";
-  setTimeout(() => {
-    document.querySelector(".overlays").style.display = "none";
-  }, 50);
+  const overlay = document.querySelector(".overlayss");
+  overlay.style.transform = "translateX(126%)";
+  setTimeout(() => (overlay.style.display = "none"), 50);
 }

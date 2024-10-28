@@ -61,9 +61,6 @@ function selectbutton_3() {
   document.getElementById("medium").classList.remove("white-text");
 }
 
-
-
-
 function clearinputs() {
   document.getElementById("myform").reset();
   emptyinputs();
@@ -282,6 +279,7 @@ async function selectcontact(index, id = 1) {
     index,
     responsestoJson
   );
+
   if (checkbox.checked) {
     iffunction(initials, color, contactDiv, assignedUsersDiv);
   } else {
