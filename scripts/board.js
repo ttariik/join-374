@@ -6,9 +6,8 @@ let inprogress = [];
 let awaitingfeedback = [];
 let donetasks = [];
 const searchInput = document.getElementById("searchInput");
-const tasks = document.querySelectorAll(".task");
 
-// Speichern der Positionen
+
 const saveTaskPositions = () => {
   const positions = {
     todos: todos.map(task => task.id),
@@ -19,7 +18,7 @@ const saveTaskPositions = () => {
   localStorage.setItem('taskPositions', JSON.stringify(positions));
 };
 
-// Laden der Positionen
+
 const loadTaskPositions = () => {
   const positions = JSON.parse(localStorage.getItem('taskPositions'));
   if (positions) {
@@ -30,59 +29,76 @@ const loadTaskPositions = () => {
   }
 };
 
+
 searchInput.addEventListener("input", function () {
   const filter = searchInput.value.toLowerCase();
+  const tasks = document.querySelectorAll(".task");
   tasks.forEach((task) => {
     const taskText = task.textContent.toLowerCase();
     task.style.display = taskText.includes(filter) ? "" : "none";
   });
 });
 
+
 function allowDrop(event) {
   event.preventDefault();
 }
 
+
 function drag(event) {
   const taskId = event.target.id;
   event.dataTransfer.setData("text", taskId);
-  removeFromArray(taskId);
+  removeFromArray(taskId); 
 }
+
 
 function drop(event) {
   event.preventDefault();
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
 
+  // Überprüfen, ob die Aufgabe bereits im Zielordner ist
   let updatedArray;
   switch (event.target.id) {
-    case "inprogress-folder":
-      inprogress.push({ id: taskId, title: taskElement.innerText });
-      updatedArray = inprogress;
-      break;
-    case "awaiting-feedback-folder":
-      awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
-      updatedArray = awaitingfeedback;
-      break;
-    case "done-folder":
-      donetasks.push({ id: taskId, title: taskElement.innerText });
-      updatedArray = donetasks;
-      break;
-    case "todo-folder":
-      todos.push({ id: taskId, title: taskElement.innerText });
-      updatedArray = todos;
-      break;
-    default:
-      return; // Falls das Ziel kein gültiger Ordner ist
+      case "inprogress-folder":
+          if (!inprogress.some(task => task.id === taskId)) { // Nur hinzufügen, wenn nicht vorhanden
+              inprogress.push({ id: taskId, title: taskElement.innerText });
+          }
+          updatedArray = inprogress;
+          break;
+      case "awaiting-feedback-folder":
+          if (!awaitingfeedback.some(task => task.id === taskId)) {
+              awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
+          }
+          updatedArray = awaitingfeedback;
+          break;
+      case "done-folder":
+          if (!donetasks.some(task => task.id === taskId)) {
+              donetasks.push({ id: taskId, title: taskElement.innerText });
+          }
+          updatedArray = donetasks;
+          break;
+      case "todo-folder":
+          if (!todos.some(task => task.id === taskId)) {
+              todos.push({ id: taskId, title: taskElement.innerText });
+          }
+          updatedArray = todos;
+          break;
+      default:
+          return; // Falls das Ziel kein gültiger Ordner ist
   }
 
+  // Aufgabe dem Zielordner hinzufügen und speichern
   event.target.appendChild(taskElement);
-  saveTaskPositions(); // Position speichern, nachdem die Aufgabe fallen gelassen wurde
+  saveTaskPositions();
+  countTasks(); // Zähle die Aufgaben nach dem Drag-and-Drop
 }
+
 
 function removeFromArray(taskId) {
   const removeTask = (array) => {
-    const index = array.findIndex((task) => task.id === taskId);
-    if (index > -1) array.splice(index, 1);
+      const index = array.findIndex((task) => task.id === taskId);
+      if (index > -1) array.splice(index, 1);
   };
 
   removeTask(todos);
@@ -112,6 +128,7 @@ async function loadtasks(id = 1) {
   
   // Nach dem Laden die Positionen wiederherstellen
   restoreTaskPositions();
+  countTasks(); 
 }
 
 function restoreTaskPositions() {
@@ -146,14 +163,21 @@ function restoreTaskPositions() {
   }
 });
 
+function countTasks() {
+  const taskCounts = {
+    todos: todos.length,
+    inprogress: inprogress.length,
+    awaitingfeedback: awaitingfeedback.length,
+    donetasks: donetasks.length,
+  };
+  const totalTasks = taskCounts.todos + taskCounts.inprogress + taskCounts.awaitingfeedback + taskCounts.donetasks;
+  localStorage.setItem('taskCounts', JSON.stringify(taskCounts));
+  localStorage.setItem('totalTasks', totalTasks); 
+}
 
 
 async function userstorytemplate(task, index, completedtasks) {
-  // Ensure initials is an array
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-
-  // Fetch all colors from Firebase or use a locally cached version
-  // Assume `getContactColor(initial)` retrieves the color from Firebase
   const initialsHTMLPromises = initialsArray
     .filter((initial) => initial) // Remove any falsy values (including null)
     .map(async (initial) => {
@@ -162,17 +186,11 @@ async function userstorytemplate(task, index, completedtasks) {
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     });
 
-  // Resolve all color-fetching promises
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
-
-  // Ensure subtask is an array
   const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
-
-  // Calculate percentage completion for progress bar
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
-  // Return the template HTML
   return `
       <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
           <div class="task-detailss">
@@ -196,10 +214,9 @@ async function userstorytemplate(task, index, completedtasks) {
   `;
 }
 
-// Helper function to get contact color from Firebase
+
 async function getContactColor(initials) {
   try {
-    // Assume the color data for each contact is stored by `initial`
     const response = await fetch(`${GLOBAL}contacts/${initials}/color.json`);
     const colorData = await response.json();
     return colorData || "rgb(200, 200, 200)"; // Default color if none found
@@ -209,7 +226,7 @@ async function getContactColor(initials) {
   }
 }
 
-// Technical Task Template
+
 function Technicaltasktemplate(task, index) {
   document.getElementById(
     "initialsbox"
