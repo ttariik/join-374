@@ -58,25 +58,21 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-  const todoCount = localStorage.getItem('todoCount') || 0;
-  const inprogressCount = localStorage.getItem('inprogressCount') || 0;
-  const reviewCount = localStorage.getItem('reviewCount') || 0;
-  const doneCount = localStorage.getItem('doneCount') || 0;
-
-  const todoFolderCount = localStorage.getItem('todo-folderCount') || 0;
-  const inprogressFolderCount = localStorage.getItem('inprogress-folderCount') || 0;
-  const reviewFolderCount = localStorage.getItem('review-folderCount') || 0;
-  const doneFolderCount = localStorage.getItem('done-folderCount') || 0;
-
-  if (document.getElementById('todo-task-count')) document.getElementById('todo-task-count').textContent = todoCount;
-  if (document.getElementById('inprogress-task-count')) document.getElementById('inprogress-task-count').textContent = inprogressCount;
-  if (document.getElementById('review-task-count')) document.getElementById('review-task-count').textContent = reviewCount;
-  if (document.getElementById('done-task-count')) document.getElementById('done-task-count').textContent = doneCount;
-
-  const totalTaskCount = parseInt(todoFolderCount) + parseInt(inprogressFolderCount) + parseInt(reviewFolderCount) + parseInt(doneFolderCount);
-  if (document.getElementById('total-task-count')) document.getElementById('total-task-count').textContent = totalTaskCount;
+document.addEventListener("DOMContentLoaded", function() {
+  loadTaskCounts(); 
 });
+
+function loadTaskCounts() {
+  const taskCounts = JSON.parse(localStorage.getItem('taskCounts')) || { todos: 0, inprogress: 0, awaitingfeedback: 0, donetasks: 0 };
+  const totalTasks = localStorage.getItem('totalTasks') || 0; 
+
+  document.getElementById("todo-task-count").textContent = taskCounts.todos || 0;
+  document.getElementById("done-task-count").textContent = taskCounts.donetasks || 0;
+  document.getElementById("total-task-count").textContent = totalTasks;
+  document.getElementById("inprogress-task-count").textContent = taskCounts.inprogress || 0;
+  document.getElementById("review-task-count").textContent = taskCounts.awaitingfeedback || 0;
+}
+
 
 const greet = [
   'Go to bed!',
