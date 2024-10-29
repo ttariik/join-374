@@ -178,6 +178,18 @@ function restoreTaskPositions() {
   }
 });
 
+function countTasks() {
+  const taskCounts = {
+    todos: todos.length,
+    inprogress: inprogress.length,
+    awaitingfeedback: awaitingfeedback.length,
+    donetasks: donetasks.length,
+  };
+  const totalTasks = taskCounts.todos + taskCounts.inprogress + taskCounts.awaitingfeedback + taskCounts.donetasks;
+  localStorage.setItem('taskCounts', JSON.stringify(taskCounts));
+  localStorage.setItem('totalTasks', totalTasks); 
+}
+
 async function userstorytemplate(task, index, completedtasks) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const initialsHTMLPromises = initialsArray
