@@ -9,24 +9,41 @@ const searchInput = document.getElementById("searchInput");
 
 const saveTaskPositions = () => {
   const positions = {
-    todos: todos.map((task) => task.id),
-    inprogress: inprogress.map((task) => task.id),
-    awaitingfeedback: awaitingfeedback.map((task) => task.id),
-    donetasks: donetasks.map((task) => task.id),
+    todos: todos.map(formatTaskData), // Save the full task object
+    inprogress: inprogress.map(formatTaskData),
+    awaitingfeedback: awaitingfeedback.map(formatTaskData),
+    donetasks: donetasks.map(formatTaskData),
   };
   localStorage.setItem("taskPositions", JSON.stringify(positions));
 };
 
+function formatTaskData(task) {
+  console.log("Formatting task:", task); // Debugging line
+  return {
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    asignedto: task.asignedto,
+    prio: task.prio,
+    duedate: task.duedate,
+    category: task.category,
+    subtask: Array.isArray(task.subtask)
+      ? task.subtask.map((subtask) => ({
+          subtask: subtask,
+          completed: false,
+        }))
+      : [],
+    initials: task.initials,
+  };
+}
+
 const loadTaskPositions = () => {
   const positions = JSON.parse(localStorage.getItem("taskPositions"));
   if (positions) {
-    todos = positions.todos.map((id) => ({ id, title: id })); // Dummy title, anpassen wie nötig
-    inprogress = positions.inprogress.map((id) => ({ id, title: id }));
-    awaitingfeedback = positions.awaitingfeedback.map((id) => ({
-      id,
-      title: id,
-    }));
-    donetasks = positions.donetasks.map((id) => ({ id, title: id }));
+    todos = positions.todos || [];
+    inprogress = positions.inprogress || [];
+    awaitingfeedback = positions.awaitingfeedback || [];
+    donetasks = positions.donetasks || [];
   }
 };
 
@@ -54,42 +71,41 @@ function drop(event) {
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
 
-  // Überprüfen, ob die Aufgabe bereits im Zielordner ist
+  // Determine the drop target folder
+  const targetFolder = event.currentTarget.id; // use currentTarget to get the right drop zone
+
+  // Find and remove the task from the current list
+  removeFromArray(taskId);
+
+  // Add the task to the new array based on the drop target
   let updatedArray;
-  switch (event.target.id) {
+  switch (targetFolder) {
     case "inprogress-folder":
-      if (!inprogress.some((task) => task.id === taskId)) {
-        // Nur hinzufügen, wenn nicht vorhanden
-        inprogress.push({ id: taskId, title: taskElement.innerText });
-      }
+      inprogress.push(formatTaskData(taskElement)); // Ensure task is properly formatted
       updatedArray = inprogress;
       break;
     case "awaiting-feedback-folder":
-      if (!awaitingfeedback.some((task) => task.id === taskId)) {
-        awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
-      }
+      awaitingfeedback.push(formatTaskData(taskElement));
       updatedArray = awaitingfeedback;
       break;
     case "done-folder":
-      if (!donetasks.some((task) => task.id === taskId)) {
-        donetasks.push({ id: taskId, title: taskElement.innerText });
-      }
+      donetasks.push(formatTaskData(taskElement));
       updatedArray = donetasks;
       break;
     case "todo-folder":
-      if (!todos.some((task) => task.id === taskId)) {
-        todos.push({ id: taskId, title: taskElement.innerText });
-      }
+      todos.push(formatTaskData(taskElement));
       updatedArray = todos;
       break;
     default:
-      return; // Falls das Ziel kein gültiger Ordner ist
+      return; // If the target is not a valid folder
   }
 
-  // Aufgabe dem Zielordner hinzufügen und speichern
-  event.target.appendChild(taskElement);
+  // Append the task element to the target folder in the DOM
+  event.currentTarget.appendChild(taskElement);
+
+  // Save the updated task positions
   saveTaskPositions();
-  countTasks(); // Zähle die Aufgaben nach dem Drag-and-Drop
+  countTasks(); // Update task count after drop
 }
 
 function removeFromArray(taskId) {
@@ -142,7 +158,7 @@ async function loadtasks(id = 1) {
 }
 
 function restoreTaskPositions() {
-  loadTaskPositions(); // Positionen laden
+  loadTaskPositions(); // Load positions from local storage
 
   const folders = {
     "todo-folder": todos,
@@ -153,10 +169,17 @@ function restoreTaskPositions() {
 
   for (const [folderId, tasks] of Object.entries(folders)) {
     const folderElement = document.getElementById(folderId);
+    if (!folderElement) {
+      console.warn(`Folder element with id ${folderId} not found.`);
+      continue; // Skip if the folder element doesn't exist
+    }
+
     tasks.forEach((task) => {
       const taskElement = document.getElementById(task.id);
       if (taskElement) {
         folderElement.appendChild(taskElement);
+      } else {
+        console.warn(`Task element with id ${task.id} not found.`);
       }
     });
   }
@@ -185,9 +208,13 @@ function countTasks() {
     awaitingfeedback: awaitingfeedback.length,
     donetasks: donetasks.length,
   };
-  const totalTasks = taskCounts.todos + taskCounts.inprogress + taskCounts.awaitingfeedback + taskCounts.donetasks;
-  localStorage.setItem('taskCounts', JSON.stringify(taskCounts));
-  localStorage.setItem('totalTasks', totalTasks); 
+  const totalTasks =
+    taskCounts.todos +
+    taskCounts.inprogress +
+    taskCounts.awaitingfeedback +
+    taskCounts.donetasks;
+  localStorage.setItem("taskCounts", JSON.stringify(taskCounts));
+  localStorage.setItem("totalTasks", totalTasks);
 }
 
 async function userstorytemplate(task, index, completedtasks) {
@@ -304,16 +331,6 @@ async function opentechnicaltemplate(index, task) {
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   inputacesstechnicall(task);
-}
-
-async function getusernames(id = 1) {
-  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
-  const contacts = await response.json();
-
-  fullnames = contacts
-    .filter((contact) => contact && contact.name)
-    .map((contact) => contact.name);
-  colors = fullnames.map(getColorFromString);
 }
 
 function opentasktemplate() {
