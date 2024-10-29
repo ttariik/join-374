@@ -37,41 +37,55 @@ function drag(event) {
 
 function drop(event) {
   event.preventDefault();
-
-  // Retrieve the task ID and task element
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
 
-  // Identify the drop target and append the task to the appropriate container and array
+  // Remove task from all folder arrays to avoid duplication
+  todos = todos.filter((task) => task.id !== taskId);
+  inprogress = inprogress.filter((task) => task.id !== taskId);
+  awaitingfeedback = awaitingfeedback.filter((task) => task.id !== taskId);
+  donetasks = donetasks.filter((task) => task.id !== taskId);
+
+  // Determine target folder and push task to the appropriate array
+  let updatedArray;
   if (event.target.id === "inprogress-folder") {
     inprogress.push({ id: taskId, title: taskElement.innerText });
-  } else if (event.target.id === "review-folder") {
+    updatedArray = inprogress;
+    putData(`/users/1/inprogress`, updatedArray)
+      .then((response) => console.log("Updated inprogress:", response))
+      .catch((error) => console.error("Error updating inprogress:", error));
+  } else if (event.target.id === "awaiting-feedback-folder") {
     awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
+    updatedArray = awaitingfeedback;
+    putData(`/users/1/awaitingFeedback`, updatedArray)
+      .then((response) => console.log("Updated awaiting feedback:", response))
+      .catch((error) =>
+        console.error("Error updating awaiting feedback:", error)
+      );
   } else if (event.target.id === "done-folder") {
     donetasks.push({ id: taskId, title: taskElement.innerText });
+    updatedArray = doneTasks;
+    putData(`/users/1/doneTasks`, updatedArray)
+      .then((response) => console.log("Updated done tasks:", response))
+      .catch((error) => console.error("Error updating done tasks:", error));
   } else if (event.target.id === "todo-folder") {
     todos.push({ id: taskId, title: taskElement.innerText });
+    updatedArray = todos;
+    putData(`/users/1/todos`, updatedArray)
+      .then((response) => console.log("Updated todos:", response))
+      .catch((error) => console.error("Error updating todos:", error));
   }
 
-  // Append the task element to the new container in the DOM
+  // Append the task element to the target folder in the DOM
   event.target.appendChild(taskElement);
-
-  console.log("After dropping:", {
-    todos,
-    inprogress,
-    awaitingfeedback,
-    donetasks,
-  });
 }
 
 function removeFromArray(taskId) {
-  // Function to find and remove task from an array
   const removeTask = (array) => {
     const index = array.findIndex((task) => task.id === taskId);
     if (index > -1) array.splice(index, 1);
   };
 
-  // Remove from all arrays
   removeTask(todos);
   removeTask(inprogress);
   removeTask(awaitingfeedback);
@@ -124,6 +138,9 @@ async function loadtasks(id = 1) {
       (subtask) => subtask && subtask.completed
     ).length;
 
+    // Log task id to verify
+
+    // Await the HTML string from the appropriate template
     let taskHTML;
     if (task.category === "Technical") {
       taskHTML = await Technicaltasktemplate(task, index); // Await technical task template
@@ -200,10 +217,10 @@ async function userstorytemplate(task, index, completedtasks) {
 }
 
 // Helper function to get contact color from Firebase
-async function getContactColor(initial) {
+async function getContactColor(initials) {
   try {
     // Assume the color data for each contact is stored by `initial`
-    const response = await fetch(`${GLOBAL}contacts/${initial}/color.json`);
+    const response = await fetch(`${GLOBAL}contacts/${initials}/color.json`);
     const colorData = await response.json();
     return colorData || "rgb(200, 200, 200)"; // Default color if none found
   } catch (error) {
