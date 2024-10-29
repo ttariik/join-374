@@ -45,7 +45,6 @@ function drop(event) {
   // Identify the drop target and append the task to the appropriate container and array
   if (event.target.id === "inprogress-folder") {
     inprogress.push({ id: taskId, title: taskElement.innerText });
-    putData(`/users/1/${inprogress}`);
   } else if (event.target.id === "review-folder") {
     awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
   } else if (event.target.id === "done-folder") {
