@@ -29,31 +29,6 @@ function drop(event) {
   event.target.appendChild(task);
 }
 
-// Task Counters
-function countAndStoreTasks() {
-  const folders = [
-    "todo-folder",
-    "inprogress-folder",
-    "review-folder",
-    "done-folder",
-  ];
-  let totalTaskCount = 0;
-
-  folders.forEach((folderId) => {
-    const folder = document.getElementById(folderId);
-    const taskCount = folder
-      ? folder.getElementsByClassName("article").length
-      : 0;
-    localStorage.setItem(`${folderId}Count`, taskCount);
-    totalTaskCount += taskCount;
-  });
-
-  localStorage.setItem("totalTaskCount", totalTaskCount);
-  console.log(totalTaskCount);
-}
-
-document.addEventListener("DOMContentLoaded", countAndStoreTasks);
-
 // Color Generator
 function getColorFromString(str) {
   let hash = 0;
@@ -90,6 +65,7 @@ async function loadtasks(id = 1) {
         task.description &&
         task.duedate &&
         task.prio &&
+
         task.title
     );
 
