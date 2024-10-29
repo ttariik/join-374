@@ -11,22 +11,25 @@ const tasks = document.querySelectorAll(".task");
 // Speichern der Positionen
 const saveTaskPositions = () => {
   const positions = {
-    todos: todos.map(task => task.id),
-    inprogress: inprogress.map(task => task.id),
-    awaitingfeedback: awaitingfeedback.map(task => task.id),
-    donetasks: donetasks.map(task => task.id),
+    todos: todos.map((task) => task.id),
+    inprogress: inprogress.map((task) => task.id),
+    awaitingfeedback: awaitingfeedback.map((task) => task.id),
+    donetasks: donetasks.map((task) => task.id),
   };
-  localStorage.setItem('taskPositions', JSON.stringify(positions));
+  localStorage.setItem("taskPositions", JSON.stringify(positions));
 };
 
 // Laden der Positionen
 const loadTaskPositions = () => {
-  const positions = JSON.parse(localStorage.getItem('taskPositions'));
+  const positions = JSON.parse(localStorage.getItem("taskPositions"));
   if (positions) {
-    todos = positions.todos.map(id => ({ id, title: id })); // Dummy title, anpassen wie nötig
-    inprogress = positions.inprogress.map(id => ({ id, title: id }));
-    awaitingfeedback = positions.awaitingfeedback.map(id => ({ id, title: id }));
-    donetasks = positions.donetasks.map(id => ({ id, title: id }));
+    todos = positions.todos.map((id) => ({ id, title: id })); // Dummy title, anpassen wie nötig
+    inprogress = positions.inprogress.map((id) => ({ id, title: id }));
+    awaitingfeedback = positions.awaitingfeedback.map((id) => ({
+      id,
+      title: id,
+    }));
+    donetasks = positions.donetasks.map((id) => ({ id, title: id }));
   }
 };
 
@@ -58,18 +61,25 @@ function drop(event) {
     case "inprogress-folder":
       inprogress.push({ id: taskId, title: taskElement.innerText });
       updatedArray = inprogress;
+      putData("/users/1/inprogress", updatedArray);
       break;
     case "awaiting-feedback-folder":
       awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
       updatedArray = awaitingfeedback;
+      putData("/users/1/awaitingfeedback", updatedArray);
+
       break;
     case "done-folder":
       donetasks.push({ id: taskId, title: taskElement.innerText });
       updatedArray = donetasks;
+      putData("/users/1/donetasks", updatedArray);
+
       break;
     case "todo-folder":
       todos.push({ id: taskId, title: taskElement.innerText });
       updatedArray = todos;
+      putData("/users/1/todos", updatedArray);
+
       break;
     default:
       return; // Falls das Ziel kein gültiger Ordner ist
@@ -94,22 +104,35 @@ function removeFromArray(taskId) {
 async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
-  
+
   // Tasks laden und sortieren
   const tasks = Object.entries(responsestoJson || {})
     .filter(([taskID, task]) => task)
     .map(([taskID, task]) => ({ id: taskID, ...task }))
-    .filter((task) => task.asignedto && task.category && task.description && task.duedate && task.prio && task.title);
+    .filter(
+      (task) =>
+        task.asignedto &&
+        task.category &&
+        task.description &&
+        task.duedate &&
+        task.prio &&
+        task.title
+    );
 
   document.getElementById("article").innerHTML = ""; // Artikel zurücksetzen
   tasks.forEach((task) => todos.push(task));
 
   for (const task of tasks) {
     // HTML für die Aufgaben erstellen
-    let taskHTML = task.category === "Technical" ? await Technicaltasktemplate(task) : await userstorytemplate(task);
-    document.getElementById("article").insertAdjacentHTML("beforeend", taskHTML);
+    let taskHTML =
+      task.category === "Technical"
+        ? await Technicaltasktemplate(task)
+        : await userstorytemplate(task);
+    document
+      .getElementById("article")
+      .insertAdjacentHTML("beforeend", taskHTML);
   }
-  
+
   // Nach dem Laden die Positionen wiederherstellen
   restoreTaskPositions();
 }
@@ -126,7 +149,7 @@ function restoreTaskPositions() {
 
   for (const [folderId, tasks] of Object.entries(folders)) {
     const folderElement = document.getElementById(folderId);
-    tasks.forEach(task => {
+    tasks.forEach((task) => {
       const taskElement = document.getElementById(task.id);
       if (taskElement) {
         folderElement.appendChild(taskElement);
@@ -136,7 +159,12 @@ function restoreTaskPositions() {
 }
 
 // Drag-and-Drop-Ereignisse zuordnen
-["todo-folder", "inprogress-folder", "awaiting-feedback-folder", "done-folder"].forEach(folderId => {
+[
+  "todo-folder",
+  "inprogress-folder",
+  "awaiting-feedback-folder",
+  "done-folder",
+].forEach((folderId) => {
   const folderElement = document.getElementById(folderId);
   if (folderElement) {
     folderElement.addEventListener("drop", drop);
@@ -145,8 +173,6 @@ function restoreTaskPositions() {
     console.error(`Element mit ID ${folderId} wurde nicht gefunden.`);
   }
 });
-
-
 
 async function userstorytemplate(task, index, completedtasks) {
   // Ensure initials is an array
@@ -308,6 +334,7 @@ async function calladdtasktemplate() {
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   document.getElementById("templateoverlay").classList.add("overlayss");
+  document.getElementById("templateoverlay").style.transform = "translateX(0%)";
 }
 
 document
@@ -357,7 +384,9 @@ async function putData(path = "", data = {}) {
 // Add event listeners for drop areas to enable dragging and dropping
 document.getElementById("todo-folder").addEventListener("drop", drop);
 document.getElementById("inprogress-folder").addEventListener("drop", drop);
-document.getElementById("awaiting-feedback-folder").addEventListener("drop", drop);
+document
+  .getElementById("awaiting-feedback-folder")
+  .addEventListener("drop", drop);
 document.getElementById("done-folder").addEventListener("drop", drop);
 
 // Allow drop on specific folders
