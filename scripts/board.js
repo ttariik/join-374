@@ -8,6 +8,28 @@ let donetasks = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
 
+// Speichern der Positionen
+const saveTaskPositions = () => {
+  const positions = {
+    todos: todos.map(task => task.id),
+    inprogress: inprogress.map(task => task.id),
+    awaitingfeedback: awaitingfeedback.map(task => task.id),
+    donetasks: donetasks.map(task => task.id),
+  };
+  localStorage.setItem('taskPositions', JSON.stringify(positions));
+};
+
+// Laden der Positionen
+const loadTaskPositions = () => {
+  const positions = JSON.parse(localStorage.getItem('taskPositions'));
+  if (positions) {
+    todos = positions.todos.map(id => ({ id, title: id })); // Dummy title, anpassen wie nötig
+    inprogress = positions.inprogress.map(id => ({ id, title: id }));
+    awaitingfeedback = positions.awaitingfeedback.map(id => ({ id, title: id }));
+    donetasks = positions.donetasks.map(id => ({ id, title: id }));
+  }
+};
+
 searchInput.addEventListener("input", function () {
   const filter = searchInput.value.toLowerCase();
   tasks.forEach((task) => {
@@ -21,18 +43,9 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-  // Get the task ID and set it for the drag event
   const taskId = event.target.id;
   event.dataTransfer.setData("text", taskId);
-
-  // Remove task from the correct array based on its ID
   removeFromArray(taskId);
-  console.log("After dragging:", {
-    todos,
-    inprogress,
-    awaitingfeedback,
-    donetasks,
-  });
 }
 
 function drop(event) {
@@ -40,44 +53,30 @@ function drop(event) {
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
 
-  // Remove task from all folder arrays to avoid duplication
-  todos = todos.filter((task) => task.id !== taskId);
-  inprogress = inprogress.filter((task) => task.id !== taskId);
-  awaitingfeedback = awaitingfeedback.filter((task) => task.id !== taskId);
-  donetasks = donetasks.filter((task) => task.id !== taskId);
-
-  // Determine target folder and push task to the appropriate array
   let updatedArray;
-  if (event.target.id === "inprogress-folder") {
-    inprogress.push({ id: taskId, title: taskElement.innerText });
-    updatedArray = inprogress;
-    putData(`/users/1/inprogress`, updatedArray)
-      .then((response) => console.log("Updated inprogress:", response))
-      .catch((error) => console.error("Error updating inprogress:", error));
-  } else if (event.target.id === "awaiting-feedback-folder") {
-    awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
-    updatedArray = awaitingfeedback;
-    putData(`/users/1/awaitingFeedback`, updatedArray)
-      .then((response) => console.log("Updated awaiting feedback:", response))
-      .catch((error) =>
-        console.error("Error updating awaiting feedback:", error)
-      );
-  } else if (event.target.id === "done-folder") {
-    donetasks.push({ id: taskId, title: taskElement.innerText });
-    updatedArray = doneTasks;
-    putData(`/users/1/doneTasks`, updatedArray)
-      .then((response) => console.log("Updated done tasks:", response))
-      .catch((error) => console.error("Error updating done tasks:", error));
-  } else if (event.target.id === "todo-folder") {
-    todos.push({ id: taskId, title: taskElement.innerText });
-    updatedArray = todos;
-    putData(`/users/1/todos`, updatedArray)
-      .then((response) => console.log("Updated todos:", response))
-      .catch((error) => console.error("Error updating todos:", error));
+  switch (event.target.id) {
+    case "inprogress-folder":
+      inprogress.push({ id: taskId, title: taskElement.innerText });
+      updatedArray = inprogress;
+      break;
+    case "awaiting-feedback-folder":
+      awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
+      updatedArray = awaitingfeedback;
+      break;
+    case "done-folder":
+      donetasks.push({ id: taskId, title: taskElement.innerText });
+      updatedArray = donetasks;
+      break;
+    case "todo-folder":
+      todos.push({ id: taskId, title: taskElement.innerText });
+      updatedArray = todos;
+      break;
+    default:
+      return; // Falls das Ziel kein gültiger Ordner ist
   }
 
-  // Append the task element to the target folder in the DOM
   event.target.appendChild(taskElement);
+  saveTaskPositions(); // Position speichern, nachdem die Aufgabe fallen gelassen wurde
 }
 
 function removeFromArray(taskId) {
@@ -92,81 +91,62 @@ function removeFromArray(taskId) {
   removeTask(donetasks);
 }
 
-// Color Generator
-function getColorFromString(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    hash = str.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let r = (hash >> 24) & 0xff;
-  let g = (hash >> 16) & 0xff;
-  let b = (hash >> 8) & 0xff;
-
-  const lightnessFactor = 0.4;
-  r = Math.floor(r + (255 - r) * lightnessFactor);
-  g = Math.floor(g + (255 - g) * lightnessFactor);
-  b = Math.floor(b + (255 - b) * lightnessFactor);
-
-  return `rgb(${r}, ${g}, ${b})`;
-}
-
 async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
-
+  
+  // Tasks laden und sortieren
   const tasks = Object.entries(responsestoJson || {})
-    .filter(([taskID, task]) => task) // Remove null/undefined tasks
+    .filter(([taskID, task]) => task)
     .map(([taskID, task]) => ({ id: taskID, ...task }))
-    .filter(
-      (task) =>
-        task &&
-        task.asignedto &&
-        task.category &&
-        task.description &&
-        task.duedate &&
-        task.prio &&
-        task.title
-    );
+    .filter((task) => task.asignedto && task.category && task.description && task.duedate && task.prio && task.title);
 
-  document.getElementById("article").innerHTML = ""; // Clear article
+  document.getElementById("article").innerHTML = ""; // Artikel zurücksetzen
   tasks.forEach((task) => todos.push(task));
-  for (const [index, task] of tasks.entries()) {
-    // Ensure task.subtask is an array and filter out any null or undefined subtasks
-    const validSubtasks = Array.isArray(task.subtask) ? task.subtask : [];
-    const completedtasks = validSubtasks.filter(
-      (subtask) => subtask && subtask.completed
-    ).length;
 
-    // Log task id to verify
+  for (const task of tasks) {
+    // HTML für die Aufgaben erstellen
+    let taskHTML = task.category === "Technical" ? await Technicaltasktemplate(task) : await userstorytemplate(task);
+    document.getElementById("article").insertAdjacentHTML("beforeend", taskHTML);
+  }
+  
+  // Nach dem Laden die Positionen wiederherstellen
+  restoreTaskPositions();
+}
 
-    // Await the HTML string from the appropriate template
-    let taskHTML;
-    if (task.category === "Technical") {
-      taskHTML = await Technicaltasktemplate(task, index); // Await technical task template
-    } else {
-      taskHTML = await userstorytemplate(task, index, completedtasks); // Await user story template
-    }
+function restoreTaskPositions() {
+  loadTaskPositions(); // Positionen laden
 
-    // Insert the HTML into the DOM
-    document
-      .getElementById("article")
-      .insertAdjacentHTML("beforeend", taskHTML);
+  const folders = {
+    "todo-folder": todos,
+    "inprogress-folder": inprogress,
+    "awaiting-feedback-folder": awaitingfeedback,
+    "done-folder": donetasks,
+  };
 
-    // Ensure `task.id` exists to attach the event listener
-    if (task.id) {
-      document.getElementById(task.id).addEventListener("click", () => {
-        if (task.category === "Technical Task") {
-          opentechnicaltemplate(index, task); // Open the technical template for the clicked task
-        } else {
-          openprofiletemplate(index, task); // Open the profile template for the clicked task
-        }
-      });
-    } else {
-      console.warn(`Task with index ${index} has no valid id.`);
-    }
+  for (const [folderId, tasks] of Object.entries(folders)) {
+    const folderElement = document.getElementById(folderId);
+    tasks.forEach(task => {
+      const taskElement = document.getElementById(task.id);
+      if (taskElement) {
+        folderElement.appendChild(taskElement);
+      }
+    });
   }
 }
+
+// Drag-and-Drop-Ereignisse zuordnen
+["todo-folder", "inprogress-folder", "awaiting-feedback-folder", "done-folder"].forEach(folderId => {
+  const folderElement = document.getElementById(folderId);
+  if (folderElement) {
+    folderElement.addEventListener("drop", drop);
+    folderElement.addEventListener("dragover", allowDrop);
+  } else {
+    console.error(`Element mit ID ${folderId} wurde nicht gefunden.`);
+  }
+});
+
+
 
 async function userstorytemplate(task, index, completedtasks) {
   // Ensure initials is an array
@@ -377,7 +357,7 @@ async function putData(path = "", data = {}) {
 // Add event listeners for drop areas to enable dragging and dropping
 document.getElementById("todo-folder").addEventListener("drop", drop);
 document.getElementById("inprogress-folder").addEventListener("drop", drop);
-document.getElementById("review-folder").addEventListener("drop", drop);
+document.getElementById("awaiting-feedback-folder").addEventListener("drop", drop);
 document.getElementById("done-folder").addEventListener("drop", drop);
 
 // Allow drop on specific folders
@@ -386,6 +366,6 @@ document
   .getElementById("inprogress-folder")
   .addEventListener("dragover", allowDrop);
 document
-  .getElementById("review-folder")
+  .getElementById("awaiting-feedback-folder")
   .addEventListener("dragover", allowDrop);
 document.getElementById("done-folder").addEventListener("dragover", allowDrop);
