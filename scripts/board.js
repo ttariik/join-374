@@ -124,6 +124,9 @@ async function loadtasks(id = 1) {
       (subtask) => subtask && subtask.completed
     ).length;
 
+    // Log task id to verify
+
+    // Await the HTML string from the appropriate template
     let taskHTML;
     if (task.category === "Technical") {
       taskHTML = await Technicaltasktemplate(task, index); // Await technical task template
