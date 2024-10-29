@@ -122,6 +122,16 @@ input:focus {
   align-items: center;
 }
 
+.status-item button {
+  border: none;
+  cursor: pointer;
+  background-color: #f6f7f8;
+}
+
+.status-item button:hover {
+  background-image: url();
+}
+
 .search-wrapper button:hover {
   background-color: aliceblue;
   cursor: pointer;
@@ -267,6 +277,8 @@ input:focus {
   z-index: 99999;
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  transform: translateX(250%);
+  transition: transform 0.2s ease, visibility 0s;
 }
 
 .user-container {

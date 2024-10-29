@@ -49,6 +49,7 @@ function countAndStoreTasks() {
   });
 
   localStorage.setItem("totalTaskCount", totalTaskCount);
+  console.log(totalTaskCount);
 }
 
 document.addEventListener("DOMContentLoaded", countAndStoreTasks);
@@ -91,14 +92,19 @@ async function loadtasks(id = 1) {
         task.title
     );
 
+  // Clear the article element
   document.getElementById("article").innerHTML = "";
 
   for (const [index, task] of tasks.entries()) {
-    const completedtasks = task.subtask.filter(
-      (subtask) => subtask.completed
-    ).length;
+    // Check if subtask is an array, else set completed tasks to 0
+    const completedtasks = Array.isArray(task.subtask)
+      ? task.subtask.filter((subtask) => subtask.completed).length
+      : 0;
 
-    // Await the HTML string from userstorytemplate
+    // Log task id to verify
+    console.log(task.id);
+
+    // Await the HTML string from the appropriate template
     let taskHTML;
     if (task.category === "Technical") {
       taskHTML = await Technicaltasktemplate(task, index); // Await technical task template
@@ -111,26 +117,26 @@ async function loadtasks(id = 1) {
       .getElementById("article")
       .insertAdjacentHTML("beforeend", taskHTML);
 
-    // Attach the click event listener after inserting HTML
-    document.getElementById(`task${index}`).addEventListener("click", () => {
-      if (task.category === "Technical") {
-        opentechnicaltemplate(index, task); // Open the technical template for the clicked task
-      } else {
-        openprofiletemplate(index, task); // Open the profile template for the clicked task
-      }
-    });
+    // Ensure `task.id` exists to attach the event listener
+    if (task.id) {
+      document.getElementById(task.id).addEventListener("click", () => {
+        if (task.category === "Technical") {
+          opentechnicaltemplate(index, task); // Open the technical template for the clicked task
+        } else {
+          openprofiletemplate(index, task); // Open the profile template for the clicked task
+        }
+      });
+    } else {
+      console.warn(`Task with index ${index} has no valid id.`);
+    }
   }
 }
 
-// User Story Template
-// Ensure data dependencies for userstorytemplate are met
 async function userstorytemplate(task, index, completedtasks) {
-  // Wait for colors to load if they're fetched asynchronously
   if (!colors || colors.length === 0) {
-    colors = await fetchColors(task.initials); // Assume fetchColors is an async function that fetches colors
+    colors = await fetchColors(task.initials);
   }
 
-  // Generate initials badges
   const initialsHTML = task.initials
     .map(
       (initial, a) =>
@@ -140,7 +146,9 @@ async function userstorytemplate(task, index, completedtasks) {
 
   // Return the template HTML
   return `
-    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="task${index}">
+    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
+      task.id
+    }">
       <div class="task-detailss">
         <span>${task.category}</span>
       </div>
@@ -168,11 +176,10 @@ async function userstorytemplate(task, index, completedtasks) {
 
 // Helper function to simulate fetching colors based on initials
 async function fetchColors(initials) {
-  // Mock delay to simulate asynchronous fetch
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(initials.map((initial) => getColorFromString(initial)));
-    }, 500);
+    }, 50);
   });
 }
 
@@ -210,7 +217,7 @@ async function openprofiletemplate(index, task) {
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   document.getElementById("templateoverlay").classList.add("overlayss");
   inputacess(task);
-  console.log(task.title);
+  console.log(task.id);
 }
 
 function inputacess(task) {
@@ -263,7 +270,6 @@ async function calladdtasktemplate() {
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   document.getElementById("templateoverlay").classList.add("overlayss");
-  document.getElementById("overlay").style.transform = "translateX(0%)";
 }
 
 document
@@ -272,8 +278,40 @@ document
     calladdtasktemplate();
   });
 
-document
-  .getElementById("add-tasktemplate")
-  .addEventListener("click", function () {
+// Define a function that applies the hover effect and click event
+function applyHoverEffect(buttonId, imageId, hoverSrc) {
+  const buttonElement = document.getElementById(buttonId);
+  const imageElement = document.getElementById(imageId);
+
+  // Mouseover to change the image source
+  buttonElement.addEventListener("mouseover", function () {
+    imageElement.src = hoverSrc;
+  });
+
+  // Mouseout to reset the image
+  buttonElement.addEventListener("mouseout", function () {
+    imageElement.src = "/img/status-item.png"; // original source
+  });
+
+  // Click to call the template function
+  buttonElement.addEventListener("click", function () {
     calladdtasktemplate();
   });
+}
+
+// Apply the function to each button/image combination
+applyHoverEffect("buttonicon1", "pic1", "/img/pic1hovered.png");
+applyHoverEffect("buttonicon2", "pic2", "/img/pic1hovered.png");
+applyHoverEffect("buttonicon3", "pic3", "/img/pic1hovered.png");
+
+async function putData(path = "", data = {}) {
+  let response = await fetch(GLOBAL + path + ".json", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
+}

@@ -201,8 +201,6 @@ async function savedata(contactKey) {
 }
 
 async function putData(path = "", data = {}) {
-  console.log(`PUT request to ${GLOBAL + path}.json with data:`, data);
-
   let response = await fetch(GLOBAL + path + ".json", {
     method: "PUT",
     headers: {
