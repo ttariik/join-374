@@ -11,54 +11,18 @@ function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
-
-  document.getElementById("urgentImg").classList.add("hidden");
-  document.getElementById("urgentWhiteImg").classList.remove("hidden");
-  document.getElementById("urgent").classList.add("white-text");
-
-  document.getElementById("mediumImg").classList.remove("hidden");
-  document.getElementById("mediumWhiteImg").classList.add("hidden");
-  document.getElementById("medium").classList.remove("white-text");
-
-  document.getElementById("lowImg").classList.remove("hidden");
-  document.getElementById("lowWhiteImg").classList.add("hidden");
-  document.getElementById("low").classList.remove("white-text");
 }
 
 function selectbutton_2() {
   document.getElementById("button2").classList.toggle("lightorange");
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button3").classList.remove("lightgreen");
-
-  document.getElementById("mediumImg").classList.add("hidden");
-  document.getElementById("mediumWhiteImg").classList.remove("hidden");
-  document.getElementById("medium").classList.add("white-text");
-
-  document.getElementById("urgentImg").classList.remove("hidden");
-  document.getElementById("urgentWhiteImg").classList.add("hidden");
-  document.getElementById("urgent").classList.remove("white-text");
-
-  document.getElementById("lowImg").classList.remove("hidden");
-  document.getElementById("lowWhiteImg").classList.add("hidden");
-  document.getElementById("low").classList.remove("white-text");
 }
 
 function selectbutton_3() {
   document.getElementById("button3").classList.toggle("lightgreen");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button1").classList.remove("lightred");
-
-  document.getElementById("lowImg").classList.add("hidden");
-  document.getElementById("lowWhiteImg").classList.remove("hidden");
-  document.getElementById("low").classList.add("white-text");
-
-  document.getElementById("urgentImg").classList.remove("hidden");
-  document.getElementById("urgentWhiteImg").classList.add("hidden");
-  document.getElementById("urgent").classList.remove("white-text");
-
-  document.getElementById("mediumImg").classList.remove("hidden");
-  document.getElementById("mediumWhiteImg").classList.add("hidden");
-  document.getElementById("medium").classList.remove("white-text");
 }
 
 function clearinputs() {
