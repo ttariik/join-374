@@ -48,12 +48,10 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Load Tasks Function
 async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
 
-  // Filter and map tasks, avoiding null/undefined entries
   const tasks = Object.entries(responsestoJson || {})
     .filter(([taskID, task]) => task) // Remove null/undefined tasks
     .map(([taskID, task]) => ({ id: taskID, ...task }))
@@ -112,23 +110,29 @@ async function userstorytemplate(task, index, completedtasks) {
   // Ensure initials is an array
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  // Generate the HTML for initials with corresponding colors
-  const initialsHTML = initialsArray
+  // Fetch all colors from Firebase or use a locally cached version
+  // Assume `getContactColor(initial)` retrieves the color from Firebase
+  const initialsHTMLPromises = initialsArray
     .filter((initial) => initial) // Remove any falsy values (including null)
-    .map((initial) => {
-      const color = getColorFromString(initial); // Generate color directly from the initial
+    .map(async (initial) => {
+      // Fetch color from Firebase for each initial
+      const color = await getContactColor(initial);
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
-    })
-    .join("");
+    });
+
+  // Resolve all color-fetching promises
+  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
   // Ensure subtask is an array
   const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
 
+  // Calculate percentage completion for progress bar
+  const completionPercent =
+    totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
+
   // Return the template HTML
   return `
-      <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
-        task.id
-      }">
+      <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
           <div class="task-detailss">
               <span>${task.category}</span>
           </div>
@@ -138,11 +142,7 @@ async function userstorytemplate(task, index, completedtasks) {
           </div>
           <div class="outsidebox">
               <div class="progressbar">
-                  <div class="progressbar-inside" style="width=${
-                    totalSubtasks > 0
-                      ? (completedtasks / totalSubtasks) * 100
-                      : 0
-                  }%"></div>
+                  <div class="progressbar-inside" style="width:${completionPercent}%"></div>
               </div>
               <div class="subtask-info"><span>${completedtasks}/${totalSubtasks} Subtasks</span></div>
           </div>
@@ -154,9 +154,21 @@ async function userstorytemplate(task, index, completedtasks) {
   `;
 }
 
+// Helper function to get contact color from Firebase
+async function getContactColor(initial) {
+  try {
+    // Assume the color data for each contact is stored by `initial`
+    const response = await fetch(`${GLOBAL}contacts/${initial}/color.json`);
+    const colorData = await response.json();
+    return colorData || "rgb(200, 200, 200)"; // Default color if none found
+  } catch (error) {
+    console.error("Error fetching color for initial:", initial, error);
+    return "rgb(200, 200, 200)"; // Fallback color on error
+  }
+}
+
 // Technical Task Template
 function Technicaltasktemplate(task, index) {
-  const initialsHTML = task.initials.map((initial, a) => ``).join("");
   document.getElementById(
     "initialsbox"
   ).innerHTML = `<div class="badgestyle" style="background-color:${task.color}">${initial}</div>`;
