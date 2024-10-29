@@ -90,7 +90,6 @@ async function loadtasks(id = 1) {
         task.description &&
         task.duedate &&
         task.prio &&
-        task.subtask &&
         task.title
     );
 
@@ -134,7 +133,6 @@ async function loadtasks(id = 1) {
   }
 }
 
-// User story template with dynamic colors and null-safe initials handling
 async function userstorytemplate(task, index, completedtasks) {
   // Ensure initials is an array
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
@@ -143,12 +141,13 @@ async function userstorytemplate(task, index, completedtasks) {
   const initialsHTML = initialsArray
     .filter((initial) => initial) // Remove any falsy values (including null)
     .map((initial) => {
-      const color = getColorFromString(fullnames); // Generate color directly from the initial
-      return `<div class="badgestyle badge" style="background-color:${}">${initial}</div>`;
+      const color = getColorFromString(initial); // Generate color directly from the initial
+      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
 
-  const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
+  // Ensure subtask is an array
+  const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
 
   // Return the template HTML
   return `
