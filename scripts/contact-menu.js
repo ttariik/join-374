@@ -40,7 +40,7 @@ async function showcontacts(id = 1) {
 }
 
 function contactsmenutemplate(contact) {
-  console.log(contact);
+  console.log(contact.color);
 
   let firstLetter = contact.name.charAt(0).toUpperCase();
 
@@ -57,7 +57,7 @@ function contactsmenutemplate(contact) {
       <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
     contact.key
   }');">
-        <div class="badge" style="background-color: ${color};">
+        <div class="badge" style="background-color: ${contact.color};">
           ${contact.initials || contact.name.charAt(0).toUpperCase()}
         </div>
         <div class="secondpart">

@@ -78,7 +78,9 @@ async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
 
+  // Filter and map tasks, avoiding null/undefined entries
   const tasks = Object.entries(responsestoJson || {})
+    .filter(([taskID, task]) => task) // Remove null/undefined tasks
     .map(([taskID, task]) => ({ id: taskID, ...task }))
     .filter(
       (task) =>
@@ -92,14 +94,14 @@ async function loadtasks(id = 1) {
         task.title
     );
 
-  // Clear the article element
-  document.getElementById("article").innerHTML = "";
+  document.getElementById("article").innerHTML = ""; // Clear article
 
   for (const [index, task] of tasks.entries()) {
-    // Check if subtask is an array, else set completed tasks to 0
-    const completedtasks = Array.isArray(task.subtask)
-      ? task.subtask.filter((subtask) => subtask.completed).length
-      : 0;
+    // Ensure task.subtask is an array and filter out any null or undefined subtasks
+    const validSubtasks = Array.isArray(task.subtask) ? task.subtask : [];
+    const completedtasks = validSubtasks.filter(
+      (subtask) => subtask && subtask.completed
+    ).length;
 
     // Log task id to verify
     console.log(task.id);
@@ -120,7 +122,7 @@ async function loadtasks(id = 1) {
     // Ensure `task.id` exists to attach the event listener
     if (task.id) {
       document.getElementById(task.id).addEventListener("click", () => {
-        if (task.category === "Technical") {
+        if (task.category === "Technical Task") {
           opentechnicaltemplate(index, task); // Open the technical template for the clicked task
         } else {
           openprofiletemplate(index, task); // Open the profile template for the clicked task
@@ -132,55 +134,50 @@ async function loadtasks(id = 1) {
   }
 }
 
+// User story template with dynamic colors and null-safe initials handling
 async function userstorytemplate(task, index, completedtasks) {
-  if (!colors || colors.length === 0) {
-    colors = await fetchColors(task.initials);
-  }
+  // Ensure initials is an array
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  const initialsHTML = task.initials
-    .map(
-      (initial, a) =>
-        `<div class="badgestyle badge" style="background-color:${colors[a]}">${initial}</div>`
-    )
+  // Generate the HTML for initials with corresponding colors
+  const initialsHTML = initialsArray
+    .filter((initial) => initial) // Remove any falsy values (including null)
+    .map((initial) => {
+      const color = getColorFromString(fullnames); // Generate color directly from the initial
+      return `<div class="badgestyle badge" style="background-color:${}">${initial}</div>`;
+    })
     .join("");
+
+  const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
 
   // Return the template HTML
   return `
-    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
-      task.id
-    }">
-      <div class="task-detailss">
-        <span>${task.category}</span>
+      <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
+        task.id
+      }">
+          <div class="task-detailss">
+              <span>${task.category}</span>
+          </div>
+          <div class="titlecontainer">
+              <div class="section-one">${task.title}</div>
+              <div class="section-two">${task.description}</div>
+          </div>
+          <div class="outsidebox">
+              <div class="progressbar">
+                  <div class="progressbar-inside" style="width=${
+                    totalSubtasks > 0
+                      ? (completedtasks / totalSubtasks) * 100
+                      : 0
+                  }%"></div>
+              </div>
+              <div class="subtask-info"><span>${completedtasks}/${totalSubtasks} Subtasks</span></div>
+          </div>
+          <div class="asignbox">
+              <div id="initialsarea" class="initialsbox">${initialsHTML}</div>
+              <img src="/img/${task.prio}.png" alt="">
+          </div>
       </div>
-      <div class="titlecontainer">
-        <div class="section-one">${task.title}</div>
-        <div class="section-two">${task.description}</div>
-      </div>
-      <div class="outsidebox">
-        <div class="progressbar">
-          <div class="progressbar-inside" style="width:${
-            (completedtasks / task.subtask.length) * 100
-          }%"></div>
-        </div>
-        <div class="subtask-info"><span>${completedtasks}/${
-    task.subtask.length
-  } Subtasks</span></div>
-      </div>
-      <div class="asignbox">
-        <div id="initialsarea" class="initialsbox">${initialsHTML}</div>
-        <img src="/img/${task.prio}.png" alt="">
-      </div>
-    </div>
   `;
-}
-
-// Helper function to simulate fetching colors based on initials
-async function fetchColors(initials) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(initials.map((initial) => getColorFromString(initial)));
-    }, 50);
-  });
 }
 
 // Technical Task Template
@@ -210,17 +207,15 @@ function Technicaltasktemplate(task, index) {
 }
 
 async function openprofiletemplate(index, task) {
-  opentasktemplate();
   const response = await fetch("./profile-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
-  document.getElementById("templateoverlay").classList.add("overlayss");
-  inputacess(task);
-  console.log(task.id);
+  opentasktemplate();
+  inputacessprofile(task);
 }
 
-function inputacess(task) {
+function inputacessprofile(task) {
   document.getElementById("profiletitle").innerHTML = `${task.title}`;
   document.getElementById(
     "profiledescription"
@@ -230,13 +225,31 @@ function inputacess(task) {
   document.getElementById("profileicon").src = `../img/${task.prio}.png`;
 }
 
-async function opentechnicaltemplate() {
+function inputacesstechnicall(task) {
+  document.getElementById("title").innerHTML = `${task.title}`;
+  document.getElementById("descriptioninput").innerHTML = `${task.description}`;
+  document.getElementById(
+    "due-date-containerinput"
+  ).innerHTML = `${task.duedate}`;
+  document.getElementById("showprio").innerHTML = `${task.prio}`;
+  document.getElementById("assigned-containercontent").innerHTML = "";
+  document.getElementById("assigned-containercontent").innerHTML +=
+    assignedtotemplate(task);
+}
+
+function assignedtotemplate(task) {
+  return /*html*/ `<div class="align" id="showassignedperson">
+  <div>${task.initials}</div><span>${task.asignedto}</span>
+</div>`;
+}
+
+async function opentechnicaltemplate(index, task) {
+  opentasktemplate();
   const response = await fetch("./techinical-task-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
-  document.getElementById("templateoverlay").classList.add("overlays");
-  inputacess(task);
+  inputacesstechnicall(task);
 }
 
 async function getusernames(id = 1) {
@@ -257,11 +270,11 @@ function opentasktemplate() {
 }
 
 function closeaddtasktemplate() {
-  const overlay = document.querySelector(".overlayss");
-  overlay.style.transform = "translateX(126%)";
-  document.getElementById("templateoverlay").classList.remove("overlayss");
-  document.getElementById("templateoverlay").innerHTML = "";
-  document.getElementById("templateoverlay").style = "";
+  document.getElementById("templateoverlay").style =
+    "transform: translateX(126%)";
+  setTimeout(() => {
+    document.getElementById("templateoverlay").innerHTML = "";
+  }, 0.5);
 }
 
 async function calladdtasktemplate() {

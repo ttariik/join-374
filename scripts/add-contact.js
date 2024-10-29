@@ -21,7 +21,7 @@ async function addcontact(event) {
   let firstname = nameParts[0].charAt(0).toUpperCase();
   let lastname = nameParts[1]?.charAt(0).toUpperCase();
   let initials = firstname + (lastname || "");
-
+  let color = getColorFromString(telefonename);
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
 
@@ -30,6 +30,7 @@ async function addcontact(event) {
     email: email,
     telefone: phone,
     initials: initials,
+    color: color,
   });
 
   emptyinputs();
@@ -110,4 +111,22 @@ async function showinitials(id = 1) {
 async function getAllUsers(path) {
   let response = await fetch(GLOBAL + path + ".json");
   return (responsetoJson = await response.json());
+}
+
+function getColorFromString(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let r = (hash >> 24) & 0xff;
+  let g = (hash >> 16) & 0xff;
+  let b = (hash >> 8) & 0xff;
+
+  const lightnessFactor = 0.4;
+  r = Math.floor(r + (255 - r) * lightnessFactor);
+  g = Math.floor(g + (255 - g) * lightnessFactor);
+  b = Math.floor(b + (255 - b) * lightnessFactor);
+
+  return `rgb(${r}, ${g}, ${b})`;
 }
