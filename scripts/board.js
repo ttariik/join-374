@@ -1,8 +1,10 @@
 let completedtasks = 0;
 let fullnames = [];
 let colors = [];
-let initialsss = [];
-let taskss = [];
+let todos = [];
+let inprogress = [];
+let awaitingfeedback = [];
+let donetasks = [];
 const searchInput = document.getElementById("searchInput");
 const tasks = document.querySelectorAll(".task");
 
@@ -19,14 +21,62 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-  event.dataTransfer.setData("text", event.target.id);
+  // Get the task ID and set it for the drag event
+  const taskId = event.target.id;
+  event.dataTransfer.setData("text", taskId);
+
+  // Remove task from the correct array based on its ID
+  removeFromArray(taskId);
+  console.log("After dragging:", {
+    todos,
+    inprogress,
+    awaitingfeedback,
+    donetasks,
+  });
 }
 
 function drop(event) {
   event.preventDefault();
-  const data = event.dataTransfer.getData("text");
-  const task = document.getElementById(data);
-  event.target.appendChild(task);
+
+  // Retrieve the task ID and task element
+  const taskId = event.dataTransfer.getData("text");
+  const taskElement = document.getElementById(taskId);
+
+  // Identify the drop target and append the task to the appropriate container and array
+  if (event.target.id === "inprogress-folder") {
+    inprogress.push({ id: taskId, title: taskElement.innerText });
+    putData(`/users/1/${inprogress}`);
+  } else if (event.target.id === "review-folder") {
+    awaitingfeedback.push({ id: taskId, title: taskElement.innerText });
+  } else if (event.target.id === "done-folder") {
+    donetasks.push({ id: taskId, title: taskElement.innerText });
+  } else if (event.target.id === "todo-folder") {
+    todos.push({ id: taskId, title: taskElement.innerText });
+  }
+
+  // Append the task element to the new container in the DOM
+  event.target.appendChild(taskElement);
+
+  console.log("After dropping:", {
+    todos,
+    inprogress,
+    awaitingfeedback,
+    donetasks,
+  });
+}
+
+function removeFromArray(taskId) {
+  // Function to find and remove task from an array
+  const removeTask = (array) => {
+    const index = array.findIndex((task) => task.id === taskId);
+    if (index > -1) array.splice(index, 1);
+  };
+
+  // Remove from all arrays
+  removeTask(todos);
+  removeTask(inprogress);
+  removeTask(awaitingfeedback);
+  removeTask(donetasks);
 }
 
 // Color Generator
@@ -67,7 +117,7 @@ async function loadtasks(id = 1) {
     );
 
   document.getElementById("article").innerHTML = ""; // Clear article
-
+  tasks.forEach((task) => todos.push(task));
   for (const [index, task] of tasks.entries()) {
     // Ensure task.subtask is an array and filter out any null or undefined subtasks
     const validSubtasks = Array.isArray(task.subtask) ? task.subtask : [];
@@ -76,7 +126,6 @@ async function loadtasks(id = 1) {
     ).length;
 
     // Log task id to verify
-    console.log(task.id);
 
     // Await the HTML string from the appropriate template
     let taskHTML;
@@ -311,3 +360,19 @@ async function putData(path = "", data = {}) {
 
   return await response.json();
 }
+
+// Add event listeners for drop areas to enable dragging and dropping
+document.getElementById("todo-folder").addEventListener("drop", drop);
+document.getElementById("inprogress-folder").addEventListener("drop", drop);
+document.getElementById("review-folder").addEventListener("drop", drop);
+document.getElementById("done-folder").addEventListener("drop", drop);
+
+// Allow drop on specific folders
+document.getElementById("todo-folder").addEventListener("dragover", allowDrop);
+document
+  .getElementById("inprogress-folder")
+  .addEventListener("dragover", allowDrop);
+document
+  .getElementById("review-folder")
+  .addEventListener("dragover", allowDrop);
+document.getElementById("done-folder").addEventListener("dragover", allowDrop);
