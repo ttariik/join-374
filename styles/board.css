@@ -293,6 +293,7 @@ input:focus {
   text-align: left;
   cursor: pointer;
   margin-bottom: 16px;
+  background-color: white;
 }
 
 .task-details {
