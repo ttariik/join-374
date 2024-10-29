@@ -325,7 +325,10 @@ async function calladdtasktemplate() {
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
   document.getElementById("templateoverlay").classList.add("overlayss");
-  document.getElementById("templateoverlay").style.transform = "translateX(0%)";
+  setTimeout(() => {
+    document.getElementById("templateoverlay").style.transform =
+      "translateX(0%)";
+  }, 0.5);
 }
 
 document
