@@ -65,7 +65,6 @@ async function loadtasks(id = 1) {
         task.description &&
         task.duedate &&
         task.prio &&
-
         task.title
     );
 
@@ -157,13 +156,10 @@ async function userstorytemplate(task, index, completedtasks) {
 
 // Technical Task Template
 function Technicaltasktemplate(task, index) {
-  const initialsHTML = task.initials
-    .map(
-      (initial, a) =>
-        `<div class="badgestyle" style="background-color:${colors[a]}">${initial}</div>`
-    )
-    .join("");
-
+  const initialsHTML = task.initials.map((initial, a) => ``).join("");
+  document.getElementById(
+    "initialsbox"
+  ).innerHTML = `<div class="badgestyle" style="background-color:${task.color}">${initial}</div>`;
   return /*html*/ `
     <div class="task-container task" draggable="true" ondragstart="drag(event)" id="task${index}" onclick="opentechnicaltemplate(${index})">
       <div class="task-category">
