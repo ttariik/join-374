@@ -126,9 +126,8 @@ async function loadtasks(id = 1) {
   const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
   const responsestoJson = await responses.json();
 
-  // Tasks laden und sortieren
   const tasks = Object.entries(responsestoJson || {})
-    .filter(([taskID, task]) => task)
+    .filter(([taskID, task]) => task) // Ensure task exists
     .map(([taskID, task]) => ({ id: taskID, ...task }))
     .filter(
       (task) =>
@@ -140,21 +139,25 @@ async function loadtasks(id = 1) {
         task.title
     );
 
-  document.getElementById("article").innerHTML = ""; // Artikel zurücksetzen
+  // Clear previous tasks
+  document.getElementById("article").innerHTML = "";
+  todos.length = 0; // Reset `todos` array
+
   tasks.forEach((task) => todos.push(task));
 
   for (const task of tasks) {
-    // HTML für die Aufgaben erstellen
-    let taskHTML =
-      task.category === "Technical"
+    // Ensure template functions are asynchronous
+    const taskHTML =
+      task.category === "Technical Task"
         ? await Technicaltasktemplate(task)
         : await userstorytemplate(task);
+
     document
       .getElementById("article")
       .insertAdjacentHTML("beforeend", taskHTML);
   }
 
-  // Nach dem Laden die Positionen wiederherstellen
+  // Restore positions and count tasks after rendering
   restoreTaskPositions();
   countTasks();
 }
@@ -219,22 +222,26 @@ function countTasks() {
   localStorage.setItem("totalTasks", totalTasks);
 }
 
-async function userstorytemplate(task, index, completedtasks) {
+async function userstorytemplate(task, index) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
   // Generate HTML for each initial with a color derived from initials
   const initialsHTMLPromises = initialsArray
     .filter((initial) => initial) // Exclude any falsy initials
     .map(async (initial) => {
-      // Generate a color based on the initials
       const color = getColorFromInitials(initial);
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     });
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
-  // Calculate completion percentage for the progress bar
-  const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
+  // Count completed subtasks
+  const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
+  const completedtasks = task.subtask
+    ? task.subtask.filter((subtask) => subtask.completed).length
+    : 0;
+
+  // Calculate the completion percentage
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
@@ -260,25 +267,41 @@ async function userstorytemplate(task, index, completedtasks) {
       </div>
   `;
 }
-async function getContactColor(initial) {
-  const response = await fetch(`${GLOBAL}/users/contacts/${initial}.json`);
-  const colorData = await response.json();
-  return colorData.color; // Assuming response contains a 'color' field
-}
 
 function getColorFromInitials(initial) {
   let hash = 0;
   for (let i = 0; i < initial.length; i++) {
     hash = initial.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const color = `hsl(${hash % 360}, 70%, 70%)`; // Using HSL to generate a color
+
+  const hue = hash % 360;
+  const saturation = 60 + (hash % 20); // Saturation between 60-80%
+  const lightness = 50 + (hash % 20); // Lightness between 50-70%
+
+  const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   return color;
 }
 
-function Technicaltasktemplate(task, index) {
-  document.getElementById(
-    "initialsbox"
-  ).innerHTML = `<div class="badgestyle" style="background-color:${task.color}">${initial}</div>`;
+async function Technicaltasktemplate(task, index, completedtasks = 0) {
+  // Ensure initials are retrieved correctly from `task.initials` if it's an array
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+
+  // Generate initials HTML with assigned colors
+  const initialsHTMLPromises = initialsArray
+    .filter((initial) => initial) // Exclude any falsy initials
+    .map(async (initial) => {
+      const color = getColorFromInitials(initial); // Assuming this function returns a color for each initial
+      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
+    });
+
+  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+
+  // Completion percentage (optional to include if relevant to technical tasks)
+  const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
+  const completionPercent =
+    totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
+
+  // Return the HTML structure
   return /*html*/ `
     <div class="task-container task" draggable="true" ondragstart="drag(event)" id="task${index}" onclick="opentechnicaltemplate(${index})">
       <div class="task-category">
@@ -289,8 +312,8 @@ function Technicaltasktemplate(task, index) {
         <div class="task-description">${task.description}</div>
       </div>
       <div class="task-statuss">
-        <div id="initialsbox" class="initialsboxdesign">${initialsHTML}</div>
-        <img src="/img/${task.prio}.png" alt="" />
+        <div class="initialsboxdesign">${initialsHTML}</div>
+        <img src="/img/${task.prio}.png" alt="Priority" />
       </div>
     </div>
   `;

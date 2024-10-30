@@ -162,6 +162,12 @@ input:focus {
   gap: 24px;
 }
 
+.task-statuss {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .task-status {
   max-width: 244px;
   width: 100%;
