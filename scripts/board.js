@@ -5,6 +5,7 @@ let todos = [];
 let inprogress = [];
 let awaitingfeedback = [];
 let donetasks = [];
+let currentid = [];
 const searchInput = document.getElementById("searchInput");
 
 const saveTaskPositions = () => {
@@ -70,9 +71,10 @@ function drop(event) {
   event.preventDefault();
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
-
   // Determine the drop target folder
   const targetFolder = event.currentTarget.id; // use currentTarget to get the right drop zone
+  let color = getContactColor(taskId, colorData);
+  console.log(color);
 
   // Find and remove the task from the current list
   removeFromArray(taskId);
@@ -219,15 +221,19 @@ function countTasks() {
 
 async function userstorytemplate(task, index, completedtasks) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+
+  // Generate HTML for each initial with a color derived from initials
   const initialsHTMLPromises = initialsArray
-    .filter((initial) => initial) // Remove any falsy values (including null)
+    .filter((initial) => initial) // Exclude any falsy initials
     .map(async (initial) => {
-      // Fetch color from Firebase for each initial
-      const color = await getContactColor(initial);
+      // Generate a color based on the initials
+      const color = getColorFromInitials(initial);
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     });
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+
+  // Calculate completion percentage for the progress bar
   const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
@@ -254,16 +260,19 @@ async function userstorytemplate(task, index, completedtasks) {
       </div>
   `;
 }
+async function getContactColor(initial) {
+  const response = await fetch(`${GLOBAL}/users/contacts/${initial}.json`);
+  const colorData = await response.json();
+  return colorData.color; // Assuming response contains a 'color' field
+}
 
-async function getContactColor(initials) {
-  try {
-    const response = await fetch(`${GLOBAL}contacts/${initials}/color.json`);
-    const colorData = await response.json();
-    return colorData || "rgb(200, 200, 200)"; // Default color if none found
-  } catch (error) {
-    console.error("Error fetching color for initial:", initial, error);
-    return "rgb(200, 200, 200)"; // Fallback color on error
+function getColorFromInitials(initial) {
+  let hash = 0;
+  for (let i = 0; i < initial.length; i++) {
+    hash = initial.charCodeAt(i) + ((hash << 5) - hash);
   }
+  const color = `hsl(${hash % 360}, 70%, 70%)`; // Using HSL to generate a color
+  return color;
 }
 
 function Technicaltasktemplate(task, index) {

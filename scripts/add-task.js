@@ -6,6 +6,7 @@ let selectedPriority = null;
 let subtasks = [];
 let initialsarra = [];
 let asignedtousers = [];
+let usernamecolor = [];
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
@@ -182,6 +183,8 @@ async function showcontacts(id = 1) {
   for (let index = 0; index < responsestoJson.length; index++) {
     users.push(responsestoJson[index].name);
     const color = getColorFromString(responsestoJson[index].name);
+    usernamecolor.push(color);
+
     document.getElementById("contacts-box").innerHTML += contactstemplate(
       responsestoJson,
       index,
