@@ -10,7 +10,7 @@ const searchInput = document.getElementById("searchInput");
 
 const saveTaskPositions = () => {
   const positions = {
-    todos: todos.map(formatTaskData), // Save the full task object
+    todos: todos.map(formatTaskData),
     inprogress: inprogress.map(formatTaskData),
     awaitingfeedback: awaitingfeedback.map(formatTaskData),
     donetasks: donetasks.map(formatTaskData),
@@ -19,7 +19,7 @@ const saveTaskPositions = () => {
 };
 
 function formatTaskData(task) {
-  console.log("Formatting task:", task); // Debugging line
+  console.log("Formatting task:", task);
   return {
     id: task.id,
     title: task.title,
@@ -71,19 +71,14 @@ function drop(event) {
   event.preventDefault();
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
-  // Determine the drop target folder
-  const targetFolder = event.currentTarget.id; // use currentTarget to get the right drop zone
-  let color = getContactColor(taskId, colorData);
-  console.log(color);
+  const targetFolder = event.currentTarget.id;
 
-  // Find and remove the task from the current list
   removeFromArray(taskId);
 
-  // Add the task to the new array based on the drop target
   let updatedArray;
   switch (targetFolder) {
     case "inprogress-folder":
-      inprogress.push(formatTaskData(taskElement)); // Ensure task is properly formatted
+      inprogress.push(formatTaskData(taskElement));
       updatedArray = inprogress;
       break;
     case "awaiting-feedback-folder":
@@ -99,15 +94,13 @@ function drop(event) {
       updatedArray = todos;
       break;
     default:
-      return; // If the target is not a valid folder
+      return;
   }
 
-  // Append the task element to the target folder in the DOM
   event.currentTarget.appendChild(taskElement);
 
-  // Save the updated task positions
   saveTaskPositions();
-  countTasks(); // Update task count after drop
+  countTasks();
 }
 
 function removeFromArray(taskId) {
@@ -225,9 +218,8 @@ function countTasks() {
 async function userstorytemplate(task, index) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  // Generate HTML for each initial with a color derived from initials
   const initialsHTMLPromises = initialsArray
-    .filter((initial) => initial) // Exclude any falsy initials
+    .filter((initial) => initial)
     .map(async (initial) => {
       const color = getColorFromInitials(initial);
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
@@ -235,13 +227,11 @@ async function userstorytemplate(task, index) {
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
-  // Count completed subtasks
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
   const completedtasks = task.subtask
     ? task.subtask.filter((subtask) => subtask.completed).length
     : 0;
 
-  // Calculate the completion percentage
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
@@ -275,35 +265,31 @@ function getColorFromInitials(initial) {
   }
 
   const hue = hash % 360;
-  const saturation = 60 + (hash % 20); // Saturation between 60-80%
-  const lightness = 50 + (hash % 20); // Lightness between 50-70%
+  const saturation = 60 + (hash % 20);
+  const lightness = 50 + (hash % 20);
 
   const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   return color;
 }
 
 async function Technicaltasktemplate(task, index, completedtasks = 0) {
-  // Ensure initials are retrieved correctly from `task.initials` if it's an array
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  // Generate initials HTML with assigned colors
   const initialsHTMLPromises = initialsArray
-    .filter((initial) => initial) // Exclude any falsy initials
+    .filter((initial) => initial)
     .map(async (initial) => {
-      const color = getColorFromInitials(initial); // Assuming this function returns a color for each initial
+      const color = getColorFromInitials(initial);
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     });
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
-  // Completion percentage (optional to include if relevant to technical tasks)
   const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
-  // Return the HTML structure
   return /*html*/ `
-    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="task${index}" onclick="opentechnicaltemplate(${index})">
+    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}" onclick="opentechnicaltemplate(${task.id})">
       <div class="task-category">
         <span class="task-category-name">${task.category}</span>
       </div>
@@ -398,28 +384,23 @@ document
     calladdtasktemplate();
   });
 
-// Define a function that applies the hover effect and click event
 function applyHoverEffect(buttonId, imageId, hoverSrc) {
   const buttonElement = document.getElementById(buttonId);
   const imageElement = document.getElementById(imageId);
 
-  // Mouseover to change the image source
   buttonElement.addEventListener("mouseover", function () {
     imageElement.src = hoverSrc;
   });
 
-  // Mouseout to reset the image
   buttonElement.addEventListener("mouseout", function () {
     imageElement.src = "/img/status-item.png"; // original source
   });
 
-  // Click to call the template function
   buttonElement.addEventListener("click", function () {
     calladdtasktemplate();
   });
 }
 
-// Apply the function to each button/image combination
 applyHoverEffect("buttonicon1", "pic1", "/img/pic1hovered.png");
 applyHoverEffect("buttonicon2", "pic2", "/img/pic1hovered.png");
 applyHoverEffect("buttonicon3", "pic3", "/img/pic1hovered.png");
@@ -436,7 +417,6 @@ async function putData(path = "", data = {}) {
   return await response.json();
 }
 
-// Add event listeners for drop areas to enable dragging and dropping
 document.getElementById("todo-folder").addEventListener("drop", drop);
 document.getElementById("inprogress-folder").addEventListener("drop", drop);
 document
@@ -444,7 +424,6 @@ document
   .addEventListener("drop", drop);
 document.getElementById("done-folder").addEventListener("drop", drop);
 
-// Allow drop on specific folders
 document.getElementById("todo-folder").addEventListener("dragover", allowDrop);
 document
   .getElementById("inprogress-folder")
