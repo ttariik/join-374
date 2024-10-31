@@ -343,10 +343,27 @@ function inputacesstechnicall(task) {
     assignedtotemplate(task);
 }
 
-function assignedtotemplate(task) {
-  return /*html*/ `<div class="align" id="showassignedperson">
-  <div>${task.initials}</div><span>${task.asignedto}</span>
-</div>`;
+async function assignedtotemplate(task) {
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+
+  const initialsHTMLPromises = initialsArray
+    .filter((initial) => initial) // Ensure initials are valid
+    .map(async (initial) => {
+      const color = getColorFromInitials(initial);
+      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
+    });
+
+  // Wait for all promises to resolve
+  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+
+  // Debugging output: Check if initialsHTML is a valid string
+  console.log("Generated Initials HTML:", initialsHTML);
+
+  return /*html*/ `
+    <div class="align" id="showassignedperson">
+      <div>${initialsHTML}</div>
+    </div>
+  `;
 }
 
 async function opentechnicaltemplate(task) {
