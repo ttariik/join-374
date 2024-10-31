@@ -120,7 +120,7 @@ async function loadtasks(id = 1) {
   const responsestoJson = await responses.json();
 
   const tasks = Object.entries(responsestoJson || {})
-    .filter(([taskID, task]) => task) // Ensure task exists
+    .filter(([taskID, task]) => task)
     .map(([taskID, task]) => ({ id: taskID, ...task }))
     .filter(
       (task) =>
@@ -132,14 +132,14 @@ async function loadtasks(id = 1) {
         task.title
     );
 
-  // Clear previous tasks
+  // Log each task's id
+
   document.getElementById("article").innerHTML = "";
-  todos.length = 0; // Reset `todos` array
+  todos.length = 0;
 
   tasks.forEach((task) => todos.push(task));
 
   for (const task of tasks) {
-    // Ensure template functions are asynchronous
     const taskHTML =
       task.category === "Technical Task"
         ? await Technicaltasktemplate(task)
@@ -148,15 +148,23 @@ async function loadtasks(id = 1) {
     document
       .getElementById("article")
       .insertAdjacentHTML("beforeend", taskHTML);
+    document
+      .getElementById(`${task.id}`)
+      .addEventListener("click", function () {
+        if (task.category === "Technical Task") {
+          opentechnicaltemplate(task); // Open the technical template for the clicked task
+        } else {
+          openprofiletemplate(task); // Open the profile template for the clicked task
+        }
+      });
   }
 
-  // Restore positions and count tasks after rendering
   restoreTaskPositions();
   countTasks();
 }
 
 function restoreTaskPositions() {
-  loadTaskPositions(); // Load positions from local storage
+  loadTaskPositions();
 
   const folders = {
     "todo-folder": todos,
@@ -169,7 +177,7 @@ function restoreTaskPositions() {
     const folderElement = document.getElementById(folderId);
     if (!folderElement) {
       console.warn(`Folder element with id ${folderId} not found.`);
-      continue; // Skip if the folder element doesn't exist
+      continue;
     }
 
     tasks.forEach((task) => {
@@ -183,7 +191,6 @@ function restoreTaskPositions() {
   }
 }
 
-// Drag-and-Drop-Ereignisse zuordnen
 [
   "todo-folder",
   "inprogress-folder",
@@ -235,8 +242,8 @@ async function userstorytemplate(task, index) {
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
-  return `
-      <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
+  return /*html*/ `
+      <div class="user-container task" draggable="true"  ondragstart="drag(event)" id="${task.id}">
           <div class="task-detailss">
               <span>${task.category}</span>
           </div>
@@ -289,7 +296,7 @@ async function Technicaltasktemplate(task, index, completedtasks = 0) {
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
   return /*html*/ `
-    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}" onclick="opentechnicaltemplate(${task.id})">
+    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}" >
       <div class="task-category">
         <span class="task-category-name">${task.category}</span>
       </div>
@@ -305,12 +312,12 @@ async function Technicaltasktemplate(task, index, completedtasks = 0) {
   `;
 }
 
-async function openprofiletemplate(index, task) {
+async function openprofiletemplate(task) {
+  opentasktemplate(task);
   const response = await fetch("./profile-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
-  opentasktemplate();
   inputacessprofile(task);
 }
 
@@ -342,8 +349,8 @@ function assignedtotemplate(task) {
 </div>`;
 }
 
-async function opentechnicaltemplate(index, task) {
-  opentasktemplate();
+async function opentechnicaltemplate(task) {
+  opentasktemplate(task);
   const response = await fetch("./techinical-task-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
@@ -393,7 +400,7 @@ function applyHoverEffect(buttonId, imageId, hoverSrc) {
   });
 
   buttonElement.addEventListener("mouseout", function () {
-    imageElement.src = "/img/status-item.png"; // original source
+    imageElement.src = "/img/status-item.png";
   });
 
   buttonElement.addEventListener("click", function () {
