@@ -1,8 +1,7 @@
 .boxtemplate {
   max-width: 445px;
   width: 100%;
-  max-height: 871px;
-  height: 815px;
+  height: fit-content;
   background-color: #ffffff;
   padding: 48px 40px 48px 40px;
   gap: 24px;
@@ -10,7 +9,13 @@
   flex-direction: column;
   box-shadow: 0px 0px 4px 0px #00000029;
   border-radius: 30px;
-  justify-content: space-evenly;
+  justify-content: space-between;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .header {
@@ -128,7 +133,6 @@
 }
 
 .titlebox {
-  max-width: 348px;
   width: 100%;
   display: flex;
   overflow-wrap: anywhere;
@@ -138,7 +142,7 @@
   margin-top: 2px;
 }
 
-.box {
+.box1 {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -287,7 +291,7 @@
 }
 
 .titleinputdesign {
-  width: 100%;
+  width: calc(100% - 43px);
   height: 20px;
   padding: 10px 21px 10px 21px;
   border-radius: 10px;
@@ -298,6 +302,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  width: 100%;
 }
 
 .descriptionpart {
@@ -311,6 +316,7 @@
   padding: 18px 21px 18px 21px;
   border-radius: 10px;
   border: 1px solid #d7d7d7;
+  max-width: calc(445px - 44px);
 }
 
 .duedateinputcontainer {
@@ -321,7 +327,7 @@
 }
 
 .duedateinput {
-  width: 87%;
+  width: calc(100% - 44px);
   height: 19px;
   padding: 8px 21px 8px 21px;
   border-radius: 10px;

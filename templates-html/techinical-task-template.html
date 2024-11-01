@@ -11,53 +11,55 @@
   </head>
   <body onload="getUserTaskss()">
     <div class="boxtemplate">
-      <div class="header">
-        <div class="userbox" id="type">
-          <span class="task-title" id="typeoftask">Technical Task</span>
+      <div class="layout">
+        <div class="header">
+          <div class="userbox" id="type">
+            <span class="task-title" id="typeoftask">Technical Task</span>
+          </div>
+          <button onclick="closeaddtasktemplate()">
+            <img src="../img/close.png" alt="" />
+          </button>
         </div>
-        <button onclick="closeaddtasktemplate()">
-          <img src="../img/close.png" alt="" />
-        </button>
-      </div>
-      <div class="box">
-        <div class="titlebox" id="title">
-          <span>CSS Architecture Planning</span>
+        <div class="box1">
+          <div class="titlebox" id="title">
+            <span>CSS Architecture Planning</span>
+          </div>
+          <div class="description" id="descriptioninput">
+            <span>Define CSS naming conventions and structure.</span>
+          </div>
         </div>
-        <div class="description" id="descriptioninput">
-          <span>Define CSS naming conventions and structure.</span>
+        <div class="due-date-container" id="duedatecontainer">
+          <div><span class="duedate">Due date: </span></div>
+          <div>
+            <span class="duedate" id="due-date-containerinput">02/09/2023</span>
+          </div>
         </div>
-      </div>
-      <div class="due-date-container" id="duedatecontainer">
-        <div><span class="duedate">Due date: </span></div>
-        <div>
-          <span class="duedate" id="due-date-containerinput">02/09/2023</span>
+        <div class="priority-container" id="priority-containercontent">
+          <div class="priotitle"><span>Priority: </span></div>
+          <div class="prioicon">
+            <span class="priority-indicator"
+              ><span id="showprio">Urgent</span>
+              <div><img src="../img/Urgent.png" alt="" /></div
+            ></span>
+          </div>
         </div>
-      </div>
-      <div class="priority-container" id="priority-containercontent">
-        <div class="priotitle"><span>Priority: </span></div>
-        <div class="prioicon">
-          <span class="priority-indicator"
-            ><span id="showprio">Urgent</span>
-            <div><img src="../img/Urgent.png" alt="" /></div
-          ></span>
+        <div class="assigned-container" id="assigned-containercontent">
+          <div class="assigned-containertitle"><span>Assigned To:</span></div>
+          <div class="align" id="showassignedperson"></div>
         </div>
-      </div>
-      <div class="assigned-container" id="assigned-containercontent">
-        <div class="assigned-containertitle"><span>Assigned To:</span></div>
-        <div class="align" id="showassignedperson"></div>
-      </div>
-      <div class="subtasks-container">
-        <span class="subtasks-title">Subtasks</span>
-        <div class="subtask" id="subtaskbox"></div>
-      </div>
-      <div class="button-container" id="buttons">
-        <button class="button1">
-          <img src="../img/delete.png" alt="" /><span>Delete</span>
-        </button>
-        <div class="mainline"></div>
-        <button class="button1" onclick="editinputs()">
-          <img src="../img/edit.png" alt="" /><span>Edit</span>
-        </button>
+        <div class="subtasks-container">
+          <span class="subtasks-title">Subtasks</span>
+          <div class="subtask" id="subtaskbox"></div>
+        </div>
+        <div class="button-container" id="buttons">
+          <button class="button1">
+            <img src="../img/delete.png" alt="" /><span>Delete</span>
+          </button>
+          <div class="mainline"></div>
+          <button class="button1" onclick="editinputs()">
+            <img src="../img/edit.png" alt="" /><span>Edit</span>
+          </button>
+        </div>
       </div>
     </div>
   </body>

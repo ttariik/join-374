@@ -11,81 +11,83 @@
   </head>
   <body>
     <div class="boxtemplate">
-      <div class="header">
-        <div class="userbox">
-          <span class="task-title">User Story</span>
+      <div>
+        <div class="header">
+          <div class="userbox">
+            <span class="task-title">User Story</span>
+          </div>
+          <button onclick="closeaddtasktemplate()">
+            <img src="../img/close.png" alt="" />
+          </button>
         </div>
-        <button onclick="closeaddtasktemplate()">
-          <img src="../img/close.png" alt="" />
-        </button>
-      </div>
-      <div class="titlebox">
-        <span id="profiletitle">Kochwelt Page & Recipe Recommender</span>
-      </div>
-      <div class="description">
-        <span id="profiledescription"
-          >Build start page with recipe recommendation.</span
-        >
-      </div>
-      <div class="d-none outsidebox">
-        <div class="d-none progressbar">
-          <div class="progressbar-inside"></div>
+        <div class="titlebox">
+          <span id="profiletitle">Kochwelt Page & Recipe Recommender</span>
         </div>
-        <div><span>1/2 Subtasks</span></div>
-      </div>
-      <div class="due-date-container">
-        <div><span class="duedate">Due date: </span></div>
-        <div><span class="duedate" id="profileduedate">10/05/2023</span></div>
-      </div>
+        <div class="description">
+          <span id="profiledescription"
+            >Build start page with recipe recommendation.</span
+          >
+        </div>
+        <div class="d-none outsidebox">
+          <div class="d-none progressbar">
+            <div class="progressbar-inside"></div>
+          </div>
+          <div><span>1/2 Subtasks</span></div>
+        </div>
+        <div class="due-date-container">
+          <div><span class="duedate">Due date: </span></div>
+          <div><span class="duedate" id="profileduedate">10/05/2023</span></div>
+        </div>
 
-      <div class="priority-container">
-        <div class="prio"><span>Priority: </span></div>
-        <div class="prioicondiv">
-          <span class="priority-indicator"
-            ><div class="priotitle" id="profilepriority">Medium</div>
-            <div class="prioicon">
-              <img id="profileicon" src="../img/Medium.png" alt="" /></div
-          ></span>
+        <div class="priority-container">
+          <div class="prio"><span>Priority: </span></div>
+          <div class="prioicondiv">
+            <span class="priority-indicator"
+              ><div class="priotitle" id="profilepriority">Medium</div>
+              <div class="prioicon">
+                <img id="profileicon" src="../img/Medium.png" alt="" /></div
+            ></span>
+          </div>
         </div>
-      </div>
 
-      <div class="assigned-container">
-        <div class="assignedtitle"><span>Assigned To:</span></div>
-        <div class="align" id="profileassingedarea">
-          <img src="../img/Profile badge.png" alt="" /><span
-            >Emmanuel Mauer</span
-          >
+        <div class="assigned-container">
+          <div class="assignedtitle"><span>Assigned To:</span></div>
+          <div class="align" id="profileassingedarea">
+            <img src="../img/Profile badge.png" alt="" /><span
+              >Emmanuel Mauer</span
+            >
+          </div>
+          <div class="align">
+            <img src="../img/Group 9.png" alt="" /><span>Marcel Bauer</span>
+          </div>
+          <div class="align">
+            <img src="../img/Profile badge (1).png" alt="" /><span
+              >Anton Mayer</span
+            >
+          </div>
         </div>
-        <div class="align">
-          <img src="../img/Group 9.png" alt="" /><span>Marcel Bauer</span>
+        <div class="subtasks-container">
+          <span>Subtasks</span>
+          <div class="subtask" id="profilesubtaskarea">
+            <input type="checkbox" /><span class="subtask-title"
+              >Implement Recipe Recommendation</span
+            >
+          </div>
+          <div class="subtask">
+            <input type="checkbox" /><span class="subtask-title"
+              >Start Page Layout</span
+            >
+          </div>
         </div>
-        <div class="align">
-          <img src="../img/Profile badge (1).png" alt="" /><span
-            >Anton Mayer</span
-          >
+        <div class="button-containers">
+          <button class="button1">
+            <img src="../img/delete.png" alt="" /><span>Delete</span>
+          </button>
+          <div class="mainline"></div>
+          <button class="button1">
+            <img src="../img/edit.png" alt="" /><span>Edit</span>
+          </button>
         </div>
-      </div>
-      <div class="subtasks-container">
-        <span>Subtasks</span>
-        <div class="subtask" id="profilesubtaskarea">
-          <input type="checkbox" /><span class="subtask-title"
-            >Implement Recipe Recommendation</span
-          >
-        </div>
-        <div class="subtask">
-          <input type="checkbox" /><span class="subtask-title"
-            >Start Page Layout</span
-          >
-        </div>
-      </div>
-      <div class="button-containers">
-        <button class="button1">
-          <img src="../img/delete.png" alt="" /><span>Delete</span>
-        </button>
-        <div class="mainline"></div>
-        <button class="button1">
-          <img src="../img/edit.png" alt="" /><span>Edit</span>
-        </button>
       </div>
     </div>
   </body>

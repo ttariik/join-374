@@ -12,6 +12,7 @@ function editinputs() {
   document.getElementById(
     "buttons"
   ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
+  document.querySelector(".layout").style = "gap: 3px";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
 }
 
