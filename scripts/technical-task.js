@@ -16,6 +16,25 @@ function editinputs() {
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
 }
 
+function editprofile() {
+  document.getElementById("profilecategory").remove();
+  document.querySelector(".header").style.justifyContent = "flex-end";
+  document.getElementById("profiletitle").innerHTML = titletemplate();
+  document.getElementById("profiledescription").innerHTML =
+    descriptiontemplate();
+  document.getElementById("duedatecontainer").innerHTML = duedatetemplate();
+  document.getElementById("priority-containercontent").innerHTML =
+    prioritytemplate();
+  document.getElementById("assigned-containercontent").innerHTML =
+    reselectionofcontacts();
+  document.getElementById("buttons").innerHTML = "";
+  document.getElementById(
+    "buttons"
+  ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
+  document.querySelector(".layout").style = "gap: 3px";
+  document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
+}
+
 function subtaskboxemplate() {
   return /*html*/ `
     <div class="subtaskcontainer">

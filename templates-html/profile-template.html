@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Profile</title>
     <link rel="stylesheet" href="../styles/profile-template.css" />
+    <link rel="stylesheet" href="/styles/techinical-task-template.css" />
     <link rel="stylesheet" href="../style.css" />
     <script src="/db.js"></script>
-    <script src="/scripts/profiletemplatelogik.js"></script>
+    <script src="/scripts/technical-task.js"></script>
   </head>
   <body>
     <div class="boxtemplate">
       <div class="layout">
         <div class="header">
-          <div class="userbox">
-            <span class="task-title">User Story</span>
+          <div class="userboxprofile">
+            <span class="task-title" id="profilecategory">User Story</span>
           </div>
           <button onclick="closeaddtasktemplate()">
             <img src="../img/close.png" alt="" />
@@ -84,7 +85,7 @@
             <img src="../img/delete.png" alt="" /><span>Delete</span>
           </button>
           <div class="mainline"></div>
-          <button class="button1">
+          <button class="button1" onclick="editprofile()">
             <img src="../img/edit.png" alt="" /><span>Edit</span>
           </button>
         </div>

@@ -283,13 +283,12 @@ async function Technicaltasktemplate(task, index, completedtasks = 0) {
   const initialsArray = Array.isArray(task.initials)
     ? task.initials.map((initial, index) => ({
         initials: initial,
-        name: task.names ? task.names[index] : "", // Assuming task.names is an array of names
+        name: task.names ? task.names[index] : "",
       }))
     : [];
 
-  // Step 2: Map over initialsArray and use both initials and name in HTML
   const initialsHTMLPromises = initialsArray
-    .filter((item) => item.initials) // Ensure each item has initials
+    .filter((item) => item.initials)
     .map(async (item) => {
       const color = getColorFromInitials(item.initials);
       return /*html*/ `<div class="alignsubdiv">
@@ -297,13 +296,16 @@ async function Technicaltasktemplate(task, index, completedtasks = 0) {
       <div>${item.name}</div>
     </div>`;
     });
+  console.log(task.subtask.length);
 
-  // Step 3: Await the promises and join the HTML strings
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
-  const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
+  const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
+  const completedtaskss = task.subtask
+    ? task.subtask.filter((subtask) => subtask.completed).length
+    : 0;
   const completionPercent =
-    totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
+    totalSubtasks > 0 ? (completedtaskss / totalSubtasks) * 100 : 0;
 
   return /*html*/ `
     <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}" >
@@ -314,6 +316,12 @@ async function Technicaltasktemplate(task, index, completedtasks = 0) {
         <div class="task-title">${task.title}</div>
         <div class="task-description">${task.description}</div>
       </div>
+      <div class="outsidebox">
+              <div class="progressbar">
+                  <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+              </div>
+              <div class="subtask-info"><span>${completedtaskss}/${totalSubtasks} Subtasks</span></div>
+          </div>
       <div class="task-statuss">
         <div class="initialsboxdesign">${initialsHTML}</div>
         <img src="/img/${task.prio}.png" alt="Priority" />
@@ -357,7 +365,7 @@ async function inputacesstechnicall(task) {
 }
 
 async function showsubtaskstemplate(task) {
-  if (!Array.isArray(task.subtask)) return ""; // Ensure subtask is an array
+  if (!Array.isArray(task.subtask)) return "";
 
   const subtasksHTML = task.subtask
     .map((subtaskItem, index) => {
@@ -397,16 +405,14 @@ async function assignedtotemplate(task) {
           <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
           <div>${item.name}</div> <!-- Assuming name is associated with initials -->
         </div>`;
-      console.log("Generated HTML for Initial:", html); // Log each generated HTML string
+      console.log("Generated HTML for Initial:", html);
       return html;
     });
 
-  // Await all promises and filter out any undefined or null values
   const initialsHTML = await Promise.all(initialsHTMLPromises);
-  console.log("Initials HTML Array Before Joining:", initialsHTML); // Log array to confirm resolved HTML strings
+  console.log("Initials HTML Array Before Joining:", initialsHTML);
 
-  // Join HTML array into a single string without commas and log final result
-  const finalHTML = initialsHTML.filter(Boolean).join(""); // Filter removes any falsy values
+  const finalHTML = initialsHTML.filter(Boolean).join("");
   console.log("Final HTML:", finalHTML);
 
   return /*html*/ `
