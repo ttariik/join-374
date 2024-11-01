@@ -16,6 +16,12 @@ h2 {
   margin-left: 280px;
 }
 
+.designlayout {
+  display: flex;
+  gap: 16px;
+  padding: 6px 16px 6px 16px;
+}
+
 .board-header {
   font-size: 30px;
   font-weight: 700;
@@ -358,6 +364,12 @@ input:focus {
   padding: 5px;
   background-color: grey;
   border-radius: 50% 50%;
+  font-size: 12px;
+  font-weight: 400;
+  color: white;
+  width: 17px;
+  display: flex;
+  justify-content: center;
 }
 
 .initialsbox {

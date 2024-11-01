@@ -190,7 +190,10 @@ async function showcontacts(id = 1) {
       index,
       color
     );
-    initialsarra.push(responsestoJson[index].initials);
+    initialsarra.push({
+      initials: responsestoJson[index].initials,
+      name: responsestoJson[index].name,
+    });
   }
   document.getElementById("selectboxbutton").onclick = resetsearchbar;
 }

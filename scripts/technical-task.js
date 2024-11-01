@@ -7,7 +7,53 @@ function editinputs() {
   document.getElementById("priority-containercontent").innerHTML =
     prioritytemplate();
   document.getElementById("assigned-containercontent").innerHTML =
-    assignedtotemplate();
+    reselectionofcontacts();
+  document.getElementById("buttons").innerHTML = "";
+  document.getElementById(
+    "buttons"
+  ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
+  document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
+}
+
+function subtaskboxemplate() {
+  return /*html*/ `
+    <div class="subtaskcontainer">
+                      <input
+                        onclick="subtaskchangeicons()"
+                        type="text"
+                        id="subtaskinput"
+                        placeholder="Add New Subtask"
+                        class="inputsubtask"
+                      />
+                      <button
+                        type="button"
+                        onclick="subtaskchangeicons()"
+                        class="subtaskbutton"
+                        id="inputsubtask1"
+                      >
+                        <img src="/img/add.png" alt="" />
+                      </button>
+                      <button
+                        class="subtaskbutton2 d-none"
+                        onclick="resetsubtaskinput()"
+                        type="button"
+                        id="inputsubtask2"
+                      >
+                        <img src="/img/Vector.png" alt="" />
+                      </button>
+                      <div class="seperateline d-none" id="seperate"></div>
+                      <button
+                        type="button"
+                        onclick="addsubtask()"
+                        class="subtaskbutton3 d-none"
+                        id="inputsubtask3"
+                      >
+                        <img src="/img/checkmark.png" alt="" />
+                      </button>
+                      <div id="subtasksbox" required class="subtasksbox1"></div>
+                      <div id="spanplace"></div>
+                    </div>
+  `;
 }
 
 function titletemplate() {
@@ -46,7 +92,7 @@ function prioritytemplate() {
                       onclick="selectbutton_1();handleButtonClick('Urgent')"
                     >
                       <span id="urgent">Urgent</span>
-                      <img src="/img/Prio alta.png" alt="" />
+                      <img src="/img/Urgent.png" alt="" />
                     </button>
                   </div>
                   <div class="button-container1">
@@ -57,7 +103,7 @@ function prioritytemplate() {
                       class="buttons2_2"
                     >
                       <span id="medium">Medium</span>
-                      <img src="/img/Capa 2.png" alt="" />
+                      <img src="/img/Medium.png" alt="" />
                     </button>
                   </div>
                   <div class="button-container1">
@@ -68,7 +114,7 @@ function prioritytemplate() {
                       class="buttons2_3"
                     >
                       <span id="low">Low</span>
-                      <img src="/img/Prio baja.png" alt="" />
+                      <img src="/img/Low.png" alt="" />
                     </button>
                   </div>
                 </div>
@@ -76,22 +122,19 @@ function prioritytemplate() {
             </div>`;
 }
 
-function assignedtotemplate() {
+function reselectionofcontacts() {
   return `<div class="selectbox">
               <div><label>Assigned to</label></div>
-              <div>
-                <select class="selection" name="" id="asignment">
-                  <option
-                    disabled
-                    selected
-                    hidden
-                    value="Select Contacts to asign"
+                  <button
+                    id="selectboxbutton"
+                    type="button"
+                    class="selectbutton"
+                    onclick="showcontacts()"
                   >
-                    Select Contacts to asign
-                  </option>
-                  <option value="task1">task1</option>
-                </select>
-              </div>
+                    <span>Select contacts to assign</span
+                    ><img src="/img/arrow_drop_down.png" alt="" />
+                  </button>
+                  <ul id="contacts-box" class="outsidedesign"></ul>
             </div>`;
 }
 

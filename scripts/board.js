@@ -280,15 +280,25 @@ function getColorFromInitials(initial) {
 }
 
 async function Technicaltasktemplate(task, index, completedtasks = 0) {
-  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+  const initialsArray = Array.isArray(task.initials)
+    ? task.initials.map((initial, index) => ({
+        initials: initial,
+        name: task.names ? task.names[index] : "", // Assuming task.names is an array of names
+      }))
+    : [];
 
+  // Step 2: Map over initialsArray and use both initials and name in HTML
   const initialsHTMLPromises = initialsArray
-    .filter((initial) => initial)
-    .map(async (initial) => {
-      const color = getColorFromInitials(initial);
-      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
+    .filter((item) => item.initials) // Ensure each item has initials
+    .map(async (item) => {
+      const color = getColorFromInitials(item.initials);
+      return /*html*/ `<div class="alignsubdiv">
+      <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
+      <div>${item.name}</div>
+    </div>`;
     });
 
+  // Step 3: Await the promises and join the HTML strings
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
   const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
@@ -331,38 +341,78 @@ function inputacessprofile(task) {
   document.getElementById("profileicon").src = `../img/${task.prio}.png`;
 }
 
-function inputacesstechnicall(task) {
+async function inputacesstechnicall(task) {
   document.getElementById("title").innerHTML = `${task.title}`;
   document.getElementById("descriptioninput").innerHTML = `${task.description}`;
   document.getElementById(
     "due-date-containerinput"
   ).innerHTML = `${task.duedate}`;
   document.getElementById("showprio").innerHTML = `${task.prio}`;
-  document.getElementById("assigned-containercontent").innerHTML = "";
-  document.getElementById("assigned-containercontent").innerHTML +=
-    assignedtotemplate(task);
+  document.getElementById("showassignedperson").innerHTML = "";
+  document.getElementById("showassignedperson").innerHTML +=
+    await assignedtotemplate(task);
+  document.getElementById("subtaskbox").innerHTML += await showsubtaskstemplate(
+    task
+  );
+}
+
+async function showsubtaskstemplate(task) {
+  if (!Array.isArray(task.subtask)) return ""; // Ensure subtask is an array
+
+  const subtasksHTML = task.subtask
+    .map((subtaskItem, index) => {
+      return /*html*/ `
+        <div class="designlayout">
+          <label class="custom-checkbox">
+            <input type="checkbox" id="${task.id}-${index}" ${
+        subtaskItem.completed ? "checked" : ""
+      } class="checkboxdesign" />
+            <span class="checkmark"></span>
+          </label>
+          <span class="subtask-title">${subtaskItem.subtask}</span>
+        </div>
+      `;
+    })
+    .join("");
+
+  return /*html*/ `
+    <div class="subtasks-container">
+      ${subtasksHTML}
+    </div>
+  `;
 }
 
 async function assignedtotemplate(task) {
+  // Ensure initialsArray contains objects with both initials and name
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
+  console.log("Initials Array:", initialsArray); // Log for debugging
+
   const initialsHTMLPromises = initialsArray
-    .filter((initial) => initial) // Ensure initials are valid
-    .map(async (initial) => {
-      const color = getColorFromInitials(initial);
-      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
+    .filter((item) => item.initials) // Ensure each item has initials
+    .map(async (item) => {
+      const color = getColorFromInitials(item.initials);
+      const html = `
+        <div class="alignsubdiv">
+          <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
+          <div>${item.name}</div> <!-- Assuming name is associated with initials -->
+        </div>`;
+      console.log("Generated HTML for Initial:", html); // Log each generated HTML string
+      return html;
     });
 
-  // Wait for all promises to resolve
-  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+  // Await all promises and filter out any undefined or null values
+  const initialsHTML = await Promise.all(initialsHTMLPromises);
+  console.log("Initials HTML Array Before Joining:", initialsHTML); // Log array to confirm resolved HTML strings
 
-  // Debugging output: Check if initialsHTML is a valid string
-  console.log("Generated Initials HTML:", initialsHTML);
+  // Join HTML array into a single string without commas and log final result
+  const finalHTML = initialsHTML.filter(Boolean).join(""); // Filter removes any falsy values
+  console.log("Final HTML:", finalHTML);
 
   return /*html*/ `
-    <div class="align" id="showassignedperson">
-      <div>${initialsHTML}</div>
-    </div>
+      <div class="align" id="showassignedperson">
+        ${finalHTML}  <!-- Use finalHTML for the final output -->
+      </div>
   `;
 }
 

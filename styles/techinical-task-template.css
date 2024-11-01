@@ -1,19 +1,61 @@
 .boxtemplate {
-  max-width: 348px;
-  height: fit-content;
+  max-width: 445px;
+  width: 100%;
+  max-height: 871px;
+  height: 815px;
   background-color: #ffffff;
-  padding: 32px 24px 32px 24px;
-  gap: 10px;
+  padding: 48px 40px 48px 40px;
+  gap: 24px;
   display: flex;
   flex-direction: column;
   box-shadow: 0px 0px 4px 0px #00000029;
   border-radius: 30px;
+  justify-content: space-evenly;
 }
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.subtasks-title {
+  font-size: 20px;
+  font-weight: 400;
+  font-family: PT-Sans;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  background-image: url("/img/unchecked.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
+
+.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+  background-image: url("/img/checked.png");
+
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
+    display: block;
+    left: 5px;
+    top: 2px;
+    width: 10px;
+    height: 10px;
+    background-image: url("/img/checked.png");
+    background-size: cover;
+  }
 }
 
 .header button {
@@ -92,9 +134,20 @@
   overflow-wrap: anywhere;
 }
 
+.priority-indicator div {
+  margin-top: 2px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .titlebox span {
   font-weight: 700;
-  font-size: 36px;
+  font-size: 61px;
+  line-height: 73.2px;
 }
 
 .description {
@@ -125,13 +178,41 @@
 }
 
 .align {
+  width: 100%;
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .button1 span:hover {
   color: #1fd7c1;
+}
+
+.alignsubdiv {
+  max-width: 93px;
+  display: flex;
+  justify-content: space-around;
+  padding: 7px 16px 7px 16px;
+  width: 100%;
+}
+
+.subtask-checkbox {
+  position: absolute;
+  opacity: 0; /* Hide the checkbox but keep it functional */
+  pointer-events: none;
+}
+
+.subtask-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.subtask-icon {
+  width: 20px; /* Adjust size as needed */
+  height: 20px;
+  margin-right: 8px; /* Space between icon and text */
 }
 
 .buttons {
