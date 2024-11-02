@@ -71,3 +71,21 @@ guestLogin.addEventListener('click', (event) => {
     });
 });
 
+function handleRememberMe() {
+    const rememberMeCheckbox = document.getElementById('rememberMe');
+    const emailInput = document.getElementById('email');
+
+    document.getElementById('submitSignIn').addEventListener('click', () => {
+        if (rememberMeCheckbox.checked) {
+            localStorage.setItem('rememberedEmail', emailInput.value);
+        } else {
+            localStorage.removeItem('rememberedEmail');
+        }
+    });
+    const savedEmail = localStorage.getItem('rememberedEmail');
+    if (savedEmail) {
+        emailInput.value = savedEmail;
+        rememberMeCheckbox.checked = true;
+    }
+}
+handleRememberMe();

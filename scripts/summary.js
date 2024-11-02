@@ -161,8 +161,6 @@ async function loadUrgentTaskCount() {
         if (dateElement) {
           dateElement.innerHTML = `<span>${formattedDate}</span><br>`;
         }
-        console.log("Zufällige dringende Aufgabe:", randomTask);
-        console.log("Zufälliges Fälligkeitsdatum:", formattedDate);
       } else {
         console.log("Keine dringenden Aufgaben gefunden.");
       }
