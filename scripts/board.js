@@ -116,51 +116,62 @@ function removeFromArray(taskId) {
 }
 
 async function loadtasks(id = 1) {
-  const responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
-  const responsestoJson = await responses.json();
+  try {
+    const response = await fetch(GLOBAL + `users/${id}/tasks.json`);
+    const userData = await response.json();
 
-  const tasks = Object.entries(responsestoJson || {})
-    .filter(([taskID, task]) => task)
-    .map(([taskID, task]) => ({ id: taskID, ...task }))
-    .filter(
-      (task) =>
-        task.asignedto &&
-        task.category &&
-        task.description &&
-        task.duedate &&
-        task.prio &&
-        task.title
-    );
+    // Check that userData loaded correctly
+    if (!userData || typeof userData !== "object") {
+      console.error(
+        "User data is not loaded or is in an unexpected format:",
+        userData
+      );
+      return;
+    }
 
-  // Log each task's id
+    // Ensure each folder is an object, defaulting to an empty object if missing
+    const todoFolder = userData["todo-folder"] || {};
+    const inProgressFolder = userData["inprogress-folder"] || {};
+    const awaitingFeedbackFolder = userData["awaiting-feedback-folder"] || {};
+    const doneFolder = userData["done-folder"] || {};
 
-  document.getElementById("article").innerHTML = "";
-  todos.length = 0;
+    // Convert each folder object into an array of its values for rendering
+    const todoTasks = Object.values(todoFolder);
+    const inProgressTasks = Object.values(inProgressFolder);
+    const awaitingFeedbackTasks = Object.values(awaitingFeedbackFolder);
+    const doneTasks = Object.values(doneFolder);
 
-  tasks.forEach((task) => todos.push(task));
+    // Clear the target divs before rendering tasks
+    document.getElementById("todo-folder").innerHTML = "";
+    document.getElementById("inprogress-folder").innerHTML = "";
+    document.getElementById("awaiting-feedback-folder").innerHTML = "";
+    document.getElementById("done-folder").innerHTML = "";
 
-  for (const task of tasks) {
-    const taskHTML =
-      task.category === "Technical Task"
-        ? await Technicaltasktemplate(task)
-        : await userstorytemplate(task);
-
-    document
-      .getElementById("article")
-      .insertAdjacentHTML("beforeend", taskHTML);
-    document
-      .getElementById(`${task.id}`)
-      .addEventListener("click", function () {
-        if (task.category === "Technical Task") {
-          opentechnicaltemplate(task); // Open the technical template for the clicked task
-        } else {
-          openprofiletemplate(task); // Open the profile template for the clicked task
-        }
+    // Function to render tasks into a specific container
+    const renderTasks = (tasks, containerId) => {
+      const container = document.getElementById(containerId);
+      tasks.forEach((task) => {
+        const taskHTML = `
+          <div id="${task.id}" class="task">
+            <h3>${task.title}</h3>
+            <p>${task.description}</p>
+            <p>Assigned to: ${task.asignedto}</p>
+            <p>Due date: ${task.duedate}</p>
+            <p>Priority: ${task.prio}</p>
+          </div>
+        `;
+        container.insertAdjacentHTML("beforeend", taskHTML);
       });
-  }
+    };
 
-  restoreTaskPositions();
-  countTasks();
+    // Render tasks for each folder to its corresponding div
+    renderTasks(todoTasks, "todo-folder");
+    renderTasks(inProgressTasks, "inprogress-folder");
+    renderTasks(awaitingFeedbackTasks, "awaiting-feedback-folder");
+    renderTasks(doneTasks, "done-folder");
+  } catch (error) {
+    console.error("Error loading tasks:", error);
+  }
 }
 
 function restoreTaskPositions() {
@@ -233,8 +244,10 @@ async function userstorytemplate(task, index) {
     });
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
-
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
+  if (task.subtask.length == 0) {
+    document.getElementById("progress").classList.add("d-none");
+  }
   const completedtasks = task.subtask
     ? task.subtask.filter((subtask) => subtask.completed).length
     : 0;
@@ -251,7 +264,7 @@ async function userstorytemplate(task, index) {
               <div class="section-one">${task.title}</div>
               <div class="section-two">${task.description}</div>
           </div>
-          <div class="outsidebox">
+          <div class="outsidebox" id="progress">
               <div class="progressbar">
                   <div class="progressbar-inside" style="width:${completionPercent}%"></div>
               </div>

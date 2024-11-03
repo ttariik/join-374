@@ -41,10 +41,11 @@ function handleButtonClick(priority) {
 
 async function addtask(event) {
   event.preventDefault();
-  let form = document.querySelector("form");
 
-  if (!form.checkValidity()) {
+  const form = document.querySelector("form");
+  if (!form.checkValidity() || !selectedPriority) {
     form.reportValidity();
+    if (!selectedPriority) alert("Please select a priority!");
     return;
   }
   let userResponse = await getAllUsers("users");

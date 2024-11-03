@@ -17,17 +17,18 @@ function editinputs() {
 }
 
 function editprofile() {
+  document.getElementById("userbox").classList.remove("userboxprofile");
   document.getElementById("profilecategory").remove();
   document.querySelector(".header").style.justifyContent = "flex-end";
+  document.querySelector(".titlebox span").style = "line-height: unset";
   document.getElementById("profiletitle").innerHTML = titletemplate();
   document.getElementById("profiledescription").innerHTML =
     descriptiontemplate();
-  document.getElementById("duedatecontainer").innerHTML = duedatetemplate();
-  document.getElementById("priority-containercontent").innerHTML =
-    prioritytemplate();
-  document.getElementById("assigned-containercontent").innerHTML =
+  document.getElementById("due-date-container-edit").innerHTML =
+    duedatetemplate();
+  document.getElementById("prio").innerHTML = prioritytemplate();
+  document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
-  document.getElementById("buttons").innerHTML = "";
   document.getElementById(
     "buttons"
   ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
@@ -87,7 +88,7 @@ function descriptiontemplate() {
   return `
     <div class="descriptionpart">
     <label>Description</label>
-    <textarea class="descriptionpartinput" placeholder="Enter a Description"></textarea>
+    <textarea  class="descriptionpartinput" placeholder="Enter a Description"></textarea>
     </div>
     `;
 }
@@ -155,6 +156,7 @@ function reselectionofcontacts() {
                     ><img src="/img/arrow_drop_down.png" alt="" />
                   </button>
                   <ul id="contacts-box" class="outsidedesign"></ul>
+                <div id="assignedusers"></div>
             </div>`;
 }
 
