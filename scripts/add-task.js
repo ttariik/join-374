@@ -12,18 +12,54 @@ function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
+
+  const urgentImg = document.getElementById('urgentImg');
+  urgentImg.src = urgentImg.src.includes("Urgent.png") 
+    ? "/img/urgent white.png" 
+    : "/img/Urgent.png";
+
+  const urgentText = document.getElementById('urgent');
+  urgentText.style.color = urgentText.style.color === "white" ? "black" : "white";
+  document.getElementById('mediumImg').src = "/img/Medium.png";
+  document.getElementById('lowImg').src = "/img/Low.png";
+  document.getElementById('medium').style.color = "black";
+  document.getElementById('low').style.color = "black";
 }
 
 function selectbutton_2() {
   document.getElementById("button2").classList.toggle("lightorange");
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button3").classList.remove("lightgreen");
+
+  const mediumImg = document.getElementById('mediumImg');
+  mediumImg.src = mediumImg.src.includes("Medium.png") 
+    ? "/img/medium white.png" 
+    : "/img/Medium.png";
+
+  const mediumText = document.getElementById('medium');
+  mediumText.style.color = mediumText.style.color === "white" ? "black" : "white";
+  document.getElementById('urgentImg').src = "/img/Urgent.png";
+  document.getElementById('lowImg').src = "/img/Low.png";
+  document.getElementById('urgent').style.color = "black";
+  document.getElementById('low').style.color = "black";
 }
 
 function selectbutton_3() {
   document.getElementById("button3").classList.toggle("lightgreen");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button1").classList.remove("lightred");
+
+  const lowImg = document.getElementById('lowImg');
+  lowImg.src = lowImg.src.includes("Low.png") 
+    ? "/img/low white.png" 
+    : "/img/Low.png";
+
+  const lowText = document.getElementById('low');
+  lowText.style.color = lowText.style.color === "white" ? "black" : "white";
+  document.getElementById('urgentImg').src = "/img/Urgent.png";
+  document.getElementById('mediumImg').src = "/img/Medium.png";
+  document.getElementById('urgent').style.color = "black";
+  document.getElementById('medium').style.color = "black";
 }
 
 function clearinputs() {

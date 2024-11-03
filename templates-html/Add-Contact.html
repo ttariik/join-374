@@ -1,67 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Contact</title>
-  <link rel="stylesheet" href="../styles/Add-Contact.css" />
-  <link rel="stylesheet" href="../style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <script src="/db.js"></script>
-</head>
-
-<body onload="checkwidth();showinitials()">
-  <div class="completebox">
-    <div class="background">
-      <div class="logodesign">
-        <div class="alignimage"><img src="../img/Capa 1.png" alt="" /></div>
-        <div class="alignwords">
-          <span class="maintitle" id="spantitle">Add contact</span>
-          <span class="subwords" id="spandescription">Tasks are better with a team!</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Contact</title>
+    <link rel="stylesheet" href="../styles/Add-Contact.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script src="/db.js"></script>
+  </head>
+  <body onload="checkwidth();showinitials()">
+    <div class="completebox">
+      <div class="background">
+        <div class="logodesign">
+          <div class="alignimage"><img src="../img/Capa 1.png" alt="" /></div>
+          <div class="alignwords">
+            <span class="maintitle" id="spantitle">Add contact</span>
+            <span class="subwords" id="spandescription"
+              >Tasks are better with a team!</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="contactside">
+        <div class="contactside-header">
+          <button
+            class="contactside-closebutton"
+            onclick="closecontactstemplate()"
+          >
+            <img id="closeimage" src="/img/close.png" alt="" />
+            <img id="closeimage-white" src="/img/close1.png" alt="" />
+          </button>
+        </div>
+        <div class="contactside-form">
+          <div class="logo">
+            <img src="../img/Group 13.png" alt="" />
+          </div>
+          <form
+            class="inputpart"
+            id="formid"
+            onsubmit="return addcontact(event)"
+          >
+            <div class="inputs">
+              <div class="textinputarea">
+                <input
+                  required
+                  pattern="[a-zA-Z\s\-]+"
+                  class="textinput"
+                  id="name"
+                  placeholder="First and last name"
+                  type="text"
+                  maxlength="20"
+                />
+              </div>
+              <div class="emailinputarea">
+                <input
+                  class="emailinput"
+                  id="emailarea"
+                  placeholder="Email"
+                  type="email"
+                  required
+                  maxlength="254"
+                />
+              </div>
+              <div class="telefoneinputarea">
+                <input
+                  type="tel"
+                  id="phone"
+                  placeholder="+49 123 456 7890"
+                  pattern="^\+?[\d\s\-\(\)]{10,15}$"
+                  class="telefoneinput"
+                  required
+                />
+              </div>
+            </div>
+            <div class="buttonsalignment">
+              <button
+                class="deletebutton"
+                id="deletedbtn"
+                onclick="closecontactstemplate()"
+              >
+                Delete
+              </button>
+              <button class="savebutton" id="addbutton">
+                Save <img src="../img/check.png" alt="" />
+              </button>
+            </div>
+            <div id="box"></div>
+          </form>
         </div>
       </div>
     </div>
-    <div class="contactside">
-      <div class="contactside-header">
-        <button class="contactside-closebutton" onclick="closecontactstemplate()">
-          <img id="closeimage" src="/img/close.png" alt="" />
-          <img id="closeimage-white" src="/img/close1.png" alt="" />
-        </button>
-      </div>
-      <div class="contactside-form">
-        <div class="logo">
-          <img src="../img/Group 13.png" alt="" />
-        </div>
-        <form class="inputpart" id="formid" onsubmit="return addcontact(event)">
-          <div class="inputs">
-            <div class="textinputarea">
-              <input required pattern="[a-zA-Z\s\-]+" class="textinput" id="name" placeholder="First and last name"
-                type="text" maxlength="20" />
-            </div>
-            <div class="emailinputarea">
-              <input class="emailinput" id="emailarea" placeholder="Email" type="email" required maxlength="254" />
-            </div>
-            <div class="telefoneinputarea">
-              <input type="tel" id="phone" placeholder="+49 123 456 7890" pattern="^\+?[\d\s\-\(\)]{10,15}$"
-                class="telefoneinput" required />
-            </div>
-          </div>
-          <div class="buttonsalignment">
-            <button class="deletebutton" id="deletedbtn" onclick="closecontactstemplate()">
-              Delete
-            </button>
-            <button class="savebutton" id="addbutton">
-              Save <img src="../img/check.png" alt="" />
-            </button>
-          </div>
-          <div id="box"></div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <script src="/scripts/add-contact.js"></script>
-  <script src="/scripts/contact-menu.js"></script>
-</body>
-
+    <script src="/scripts/add-contact.js"></script>
+    <script src="/scripts/contact-menu.js"></script>
+  </body>
 </html>
