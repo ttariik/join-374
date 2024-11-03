@@ -378,42 +378,16 @@ select {
   font-weight: 700;
 }
 
-@media (max-width: 1357px) {
-  .wholebox {
-    top: 0;
-    max-width: 440px;
-    width: 100%;
-  }
-  .alignment2 {
-    flex-direction: column;
-    gap: 3px;
-    width: 100%;
-  }
-  h1 {
-    top: 0;
+@media (max-width: 1259px) {
+
+  .boxtemplates {
+    width: fit-content;
+    padding: 20px;
+    margin: 0 20px;
   }
 
-  form {
-    flex-direction: column;
+  .task-header {
     width: 100%;
-    gap: unset;
-  }
-  .line {
-    height: unset;
-    width: 100%;
-  }
-
-  .firsthalfbox {
-    gap: 3px;
-    width: 100%;
-  }
-
-  .secondhalfbox {
-    margin-bottom: 15px;
-    gap: 11px;
-  }
-  .secondbox {
-    height: unset;
-    gap: 0px;
+    margin-bottom: 20px;
   }
 }
