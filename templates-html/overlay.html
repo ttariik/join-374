@@ -1,192 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/styles/Add-Contact.css" />
-    <link rel="stylesheet" href="/styles/addtasktemplate.css" />
-    <script src="/scripts/add-task.js"></script>
-  </head>
-  <body>
-    <div id="overlay">
-      <div class="boxtemplates">
-        <div class="task-header">
-          <h1>Add Task</h1>
-          <button onclick="closeaddtasktemplate()" class="close-btn">
-            <img src="/img/close.png" alt="" />
-          </button>
-        </div>
-        <div class="wholebox">
-          <form id="myform" action="">
-            <div class="alignment2">
-              <div class="firstbox">
-                <div class="title2">
-                  <label>Title*</label>
-                  <input
-                    id="title"
-                    class="titleinput"
-                    placeholder="Enter a title"
-                    type="text"
-                  />
-                </div>
-                <div class="descriptioninput">
-                  <div><label>Description</label></div>
-                  <div>
-                    <textarea
-                      class="text"
-                      id="description"
-                      name="Enter a Description"
-                    ></textarea>
-                  </div>
-                </div>
-                <div class="selectbox">
-                  <div><label>Assigned to</label></div>
-                  <button
-                    id="selectboxbutton"
-                    type="button"
-                    class="selectbutton"
-                    onclick="showcontacts()"
-                  >
-                    <span>Select contacts to assign</span
-                    ><img src="/img/arrow_drop_down.png" alt="" />
-                  </button>
-                  <ul id="contacts-box" class="outsidedesign"></ul>
-                </div>
-                <div id="assignedusers"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/styles/Add-Contact.css" />
+  <link rel="stylesheet" href="/styles/addtasktemplate.css" />
+  <script src="/scripts/add-task.js"></script>
+</head>
+
+<body>
+  <div id="overlay">
+    <div class="boxtemplates">
+      <div class="task-header">
+        <h1>Add Task</h1>
+        <button onclick="closeaddtasktemplate()" class="close-btn">
+          <img src="/img/close.png" alt="" />
+        </button>
+      </div>
+      <div class="wholebox">
+        <form id="myform" action="">
+          <div class="alignment2">
+            <div class="firstbox">
+              <div class="title2">
+                <label>Title*</label>
+                <input id="title" class="titleinput" placeholder="Enter a title" type="text" />
               </div>
-              <div class="line"></div>
-              <div class="secondbox">
-                <div class="firsthalfbox">
-                  <div class="emailbox">
-                    <div><label>Due date*</label></div>
-                    <input
-                      oninput="filternumbers(this)"
-                      required
-                      class="emailinput2"
-                      type="datetime"
-                      name="date"
-                      id="date"
-                      placeholder="dd/mm/yyyy"
-                      maxlength="10"
-                    />
-                  </div>
-                  <div class="buttons">
-                    <label>Priority</label>
-                    <div class="buttons2">
-                      <div class="button-container">
-                        <button
-                          type="button"
-                          id="button1"
-                          class="buttons2_1"
-                          onclick="selectbutton_1()"
-                        >
-                          <span id="urgent">Urgent</span>
-                          <img src="/img/Urgent.png" alt="" />
-                        </button>
-                      </div>
-                      <div class="button-container">
-                        <button
-                          type="button"
-                          onclick="selectbutton_2()"
-                          id="button2"
-                          class="buttons2_2"
-                        >
-                          <span id="medium">Medium</span>
-                          <img src="/img/Medium.png" alt="" />
-                        </button>
-                      </div>
-                      <div class="button-container">
-                        <button
-                          type="button"
-                          onclick="selectbutton_3()"
-                          id="button3"
-                          class="buttons2_3"
-                        >
-                          <span id="low">Low</span>
-                          <img src="/img/Low.png" alt="" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+              <div class="descriptioninput">
+                <div><label>Description</label></div>
+                <div>
+                  <textarea class="text" id="description" name="Enter a Description"></textarea>
                 </div>
-                <div class="secondhalfbox">
-                  <div>
-                    <label>Category*</label>
-                    <select name="" id="category">
-                      <option
-                        disabled
-                        selected
-                        hidden
-                        value="Select Task Category"
-                      >
-                        Select Task Category
-                      </option>
-                      <option value="Technical Task">Technical Task</option>
-                      <option value="User Story">User Story</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label>Subtasks</label>
-                    <div class="subtaskcontainer">
-                      <input
-                        onclick="subtaskchangeicons()"
-                        type="text"
-                        id="subtaskinput"
-                        placeholder="Add New Subtask"
-                        class="inputsubtask"
-                      />
+              </div>
+              <div class="selectbox">
+                <div><label>Assigned to</label></div>
+                <button id="selectboxbutton" type="button" class="selectbutton" onclick="showcontacts()">
+                  <span>Select contacts to assign</span><img src="/img/arrow_drop_down.png" alt="" />
+                </button>
+                <ul id="contacts-box" class="outsidedesign"></ul>
+              </div>
+              <div id="assignedusers"></div>
+            </div>
+            <div class="line"></div>
+            <div class="secondbox">
+              <div class="firsthalfbox">
+                <div class="emailbox">
+                  <div><label>Due date*</label></div>
+                  <input oninput="filternumbers(this)" required class="emailinput2" type="datetime" name="date"
+                    id="date" placeholder="dd/mm/yyyy" maxlength="10" />
+                </div>
+                <div class="buttons">
+                  <label>Prio</label>
+                  <div class="buttons2">
+                    <div class="button-containerss">
                       <button
                         type="button"
-                        onclick="subtaskchangeicons()"
-                        class="subtaskbutton"
-                        id="inputsubtask1"
+                        id="button1"
+                        class="buttons2_1"
+                        onclick="selectbutton_1();handleButtonClick('Urgent')"
                       >
-                        <img src="/img/add.png" alt="" />
+                        <span id="urgent">Urgent</span>
+                        <img id="urgentImg" src="/img/Urgent.png" alt="" />
+                        <img
+                          id="urgentWhiteImg"
+                          src="/img/urgent white.png"
+                          alt=""
+                          class="hidden"
+                        />
                       </button>
+                    </div>
+                    <div class="button-containerss">
                       <button
-                        class="subtaskbutton2 d-none"
-                        onclick="resetsubtaskinput()"
                         type="button"
-                        id="inputsubtask2"
+                        onclick="selectbutton_2();handleButtonClick('Medium')"
+                        id="button2"
+                        class="buttons2_2"
                       >
-                        <img src="/img/Vector.png" alt="" />
+                        <span id="medium">Medium</span>
+                        <img id="mediumImg" src="/img/Medium.png" alt="" />
+                        <img
+                          id="mediumWhiteImg"
+                          src="/img/medium white.png"
+                          alt=""
+                          class="hidden"
+                        />
                       </button>
-                      <div class="seperateline d-none" id="seperate"></div>
+                    </div>
+                    <div class="button-containerss">
                       <button
                         type="button"
-                        onclick="addsubtask()"
-                        class="subtaskbutton3 d-none"
-                        id="inputsubtask3"
+                        onclick="selectbutton_3();handleButtonClick('Low')"
+                        id="button3"
+                        class="buttons2_3"
                       >
-                        <img src="/img/Subtasks icons11 (1).png" alt="" />
+                        <span id="low">Low</span>
+                        <img id="lowImg" src="/img/Low.png" alt="" />
+                        <img
+                          id="lowWhiteImg"
+                          src="/img/low white.png"
+                          alt=""
+                          class="hidden"
+                        />
                       </button>
-                      <div id="subtasksbox" required class="subtasksbox1"></div>
-                      <div id="spanplace"></div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="buttonsalignment">
-              <div class="buttonsalignment_1">
-                <span class="required-indicator">*</span>This field is required
+              <div class="secondhalfbox">
+                <div>
+                  <label>Category*</label>
+                  <select name="" id="category">
+                    <option disabled selected hidden value="Select Task Category">
+                      Select Task Category
+                    </option>
+                    <option value="Technical Task">Technical Task</option>
+                    <option value="User Story">User Story</option>
+                  </select>
+                </div>
+                <div>
+                  <label>Subtasks</label>
+                  <div class="subtaskcontainer">
+                    <input onclick="subtaskchangeicons()" type="text" id="subtaskinput" placeholder="Add New Subtask"
+                      class="inputsubtask" />
+                    <button type="button" onclick="subtaskchangeicons()" class="subtaskbutton" id="inputsubtask1">
+                      <img src="/img/add.png" alt="" />
+                    </button>
+                    <button class="subtaskbutton2 d-none" onclick="resetsubtaskinput()" type="button"
+                      id="inputsubtask2">
+                      <img src="/img/Vector.png" alt="" />
+                    </button>
+                    <div class="seperateline d-none" id="seperate"></div>
+                    <button type="button" onclick="addsubtask()" class="subtaskbutton3 d-none" id="inputsubtask3">
+                      <img src="/img/Subtasks icons11 (1).png" alt="" />
+                    </button>
+                    <div id="subtasksbox" required class="subtasksbox1"></div>
+                    <div id="spanplace"></div>
+                  </div>
+                </div>
               </div>
-              <div class="buttonsalignment_2">
-                <button type="button" class="bt1" onclick="hideTemplate()">
-                  <span class="button-word-clear">Cancel</span>
-                  <img src="../img/Vector.png" alt="" />
-                </button>
-                <button onclick="" disabled class="bt2">
-                  <span class="button-word-create">Create Task</span>
-                  <img src="../img/check.png" alt="" />
-                </button>
-              </div>
             </div>
-          </form>
-        </div>
+          </div>
+          <div class="buttonsalignment">
+            <div class="buttonsalignment_1">
+              <span class="required-indicator">*</span>This field is required
+            </div>
+            <div class="buttonsalignment_2">
+              <button type="button" class="bt1" onclick="hideTemplate()">
+                <span class="button-word-clear">Cancel</span>
+                <img src="../img/Vector.png" alt="" />
+              </button>
+              <button onclick="" disabled class="bt2">
+                <span class="button-word-create">Create Task</span>
+                <img src="../img/check.png" alt="" />
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
