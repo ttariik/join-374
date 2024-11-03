@@ -397,7 +397,14 @@ input:focus {
 
   .drag-drop-content {
     height: 50vh;
+    overflow: scroll;
+    scrollbar-width: none;
   }
+
+  .folder {
+    height: 50vh;
+  }
+
 }
 
 @media (max-width: 1259px) {
@@ -405,7 +412,7 @@ input:focus {
     margin-left: 0;
     padding: 128px 0;
     max-width: unset;
-    margin: 0 40px;
+    margin-left: 40px;
   }
 
   .content2 {
@@ -418,12 +425,6 @@ input:focus {
     gap: 20px;
   }
 
-  .drag-drop-content {
-    height: 212px;
-    overflow: scroll;
-    scrollbar-width: none;
-  }
-
   .folder-complete {
     width: 100%;
   }
@@ -431,6 +432,12 @@ input:focus {
   .folder {
     display: flex;
     max-width: unset;
+    width: 2000px;
+    height: 220px;
+  }
+
+  .drag-drop-content {
+    height: 220px
   }
 
   .task {
@@ -456,10 +463,6 @@ input:focus {
   .input-container {
     margin-top: 0;
   }
-
-  .folder {
-    width: unset;
-  }
 }
 
 @media (max-width: 699px) {
@@ -468,7 +471,6 @@ input:focus {
     margin: 0;
     margin-left: 10px;
   }
-
 
   .drag-drop-content {
     overflow: scroll;

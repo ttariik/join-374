@@ -150,7 +150,7 @@ async function loadUrgentTaskCount() {
 
       const urgentTaskCountElement = document.getElementById("urgent-task-count");
       if (urgentTaskCountElement) {
-        urgentTaskCountElement.textContent = urgentTaskCount > 0 ? urgentTaskCount : "Keine dringenden Aufgaben.";
+        urgentTaskCountElement.textContent = urgentTaskCount > 0 ? urgentTaskCount : "0";
       }
       if (urgentTasks.length > 0) {
         const randomIndex = Math.floor(Math.random() * urgentTasks.length);
