@@ -580,7 +580,14 @@ select {
   color: white;
 }
 
-@media (max-width: 1329px) {
+@media (max-width: 1349px) {
+
+  form {
+    width: 90%;
+  }
+}
+
+@media (max-width: 1259px) {
   .test {
     padding: 100px 10px 78px 10px;
     display: flex;
