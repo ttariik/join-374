@@ -120,74 +120,56 @@ async function loadtasks(id = 1) {
     const response = await fetch(GLOBAL + `users/${id}/tasks.json`);
     const userData = await response.json();
 
-    // Check that userData loaded correctly
-    if (!userData || typeof userData !== "object") {
-      console.error(
-        "User data is not loaded or is in an unexpected format:",
-        userData
-      );
-      return;
-    }
+    // Retrieve tasks from folders and filter out any null or invalid entries
+    const todoTasks = Object.entries(userData["todo-folder"] || {}).filter(
+      ([_, task]) => task !== null && task !== undefined
+    );
+    const inProgressTasks = Object.entries(
+      userData["inprogress-folder"] || {}
+    ).filter(([_, task]) => task !== null && task !== undefined);
+    const awaitingFeedbackTasks = Object.entries(
+      userData["awaiting-feedback-folder"] || {}
+    ).filter(([_, task]) => task !== null && task !== undefined);
+    const doneTasks = Object.entries(userData["done-folder"] || {}).filter(
+      ([_, task]) => task !== null && task !== undefined
+    );
 
-    // Ensure each folder is an object, defaulting to an empty object if missing
-    const todoFolder = userData["todo-folder"] || {};
-    const inProgressFolder = userData["inprogress-folder"] || {};
-    const awaitingFeedbackFolder = userData["awaiting-feedback-folder"] || {};
-    const doneFolder = userData["done-folder"] || {};
-
-    // Convert each folder object into an array of its entries for rendering,
-    // filtering out null values and mapping to include IDs
-    const todoTasks = Object.entries(todoFolder)
-      .filter(([_, task]) => task) // Filter out null or falsy tasks
-      .map(([taskId, task]) => [taskId, task]); // Map to include ID and task
-
-    const inProgressTasks = Object.entries(inProgressFolder)
-      .filter(([_, task]) => task)
-      .map(([taskId, task]) => [taskId, task]);
-
-    const awaitingFeedbackTasks = Object.entries(awaitingFeedbackFolder)
-      .filter(([_, task]) => task)
-      .map(([taskId, task]) => [taskId, task]);
-
-    const doneTasks = Object.entries(doneFolder)
-      .filter(([_, task]) => task)
-      .map(([taskId, task]) => [taskId, task]);
-
-    // Clear the target divs before rendering tasks
+    // Clear existing tasks in the DOM
     document.getElementById("todo-folder").innerHTML = "";
     document.getElementById("inprogress-folder").innerHTML = "";
     document.getElementById("awaiting-feedback-folder").innerHTML = "";
     document.getElementById("done-folder").innerHTML = "";
 
-    // Function to render tasks using templates
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
+
       for (const [taskId, task] of tasks) {
-        // Use destructuring to get ID and task
-        let taskHTML;
-
-        // Use the appropriate template based on task category
-        if (task.category === "Technical Task") {
-          taskHTML = await Technicaltasktemplate({ ...task, id: taskId }); // Pass task ID
-        } else {
-          taskHTML = await userstorytemplate({ ...task, id: taskId }); // Pass task ID
-        }
-
-        // Insert the rendered HTML into the container
-        container.insertAdjacentHTML("beforeend", taskHTML);
-
-        // Add click event listener for the task
-        document.getElementById(taskId).addEventListener("click", function () {
+        // Check if the task is valid
+        if (task && task.category) {
+          let taskHTML;
           if (task.category === "Technical Task") {
-            opentechnicaltemplate(task); // Open the technical template for the clicked task
+            taskHTML = await Technicaltasktemplate({ ...task, id: taskId });
           } else {
-            openprofiletemplate(task); // Open the profile template for the clicked task
+            taskHTML = await userstorytemplate({ ...task, id: taskId });
           }
-        });
+
+          container.insertAdjacentHTML("beforeend", taskHTML);
+
+          const taskElement = document.getElementById(taskId);
+          if (taskElement) {
+            taskElement.addEventListener("click", function () {
+              if (task.category === "Technical Task") {
+                opentechnicaltemplate(task);
+              } else {
+                openprofiletemplate(task);
+              }
+            });
+          }
+        }
       }
     };
 
-    // Render tasks for each folder to its corresponding div
+    // Render tasks for each category, filtered
     await renderTasksWithTemplate(todoTasks, "todo-folder");
     await renderTasksWithTemplate(inProgressTasks, "inprogress-folder");
     await renderTasksWithTemplate(
@@ -260,48 +242,52 @@ function countTasks() {
 }
 
 async function userstorytemplate(task, index) {
+  // Ensure initialsArray is an array of strings
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  const initialsHTMLPromises = initialsArray
-    .filter((initial) => initial)
-    .map(async (initial) => {
-      const color = getColorFromInitials(initial);
-      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
-    });
+  // Debugging: Log the initials array to see its structure
+  console.log("Initials Array:", initialsArray);
 
-  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+  // Create the HTML for initials
+  const initialsHTML = initialsArray
+    .filter((initial) => typeof initial === "string" && initial.trim() !== "") // Only keep valid strings
+    .map((initial) => {
+      const color = getColorFromInitials(initial); // Get the color for the initials
+      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
+    })
+    .join(""); // Join the resulting HTML strings
+
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
-  if (task.subtask.length == 0) {
-    document.getElementById("progress").classList.add("d-none");
-  }
   const completedtasks = task.subtask
     ? task.subtask.filter((subtask) => subtask.completed).length
     : 0;
-
   const completionPercent =
     totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
 
-  return /*html*/ `
-      <div class="user-container task" draggable="true"  ondragstart="drag(event)" id="${task.id}">
-          <div class="task-detailss">
-              <span>${task.category}</span>
-          </div>
-          <div class="titlecontainer">
-              <div class="section-one">${task.title}</div>
-              <div class="section-two">${task.description}</div>
-          </div>
-          <div class="outsidebox" id="progress">
-              <div class="progressbar">
-                  <div class="progressbar-inside" style="width:${completionPercent}%"></div>
-              </div>
-              <div class="subtask-info"><span>${completedtasks}/${totalSubtasks} Subtasks</span></div>
-          </div>
-          <div class="asignbox">
-              <div id="initialsarea" class="initialsbox">${initialsHTML}</div>
-              <img src="/img/${task.prio}.png" alt="">
-          </div>
+  const htmlTemplate = /*html*/ `
+    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
+      <div class="task-detailss">
+        <span>${task.category}</span>
       </div>
+      <div class="titlecontainer">
+        <div class="section-one">${task.title}</div>
+        <div class="section-two">${task.description}</div>
+      </div>
+      <div class="outsidebox" id="progress${task.id}">
+        <div class="progressbar">
+          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+        </div>
+        <div class="subtask-info"><span>${completedtasks}/${totalSubtasks} Subtasks</span></div>
+      </div>
+      <div class="asignbox">
+        <div class="initialsbox">${initialsHTML}</div>
+        <img src="/img/${task.prio}.png" alt="">
+      </div>
+    </div>
   `;
+
+  // Only return the template
+  return htmlTemplate;
 }
 
 function getColorFromInitials(initial) {
@@ -335,7 +321,6 @@ async function Technicaltasktemplate(task, index, completedtasks = 0) {
       <div>${item.name}</div>
     </div>`;
     });
-  console.log(task.subtask.length);
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
@@ -378,14 +363,42 @@ async function openprofiletemplate(task) {
   inputacessprofile(task);
 }
 
-function inputacessprofile(task) {
-  document.getElementById("profiletitle").innerHTML = `${task.title}`;
-  document.getElementById(
-    "profiledescription"
-  ).innerHTML = `${task.description}`;
-  document.getElementById("profileduedate").innerHTML = `${task.duedate}`;
-  document.getElementById("profilepriority").innerHTML = `${task.prio}`;
-  document.getElementById("profileicon").src = `../img/${task.prio}.png`;
+async function inputacessprofile(task) {
+  // Setting basic task details
+  document.getElementById("profiletitle").innerHTML = task.title || "";
+  document.getElementById("profiledescription").innerHTML =
+    task.description || "";
+  document.getElementById("profileduedate").innerHTML = task.duedate || "";
+  document.getElementById("profilepriority").innerHTML = task.prio || "";
+  document.getElementById("profileicon").src = `../img/${
+    task.prio || "default"
+  }.png`;
+
+  // Prepare initials array with names if provided
+  const initialsArray = Array.isArray(task.initials)
+    ? task.initials.map((initial, index) => ({
+        initials: initial,
+        name: task.names ? task.names[index] : "",
+      }))
+    : [];
+
+  // Create HTML for initials badges, awaiting color fetch for each
+  const initialsHTMLPromises = initialsArray
+    .filter((item) => item.initials) // Filter out empty initials
+    .map(async (item) => {
+      const color = getColorFromInitials(item.initials);
+      return /*html*/ `
+        <div class="alignsubdiv">
+          <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
+          <div>${item.name}</div>
+        </div>`;
+    });
+
+  // Wait for all initials HTML to resolve, then join into a single HTML string
+  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+
+  // Set the joined HTML string to the container
+  document.getElementById("profileassingedarea").innerHTML = initialsHTML;
 }
 
 async function inputacesstechnicall(task) {
@@ -430,13 +443,12 @@ async function showsubtaskstemplate(task) {
 }
 
 async function assignedtotemplate(task) {
-  // Ensure initialsArray contains objects with both initials and name
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
   console.log("Initials Array:", initialsArray); // Log for debugging
 
   const initialsHTMLPromises = initialsArray
-    .filter((item) => item.initials) // Ensure each item has initials
+    .filter((item) => item.initials)
     .map(async (item) => {
       const color = getColorFromInitials(item.initials);
       const html = `
