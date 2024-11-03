@@ -142,33 +142,13 @@ async function loadtasks(id = 1) {
     const doneTasks = Object.values(doneFolder);
 
     // Clear the target divs before rendering tasks
-    document.getElementById("todo-folder").innerHTML = "";
-    document.getElementById("inprogress-folder").innerHTML = "";
-    document.getElementById("awaiting-feedback-folder").innerHTML = "";
-    document.getElementById("done-folder").innerHTML = "";
+    document.getElementById("todo-folder").innerHTML = todoTasks;
+    document.getElementById("inprogress-folder").innerHTML = inProgressTasks;
+    document.getElementById("awaiting-feedback-folder").innerHTML =
+      awaitingFeedbackTasks;
+    document.getElementById("done-folder").innerHTML = doneTasks;
 
     // Function to render tasks into a specific container
-    const renderTasks = (tasks, containerId) => {
-      const container = document.getElementById(containerId);
-      tasks.forEach((task) => {
-        const taskHTML = `
-          <div id="${task.id}" class="task">
-            <h3>${task.title}</h3>
-            <p>${task.description}</p>
-            <p>Assigned to: ${task.asignedto}</p>
-            <p>Due date: ${task.duedate}</p>
-            <p>Priority: ${task.prio}</p>
-          </div>
-        `;
-        container.insertAdjacentHTML("beforeend", taskHTML);
-      });
-    };
-
-    // Render tasks for each folder to its corresponding div
-    renderTasks(todoTasks, "todo-folder");
-    renderTasks(inProgressTasks, "inprogress-folder");
-    renderTasks(awaitingFeedbackTasks, "awaiting-feedback-folder");
-    renderTasks(doneTasks, "done-folder");
   } catch (error) {
     console.error("Error loading tasks:", error);
   }
