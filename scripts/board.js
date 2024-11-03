@@ -135,20 +135,66 @@ async function loadtasks(id = 1) {
     const awaitingFeedbackFolder = userData["awaiting-feedback-folder"] || {};
     const doneFolder = userData["done-folder"] || {};
 
-    // Convert each folder object into an array of its values for rendering
-    const todoTasks = Object.values(todoFolder);
-    const inProgressTasks = Object.values(inProgressFolder);
-    const awaitingFeedbackTasks = Object.values(awaitingFeedbackFolder);
-    const doneTasks = Object.values(doneFolder);
+    // Convert each folder object into an array of its entries for rendering,
+    // filtering out null values and mapping to include IDs
+    const todoTasks = Object.entries(todoFolder)
+      .filter(([_, task]) => task) // Filter out null or falsy tasks
+      .map(([taskId, task]) => [taskId, task]); // Map to include ID and task
+
+    const inProgressTasks = Object.entries(inProgressFolder)
+      .filter(([_, task]) => task)
+      .map(([taskId, task]) => [taskId, task]);
+
+    const awaitingFeedbackTasks = Object.entries(awaitingFeedbackFolder)
+      .filter(([_, task]) => task)
+      .map(([taskId, task]) => [taskId, task]);
+
+    const doneTasks = Object.entries(doneFolder)
+      .filter(([_, task]) => task)
+      .map(([taskId, task]) => [taskId, task]);
 
     // Clear the target divs before rendering tasks
-    document.getElementById("todo-folder").innerHTML = todoTasks;
-    document.getElementById("inprogress-folder").innerHTML = inProgressTasks;
-    document.getElementById("awaiting-feedback-folder").innerHTML =
-      awaitingFeedbackTasks;
-    document.getElementById("done-folder").innerHTML = doneTasks;
+    document.getElementById("todo-folder").innerHTML = "";
+    document.getElementById("inprogress-folder").innerHTML = "";
+    document.getElementById("awaiting-feedback-folder").innerHTML = "";
+    document.getElementById("done-folder").innerHTML = "";
 
-    // Function to render tasks into a specific container
+    // Function to render tasks using templates
+    const renderTasksWithTemplate = async (tasks, containerId) => {
+      const container = document.getElementById(containerId);
+      for (const [taskId, task] of tasks) {
+        // Use destructuring to get ID and task
+        let taskHTML;
+
+        // Use the appropriate template based on task category
+        if (task.category === "Technical Task") {
+          taskHTML = await Technicaltasktemplate({ ...task, id: taskId }); // Pass task ID
+        } else {
+          taskHTML = await userstorytemplate({ ...task, id: taskId }); // Pass task ID
+        }
+
+        // Insert the rendered HTML into the container
+        container.insertAdjacentHTML("beforeend", taskHTML);
+
+        // Add click event listener for the task
+        document.getElementById(taskId).addEventListener("click", function () {
+          if (task.category === "Technical Task") {
+            opentechnicaltemplate(task); // Open the technical template for the clicked task
+          } else {
+            openprofiletemplate(task); // Open the profile template for the clicked task
+          }
+        });
+      }
+    };
+
+    // Render tasks for each folder to its corresponding div
+    await renderTasksWithTemplate(todoTasks, "todo-folder");
+    await renderTasksWithTemplate(inProgressTasks, "inprogress-folder");
+    await renderTasksWithTemplate(
+      awaitingFeedbackTasks,
+      "awaiting-feedback-folder"
+    );
+    await renderTasksWithTemplate(doneTasks, "done-folder");
   } catch (error) {
     console.error("Error loading tasks:", error);
   }

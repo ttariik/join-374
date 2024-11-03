@@ -146,7 +146,7 @@ async function addEditSingleUser(id = 1, tasks) {
   let existingIndexes = Object.keys(usertasks).map(Number);
   let nextIndex =
     existingIndexes.length > 0 ? Math.max(...existingIndexes) + 1 : 1;
-  await putData(`users/${id}/tasks/${nextIndex}`, tasks);
+  await putData(`users/${id}/tasks/todo-folder/${nextIndex}`, tasks);
 }
 
 async function getUserTaskss(id = 1) {
@@ -155,7 +155,11 @@ async function getUserTaskss(id = 1) {
 }
 
 async function getUserTasks(id) {
-  let response = await fetch(GLOBAL + `users/${id}/tasks.json`);
+  let response = await fetch(
+    GLOBAL +
+      `users/${id}/tasks/todo-folder
+.json`
+  );
   return await response.json();
 }
 
