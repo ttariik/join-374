@@ -241,31 +241,43 @@ function countTasks() {
   localStorage.setItem("totalTasks", totalTasks);
 }
 
-async function userstorytemplate(task, index) {
-  // Ensure initialsArray is an array of strings
+async function userstorytemplate(task) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  // Debugging: Log the initials array to see its structure
-  console.log("Initials Array:", initialsArray);
-
-  // Create the HTML for initials
+  // Generate initials HTML with color
   const initialsHTML = initialsArray
-    .filter((initial) => typeof initial === "string" && initial.trim() !== "") // Only keep valid strings
-    .map((initial) => {
-      const color = getColorFromInitials(initial); // Get the color for the initials
+    .map((initialObj) => {
+      const initial = initialObj.initials;
+      const color = getColorFromInitials(initial);
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
-    .join(""); // Join the resulting HTML strings
+    .join("");
 
-  const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
-  const completedtasks = task.subtask
-    ? task.subtask.filter((subtask) => subtask.completed).length
+  const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
+  const completedTasks = task.subtasks
+    ? task.subtasks.filter((subtask) => subtask.completed).length
     : 0;
   const completionPercent =
-    totalSubtasks > 0 ? (completedtasks / totalSubtasks) * 100 : 0;
+    totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
 
+  // Conditionally render progress bar if there are subtasks
+  const progressBarHTML =
+    totalSubtasks > 0
+      ? `
+      <div class="outsidebox" id="progress${task.id}">
+        <div class="progressbar">
+          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+        </div>
+        <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
+      </div>`
+      : ""; // Empty string if there are no subtasks
+
+  // Define the HTML template with conditional margin-top and progress bar
   const htmlTemplate = /*html*/ `
-    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
+    <div class="user-container task"   draggable="true" ondragstart="drag(event)"  id="${
+      task.id
+    }" 
+         ${totalSubtasks === 0 ? 'style="margin-top: 50px;"' : ""}>
       <div class="task-detailss">
         <span>${task.category}</span>
       </div>
@@ -273,20 +285,14 @@ async function userstorytemplate(task, index) {
         <div class="section-one">${task.title}</div>
         <div class="section-two">${task.description}</div>
       </div>
-      <div class="outsidebox" id="progress${task.id}">
-        <div class="progressbar">
-          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
-        </div>
-        <div class="subtask-info"><span>${completedtasks}/${totalSubtasks} Subtasks</span></div>
-      </div>
+      ${progressBarHTML}
       <div class="asignbox">
-        <div class="initialsbox">${initialsHTML}</div>
+        <div class="initialsbox" id="initialbox">${initialsHTML}</div>
         <img src="/img/${task.prio}.png" alt="">
       </div>
     </div>
   `;
 
-  // Only return the template
   return htmlTemplate;
 }
 
@@ -364,7 +370,7 @@ async function openprofiletemplate(task) {
 }
 
 async function inputacessprofile(task) {
-  // Setting basic task details
+  // Set profile details in the HTML elements
   document.getElementById("profiletitle").innerHTML = task.title || "";
   document.getElementById("profiledescription").innerHTML =
     task.description || "";
@@ -374,31 +380,45 @@ async function inputacessprofile(task) {
     task.prio || "default"
   }.png`;
 
-  // Prepare initials array with names if provided
-  const initialsArray = Array.isArray(task.initials)
-    ? task.initials.map((initial, index) => ({
-        initials: initial,
-        name: task.names ? task.names[index] : "",
-      }))
-    : [];
+  // Process initials
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  // Create HTML for initials badges, awaiting color fetch for each
+  // Create HTML for initials badges
   const initialsHTMLPromises = initialsArray
     .filter((item) => item.initials) // Filter out empty initials
     .map(async (item) => {
       const color = getColorFromInitials(item.initials);
       return /*html*/ `
         <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
-          <div>${item.name}</div>
+          <div class="badgestyle badge" style="background-color:${color}">${
+        item.initials
+      }</div>
+          <div>${item.name || ""}</div>
         </div>`;
     });
 
   // Wait for all initials HTML to resolve, then join into a single HTML string
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
-  // Set the joined HTML string to the container
+  // Set the initials HTML in the designated area
   document.getElementById("profileassingedarea").innerHTML = initialsHTML;
+
+  // Process subtasks
+  const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
+
+  // Create HTML for subtasks
+  const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
+    return /*html*/ `
+      <div class="alignsubdiv">
+        <div>${subtask}</div>
+      </div>`;
+  });
+
+  // Wait for all subtask promises to resolve, then join into a single HTML string
+  const subtaskHTML = (await Promise.all(subtaskHTMLPromises)).join("");
+
+  // Set the joined HTML string to the subtask area
+  document.getElementById("subtaskarea").innerHTML = subtaskHTML;
 }
 
 async function inputacesstechnicall(task) {

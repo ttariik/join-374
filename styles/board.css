@@ -303,6 +303,7 @@ input:focus {
   cursor: pointer;
   margin-bottom: 16px;
   background-color: white;
+  justify-content: space-between;
 }
 
 .task-details {
@@ -404,7 +405,6 @@ input:focus {
   .folder {
     height: 50vh;
   }
-
 }
 
 @media (max-width: 1259px) {
@@ -437,7 +437,7 @@ input:focus {
   }
 
   .drag-drop-content {
-    height: 220px
+    height: 220px;
   }
 
   .task {
@@ -447,8 +447,6 @@ input:focus {
 }
 
 @media (max-width: 849px) {
-
-  
   .content {
     margin: 0;
     margin-left: 40px;
@@ -466,7 +464,6 @@ input:focus {
 }
 
 @media (max-width: 699px) {
-
   .content {
     margin: 0;
     margin-left: 10px;
@@ -479,7 +476,6 @@ input:focus {
 }
 
 @media (max-width: 474px) {
-
   .content {
     margin: 0;
     margin-left: 10px;

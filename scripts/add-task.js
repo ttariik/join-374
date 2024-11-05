@@ -222,11 +222,11 @@ async function showcontacts(id = 1) {
   let responsestoJson = await response.json();
 
   // Filter out any invalid contacts
-  responsestoJson = responsestoJson
-    .filter((contact) => contact && contact.name) // Filter valid contacts
-    .map((contact) => ({
-      // Map to include id, initials, and name
-      id: contact.id, // Assuming `contact.id` is the unique identifier
+  responsestoJson = Object.entries(responsestoJson) // Convert the object to an array of [key, value] pairs
+    .filter(([id, contact]) => contact && contact.name) // Filter out invalid contacts
+    .map(([id, contact]) => ({
+      // Map each entry to include the id and other fields
+      id: id, // Use the key as the id
       initials: contact.initials,
       name: contact.name,
     }));
@@ -247,23 +247,10 @@ async function showcontacts(id = 1) {
       index,
       color
     );
-
-    // Add initials and name to initialsArray and initials only to asignedto
-    if (contact.initials && contact.name) {
-      initialsArray.push({
-        initials: contact.initials,
-        name: contact.name,
-      });
-      asignedtousers.push(contact.initials); // Only push initials to asignedto
-    }
   }
 
   // Set click event for the search reset button
   document.getElementById("selectboxbutton").onclick = resetsearchbar;
-
-  // Now you can use initialsArray and asignedto as needed
-  console.log(initialsArray); // For debugging purposes
-  console.log(asignedto); // For debugging purposes
 }
 
 function resetsearchbar() {
@@ -286,7 +273,7 @@ function searchbar() {
 
 function contactstemplate(responsestoJson, index, color) {
   return /*html*/ `
-    <li class="contact-menudesign"  id="div${responsestoJson.id}" onclick="selectcontact(${index})"> 
+    <li class="contact-menudesign"  id="div${index}" onclick="selectcontact(${index})"> 
      <div class="splitdivs"><div class="contactbox-badge badge" style="background-color:${color}"> ${responsestoJson[index].initials} </div>
      <div> ${responsestoJson[index].name}</div></div>
      <label class="custom-checkbox">
@@ -326,14 +313,20 @@ async function selectcontact(index, id = 1) {
 }
 
 function iffunction(initials, color, contactDiv, assignedUsersDiv) {
+  // Check if the initials already exist in the asignedtousers array
   if (!asignedtousers.includes(initials)) {
-    asignedtousers.push(initials);
-    console.log(asignedtousers);
+    asignedtousers.push(initials); // Only push if initials are not already present
+    console.log(asignedtousers); // Log the updated array of assigned users
+
+    // Create a badge element only if initials are added
     const badge = document.createElement("div");
     badge.className = "badgeassigned badge";
-    badge.style.backgroundColor = color;
-    badge.textContent = initials;
-    assignedUsersDiv.appendChild(badge);
+    badge.style.backgroundColor = color; // Set the background color of the badge
+    badge.textContent = initials; // Set the text content to the initials
+    assignedUsersDiv.appendChild(badge); // Append the badge to the assigned users container
+  } else {
+    // Optionally log a message if initials already exist
+    console.log(`Initials ${initials} already exists in the assigned users.`);
   }
 }
 
