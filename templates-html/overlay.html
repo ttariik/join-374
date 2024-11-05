@@ -14,14 +14,14 @@
       <div class="boxtemplates">
         <div class="task-header">
           <div class="headline-overlay">
-          <h1>Add Task</h1>
+            <h1>Add Task</h1>
+          </div>
+          <div class="close">
+            <button class="close-btn" onclick="closeaddtasktemplate()">
+              <img src="/img/close.png" alt="" />
+            </button>
+          </div>
         </div>
-        <div class="close">
-          <button class="close-btn" onclick="closeaddtasktemplate()">
-            <img src="/img/close.png" alt="" />
-          </button>
-        </div>
-      </div>
         <div class="wholebox">
           <form id="myform" action="">
             <div class="alignment2">
@@ -196,7 +196,11 @@
                 <span class="required-indicator">*</span>This field is required
               </div>
               <div class="buttonsalignment_2">
-                <button type="button" class="bt1" onclick="hideTemplate()">
+                <button
+                  type="button"
+                  class="bt1"
+                  onclick="closeaddtasktemplate()"
+                >
                   <span class="button-word-clear">Cancel</span>
                   <img src="../img/Vector.png" alt="" />
                 </button>
