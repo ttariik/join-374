@@ -18,18 +18,6 @@ const saveTaskPositions = () => {
   localStorage.setItem("taskPositions", JSON.stringify(positions));
 };
 
-function formatTaskData(taskElement) {
-  return {
-    title: title,
-    description: description,
-    dueDate: dueDate,
-    priority: priority,
-    category: category,
-    assignedUsers: assignedUsers,
-    subtasks: subtasks,
-  };
-}
-
 const loadTaskPositions = () => {
   const positions = JSON.parse(localStorage.getItem("taskPositions"));
   if (positions) {
@@ -54,10 +42,17 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-  const taskId = event.target.id;
+  const taskId = event.target.id; // Get the task ID from the dragged element
+  const parentFolderId = event.target.parentElement.id; // Get the ID of the parent folder
+
+  console.log("Task is being dragged from:", parentFolderId);
+
+  // Set data for drag event
   event.dataTransfer.setData("text", taskId);
+
+  // Remove task from the current folder (you may need to write logic for removing from specific folders)
   removeFromArray(taskId);
-  deleteData(`user/1/tasks/todo-folder/${taskId}`);
+  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 }
 
 function drop(event) {
