@@ -15,11 +15,15 @@ body {
   overflow-x: hidden;
 }
 
+/*  */
+
 .content-limitation {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
 }
+
+/*  */
 
 .content-wrapper {
   height: 100vh;
@@ -62,6 +66,7 @@ header {
   width: 120px;
   margin-top: 50px;
   margin-left: 20px;
+  
 }
 
 .sign-up-header {
@@ -550,6 +555,10 @@ input[type="password"] {
     margin-bottom: 40px;
   }
 
+
+
+
+
   @keyframes flyInToHeader {
     0% {
       top: 50%;
@@ -564,4 +573,11 @@ input[type="password"] {
       width: 60px;
     }
   }  
+}
+
+
+@media (min-width:2000px) and (max-width:4000px){
+  .logo{
+    margin-left:900px
+  }
 }
