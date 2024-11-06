@@ -39,7 +39,7 @@ signIn.addEventListener('click', (event) => {
             localStorage.setItem('loggedInUserId', user.uid);
 
             setTimeout(() => {
-                window.location.href = './templates-html/summary.html';
+                window.location.href = '/summary.html';
             }, 1000);
         })
         .catch((error) => {
@@ -58,7 +58,7 @@ guestLogin.addEventListener('click', (event) => {
             signOut(auth).then(() => {
                 localStorage.removeItem('loggedInUserId'); 
                 localStorage.setItem('isGuest', 'true'); 
-                window.location.href = './templates-html/summary.html';
+                window.location.href = '/summary.html';
             }).catch((error) => {
                 console.error("Error during sign out:", error);
                 showMessage('Error signing out, please try again.', 'signInMessage');
@@ -66,7 +66,7 @@ guestLogin.addEventListener('click', (event) => {
         } else {
             localStorage.removeItem('loggedInUserId');
             localStorage.setItem('isGuest', 'true'); 
-            window.location.href = './templates-html/summary.html';
+            window.location.href = '/summary.html';
         }
     });
 });

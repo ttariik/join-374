@@ -34,15 +34,14 @@ function selectbutton_2() {
   document.getElementById("button3").classList.remove("lightgreen");
 
   const mediumImg = document.getElementById("mediumImg");
-  mediumImg.src = mediumImg.src.includes("Medium.png")
+  mediumImg.src = mediumImg.src.includes("medium.png")
     ? "/img/medium white.png"
-    : "/img/Medium.png";
+    : "/img/medium.png";
 
   const mediumText = document.getElementById("medium");
-  mediumText.style.color =
-    mediumText.style.color === "white" ? "black" : "white";
-  document.getElementById("urgentImg").src = "/img/Urgent.png";
-  document.getElementById("lowImg").src = "/img/Low.png";
+  mediumText.style.color = mediumText.style.color === "white" ? "black" : "white";
+  document.getElementById("urgentImg").src = "/img/urgenttask.png";
+  document.getElementById("lowImg").src = "/img/low.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("low").style.color = "black";
 }
@@ -53,17 +52,18 @@ function selectbutton_3() {
   document.getElementById("button1").classList.remove("lightred");
 
   const lowImg = document.getElementById("lowImg");
-  lowImg.src = lowImg.src.includes("Low.png")
+  lowImg.src = lowImg.src.includes("low.png")
     ? "/img/low white.png"
-    : "/img/Low.png";
+    : "/img/low.png";
 
   const lowText = document.getElementById("low");
   lowText.style.color = lowText.style.color === "white" ? "black" : "white";
-  document.getElementById("urgentImg").src = "/img/Urgent.png";
-  document.getElementById("mediumImg").src = "/img/Medium.png";
+  document.getElementById("urgentImg").src = "/img/urgenttask.png";
+  document.getElementById("mediumImg").src = "/img/medium.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
 }
+
 
 function clearinputs() {
   document.getElementById("myform").reset();
