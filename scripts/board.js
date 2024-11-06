@@ -312,24 +312,14 @@ function getColorFromInitials(initial) {
 }
 
 async function Technicaltasktemplate(task) {
-  const initialsArray = Array.isArray(task.initials)
-    ? task.initials.map((initial, index) => ({
-        initials: initial,
-        name: task.names ? task.names[index] : "",
-      }))
-    : [];
-
-  const initialsHTMLPromises = initialsArray
-    .filter((item) => item.initials)
-    .map(async (item) => {
-      const color = getColorFromInitials(item.initials);
-      return /*html*/ `<div class="alignsubdiv">
-      <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
-      <div>${item.name}</div>
-    </div>`;
-    });
-
-  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+  const initialsHTML = initialsArray
+    .map((initialObj) => {
+      const initial = initialObj.initials;
+      const color = getColorFromInitials(initial);
+      return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
+    })
+    .join("");
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
   const completedtaskss = task.subtask
