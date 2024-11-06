@@ -473,10 +473,6 @@ select {
   gap: 54px;
 }
 
-.activelink2 {
-  background-color: rgb(9, 25, 49) !important;
-}
-
 .lightred,
 .lightorange,
 .lightgreen {
