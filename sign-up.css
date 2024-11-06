@@ -395,7 +395,6 @@ a {
   }
 }
 
-
 @media (max-width:499px) {
 
   .logo {
@@ -424,7 +423,6 @@ a {
   .legal-links {
     margin: 32px 0;
   }
-
 }
 
 @media (max-width:409px) {
@@ -446,7 +444,6 @@ a {
     width: 275px;
   }
 
-  
   .arrow-logo {
     right: 0;
     left: 10px;
@@ -457,12 +454,10 @@ a {
 
   .container {
     width: 300px;
-    margin-top: 180px;
+    margin-top: 120px;
   }
 
   .logo {
     width: 60px;
   }
- 
-  
 }
