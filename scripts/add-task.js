@@ -206,7 +206,7 @@ function subtaskstemplate(subtaskinput1) {
       <div>•</div>
       <div>${subtaskinput1}</div>
       <button class="d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
-      <button class="d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
+      <button class="d-none"><img src="/img/check.png" alt="Check" /></button>
     </div>
   `;
 }

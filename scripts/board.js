@@ -73,29 +73,34 @@ function drop(event) {
   const taskElement = document.getElementById(taskId);
   const targetFolder = event.currentTarget.id;
 
+  // Remove task from existing array
   removeFromArray(taskId);
-
+  deleteData(`user/1/tasks/todo-folder/${taskId}`);
+  // Determine target array and Firebase path
   let updatedArray;
+
   switch (targetFolder) {
     case "inprogress-folder":
-      inprogress.push(formatTaskData(taskElement));
       updatedArray = inprogress;
+      putData("users/1/tasks/inprogress-folder");
       break;
     case "awaiting-feedback-folder":
-      awaitingfeedback.push(formatTaskData(taskElement));
       updatedArray = awaitingfeedback;
+      putData("users/1/tasks/awaiting-feedback-folder");
       break;
     case "done-folder":
-      donetasks.push(formatTaskData(taskElement));
       updatedArray = donetasks;
+      putData("users/1/tasks/inprogress-folder");
       break;
     case "todo-folder":
-      todos.push(formatTaskData(taskElement));
       updatedArray = todos;
       break;
     default:
+      console.warn("Unknown target folder:", targetFolder);
       return;
   }
+
+  updatedArray.push(formatTaskData(taskElement));
 
   event.currentTarget.appendChild(taskElement);
 
@@ -103,16 +108,20 @@ function drop(event) {
   countTasks();
 }
 
-function removeFromArray(taskId) {
-  const removeTask = (array) => {
+async function removeFromArray(taskId) {
+  const removeTask = (array, firebasePath) => {
     const index = array.findIndex((task) => task.id === taskId);
-    if (index > -1) array.splice(index, 1);
+    if (index > -1) {
+      array.splice(index, 1);
+      putData(firebasePath, array);
+    }
   };
 
-  removeTask(todos);
-  removeTask(inprogress);
-  removeTask(awaitingfeedback);
-  removeTask(donetasks);
+  // Remove from each array and update Firebase
+  removeTask(todos, "/1/users/tasks/todo-folder");
+  removeTask(inprogress, "/1/users/tasks/inprogress-folder");
+  removeTask(awaitingfeedback, "/1/users/tasks/awaiting-feedback-folder");
+  removeTask(donetasks, "/1/users/tasks/done-folder");
 }
 
 async function loadtasks(id = 1) {
@@ -302,7 +311,7 @@ function getColorFromInitials(initial) {
   return color;
 }
 
-async function Technicaltasktemplate(task, index, completedtasks = 0) {
+async function Technicaltasktemplate(task) {
   const initialsArray = Array.isArray(task.initials)
     ? task.initials.map((initial, index) => ({
         initials: initial,
@@ -419,7 +428,12 @@ async function inputacesstechnicall(task) {
   );
 }
 
-function deletetask() {}
+async function deleteData(path = "", data = {}) {
+  const response = await fetch(GLOBAL + path + ".json", {
+    method: "DELETE",
+  });
+  return await response.json();
+}
 
 async function showsubtaskstemplate(task) {
   if (!Array.isArray(task.subtask)) return "";
