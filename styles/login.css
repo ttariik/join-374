@@ -576,8 +576,3 @@ input[type="password"] {
 }
 
 
-@media (min-width:2000px) and (max-width:4000px){
-  .logo{
-    margin-left:900px
-  }
-}
