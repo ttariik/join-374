@@ -505,4 +505,8 @@ input:focus {
   .search-wrapper {
     width: 230px;
   }
+
+  .board-header h2 {
+    font-size: 48px;
+  }
 }
