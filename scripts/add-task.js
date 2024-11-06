@@ -217,40 +217,40 @@ function smallerfunction() {
 }
 
 async function showcontacts(id = 1) {
-  smallerfunction(); // Assuming this initializes something needed for your function
+  smallerfunction();
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   let responsestoJson = await response.json();
 
-  // Filter out any invalid contacts
-  responsestoJson = Object.entries(responsestoJson) // Convert the object to an array of [key, value] pairs
-    .filter(([id, contact]) => contact && contact.name) // Filter out invalid contacts
-    .map(([id, contact]) => ({
-      // Map each entry to include the id and other fields
-      id: id, // Use the key as the id
-      initials: contact.initials,
-      name: contact.name,
-    }));
-
-  document.getElementById("selectboxbutton").innerHTML = searchbar();
-
-  for (let index = 0; index < responsestoJson.length; index++) {
-    const contact = responsestoJson[index]; // Get the current contact
-    users.push(contact.name);
-
-    // Get the color associated with the user's name
-    const color = getColorFromString(contact.name);
-    usernamecolor.push(color);
-
-    // Append contact template to the contacts box
-    document.getElementById("contacts-box").innerHTML += contactstemplate(
-      responsestoJson,
-      index,
-      color
-    );
-  }
-
-  // Set click event for the search reset button
+  responsestoJson = Object.entries(responsestoJson).map(
+    ([firebaseId, contact]) => {
+      if (contact && contact.name) {
+        return {
+          firebaseId,
+          id: firebaseId,
+          initials: contact.initials,
+          name: contact.name,
+        };
+      }
+      return null;
+    }
+  );
   document.getElementById("selectboxbutton").onclick = resetsearchbar;
+
+  document.getElementById("selectboxbutton").innerHTML = searchbar(); // Assuming `searchbar()` returns HTML
+
+  let contactHTML = "";
+
+  responsestoJson.forEach((contact) => {
+    if (contact !== null) {
+      users.push(contact.name);
+      const color = getColorFromString(contact.name);
+      usernamecolor.push(color);
+
+      contactHTML += contactstemplate(contact, color);
+    }
+  });
+
+  document.getElementById("contacts-box").innerHTML = contactHTML;
 }
 
 function resetsearchbar() {
@@ -271,77 +271,102 @@ function searchbar() {
   `;
 }
 
-function contactstemplate(responsestoJson, index, color) {
+function contactstemplate(contact, color) {
   return /*html*/ `
-    <li class="contact-menudesign"  id="div${index}" onclick="selectcontact(${index})"> 
-     <div class="splitdivs"><div class="contactbox-badge badge" style="background-color:${color}"> ${responsestoJson[index].initials} </div>
-     <div> ${responsestoJson[index].name}</div></div>
-     <label class="custom-checkbox">
-    <input type="checkbox" id="checkbox${index}" class="checkboxdesign" />
-    <span class="checkmark"></span>
-  </label></li>
+    <li class="contact-menudesign" id="div${contact.id}" onclick="selectcontact(${contact.id})">
+      <div class="splitdivs">
+        <div class="contactbox-badge badge" style="background-color:${color}">${contact.initials}</div>
+        <div>${contact.name}</div>
+      </div>
+      <label class="custom-checkbox" >
+        <input type="checkbox" id="checkbox${contact.id}" class="checkboxdesign" />
+        <span class="checkmark" ></span>
+      </label>
+    </li>
   `;
 }
 
-function variables(index, responsestoJson) {
-  const contactDiv = document.getElementById(`div${index}`);
-  const checkbox = document.getElementById(`checkbox${index}`);
-  const initials = responsestoJson[index].initials;
-  const color = getColorFromString(responsestoJson[index].name);
+function variables(contact) {
+  const contactDiv = document.getElementById(`div${contact.id}`);
+  const checkbox = document.getElementById(`checkbox${contact.id}`);
+
+  const initials = contact.initials;
+  const color = getColorFromString(initials);
   const assignedUsersDiv = document.getElementById("assignedusers");
-  checkbox.checked = !checkbox.checked;
-  contactDiv.classList.toggle("dark-blue", checkbox.checked);
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
-async function selectcontact(index, id = 1) {
-  let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
-  let responsestoJson = await response.json();
-  responsestoJson = responsestoJson.filter(
-    (contact) => contact && contact.name
-  );
-  const { contactDiv, checkbox, initials, color, assignedUsersDiv } = variables(
-    index,
-    responsestoJson
+async function selectcontact(id = 1) {
+  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  const responsestoJson = await response.json();
+
+  const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
+    contact && contact.name
+      ? {
+          id: firebaseId,
+          initials: contact.initials,
+          name: contact.name,
+          color: contact.color,
+          email: contact.email,
+          telefone: contact.telefone,
+        }
+      : null
   );
 
-  if (checkbox.checked) {
-    iffunction(initials, color, contactDiv, assignedUsersDiv);
-  } else {
-    elsefunction(initials);
-  }
+  const selectedContact = entries.find(
+    (contact) => contact && contact.id === String(id)
+  );
+
+  const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
+    variables(selectedContact);
+
+  console.log("Contact ID:", selectedContact.id);
+  console.log("Contact:", selectedContact);
+
+  checkbox.addEventListener("change", () => {
+    checkbox.checked = !checkbox.checked;
+    contactDiv.classList.toggle("dark-blue", checkbox.checked);
+
+    iffunction(
+      initials,
+      selectedContact.name,
+      color,
+      contactDiv,
+      assignedUsersDiv,
+      selectedContact.id
+    );
+  });
+
+  checkbox.dispatchEvent(new Event("change"));
 }
 
-function iffunction(initials, color, contactDiv, assignedUsersDiv) {
-  // Check if the initials already exist in the asignedtousers array
+function iffunction(
+  initials,
+  name,
+  color,
+  contactDiv,
+  assignedUsersDiv,
+  firebaseId
+) {
   if (!asignedtousers.includes(initials)) {
-    asignedtousers.push(initials); // Only push if initials are not already present
-    console.log(asignedtousers); // Log the updated array of assigned users
+    asignedtousers.push(initials);
 
-    // Create a badge element only if initials are added
+    initialsArray.push({
+      id: firebaseId,
+      initials: initials,
+      name: name,
+    });
     const badge = document.createElement("div");
     badge.className = "badgeassigned badge";
-    badge.style.backgroundColor = color; // Set the background color of the badge
-    badge.textContent = initials; // Set the text content to the initials
-    assignedUsersDiv.appendChild(badge); // Append the badge to the assigned users container
-  } else {
-    // Optionally log a message if initials already exist
-    console.log(`Initials ${initials} already exists in the assigned users.`);
+    badge.style.backgroundColor = color;
+    badge.textContent = initials;
+    assignedUsersDiv.appendChild(badge);
   }
 }
 
-function elsefunction(initials) {
-  const userIndex = asignedtousers.indexOf(initials);
-  if (userIndex !== -1) {
-    asignedtousers.splice(userIndex, 1);
-
-    const badges = document.querySelectorAll("#assignedusers .badgeassigned");
-    badges.forEach((badge) => {
-      if (badge.textContent === initials) {
-        badge.remove();
-      }
-    });
-  }
+function elsefunction(initials, firebaseId) {
+  asignedtousers = asignedtousers.filter((item) => item !== initials);
+  initialsArray = initialsArray.filter((item) => item.id !== firebaseId);
 }
 
 function filternumbers(input) {

@@ -40,8 +40,6 @@ async function showcontacts(id = 1) {
 }
 
 function contactsmenutemplate(contact) {
-  console.log(contact.color);
-
   let firstLetter = contact.name.charAt(0).toUpperCase();
 
   if (!displayedLetters.has(firstLetter)) {

@@ -120,7 +120,6 @@ async function loadtasks(id = 1) {
     const response = await fetch(GLOBAL + `users/${id}/tasks.json`);
     const userData = await response.json();
 
-    // Retrieve tasks from folders and filter out any null or invalid entries
     const todoTasks = Object.entries(userData["todo-folder"] || {}).filter(
       ([_, task]) => task !== null && task !== undefined
     );
@@ -134,7 +133,6 @@ async function loadtasks(id = 1) {
       ([_, task]) => task !== null && task !== undefined
     );
 
-    // Clear existing tasks in the DOM
     document.getElementById("todo-folder").innerHTML = "";
     document.getElementById("inprogress-folder").innerHTML = "";
     document.getElementById("awaiting-feedback-folder").innerHTML = "";
@@ -144,7 +142,6 @@ async function loadtasks(id = 1) {
       const container = document.getElementById(containerId);
 
       for (const [taskId, task] of tasks) {
-        // Check if the task is valid
         if (task && task.category) {
           let taskHTML;
           if (task.category === "Technical Task") {
@@ -169,7 +166,6 @@ async function loadtasks(id = 1) {
       }
     };
 
-    // Render tasks for each category, filtered
     await renderTasksWithTemplate(todoTasks, "todo-folder");
     await renderTasksWithTemplate(inProgressTasks, "inprogress-folder");
     await renderTasksWithTemplate(
@@ -243,8 +239,6 @@ function countTasks() {
 
 async function userstorytemplate(task) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-
-  // Generate initials HTML with color
   const initialsHTML = initialsArray
     .map((initialObj) => {
       const initial = initialObj.initials;
@@ -253,14 +247,14 @@ async function userstorytemplate(task) {
     })
     .join("");
 
-  const totalSubtasks = Array.isArray(task.subtasks) ? task.subtasks.length : 0;
-  const completedTasks = task.subtasks
-    ? task.subtasks.filter((subtask) => subtask.completed).length
+  const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
+  const completedTasks = task.subtask
+    ? task.subtask.filter((subtask) => subtask.completed).length
     : 0;
   const completionPercent =
     totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
+  console.log(totalSubtasks);
 
-  // Conditionally render progress bar if there are subtasks
   const progressBarHTML =
     totalSubtasks > 0
       ? `
@@ -270,9 +264,8 @@ async function userstorytemplate(task) {
         </div>
         <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
       </div>`
-      : ""; // Empty string if there are no subtasks
+      : "";
 
-  // Define the HTML template with conditional margin-top and progress bar
   const htmlTemplate = /*html*/ `
     <div class="user-container task"   draggable="true" ondragstart="drag(event)"  id="${
       task.id
@@ -370,7 +363,6 @@ async function openprofiletemplate(task) {
 }
 
 async function inputacessprofile(task) {
-  // Set profile details in the HTML elements
   document.getElementById("profiletitle").innerHTML = task.title || "";
   document.getElementById("profiledescription").innerHTML =
     task.description || "";
@@ -380,12 +372,10 @@ async function inputacessprofile(task) {
     task.prio || "default"
   }.png`;
 
-  // Process initials
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  // Create HTML for initials badges
   const initialsHTMLPromises = initialsArray
-    .filter((item) => item.initials) // Filter out empty initials
+    .filter((item) => item.initials)
     .map(async (item) => {
       const color = getColorFromInitials(item.initials);
       return /*html*/ `
@@ -397,16 +387,11 @@ async function inputacessprofile(task) {
         </div>`;
     });
 
-  // Wait for all initials HTML to resolve, then join into a single HTML string
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
 
-  // Set the initials HTML in the designated area
   document.getElementById("profileassingedarea").innerHTML = initialsHTML;
 
-  // Process subtasks
   const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
-
-  // Create HTML for subtasks
   const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
     return /*html*/ `
       <div class="alignsubdiv">
@@ -414,10 +399,8 @@ async function inputacessprofile(task) {
       </div>`;
   });
 
-  // Wait for all subtask promises to resolve, then join into a single HTML string
   const subtaskHTML = (await Promise.all(subtaskHTMLPromises)).join("");
 
-  // Set the joined HTML string to the subtask area
   document.getElementById("subtaskarea").innerHTML = subtaskHTML;
 }
 
@@ -435,6 +418,8 @@ async function inputacesstechnicall(task) {
     task
   );
 }
+
+function deletetask() {}
 
 async function showsubtaskstemplate(task) {
   if (!Array.isArray(task.subtask)) return "";
@@ -465,7 +450,7 @@ async function showsubtaskstemplate(task) {
 async function assignedtotemplate(task) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
-  console.log("Initials Array:", initialsArray); // Log for debugging
+  console.log("Initials Array:", initialsArray);
 
   const initialsHTMLPromises = initialsArray
     .filter((item) => item.initials)
@@ -488,7 +473,7 @@ async function assignedtotemplate(task) {
 
   return /*html*/ `
       <div class="align" id="showassignedperson">
-        ${finalHTML}  <!-- Use finalHTML for the final output -->
+        ${finalHTML}  
       </div>
   `;
 }
