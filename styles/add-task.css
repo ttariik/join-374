@@ -721,7 +721,10 @@ select {
     z-index: 999;
     justify-content: center;
     margin: 0;
-  }
+    flex-direction: column;
+    gap: 16px;
+}
+
 
   .subtasksbox1 {
     height: 109px;
