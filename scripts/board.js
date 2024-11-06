@@ -253,7 +253,6 @@ async function userstorytemplate(task) {
     : 0;
   const completionPercent =
     totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
-  console.log(totalSubtasks);
 
   const progressBarHTML =
     totalSubtasks > 0
@@ -393,10 +392,11 @@ async function inputacessprofile(task) {
 
   const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
   const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
+    // Access a property on `subtask`, such as `subtask.name`
     return /*html*/ `
-      <div class="alignsubdiv">
-        <div>${subtask}</div>
-      </div>`;
+    <div class="alignsubdiv2">
+      <div></div><div>${subtask.subtask}</div>
+    </div>`;
   });
 
   const subtaskHTML = (await Promise.all(subtaskHTMLPromises)).join("");

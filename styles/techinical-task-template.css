@@ -205,6 +205,14 @@
   width: 100%;
 }
 
+.alignsubdiv2 {
+  max-width: 93px;
+  display: flex;
+  justify-content: flex-start;
+  padding: 7px 16px 7px 27px;
+  width: 100%;
+}
+
 .subtask-checkbox {
   position: absolute;
   opacity: 0;
