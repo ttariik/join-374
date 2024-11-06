@@ -18,23 +18,15 @@ const saveTaskPositions = () => {
   localStorage.setItem("taskPositions", JSON.stringify(positions));
 };
 
-function formatTaskData(task) {
-  console.log("Formatting task:", task);
+function formatTaskData(taskElement) {
   return {
-    id: task.id,
-    title: task.title,
-    description: task.description,
-    asignedto: task.asignedto,
-    prio: task.prio,
-    duedate: task.duedate,
-    category: task.category,
-    subtask: Array.isArray(task.subtask)
-      ? task.subtask.map((subtask) => ({
-          subtask: subtask,
-          completed: false,
-        }))
-      : [],
-    initials: task.initials,
+    title: title,
+    description: description,
+    dueDate: dueDate,
+    priority: priority,
+    category: category,
+    assignedUsers: assignedUsers,
+    subtasks: subtasks,
   };
 }
 
@@ -65,6 +57,7 @@ function drag(event) {
   const taskId = event.target.id;
   event.dataTransfer.setData("text", taskId);
   removeFromArray(taskId);
+  deleteData(`user/1/tasks/todo-folder/${taskId}`);
 }
 
 function drop(event) {
@@ -72,38 +65,31 @@ function drop(event) {
   const taskId = event.dataTransfer.getData("text");
   const taskElement = document.getElementById(taskId);
   const targetFolder = event.currentTarget.id;
+  const data = todos[taskId][1];
 
-  // Remove task from existing array
-  removeFromArray(taskId);
-  deleteData(`user/1/tasks/todo-folder/${taskId}`);
-  // Determine target array and Firebase path
   let updatedArray;
 
   switch (targetFolder) {
     case "inprogress-folder":
-      updatedArray = inprogress;
-      putData("users/1/tasks/inprogress-folder");
+      putData(`users/1/tasks/inprogress-folder/${taskId}`, data);
       break;
     case "awaiting-feedback-folder":
-      updatedArray = awaitingfeedback;
-      putData("users/1/tasks/awaiting-feedback-folder");
+      putData(`users/1/tasks/awaiting-feedback-folder/${taskId}`, data);
       break;
     case "done-folder":
-      updatedArray = donetasks;
-      putData("users/1/tasks/inprogress-folder");
+      putData(`users/1/tasks/done-folder/${taskId}`, data); // Fixed the folder target
       break;
     case "todo-folder":
-      updatedArray = todos;
       break;
     default:
       console.warn("Unknown target folder:", targetFolder);
       return;
   }
 
-  updatedArray.push(formatTaskData(taskElement));
-
+  // Move the task element visually into the target folder
   event.currentTarget.appendChild(taskElement);
 
+  // Save task positions and count tasks
   saveTaskPositions();
   countTasks();
 }
@@ -128,6 +114,7 @@ async function loadtasks(id = 1) {
   try {
     const response = await fetch(GLOBAL + `users/${id}/tasks.json`);
     const userData = await response.json();
+    console.log(userData);
 
     const todoTasks = Object.entries(userData["todo-folder"] || {}).filter(
       ([_, task]) => task !== null && task !== undefined
@@ -141,6 +128,19 @@ async function loadtasks(id = 1) {
     const doneTasks = Object.entries(userData["done-folder"] || {}).filter(
       ([_, task]) => task !== null && task !== undefined
     );
+    todoTasks.forEach((task) => {
+      todos.push(task); // Add each task from todoFolder to todos
+    });
+    inProgressTasks.forEach((task) => {
+      todos.push(task); // Add each task from todoFolder to todos
+    });
+    awaitingFeedbackTasks.forEach((task) => {
+      todos.push(task); // Add each task from todoFolder to todos
+    });
+    doneTasks.forEach((task) => {
+      todos.push(task); // Add each task from todoFolder to todos
+    });
+    console.log(todos);
 
     document.getElementById("todo-folder").innerHTML = "";
     document.getElementById("inprogress-folder").innerHTML = "";
@@ -391,7 +391,6 @@ async function inputacessprofile(task) {
 
   const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
   const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
-    // Access a property on `subtask`, such as `subtask.name`
     return /*html*/ `
     <div class="alignsubdiv2">
       <div></div><div>${subtask.subtask}</div>
