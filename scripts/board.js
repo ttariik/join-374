@@ -501,22 +501,28 @@ function closeaddtasktemplate() {
 }
 
 async function calladdtasktemplate() {
-  const response = await fetch("/overlay.html");
+  const response = await fetch("/overlay.html", {
+    credentials: "omit" // falls notwendig, um Credentials zu vermeiden
+  });
+
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
-  document.getElementById("templateoverlay").innerHTML = htmlContent;
-  document.getElementById("templateoverlay").classList.add("overlayss");
+
+  const overlayElement = document.getElementById("templateoverlay");
+  if (!overlayElement) throw new Error("Element with ID 'templateoverlay' not found");
+
+  overlayElement.innerHTML = htmlContent;
+  overlayElement.classList.add("overlayss");
+
   setTimeout(() => {
-    document.getElementById("templateoverlay").style.transform =
-      "translateX(0%)";
-  }, 0.5);
+    overlayElement.style.transform = "translateX(0%)";
+  }, 500); // Verzögerung auf 500 ms setzen
 }
 
-document
-  .getElementById("add-tasktemplate")
-  .addEventListener("click", function () {
-    calladdtasktemplate();
-  });
+document.getElementById("add-tasktemplate").addEventListener("click", function () {
+  calladdtasktemplate().catch(error => console.error("Error loading template:", error));
+});
+
 
 function applyHoverEffect(buttonId, imageId, hoverSrc) {
   const buttonElement = document.getElementById(buttonId);
