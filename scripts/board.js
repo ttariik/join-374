@@ -348,7 +348,7 @@ async function Technicaltasktemplate(task) {
 
 async function openprofiletemplate(task) {
   opentasktemplate(task);
-  const response = await fetch("profile-template.html");
+  const response = await fetch("./profile-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
@@ -478,7 +478,7 @@ async function assignedtotemplate(task) {
 
 async function opentechnicaltemplate(task) {
   opentasktemplate(task);
-  const response = await fetch("/techinical-task-template.html");
+  const response = await fetch("./techinical-task-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
@@ -501,28 +501,22 @@ function closeaddtasktemplate() {
 }
 
 async function calladdtasktemplate() {
-  const response = await fetch("/overlay.html", {
-    credentials: "omit" // falls notwendig, um Credentials zu vermeiden
-  });
-
+  const response = await fetch("./overlay.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
-
-  const overlayElement = document.getElementById("templateoverlay");
-  if (!overlayElement) throw new Error("Element with ID 'templateoverlay' not found");
-
-  overlayElement.innerHTML = htmlContent;
-  overlayElement.classList.add("overlayss");
-
+  document.getElementById("templateoverlay").innerHTML = htmlContent;
+  document.getElementById("templateoverlay").classList.add("overlayss");
   setTimeout(() => {
-    overlayElement.style.transform = "translateX(0%)";
-  }, 500); // Verzögerung auf 500 ms setzen
+    document.getElementById("templateoverlay").style.transform =
+      "translateX(0%)";
+  }, 0.5);
 }
 
-document.getElementById("add-tasktemplate").addEventListener("click", function () {
-  calladdtasktemplate().catch(error => console.error("Error loading template:", error));
-});
-
+document
+  .getElementById("add-tasktemplate")
+  .addEventListener("click", function () {
+    calladdtasktemplate();
+  });
 
 function applyHoverEffect(buttonId, imageId, hoverSrc) {
   const buttonElement = document.getElementById(buttonId);
