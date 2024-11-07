@@ -2,7 +2,7 @@ let displayedLetters = new Set();
 
 async function opencontactstemplate() {
   if (document.getElementById("overlap").childElementCount === 0) {
-    const response = await fetch("./Add-Contact.html");
+    const response = await fetch("Add-Contact.html");
     if (!response.ok) throw new Error("Network response was not ok");
 
     const htmlContent = await response.text();

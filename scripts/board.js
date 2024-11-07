@@ -348,7 +348,7 @@ async function Technicaltasktemplate(task) {
 
 async function openprofiletemplate(task) {
   opentasktemplate(task);
-  const response = await fetch("./profile-template.html");
+  const response = await fetch("profile-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
@@ -478,7 +478,7 @@ async function assignedtotemplate(task) {
 
 async function opentechnicaltemplate(task) {
   opentasktemplate(task);
-  const response = await fetch("./techinical-task-template.html");
+  const response = await fetch("techinical-task-template.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;
@@ -501,7 +501,7 @@ function closeaddtasktemplate() {
 }
 
 async function calladdtasktemplate() {
-  const response = await fetch("./overlay.html");
+  const response = await fetch("overlay.html");
   if (!response.ok) throw new Error("Network response was not ok");
   const htmlContent = await response.text();
   document.getElementById("templateoverlay").innerHTML = htmlContent;

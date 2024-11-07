@@ -15,9 +15,9 @@ function selectbutton_1() {
   document.getElementById("button3").classList.remove("lightgreen");
 
   const urgentImg = document.getElementById("urgentImg");
-  urgentImg.src = urgentImg.src.includes("Urgent.png")
-    ? "/img/urgent white.png"
-    : "/img/Urgent.png";
+  urgentImg.src = urgentImg.src.includes("urgenttask.png")
+    ? "/img/urgent-white.png"
+    : "/img/urgenttask.png";
 
   const urgentText = document.getElementById("urgent");
   urgentText.style.color =
@@ -35,7 +35,7 @@ function selectbutton_2() {
 
   const mediumImg = document.getElementById("mediumImg");
   mediumImg.src = mediumImg.src.includes("medium.png")
-    ? "/img/medium white.png"
+    ? "/img/medium-white.png"
     : "/img/medium.png";
 
   const mediumText = document.getElementById("medium");
@@ -53,7 +53,7 @@ function selectbutton_3() {
 
   const lowImg = document.getElementById("lowImg");
   lowImg.src = lowImg.src.includes("low.png")
-    ? "/img/low white.png"
+    ? "/img/low-white.png"
     : "/img/low.png";
 
   const lowText = document.getElementById("low");
