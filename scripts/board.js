@@ -182,64 +182,6 @@ async function loadtasks(id = 1) {
   }
 }
 
-function restoreTaskPositions() {
-  loadTaskPositions();
-
-  const folders = {
-    "todo-folder": todos,
-    "inprogress-folder": inprogress,
-    "awaiting-feedback-folder": awaitingfeedback,
-    "done-folder": donetasks,
-  };
-
-  for (const [folderId, tasks] of Object.entries(folders)) {
-    const folderElement = document.getElementById(folderId);
-    if (!folderElement) {
-      console.warn(`Folder element with id ${folderId} not found.`);
-      continue;
-    }
-
-    tasks.forEach((task) => {
-      const taskElement = document.getElementById(task.id);
-      if (taskElement) {
-        folderElement.appendChild(taskElement);
-      } else {
-        console.warn(`Task element with id ${task.id} not found.`);
-      }
-    });
-  }
-}
-
-[
-  "todo-folder",
-  "inprogress-folder",
-  "awaiting-feedback-folder",
-  "done-folder",
-].forEach((folderId) => {
-  const folderElement = document.getElementById(folderId);
-  if (folderElement) {
-    folderElement.addEventListener("drop", drop);
-    folderElement.addEventListener("dragover", allowDrop);
-  } else {
-    console.error(`Element mit ID ${folderId} wurde nicht gefunden.`);
-  }
-});
-
-function countTasks() {
-  const taskCounts = {
-    todos: todos.length,
-    inprogress: inprogress.length,
-    awaitingfeedback: awaitingfeedback.length,
-    donetasks: donetasks.length,
-  };
-  const totalTasks =
-    taskCounts.todos +
-    taskCounts.inprogress +
-    taskCounts.awaitingfeedback +
-    taskCounts.donetasks;
-  localStorage.setItem("taskCounts", JSON.stringify(taskCounts));
-  localStorage.setItem("totalTasks", totalTasks);
-}
 
 async function userstorytemplate(task) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
@@ -269,25 +211,23 @@ async function userstorytemplate(task) {
       </div>`
       : "";
 
-  const htmlTemplate = /*html*/ `
-    <div class="user-container task"   draggable="true" ondragstart="drag(event)"  id="${
-      task.id
-    }" 
-         ${totalSubtasks === 0 ? 'style="margin-top: 50px;"' : ""}>
-      <div class="task-detailss">
-        <span>${task.category}</span>
+      const htmlTemplate = /*html*/ `
+      <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
+        <div class="task-detailss">
+          <span>${task.category}</span>
+        </div>
+        <div class="titlecontainer">
+          <div class="section-one">${task.title}</div>
+          <div class="section-two">${task.description}</div>
+        </div>
+        ${progressBarHTML}
+        <div class="asignbox">
+          <div class="initialsbox" id="initialbox">${initialsHTML}</div>
+          <img src="/img/${task.prio}.png" alt="">
+        </div>
       </div>
-      <div class="titlecontainer">
-        <div class="section-one">${task.title}</div>
-        <div class="section-two">${task.description}</div>
-      </div>
-      ${progressBarHTML}
-      <div class="asignbox">
-        <div class="initialsbox" id="initialbox">${initialsHTML}</div>
-        <img src="/img/${task.prio}.png" alt="">
-      </div>
-    </div>
-  `;
+    `;
+  
 
   return htmlTemplate;
 }
@@ -361,9 +301,8 @@ async function inputacessprofile(task) {
     task.description || "";
   document.getElementById("profileduedate").innerHTML = task.duedate || "";
   document.getElementById("profilepriority").innerHTML = task.prio || "";
-  document.getElementById("profileicon").src = `../img/${
-    task.prio || "default"
-  }.png`;
+  document.getElementById("profileicon").src = `../img/${task.prio || "default"
+    }.png`;
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
@@ -373,9 +312,8 @@ async function inputacessprofile(task) {
       const color = getColorFromInitials(item.initials);
       return /*html*/ `
         <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">${
-        item.initials
-      }</div>
+          <div class="badgestyle badge" style="background-color:${color}">${item.initials
+        }</div>
           <div>${item.name || ""}</div>
         </div>`;
     });
@@ -427,9 +365,8 @@ async function showsubtaskstemplate(task) {
       return /*html*/ `
         <div class="designlayout">
           <label class="custom-checkbox">
-            <input type="checkbox" id="${task.id}-${index}" ${
-        subtaskItem.completed ? "checked" : ""
-      } class="checkboxdesign" />
+            <input type="checkbox" id="${task.id}-${index}" ${subtaskItem.completed ? "checked" : ""
+        } class="checkboxdesign" />
             <span class="checkmark"></span>
           </label>
           <span class="subtask-title">${subtaskItem.subtask}</span>
