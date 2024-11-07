@@ -58,6 +58,7 @@ guestLogin.addEventListener('click', (event) => {
             signOut(auth).then(() => {
                 localStorage.removeItem('loggedInUserId'); 
                 localStorage.setItem('isGuest', 'true'); 
+                localStorage.setItem('guestInitial', 'G'); 
                 window.location.href = '/summary.html';
             }).catch((error) => {
                 console.error("Error during sign out:", error);
@@ -66,6 +67,7 @@ guestLogin.addEventListener('click', (event) => {
         } else {
             localStorage.removeItem('loggedInUserId');
             localStorage.setItem('isGuest', 'true'); 
+            localStorage.setItem('guestInitial', 'G'); 
             window.location.href = '/summary.html';
         }
     });
