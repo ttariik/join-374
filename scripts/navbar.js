@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-
+// Firebase-Konfiguration
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
     authDomain: "join-backend-dd268.firebaseapp.com",
@@ -14,15 +14,14 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-
+// Firebase initialisieren
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
+// Logout-Setup
 function setupLogout() {
     const logoutButton = document.getElementById('logoutID');
-
     if (logoutButton) {
         logoutButton.addEventListener('click', (event) => {
             event.preventDefault(); 
@@ -39,7 +38,6 @@ function setupLogout() {
         console.error('Logout-Button nicht gefunden!');
     }
 }
-
 
 onAuthStateChanged(auth, async (user) => {
     let initials = "G"; 
@@ -66,6 +64,7 @@ function getInitials(name) {
     const lastInitial = nameParts.length > 1 ? nameParts[1].charAt(0) : '';
     return firstInitial + lastInitial;
 }
+
 
 function displayUserInitials(initials) {
     const initialsElement = document.getElementById('user-initials');
