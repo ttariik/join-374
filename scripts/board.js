@@ -26,22 +26,25 @@ function drag(event) {
   const parentFolderId = event.target.parentElement.id; // Get the ID of the parent folder
 
   console.log("Task is being dragged from:", parentFolderId);
+  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
   // Set data for drag event
   event.dataTransfer.setData("text", taskId);
 
   // Remove task from the current folder (you may need to write logic for removing from specific folders)
-  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 }
 
-function drop(event) {
+async function drop(event) {
   event.preventDefault();
-  const taskId = event.dataTransfer.getData("text");
-  const taskElement = document.getElementById(taskId);
-  const targetFolder = event.currentTarget.id;
-  const data = todos[taskId][1];
+  const taskId = event.dataTransfer.getData("text"); // taskId from Firebase (starts from 1)
+  const taskElement = document.getElementById(taskId); // The DOM element of the task
+  const targetFolder = event.currentTarget.id; // Folder where task is being dropped
 
-  let updatedArray;
+  // Adjust taskId to be zero-indexed by subtracting 1
+  const adjustedIndex = taskId - 1; // Convert 1-based index to 0-based index
+
+  // Access the task from the todos array using the adjusted index
+  const data = todos[adjustedIndex][1]; // Now this should work
 
   putData(`users/1/tasks/${targetFolder}/${taskId}}`, data);
 
@@ -49,7 +52,6 @@ function drop(event) {
   event.currentTarget.appendChild(taskElement);
 
   // Save task positions and count tasks
-  saveTaskPositions();
   countTasks();
 }
 

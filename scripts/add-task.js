@@ -128,6 +128,8 @@ function emptyinputs() {
   document.getElementById("button1").classList.remove("lightorange");
   document.getElementById("button1").classList.remove("lightgreen");
   asignedtousers = [];
+  subtasks = [];
+  initialsArray = [];
 }
 
 async function putData(path = "", data = {}) {
