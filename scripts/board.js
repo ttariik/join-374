@@ -22,37 +22,47 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-  const taskId = event.target.id; // Get the task ID from the dragged element
-  const parentFolderId = event.target.parentElement.id; // Get the ID of the parent folder
+  const taskId = event.target.id;
+  const parentFolderId = event.target.parentElement.id;
 
   console.log("Task is being dragged from:", parentFolderId);
-  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-  // Set data for drag event
+  // Set the dataTransfer with taskId to be used in drop event
   event.dataTransfer.setData("text", taskId);
 
-  // Remove task from the current folder (you may need to write logic for removing from specific folders)
+  // Optionally log information for debugging
+  event.dataTransfer.setData("parentFolderId", parentFolderId); // Capture the source folder
 }
+
+// Call deleteData only on successful drop in the `drop` function, not here
 
 async function drop(event) {
   event.preventDefault();
-  const taskId = event.dataTransfer.getData("text"); // taskId from Firebase (starts from 1)
-  const taskElement = document.getElementById(taskId); // The DOM element of the task
-  const targetFolder = event.currentTarget.id; // Folder where task is being dropped
+  const taskId = event.dataTransfer.getData("text");
+  const parentFolderId = event.dataTransfer.getData("parentFolderId"); // Get the source folder
+  const taskElement = document.getElementById(taskId);
+  const targetFolder = event.currentTarget.id;
 
-  // Adjust taskId to be zero-indexed by subtracting 1
-  const adjustedIndex = taskId - 1; // Convert 1-based index to 0-based index
+  // Ensure `taskId` is a valid number (1-based index), and calculate zero-based index
+  const adjustedIndex = parseInt(taskId) - 1;
 
-  // Access the task from the todos array using the adjusted index
-  const data = todos[adjustedIndex][1]; // Now this should work
+  if (adjustedIndex >= 0 && adjustedIndex < todos.length) {
+    const data = todos[adjustedIndex][1];
 
-  putData(`users/1/tasks/${targetFolder}/${taskId}}`, data);
+    // Save the task to the new folder in the backend
+    await putData(`users/1/tasks/${targetFolder}/${taskId}`, data);
 
-  // Move the task element visually into the target folder
-  event.currentTarget.appendChild(taskElement);
+    // After successful save, delete the task from the original folder
+    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-  // Save task positions and count tasks
-  countTasks();
+    // Move the task visually to the new folder in the DOM
+    event.currentTarget.appendChild(taskElement);
+
+    // Optional: Update task counts or other display aspects
+    countTasks();
+  } else {
+    console.error("Invalid task ID or out-of-bounds index:", taskId);
+  }
 }
 
 async function removeFromArray(taskId) {
@@ -64,7 +74,6 @@ async function removeFromArray(taskId) {
     }
   };
 
-  // Remove from each array and update Firebase
   removeTask(todos, "/1/users/tasks/todo-folder");
   removeTask(inprogress, "/1/users/tasks/inprogress-folder");
   removeTask(awaitingfeedback, "/1/users/tasks/awaiting-feedback-folder");
@@ -90,16 +99,16 @@ async function loadtasks(id = 1) {
       ([_, task]) => task !== null && task !== undefined
     );
     todoTasks.forEach((task) => {
-      todos.push(task); // Add each task from todoFolder to todos
+      todos.push(task);
     });
     inProgressTasks.forEach((task) => {
-      todos.push(task); // Add each task from todoFolder to todos
+      todos.push(task);
     });
     awaitingFeedbackTasks.forEach((task) => {
-      todos.push(task); // Add each task from todoFolder to todos
+      todos.push(task);
     });
     doneTasks.forEach((task) => {
-      todos.push(task); // Add each task from todoFolder to todos
+      todos.push(task);
     });
     console.log(todos);
 
