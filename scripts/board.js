@@ -8,26 +8,6 @@ let donetasks = [];
 let currentid = [];
 const searchInput = document.getElementById("searchInput");
 
-const saveTaskPositions = () => {
-  const positions = {
-    todos: todos.map(formatTaskData),
-    inprogress: inprogress.map(formatTaskData),
-    awaitingfeedback: awaitingfeedback.map(formatTaskData),
-    donetasks: donetasks.map(formatTaskData),
-  };
-  localStorage.setItem("taskPositions", JSON.stringify(positions));
-};
-
-const loadTaskPositions = () => {
-  const positions = JSON.parse(localStorage.getItem("taskPositions"));
-  if (positions) {
-    todos = positions.todos || [];
-    inprogress = positions.inprogress || [];
-    awaitingfeedback = positions.awaitingfeedback || [];
-    donetasks = positions.donetasks || [];
-  }
-};
-
 searchInput.addEventListener("input", function () {
   const filter = searchInput.value.toLowerCase();
   const tasks = document.querySelectorAll(".task");
@@ -51,7 +31,6 @@ function drag(event) {
   event.dataTransfer.setData("text", taskId);
 
   // Remove task from the current folder (you may need to write logic for removing from specific folders)
-  removeFromArray(taskId);
   deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 }
 
@@ -64,22 +43,7 @@ function drop(event) {
 
   let updatedArray;
 
-  switch (targetFolder) {
-    case "inprogress-folder":
-      putData(`users/1/tasks/inprogress-folder/${taskId}`, data);
-      break;
-    case "awaiting-feedback-folder":
-      putData(`users/1/tasks/awaiting-feedback-folder/${taskId}`, data);
-      break;
-    case "done-folder":
-      putData(`users/1/tasks/done-folder/${taskId}`, data); // Fixed the folder target
-      break;
-    case "todo-folder":
-      break;
-    default:
-      console.warn("Unknown target folder:", targetFolder);
-      return;
-  }
+  putData(`users/1/tasks/${targetFolder}/${taskId}}`, data);
 
   // Move the task element visually into the target folder
   event.currentTarget.appendChild(taskElement);

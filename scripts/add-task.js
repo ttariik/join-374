@@ -39,7 +39,8 @@ function selectbutton_2() {
     : "/img/medium.png";
 
   const mediumText = document.getElementById("medium");
-  mediumText.style.color = mediumText.style.color === "white" ? "black" : "white";
+  mediumText.style.color =
+    mediumText.style.color === "white" ? "black" : "white";
   document.getElementById("urgentImg").src = "/img/urgenttask.png";
   document.getElementById("lowImg").src = "/img/low.png";
   document.getElementById("urgent").style.color = "black";
@@ -63,7 +64,6 @@ function selectbutton_3() {
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
 }
-
 
 function clearinputs() {
   document.getElementById("myform").reset();
@@ -296,8 +296,8 @@ function variables(contact) {
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
-async function selectcontact(id = 1) {
-  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+async function selectcontact(id) {
+  const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
 
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
