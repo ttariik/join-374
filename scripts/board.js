@@ -6,6 +6,12 @@ let inprogress = [];
 let awaitingfeedback = [];
 let donetasks = [];
 let currentid = [];
+const taskFolders = {
+  "todo-folder": todos,
+  "inprogress-folder": inprogress,
+  "awaiting-feedback-folder": awaitingfeedback,
+  "done-folder": donetasks,
+};
 const searchInput = document.getElementById("searchInput");
 
 searchInput.addEventListener("input", function () {
@@ -22,116 +28,137 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-  const taskId = event.target.id;
-  const parentFolderId = event.target.parentElement.id;
+  const taskId = event.target.id; // Task ID (like '1', '2', etc.)
+  const parentFolderId = event.target.parentElement.id; // Parent folder (todo-folder, inprogress-folder, etc.)
 
-  console.log("Task is being dragged from:", parentFolderId);
-
-  // Set the dataTransfer with taskId to be used in drop event
-  event.dataTransfer.setData("text", taskId);
-
-  // Optionally log information for debugging
-  event.dataTransfer.setData("parentFolderId", parentFolderId); // Capture the source folder
+  // Store taskId and parentFolderId in the dataTransfer object
+  event.dataTransfer.setData("taskId", taskId);
+  event.dataTransfer.setData("parentFolderId", parentFolderId);
 }
-
-// Call deleteData only on successful drop in the `drop` function, not here
 
 async function drop(event) {
   event.preventDefault();
-  const taskId = event.dataTransfer.getData("text");
-  const parentFolderId = event.dataTransfer.getData("parentFolderId"); // Get the source folder
-  const taskElement = document.getElementById(taskId);
-  const targetFolder = event.currentTarget.id;
 
-  // Ensure `taskId` is a valid number (1-based index), and calculate zero-based index
-  const adjustedIndex = parseInt(taskId) - 1;
+  // Retrieve taskId and parentFolderId from the drag event data
+  const taskId = event.dataTransfer.getData("taskId");
+  const parentFolderId = event.dataTransfer.getData("parentFolderId"); // Where the task is coming from
+  const targetFolder = event.currentTarget.id; // The folder where the task is being dropped
 
-  if (adjustedIndex >= 0 && adjustedIndex < todos.length) {
-    const data = todos[adjustedIndex][1];
+  const taskElement = document.getElementById(taskId); // Task element that was dragged
 
-    // Save the task to the new folder in the backend
-    await putData(`users/1/tasks/${targetFolder}/${taskId}`, data);
-
-    // After successful save, delete the task from the original folder
-    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
-
-    // Move the task visually to the new folder in the DOM
-    event.currentTarget.appendChild(taskElement);
-
-    // Optional: Update task counts or other display aspects
-    countTasks();
-  } else {
-    console.error("Invalid task ID or out-of-bounds index:", taskId);
+  if (!taskElement) {
+    console.error("Task element not found in the DOM.");
+    return;
   }
-}
 
-async function removeFromArray(taskId) {
-  const removeTask = (array, firebasePath) => {
-    const index = array.findIndex((task) => task.id === taskId);
-    if (index > -1) {
-      array.splice(index, 1);
-      putData(firebasePath, array);
-    }
-  };
+  // Get the task data from the source folder (Firebase)
+  const response = await fetch(
+    GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
+  );
+  const taskData = await response.json();
 
-  removeTask(todos, "/1/users/tasks/todo-folder");
-  removeTask(inprogress, "/1/users/tasks/inprogress-folder");
-  removeTask(awaitingfeedback, "/1/users/tasks/awaiting-feedback-folder");
-  removeTask(donetasks, "/1/users/tasks/done-folder");
+  if (!taskData) {
+    console.error("Task not found in the source folder.");
+    return;
+  }
+
+  // Remove the task from the source folder (parentFolderId) in Firebase
+  await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
+
+  // Save the task to the target folder in Firebase
+  await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
+
+  // Ensure the task element is moved visually to the new folder
+  const targetContainer = document.getElementById(targetFolder);
+
+  if (targetContainer) {
+    targetContainer.appendChild(taskElement); // Append the task element to the target folder
+  } else {
+    console.error("Target container not found in the DOM.");
+  }
+
+  // Optional: Update task counts or other display aspects
+  countTasks();
 }
 
 async function loadtasks(id = 1) {
+  // Initialize task arrays
+  const todos = [];
+  const inprogress = [];
+  const awaitingfeedback = [];
+  const donetasks = [];
+
   try {
     const response = await fetch(GLOBAL + `users/${id}/tasks.json`);
     const userData = await response.json();
     console.log(userData);
 
-    const todoTasks = Object.entries(userData["todo-folder"] || {}).filter(
-      ([_, task]) => task !== null && task !== undefined
-    );
-    const inProgressTasks = Object.entries(
-      userData["inprogress-folder"] || {}
-    ).filter(([_, task]) => task !== null && task !== undefined);
-    const awaitingFeedbackTasks = Object.entries(
-      userData["awaiting-feedback-folder"] || {}
-    ).filter(([_, task]) => task !== null && task !== undefined);
-    const doneTasks = Object.entries(userData["done-folder"] || {}).filter(
-      ([_, task]) => task !== null && task !== undefined
-    );
-    todoTasks.forEach((task) => {
-      todos.push(task);
-    });
-    inProgressTasks.forEach((task) => {
-      todos.push(task);
-    });
-    awaitingFeedbackTasks.forEach((task) => {
-      todos.push(task);
-    });
-    doneTasks.forEach((task) => {
-      todos.push(task);
-    });
-    console.log(todos);
+    // Check if the "todo-folder" exists in userData and if it's not empty, then iterate over it
+    if (userData["todo-folder"] && Array.isArray(userData["todo-folder"])) {
+      userData["todo-folder"].forEach((task) => {
+        todos.push(task); // Push tasks into the todos array
+      });
+    } else {
+      console.log("No tasks in todo-folder");
+    }
 
+    // Similarly, handle other folders (inprogress, awaitingfeedback, done)
+    if (
+      userData["inprogress-folder"] &&
+      Array.isArray(userData["inprogress-folder"])
+    ) {
+      userData["inprogress-folder"].forEach((task) => {
+        inprogress.push(task);
+      });
+    } else {
+      console.log("No tasks in inprogress-folder");
+    }
+
+    if (
+      userData["awaiting-feedback-folder"] &&
+      Array.isArray(userData["awaiting-feedback-folder"])
+    ) {
+      userData["awaiting-feedback-folder"].forEach((task) => {
+        awaitingfeedback.push(task);
+      });
+    } else {
+      console.log("No tasks in awaiting-feedback-folder");
+    }
+
+    if (userData["done-folder"] && Array.isArray(userData["done-folder"])) {
+      userData["done-folder"].forEach((task) => {
+        donetasks.push(task);
+      });
+    } else {
+      console.log("No tasks in done-folder");
+    }
+
+    // Clear any previous content in the containers
     document.getElementById("todo-folder").innerHTML = "";
     document.getElementById("inprogress-folder").innerHTML = "";
     document.getElementById("awaiting-feedback-folder").innerHTML = "";
     document.getElementById("done-folder").innerHTML = "";
 
+    // Function to render tasks using templates
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
 
-      for (const [taskId, task] of tasks) {
+      // Loop through tasks and render them to the container
+      tasks.forEach(async (task, index) => {
         if (task && task.category) {
           let taskHTML;
+
+          // Check category and choose template
           if (task.category === "Technical Task") {
-            taskHTML = await Technicaltasktemplate({ ...task, id: taskId });
+            taskHTML = await Technicaltasktemplate({ ...task, id: index }); // Passing index as id
           } else {
-            taskHTML = await userstorytemplate({ ...task, id: taskId });
+            taskHTML = await userstorytemplate({ ...task, id: index }); // Passing index as id
           }
 
+          // Insert the task HTML into the container
           container.insertAdjacentHTML("beforeend", taskHTML);
 
-          const taskElement = document.getElementById(taskId);
+          const taskElement = document.getElementById(index); // Use index as task ID
           if (taskElement) {
             taskElement.addEventListener("click", function () {
               if (task.category === "Technical Task") {
@@ -142,16 +169,14 @@ async function loadtasks(id = 1) {
             });
           }
         }
-      }
+      });
     };
 
-    await renderTasksWithTemplate(todoTasks, "todo-folder");
-    await renderTasksWithTemplate(inProgressTasks, "inprogress-folder");
-    await renderTasksWithTemplate(
-      awaitingFeedbackTasks,
-      "awaiting-feedback-folder"
-    );
-    await renderTasksWithTemplate(doneTasks, "done-folder");
+    // Render tasks in respective folders
+    await renderTasksWithTemplate(todos, "todo-folder");
+    await renderTasksWithTemplate(inprogress, "inprogress-folder");
+    await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
+    await renderTasksWithTemplate(donetasks, "done-folder");
   } catch (error) {
     console.error("Error loading tasks:", error);
   }
