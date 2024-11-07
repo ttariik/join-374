@@ -22,8 +22,8 @@ function selectbutton_1() {
   const urgentText = document.getElementById("urgent");
   urgentText.style.color =
     urgentText.style.color === "white" ? "black" : "white";
-  document.getElementById("mediumImg").src = "/img/Medium.png";
-  document.getElementById("lowImg").src = "/img/Low.png";
+  document.getElementById("mediumImg").src = "/img/medium.png";
+  document.getElementById("lowImg").src = "/img/low.png";
   document.getElementById("medium").style.color = "black";
   document.getElementById("low").style.color = "black";
 }
