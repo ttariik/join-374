@@ -76,9 +76,6 @@ async function drop(event) {
   } else {
     console.error("Target container not found in the DOM.");
   }
-
-  // Optional: Update task counts or other display aspects
-  countTasks();
 }
 
 async function loadtasks(id = 1) {

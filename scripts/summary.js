@@ -89,19 +89,73 @@ function getGreetingMessage() {
   ];
   return greetings[Math.floor(new Date().getHours() / 24 * greetings.length)];
 }
-document.addEventListener("DOMContentLoaded", loadTaskCounts);
 
 
-function loadTaskCounts() {
-  const taskCounts = JSON.parse(localStorage.getItem('taskCounts')) || { todos: 0, inprogress: 0, awaitingfeedback: 0, donetasks: 0 };
-  const totalTasks = localStorage.getItem('totalTasks') || 0; 
+async function loadTaskCounts(userId) {
+  try {
+    let taskCounts = { todos: 0, inprogress: 0, awaitingfeedback: 0, donetasks: 0, urgent: 0 };
+    let totalTasks = 0;
+    let upcomingDeadline = null;
 
-  document.getElementById("todo-task-count").textContent = taskCounts.todos || 0;
-  document.getElementById("done-task-count").textContent = taskCounts.donetasks || 0;
-  document.getElementById("total-task-count").textContent = totalTasks;
-  document.getElementById("inprogress-task-count").textContent = taskCounts.inprogress || 0;
-  document.getElementById("review-task-count").textContent = taskCounts.awaitingfeedback || 0;
+    // Liste der Folder, die gezählt werden sollen
+    const folders = {
+      todos: 'todo-folder',
+      inprogress: 'inprogress-folder',
+      awaitingfeedback: 'awaiting-feedback-folder',
+      donetasks: 'done-folder'
+    };
+
+    // Array zum Speichern der Urgent Tasks, um später das zufällige Fälligkeitsdatum auszuwählen
+    let urgentTasks = [];
+
+    // Durch jeden Folder iterieren und die Anzahl der Tasks zählen
+    for (let [key, folderName] of Object.entries(folders)) {
+      const folderRef = ref(realtimeDb, `users/${userId}/tasks/${folderName}`);
+      const folderSnapshot = await get(folderRef);
+
+      if (folderSnapshot.exists()) {
+        const tasks = folderSnapshot.val();
+        const taskCount = Object.keys(tasks).length;
+        taskCounts[key] = taskCount;
+        totalTasks += taskCount; // Gesamte Task-Zahl erhöhen
+
+        for (let taskId in tasks) {
+          const task = tasks[taskId];
+
+          // Zählen der "Urgent" Tasks und Bestimmen der Deadline
+          if (task.prio === "Urgent") {
+            taskCounts.urgent += 1;
+            urgentTasks.push(task); // Speichern der Urgent Tasks
+
+            if (!upcomingDeadline || new Date(task.duedate) < new Date(upcomingDeadline)) {
+              upcomingDeadline = task.duedate;
+            }
+          }
+        }
+      }
+    }
+    if (urgentTasks.length > 1) {
+      const randomUrgentTask = urgentTasks[Math.floor(Math.random() * urgentTasks.length)];
+      upcomingDeadline = randomUrgentTask.duedate;
+    }
+    document.getElementById("todo-task-count").textContent = taskCounts.todos || 0;
+    document.getElementById("done-task-count").textContent = taskCounts.donetasks || 0;
+    document.getElementById("total-task-count").textContent = totalTasks;
+    document.getElementById("inprogress-task-count").textContent = taskCounts.inprogress || 0;
+    document.getElementById("review-task-count").textContent = taskCounts.awaitingfeedback || 0;
+    document.getElementById("urgent-task-count").textContent = taskCounts.urgent || 0;
+    document.getElementById("due-date").textContent = upcomingDeadline || "No Date";
+
+
+  } catch (error) {
+    console.error("Fehler beim Laden der Task Counts von Firebase:", error);
+  }
 }
+const userId = "1"; 
+loadTaskCounts(userId);
+
+
+
 
 const greet = [
   'Go to bed!',
