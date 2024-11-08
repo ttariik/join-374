@@ -286,7 +286,7 @@ input:focus {
   top: 0;
   background-color: rgba(0, 0, 0, 0.5);
   transform: translateX(250%);
-  transition: transform 0.2s ease, visibility 0s;
+  transition: transform 0.2s ease, visibility 0.2s;
 }
 
 .user-container,

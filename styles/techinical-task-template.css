@@ -24,14 +24,13 @@
   justify-content: space-between;
 }
 
-.d-none {
-  display: none;
-}
-
 .subtasks-title {
   font-size: 20px;
   font-weight: 400;
   font-family: PT-Sans;
+}
+.d-none {
+  display: none;
 }
 
 .custom-checkbox input[type="checkbox"] {

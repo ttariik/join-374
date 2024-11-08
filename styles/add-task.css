@@ -248,7 +248,9 @@ select {
   font-size: 20px;
 }
 
-.buttons2_1, .buttons2_2, .buttons2_3  {
+.buttons2_1,
+.buttons2_2,
+.buttons2_3 {
   max-width: 136px;
   width: 100%;
   height: 56px;
@@ -384,10 +386,6 @@ select {
 .subbox1 {
   height: 109px;
   padding: 6px 16px 6px 16px;
-}
-
-.d-none {
-  display: none;
 }
 
 .emailbox {
@@ -582,7 +580,6 @@ select {
 }
 
 @media (max-width: 1349px) {
-
   form {
     width: 90%;
   }
@@ -643,7 +640,6 @@ select {
 }
 
 @media (max-width: 830px) {
- 
   .title2 {
     height: unset;
   }
@@ -661,7 +657,7 @@ select {
     max-width: 600px;
     overflow: scroll;
     overflow-x: hidden;
-  
+
     scrollbar-width: none;
   }
 
@@ -687,7 +683,7 @@ select {
   .line {
     display: none;
   }
-  
+
   .secondbox {
     max-width: unset;
     gap: 16px;
@@ -723,8 +719,7 @@ select {
     margin: 0;
     flex-direction: column;
     gap: 16px;
-}
-
+  }
 
   .subtasksbox1 {
     height: 109px;
@@ -735,15 +730,12 @@ select {
   }
 }
 
-
-@media (max-width:474px) {
-  
+@media (max-width: 474px) {
   .button-containerss span {
     font-size: 16px;
   }
- 
+
   .add-task-headline h1 {
     font-size: 48px;
   }
-
 }

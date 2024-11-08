@@ -57,7 +57,6 @@ async function drop(event) {
     console.error("Task not found in the source folder.");
     return;
   }
-
   await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
   await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
@@ -266,11 +265,13 @@ async function Technicaltasktemplate(task) {
 }
 
 async function openprofiletemplate(task) {
-  opentasktemplate(task);
-  const response = await fetch("./profile-template.html");
-  if (!response.ok) throw new Error("Network response was not ok");
-  const htmlContent = await response.text();
-  document.getElementById("templateoverlay").innerHTML = htmlContent;
+  document.getElementById("overlayprofile-template").classList.add("overlayss");
+  document.getElementById("overlayprofile-template").classList.remove("d-none");
+
+  setTimeout(() => {
+    document.querySelector(".overlayss").style = "transform: translateX(0%);";
+  }, 0.5);
+
   inputacessprofile(task);
 }
 
@@ -317,7 +318,7 @@ async function inputacessprofile(task) {
 }
 
 async function inputacesstechnicall(task) {
-  document.getElementById("title").innerHTML = `${task.title}`;
+  document.getElementById("technicaltasktitle").innerHTML = `${task.title}`;
   document.getElementById("descriptioninput").innerHTML = `${task.description}`;
   document.getElementById(
     "due-date-containerinput"
@@ -396,39 +397,57 @@ async function assignedtotemplate(task) {
 }
 
 async function opentechnicaltemplate(task) {
-  opentasktemplate(task);
-  const response = await fetch("./techinical-task-template.html");
-  if (!response.ok) throw new Error("Network response was not ok");
-  const htmlContent = await response.text();
-  document.getElementById("templateoverlay").innerHTML = htmlContent;
-  inputacesstechnicall(task);
-}
-
-function opentasktemplate() {
-  document.getElementById("templateoverlay").classList.add("overlayss");
+  document
+    .getElementById("overlaytechinical-task-template")
+    .classList.add("overlayss");
+  document
+    .getElementById("overlaytechinical-task-template")
+    .classList.remove("d-none");
   setTimeout(() => {
     document.querySelector(".overlayss").style = "transform: translateX(0%);";
   }, 0.5);
+  inputacesstechnicall(task);
 }
 
 function closeaddtasktemplate() {
-  document.getElementById("templateoverlay").style =
-    "transform: translateX(126%)";
+  document.querySelector(".overlayss").style = "transform: translateX(250%);";
   setTimeout(() => {
-    document.getElementById("templateoverlay").innerHTML = "";
-  }, 0.5);
+    document.getElementById("overlay-addtask").classList.add("d-none");
+    document.getElementById("overlay-addtask").classList.remove("overlayss");
+  }, 1000);
+}
+
+function closeoverlayprofiletemplate() {
+  document.querySelector(".overlayss").style = "transform: translateX(250%);";
+
+  setTimeout(() => {
+    document.getElementById("overlayprofile-template").classList.add("d-none");
+    document
+      .getElementById("overlayprofile-template")
+      .classList.remove("overlayss");
+  }, 1000);
+}
+
+function closeoverlaytechnicaltemplate() {
+  document.querySelector(".overlayss").style = "transform: translateX(250%);";
+
+  setTimeout(() => {
+    document
+      .getElementById("overlaytechinical-task-template")
+      .classList.add("d-none");
+    document
+      .getElementById("overlaytechinical-task-template")
+      .classList.remove("overlayss");
+  }, 1000);
 }
 
 async function calladdtasktemplate() {
-  const response = await fetch("./overlay.html");
-  if (!response.ok) throw new Error("Network response was not ok");
-  const htmlContent = await response.text();
-  document.getElementById("templateoverlay").innerHTML = htmlContent;
-  document.getElementById("templateoverlay").classList.add("overlayss");
+  document.getElementById("overlay-addtask").classList.remove("d-none");
+  document.getElementById("overlay-addtask").classList.add("overlayss");
   setTimeout(() => {
-    document.getElementById("templateoverlay").style.transform =
+    document.getElementById("overlay-addtask").style.transform =
       "translateX(0%)";
-  }, 0.5);
+  }, 0.9);
 }
 
 document

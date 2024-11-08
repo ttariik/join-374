@@ -143,12 +143,26 @@
             </div>
           </div>
         </div>
-        <script>
-          includeHTML();
-        </script>
-        <script type="module" src="../scripts/navbar.js"></script>
       </div>
     </div>
-    <div id="templateoverlay"></div>
+    <div
+      class="d-none"
+      id="overlay-addtask"
+      w3-include-html="overlay.html"
+    ></div>
+    <div
+      class="d-none"
+      id="overlayprofile-template"
+      w3-include-html="profile-template.html"
+    ></div>
+    <div
+      class="d-none"
+      id="overlaytechinical-task-template"
+      w3-include-html="techinical-task-template.html"
+    ></div>
+    <script type="module" src="../scripts/navbar.js"></script>
+    <script>
+      includeHTML();
+    </script>
   </body>
 </html>
