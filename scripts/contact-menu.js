@@ -1,24 +1,17 @@
 let displayedLetters = new Set();
 
 async function opencontactstemplate() {
-  if (document.getElementById("overlap").childElementCount === 0) {
-    const response = await fetch("Add-Contact.html");
-    if (!response.ok) throw new Error("Network response was not ok");
-
-    const htmlContent = await response.text();
-    document.getElementById("overlap").innerHTML = htmlContent;
-  }
+  document.getElementById("overlayaddcontact").classList.remove("d-none");
+  document.getElementById("overlayaddcontact").classList.add("overlay2");
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
     document.querySelector(".overlay2").style.transform = "translateX(0%)";
   }, 0.5);
+  document.getElementById("");
 }
 
 function closecontactstemplate() {
   document.querySelector(".overlay2").style.transform = "translateX(126%)";
-  setTimeout(() => {
-    document.getElementById("overlap").innerHTML = "";
-  }, 100);
 }
 
 async function showcontacts(id = 1) {
@@ -84,13 +77,7 @@ function getColorFromString(str) {
 }
 
 async function edicontact(contactKey) {
-  if (document.getElementById("overlap").childElementCount === 0) {
-    const response = await fetch("./Add-Contact.html");
-    if (!response.ok) throw new Error("Network response was not ok");
-
-    const htmlContent = await response.text();
-    document.getElementById("overlap").innerHTML = htmlContent;
-  }
+  document;
   document.getElementById("spantitle").innerHTML = "Edit contact";
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
@@ -139,19 +126,15 @@ async function deleteData(path = "", data = {}) {
   return await response.json();
 }
 
-async function showcontacttemplate(contactKey) {
-  if (document.getElementById("contacttemplate").childElementCount === 0) {
-    try {
-      const response = await fetch("./contact-template.html");
-      if (!response.ok) throw new Error("Network response was not ok");
+function closecontacttemplate(contactkey) {
+  document.getElementById("contacttemplate").style.transform =
+    "translateX(250%)";
+  document.getElementById(`${contactkey}`).onclick = () =>
+    showcontacttemplate(contactkey);
+}
 
-      const htmlContent = await response.text();
-      document.getElementById("contacttemplate").innerHTML = htmlContent;
-    } catch (error) {
-      console.error("Error fetching contact template:", error);
-      return;
-    }
-  }
+async function showcontacttemplate(contactKey) {
+  document.getElementById("contacttemplate").classList.remove("d-none");
 
   const contact = contactUsers.find((user) => user.key === contactKey);
 
@@ -166,6 +149,8 @@ async function showcontacttemplate(contactKey) {
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";
   contactTemplate.style.transform = "translateX(0%)";
+  document.getElementById(`${contact.key}`).onclick = () =>
+    closecontacttemplate(contact.key);
 }
 
 async function savedata(contactKey) {
