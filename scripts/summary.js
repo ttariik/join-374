@@ -169,9 +169,3 @@ setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.display = "none";
 }, 3000); 
-
-
-
-
-
-

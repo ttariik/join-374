@@ -406,6 +406,10 @@ a {
     width: 380px;
     margin-top: 60px;
   }
+
+  h2 {
+    font-size: 48px;
+  }
  
   .person-icon, .email-icon, .password-icon, .confrim-password-logo {
     left: 315px ;

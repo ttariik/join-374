@@ -348,7 +348,7 @@ input[type="password"] {
   height: 100%;
   background-color: #ffffff;
   z-index: 5;
-  transition: opacity 1s ease-in-out;
+  transition: opacity 2s ease-in-out;
   pointer-events: none;
 }
 
@@ -357,18 +357,23 @@ input[type="password"] {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 150px;
+  width: 180px;
   height: auto;
   z-index: 10;
-  transition: transform 1s ease-in-out;
+  transition: transform 2s ease-in-out;
 }
 
 .fly-in {
-  animation: pauseInMiddle 1s ease, flyInToHeader 0.9s ease 0.5s forwards;
+  animation: pauseInMiddle 2s ease, flyInToHeader 0.9s ease 0.5s forwards;
 }
 
 .sign-up-header-mobile {
   display: none;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.9s ease-in-out;
 }
 
 @keyframes pauseInMiddle {
@@ -389,21 +394,15 @@ input[type="password"] {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 150px;
+    width: 180px;
   }
   100% {
     top: 0px;
     left: 20px;
     transform: translate(0, 0);
-    width: 120px;
+    width: 80px;
   }
 }
-
-.fade-out {
-  opacity: 0;
-  transition: opacity 0.9s ease-in-out;
-}
-
 
 @media (max-width:699px) {
 
@@ -458,6 +457,10 @@ input[type="password"] {
     width: 380px;
   }
 
+  h2 {
+    font-size: 48px;
+  }
+
   input[type="email"]  {
     width: 350px;
   }
@@ -479,7 +482,7 @@ input[type="password"] {
   }
 
   .logo {
-    width: 80px;
+    width: 140px;
   }
   
   @keyframes flyInToHeader {
@@ -487,13 +490,13 @@ input[type="password"] {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 80px;
+      width: 140px;
     }
     100% {
       top: 0px;
       left: 20px;
       transform: translate(0, 0);
-      width: 80px;
+      width: 60px;
     }
   }  
 }
@@ -529,20 +532,12 @@ input[type="password"] {
   .guest-button {
     width: 140px;
   }
-
-  .content-wrapper {
-    margin-top: 60px;
-  }
 }
 
 @media (max-width:399px) {
 
   .logo {
-    width: 60px;
-  }
-
-  .content-wrapper {
-    margin-top: 20px;
+    width: 120px;
   }
 
   .sign-up-header-mobile {
@@ -559,13 +554,13 @@ input[type="password"] {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 60px;
+      width: 120px;
     }
     100% {
       top: 0px;
       left: 20px;
       transform: translate(0, 0);
-      width: 60px;
+      width: 50px;
     }
   }  
 }
