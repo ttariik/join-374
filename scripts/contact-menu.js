@@ -77,14 +77,15 @@ function getColorFromString(str) {
 }
 
 async function edicontact(contactKey) {
-  document;
+  document.getElementById("overlayaddcontact").classList.remove("d-none");
+  document.getElementById("overlayaddcontact").classList.add("overlay2");
+
   document.getElementById("spantitle").innerHTML = "Edit contact";
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
     console.error("Contact not found");
     return;
   }
-
   document.getElementById("name").value = contact.name;
   document.getElementById("emailarea").value = contact.email || "";
   document.getElementById("phone").value = contact.telefone || "";
@@ -93,9 +94,10 @@ async function edicontact(contactKey) {
     event.preventDefault();
     savedata(contactKey);
   };
-  document.querySelector(".overlay2").style.display = "flex";
+  document.getElementById("overlayaddcontact").style.display = "flex";
   setTimeout(() => {
-    document.querySelector(".overlay2").style.transform = "translateX(0%)";
+    document.getElementById("overlayaddcontact").style.transform =
+      "translateX(0%)";
   }, 0.5);
   document.getElementById("deletedbtn").addEventListener("click", function () {
     deletecontact(contactKey);
@@ -103,6 +105,19 @@ async function edicontact(contactKey) {
     document.getElementById("contacttemplate").innerHTML = "";
     showcontacts((id = 1));
   });
+}
+
+function closeaddcontacttemplate() {
+  document.getElementById("overlayaddcontact").style.transform =
+    "translateX(250%)";
+  setTimeout(() => {
+    document.getElementById("spantitle").innerHTML = "Add contact";
+    document.getElementById("name").value = "";
+    document.getElementById("emailarea").value = "";
+    document.getElementById("phone").value = "";
+    document.getElementById("spandescription").innerHTML =
+      "Tasks are better with a team!";
+  }, 0.5);
 }
 
 async function deletecontact(contactKey) {
