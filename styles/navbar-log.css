@@ -104,6 +104,11 @@
     .head-bar-img {
       display: block;
     }
+
+    .head-bar-img img {
+      width: 48px;
+      height: auto;
+    }
     
     .nav-bar-responsive-wrapper {
       display: flex;

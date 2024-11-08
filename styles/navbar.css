@@ -247,6 +247,11 @@
     display: block;
   }
 
+  .head-bar-img img {
+    width: 48px;
+    height: auto;
+  }
+
   .head-bar {
     position: fixed;
   }
