@@ -28,10 +28,9 @@ function allowDrop(event) {
 }
 
 function drag(event) {
-  const taskId = event.target.id; // Task ID (like '1', '2', etc.)
-  const parentFolderId = event.target.parentElement.id; // Parent folder (todo-folder, inprogress-folder, etc.)
+  const taskId = event.target.id;
+  const parentFolderId = event.target.parentElement.id;
 
-  // Store taskId and parentFolderId in the dataTransfer object
   event.dataTransfer.setData("taskId", taskId);
   event.dataTransfer.setData("parentFolderId", parentFolderId);
 }
@@ -39,19 +38,16 @@ function drag(event) {
 async function drop(event) {
   event.preventDefault();
 
-  // Retrieve taskId and parentFolderId from the drag event data
   const taskId = event.dataTransfer.getData("taskId");
-  const parentFolderId = event.dataTransfer.getData("parentFolderId"); // Where the task is coming from
-  const targetFolder = event.currentTarget.id; // The folder where the task is being dropped
-
-  const taskElement = document.getElementById(taskId); // Task element that was dragged
+  const parentFolderId = event.dataTransfer.getData("parentFolderId");
+  const targetFolder = event.currentTarget.id;
+  const taskElement = document.getElementById(taskId);
 
   if (!taskElement) {
     console.error("Task element not found in the DOM.");
     return;
   }
 
-  // Get the task data from the source folder (Firebase)
   const response = await fetch(
     GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
   );
@@ -62,24 +58,20 @@ async function drop(event) {
     return;
   }
 
-  // Remove the task from the source folder (parentFolderId) in Firebase
   await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-  // Save the task to the target folder in Firebase
   await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
-  // Ensure the task element is moved visually to the new folder
   const targetContainer = document.getElementById(targetFolder);
 
   if (targetContainer) {
-    targetContainer.appendChild(taskElement); // Append the task element to the target folder
+    targetContainer.appendChild(taskElement);
   } else {
     console.error("Target container not found in the DOM.");
   }
 }
 
 async function loadtasks(id = 1) {
-  // Initialize task arrays
   const todos = [];
   const inprogress = [];
   const awaitingfeedback = [];
@@ -90,16 +82,14 @@ async function loadtasks(id = 1) {
     const userData = await response.json();
     console.log(userData);
 
-    // Check if the "todo-folder" exists in userData and if it's not empty, then iterate over it
     if (userData["todo-folder"] && Array.isArray(userData["todo-folder"])) {
       userData["todo-folder"].forEach((task) => {
-        todos.push(task); // Push tasks into the todos array
+        todos.push(task);
       });
     } else {
       console.log("No tasks in todo-folder");
     }
 
-    // Similarly, handle other folders (inprogress, awaitingfeedback, done)
     if (
       userData["inprogress-folder"] &&
       Array.isArray(userData["inprogress-folder"])
@@ -130,32 +120,27 @@ async function loadtasks(id = 1) {
       console.log("No tasks in done-folder");
     }
 
-    // Clear any previous content in the containers
     document.getElementById("todo-folder").innerHTML = "";
     document.getElementById("inprogress-folder").innerHTML = "";
     document.getElementById("awaiting-feedback-folder").innerHTML = "";
     document.getElementById("done-folder").innerHTML = "";
 
-    // Function to render tasks using templates
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
 
-      // Loop through tasks and render them to the container
       tasks.forEach(async (task, index) => {
         if (task && task.category) {
           let taskHTML;
 
-          // Check category and choose template
           if (task.category === "Technical Task") {
-            taskHTML = await Technicaltasktemplate({ ...task, id: index }); // Passing index as id
+            taskHTML = await Technicaltasktemplate({ ...task, id: index });
           } else {
-            taskHTML = await userstorytemplate({ ...task, id: index }); // Passing index as id
+            taskHTML = await userstorytemplate({ ...task, id: index });
           }
 
-          // Insert the task HTML into the container
           container.insertAdjacentHTML("beforeend", taskHTML);
 
-          const taskElement = document.getElementById(index); // Use index as task ID
+          const taskElement = document.getElementById(index);
           if (taskElement) {
             taskElement.addEventListener("click", function () {
               if (task.category === "Technical Task") {
@@ -169,7 +154,6 @@ async function loadtasks(id = 1) {
       });
     };
 
-    // Render tasks in respective folders
     await renderTasksWithTemplate(todos, "todo-folder");
     await renderTasksWithTemplate(inprogress, "inprogress-folder");
     await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
@@ -178,7 +162,6 @@ async function loadtasks(id = 1) {
     console.error("Error loading tasks:", error);
   }
 }
-
 
 async function userstorytemplate(task) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
@@ -208,7 +191,7 @@ async function userstorytemplate(task) {
       </div>`
       : "";
 
-      const htmlTemplate = /*html*/ `
+  const htmlTemplate = /*html*/ `
       <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
         <div class="task-detailss">
           <span>${task.category}</span>
@@ -224,7 +207,6 @@ async function userstorytemplate(task) {
         </div>
       </div>
     `;
-  
 
   return htmlTemplate;
 }
@@ -298,8 +280,9 @@ async function inputacessprofile(task) {
     task.description || "";
   document.getElementById("profileduedate").innerHTML = task.duedate || "";
   document.getElementById("profilepriority").innerHTML = task.prio || "";
-  document.getElementById("profileicon").src = `../img/${task.prio || "default"
-    }.png`;
+  document.getElementById("profileicon").src = `../img/${
+    task.prio || "default"
+  }.png`;
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
@@ -309,8 +292,9 @@ async function inputacessprofile(task) {
       const color = getColorFromInitials(item.initials);
       return /*html*/ `
         <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">${item.initials
-        }</div>
+          <div class="badgestyle badge" style="background-color:${color}">${
+        item.initials
+      }</div>
           <div>${item.name || ""}</div>
         </div>`;
     });
@@ -362,8 +346,9 @@ async function showsubtaskstemplate(task) {
       return /*html*/ `
         <div class="designlayout">
           <label class="custom-checkbox">
-            <input type="checkbox" id="${task.id}-${index}" ${subtaskItem.completed ? "checked" : ""
-        } class="checkboxdesign" />
+            <input type="checkbox" id="${task.id}-${index}" ${
+        subtaskItem.completed ? "checked" : ""
+      } class="checkboxdesign" />
             <span class="checkmark"></span>
           </label>
           <span class="subtask-title">${subtaskItem.subtask}</span>
