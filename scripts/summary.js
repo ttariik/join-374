@@ -38,12 +38,10 @@ onAuthStateChanged(auth, (user) => {
 async function handleLoggedInUser(userId, loggedUserNameElement, loggedUserNameMobile, userGuest) {
   try {
     const docSnap = await getDoc(doc(db, "users", userId));
-
     if (docSnap.exists()) {
       const userName = docSnap.data().name;
       updateUIForLoggedInUser(userName, loggedUserNameElement, loggedUserNameMobile, userGuest);
       localStorage.setItem('loggedInUserId', userId);
-      loadUrgentTaskCount(userId); 
     } else {
       console.error('No such document!');
     }
@@ -55,7 +53,6 @@ async function handleLoggedInUser(userId, loggedUserNameElement, loggedUserNameM
 
 function updateUIForLoggedInUser(userName, loggedUserNameElement, loggedUserNameMobile, userGuest) {
   const initials = getInitials(userName);
-
   if (loggedUserNameElement) loggedUserNameElement.innerText = userName;
   if (loggedUserNameMobile) loggedUserNameMobile.innerText = userName;
   if (userGuest) userGuest.innerText = initials;
@@ -146,15 +143,13 @@ async function loadTaskCounts(userId) {
     document.getElementById("urgent-task-count").textContent = taskCounts.urgent || 0;
     document.getElementById("due-date").textContent = upcomingDeadline || "No Date";
 
-
   } catch (error) {
     console.error("Fehler beim Laden der Task Counts von Firebase:", error);
   }
 }
+
 const userId = "1"; 
 loadTaskCounts(userId);
-
-
 
 
 const greet = [
@@ -176,65 +171,6 @@ setTimeout(function() {
 }, 3000); 
 
 
-async function loadUrgentTaskCount() {
-  try {
-    const tasksRef = ref(realtimeDb, `users`); 
-    const snapshot = await get(tasksRef);
-    let urgentTaskCount = 0;
-    const urgentTasks = []; 
-
-    if (snapshot.exists()) {
-      const users = snapshot.val();
-      for (const userId in users) {
-        const tasks = users[userId].tasks;
-        if (tasks) {
-          for (const taskId in tasks) {
-            if (tasks[taskId].prio === "Urgent") {
-              urgentTaskCount++;
-              
-              urgentTasks.push({
-                id: taskId,
-                title: tasks[taskId].title, 
-                duedate: tasks[taskId].duedate 
-              });
-            }
-          }
-        }
-      }
-
-      const urgentTaskCountElement = document.getElementById("urgent-task-count");
-      if (urgentTaskCountElement) {
-        urgentTaskCountElement.textContent = urgentTaskCount > 0 ? urgentTaskCount : "0";
-      }
-      if (urgentTasks.length > 0) {
-        const randomIndex = Math.floor(Math.random() * urgentTasks.length);
-        const randomTask = urgentTasks[randomIndex];
-        const randomDueDate = randomTask.duedate;
-        const formattedDate = formatDate(randomDueDate);
-        const dateElement = document.getElementById("due-date"); 
-        if (dateElement) {
-          dateElement.innerHTML = `<span>${formattedDate}</span><br>`;
-        }
-      } else {
-        console.log("Keine dringenden Aufgaben gefunden.");
-      }
-    } else {
-      console.log("Keine Aufgaben gefunden.");
-    }
-  } catch (error) {
-    console.error("Fehler beim Zählen der Aufgaben:", error);
-  }
-}
-
-
-function formatDate(dateString) {
-  const [day, month, year] = dateString.split('/');
-  const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
-  ];
-  return `${monthNames[Number(month) - 1]} ${Number(day)}th, ${year}`;
-}
 
 
 
