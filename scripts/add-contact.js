@@ -58,18 +58,15 @@ async function putData(path = "", data = {}) {
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id);
 
-  // If there are no contacts, initialize `userContacts` as an empty object
   if (!userContacts) {
     userContacts = {};
   }
 
   let existingIndexes = Object.keys(userContacts).map(Number);
 
-  // Determine the next index for the contact
   let nextIndex =
     existingIndexes.length > 0 ? Math.max(...existingIndexes) + 1 : 1;
 
-  // Add the new contact with the calculated index
   await putData(`users/${id}/contacts/${nextIndex}`, contact);
 }
 

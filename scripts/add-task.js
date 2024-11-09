@@ -238,7 +238,7 @@ async function showcontacts(id = 1) {
   );
   document.getElementById("selectboxbutton").onclick = resetsearchbar;
 
-  document.getElementById("selectboxbutton").innerHTML = searchbar(); // Assuming `searchbar()` returns HTML
+  document.getElementById("selectboxbutton").innerHTML = searchbar();
 
   let contactHTML = "";
 
