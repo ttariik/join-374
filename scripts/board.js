@@ -70,14 +70,14 @@ async function drop(event) {
   }
 }
 
-async function loadtasks(id = 1) {
+async function loadtasks() {
   const todos = [];
   const inprogress = [];
   const awaitingfeedback = [];
   const donetasks = [];
 
   try {
-    const response = await fetch(GLOBAL + `users/${id}/tasks.json`);
+    const response = await fetch(GLOBAL + `users/1/tasks.json`);
     const userData = await response.json();
     console.log(userData);
 
