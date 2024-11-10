@@ -48,25 +48,33 @@ async function drop(event) {
     return;
   }
 
-  const response = await fetch(
-    GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
-  );
-  const taskData = await response.json();
+  try {
+    // Fetch task data from the source folder
+    const response = await fetch(
+      GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
+    );
+    const taskData = await response.json();
 
-  if (!taskData) {
-    console.error("Task not found in the source folder.");
-    return;
-  }
-  await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
+    if (!taskData) {
+      console.error("Task not found in the source folder.");
+      return;
+    }
 
-  putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
+    // Delete the task from the parent folder and wait for completion
+    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-  const targetContainer = document.getElementById(targetFolder);
+    // Add the task to the target folder and wait for completion
+    await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
-  if (targetContainer) {
-    targetContainer.appendChild(taskElement);
-  } else {
-    console.error("Target container not found in the DOM.");
+    // Update the UI by moving the task element to the target folder
+    const targetContainer = document.getElementById(targetFolder);
+    if (targetContainer) {
+      targetContainer.appendChild(taskElement);
+    } else {
+      console.error("Target container not found in the DOM.");
+    }
+  } catch (error) {
+    console.error("Error during drop operation:", error);
   }
 }
 
@@ -79,80 +87,83 @@ async function loadtasks() {
   try {
     const response = await fetch(GLOBAL + `users/1/tasks.json`);
     const userData = await response.json();
-    console.log(userData);
 
-    if (userData["todo-folder"] && Array.isArray(userData["todo-folder"])) {
-      userData["todo-folder"].forEach((task) => {
-        todos.push(task);
-      });
+    console.log("Fetched userData:", userData);
+
+    // Helper function to push tasks from any folder
+    const pushTasksFromFolder = (folderData, taskArray) => {
+      if (Array.isArray(folderData)) {
+        // Handle as array, filtering out null values
+        folderData
+          .filter((task) => task !== null)
+          .forEach((task) => taskArray.push(task));
+      } else if (typeof folderData === "object" && folderData !== null) {
+        // Handle as object
+        Object.values(folderData).forEach((task) => taskArray.push(task));
+      }
+    };
+
+    // Loading "todo-folder"
+    if (userData["todo-folder"]) {
+      pushTasksFromFolder(userData["todo-folder"], todos);
+      console.log("Loaded tasks for todo-folder:", todos);
     } else {
       console.log("No tasks in todo-folder");
     }
 
-    if (
-      userData["inprogress-folder"] &&
-      Array.isArray(userData["inprogress-folder"])
-    ) {
-      userData["inprogress-folder"].forEach((task) => {
-        inprogress.push(task);
-      });
+    // Loading "inprogress-folder"
+    if (userData["inprogress-folder"]) {
+      pushTasksFromFolder(userData["inprogress-folder"], inprogress);
+      console.log("Loaded tasks for inprogress-folder:", inprogress);
     } else {
       console.log("No tasks in inprogress-folder");
     }
 
-    if (
-      userData["awaiting-feedback-folder"] &&
-      Array.isArray(userData["awaiting-feedback-folder"])
-    ) {
-      userData["awaiting-feedback-folder"].forEach((task) => {
-        awaitingfeedback.push(task);
-      });
+    // Loading "awaiting-feedback-folder"
+    if (userData["awaiting-feedback-folder"]) {
+      pushTasksFromFolder(
+        userData["awaiting-feedback-folder"],
+        awaitingfeedback
+      );
+      console.log(
+        "Loaded tasks for awaiting-feedback-folder:",
+        awaitingfeedback
+      );
     } else {
       console.log("No tasks in awaiting-feedback-folder");
     }
 
-    if (userData["done-folder"] && Array.isArray(userData["done-folder"])) {
-      userData["done-folder"].forEach((task) => {
-        donetasks.push(task);
-      });
+    // Loading "done-folder"
+    if (userData["done-folder"]) {
+      pushTasksFromFolder(userData["done-folder"], donetasks);
+      console.log("Loaded tasks for done-folder:", donetasks);
     } else {
       console.log("No tasks in done-folder");
     }
 
+    // Clear the existing HTML content before rendering new tasks
     document.getElementById("todo-folder").innerHTML = "";
     document.getElementById("inprogress-folder").innerHTML = "";
     document.getElementById("awaiting-feedback-folder").innerHTML = "";
     document.getElementById("done-folder").innerHTML = "";
 
+    // Render tasks using the template function
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
-
       tasks.forEach(async (task, index) => {
         if (task && task.category) {
           let taskHTML;
-
           if (task.category === "Technical Task") {
             taskHTML = await Technicaltasktemplate({ ...task, id: index });
           } else {
             taskHTML = await userstorytemplate({ ...task, id: index });
           }
-
           container.insertAdjacentHTML("beforeend", taskHTML);
-
-          const taskElement = document.getElementById(index);
-          if (taskElement) {
-            taskElement.addEventListener("click", function () {
-              if (task.category === "Technical Task") {
-                opentechnicaltemplate(task);
-              } else {
-                openprofiletemplate(task);
-              }
-            });
-          }
         }
       });
     };
 
+    // Render tasks for each folder
     await renderTasksWithTemplate(todos, "todo-folder");
     await renderTasksWithTemplate(inprogress, "inprogress-folder");
     await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
