@@ -230,6 +230,10 @@ body {
   width: 100%;
 }
 
+.d-none {
+  display: none;
+}
+
 .contact-list-section {
   width: 24px;
   height: 100%;
