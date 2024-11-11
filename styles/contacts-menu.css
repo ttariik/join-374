@@ -278,8 +278,16 @@ body {
 }
 
 @media (max-width: 849px) {
-  .boxalignment {
+  .phrase {
     display: none;
+  }
+
+  .boxalignment {
+    position: absolute;
+    margin: 0;
+
+    justify-content: center;
+    align-items: center;
   }
 
   .contact-menu-wrapper {

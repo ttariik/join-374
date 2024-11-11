@@ -658,6 +658,10 @@ select {
   .task-header h1 {
     font-size: 52px;
   }
+
+  .subtasksbox1 {
+    height: 50px;
+  }
 }
 
 @media (max-width: 499px) {
@@ -680,6 +684,13 @@ select {
     justify-content: center;
   }
 
+}
+
+@media (max-width: 410px) {
+
+  .alignment2 {
+    max-height: 300px; 
+  }
 }
 
 @media (max-width: 389px) {
