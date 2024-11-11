@@ -110,6 +110,7 @@
 .subtask {
   display: flex;
   gap: 16px;
+  height: 109px;
 }
 
 .subtask-title {
