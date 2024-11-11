@@ -737,5 +737,6 @@ select {
 
   .add-task-headline h1 {
     font-size: 48px;
+    margin-top: 20px;
   }
 }

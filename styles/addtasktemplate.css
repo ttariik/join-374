@@ -682,6 +682,13 @@ select {
 
 }
 
+@media (max-width: 410px) {
+
+  .alignment2 {
+    max-height: 300px;
+  }
+}
+
 @media (max-width: 389px) {
 
   .button-containerss {

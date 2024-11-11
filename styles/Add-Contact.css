@@ -239,7 +239,7 @@
     margin-left: unset;
     position: absolute;
     top: 213px;
-    left: 127px;
+    left: 140px;
   }
   .logodesign {
     width: 94%;
@@ -268,7 +268,7 @@
   }
 }
 
-@media (max-width: 410px) {
+@media (max-width: 415px) {
   .completebox {
     width: unset;
     margin: 0 10px;
@@ -280,5 +280,37 @@
 
   .maintitle {
     font-size: 52px;
+  }
+
+  .background {
+    height: 300px;
+    margin-top: 20px;
+  }
+
+  .contactside {
+    height: 300px;
+  }
+
+  .logo img {
+    width: 86px;
+    height: auto;
+  }
+
+  .inputs {
+    gap: 24px;
+    margin-top: 24px;
+  }
+
+  .logo {
+    left: 130px;
+    top: 250px;
+  }
+
+  .inputpart {
+    gap: 16px;
+  }
+
+  .contactside-closebutton {
+    margin-top: 20px;
   }
 }
