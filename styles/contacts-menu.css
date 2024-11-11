@@ -62,7 +62,7 @@ body {
 
 .phrase_1 {
   font-size: 61px;
-  font-family: 'PT-sans-bold';
+  font-family: "PT-sans-bold";
 }
 
 .phrase_2 {
@@ -199,6 +199,14 @@ body {
   transition: transform 0.2s ease, visibility 0.2s;
 }
 
+.alignment4 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  align-items: flex-start;
+}
+
 .add-contact-button-whiteletters {
   color: white;
 }
@@ -210,7 +218,7 @@ body {
   align-items: center;
   background-color: #2a3647;
   border-radius: 50%;
-  padding: 12px ;
+  padding: 12px;
   cursor: pointer;
   margin-right: 20px;
 }
@@ -246,7 +254,6 @@ body {
 }
 
 @media (max-width: 1259px) {
-
   .contact-menu-wrapper {
     top: 0;
     left: 0;
@@ -261,38 +268,38 @@ body {
 }
 
 @media (max-width: 990px) {
-
-  .phrase_1{
+  .phrase_1 {
     font-size: 48px;
   }
 
   .phrase_2 {
-    font-size: 18px ;
+    font-size: 18px;
   }
 }
 
-
 @media (max-width: 849px) {
-
   .boxalignment {
     display: none;
   }
 
-  .contact-menu-wrapper{
+  .contact-menu-wrapper {
     max-width: unset;
   }
 }
 
-
-@media (max-width: 475px) {
-
-  .contact-menu-content{
-    display: none;
-  }
-
-  .add-contact-button-mobile{
-    display: flex;
+@media (max-width: 500px) {
+  .seperator {
+    max-width: 90px;
+    height: 0px;
   }
 }
 
+@media (max-width: 475px) {
+  .contact-menu-content {
+    display: none;
+  }
 
+  .add-contact-button-mobile {
+    display: flex;
+  }
+}

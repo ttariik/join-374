@@ -48,7 +48,17 @@ async function drop(event) {
     return;
   }
 
+  // Prevent moving back to the same folder immediately
+  if (parentFolderId === targetFolder) {
+    console.log("Task is already in the target folder.");
+    return;
+  }
+
   try {
+    // Disable dragging temporarily to prevent consecutive actions
+    taskElement.setAttribute("draggable", "false");
+
+    // Step 1: Fetch task data from the original folder
     const response = await fetch(
       GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -56,21 +66,41 @@ async function drop(event) {
 
     if (!taskData) {
       console.error("Task not found in the source folder.");
+      taskElement.setAttribute("draggable", "true");
       return;
     }
 
-    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
-
+    // Step 2: Add the task to the target folder
     await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
+    // Step 3: Delete the task from the original folder and wait for confirmation
+    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
+
+    // Step 4: Confirm deletion from the original folder
+    const checkDeletion = await fetch(
+      GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
+    );
+    const deletedData = await checkDeletion.json();
+
+    if (deletedData !== null) {
+      console.error("Deletion not completed in Firebase.");
+      taskElement.setAttribute("draggable", "true");
+      return;
+    }
+
+    // Step 5: Update the DOM
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
       targetContainer.appendChild(taskElement);
-    } else {
-      console.error("Target container not found in the DOM.");
     }
+
+    console.log(`Task moved from ${parentFolderId} to ${targetFolder}`);
+    taskElement.setAttribute("draggable", "true");
   } catch (error) {
     console.error("Error during drop operation:", error);
+  } finally {
+    // Re-enable dragging
+    taskElement.setAttribute("draggable", "true");
   }
 }
 

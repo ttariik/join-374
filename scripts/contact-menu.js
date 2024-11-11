@@ -149,6 +149,13 @@ function closecontacttemplate(contactkey) {
 }
 
 async function showcontacttemplate(contactKey) {
+  if (innerWidth <= 400) {
+    document.querySelector(".boxalignment").style.display = "unset";
+    document.getElementById("contacttemplate").classList.remove("d-none");
+    document.querySelector(".contact-content-wrapper").style.display = "none";
+    document.querySelector(".phrase").innerHTML =
+      '<div class="alignment4"><span class="phrase_1">Contacts</span><span class="phrase_2">Better with a team</span><div class="seperator"></div></div><button onclick="returntomenu()"><img src="/img/arrow.png"></button>';
+  }
   document.getElementById("contacttemplate").classList.remove("d-none");
 
   const contact = contactUsers.find((user) => user.key === contactKey);
@@ -166,6 +173,12 @@ async function showcontacttemplate(contactKey) {
   contactTemplate.style.transform = "translateX(0%)";
   document.getElementById(`${contact.key}`).onclick = () =>
     closecontacttemplate(contact.key);
+}
+
+function returntomenu() {
+  document.querySelector(".boxalignment").style.display = "none";
+  document.querySelector(".contact-content-wrapper").style.display = "unset";
+  showcontacts();
 }
 
 async function savedata(contactKey) {
