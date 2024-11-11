@@ -61,7 +61,7 @@ async function drop(event) {
 
     await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-    putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
+    await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
@@ -151,6 +151,15 @@ async function loadtasks() {
               event.dataTransfer.setData("parentFolderId", containerId);
             });
           }
+          document
+            .getElementById(taskId)
+            .addEventListener("click", function () {
+              if (task.category === "Technical Task") {
+                opentechnicaltemplate(task);
+              } else {
+                openprofiletemplate(task);
+              }
+            });
         }
       });
     };
