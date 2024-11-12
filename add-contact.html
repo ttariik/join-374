@@ -47,34 +47,40 @@
             <div class="inputs">
               <div class="textinputarea">
                 <input
-                  required
-                  pattern="[a-zA-Z\s\-]+"
                   class="textinput"
                   id="name"
                   placeholder="First and last name"
                   type="text"
                   maxlength="20"
                 />
+                <span id="name-error-message" style="color: red; display: none"
+                  >Please enter a valid name (letters, spaces, and hyphens
+                  only).</span
+                >
               </div>
               <div class="emailinputarea">
                 <input
                   class="emailinput"
                   id="emailarea"
                   placeholder="Email"
-                  type="email"
-                  required
+                  type="text"
                   maxlength="254"
                 />
+                <span id="email-error-message" style="color: red; display: none"
+                  >Please enter a valid email address.</span
+                >
               </div>
               <div class="telefoneinputarea">
                 <input
                   type="tel"
                   id="phone"
                   placeholder="+49 123 456 7890"
-                  pattern="^\+?[\d\s\-\(\)]{10,15}$"
                   class="telefoneinput"
-                  required
+                  maxlength="20"
                 />
+                <span id="phone-error-message" style="color: red; display: none"
+                  >Please enter a valid phone number.</span
+                >
               </div>
             </div>
             <div class="buttonsalignment">

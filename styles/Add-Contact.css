@@ -163,8 +163,10 @@
 .textinputarea {
   display: flex;
   align-items: center;
-  width: 364px;
+  max-width: 364px;
+  width: calc(100% - 32px);
   margin-left: auto;
+  flex-direction: column;
 }
 
 .textinputarea img {
@@ -175,8 +177,10 @@
 .emailinputarea {
   display: flex;
   align-items: center;
-  width: 364px;
+  max-width: 364px;
+  width: calc(100% - 32px);
   margin-left: auto;
+  flex-direction: column;
 }
 
 .emailinputarea img {
@@ -187,8 +191,10 @@
 .telefoneinputarea {
   display: flex;
   align-items: center;
-  width: 364px;
+  max-width: 364px;
+  width: calc(100% - 32px);
   margin-left: auto;
+  flex-direction: column;
 }
 
 .telefoneinputarea img {
