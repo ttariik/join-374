@@ -160,7 +160,8 @@ async function showcontacttemplate(contactKey) {
   document.getElementById("title").innerHTML = contact.name;
   document.getElementById("email").innerHTML = contact.email || "";
   document.getElementById("telefone").innerHTML = contact.telefone || "";
-
+  document.getElementById("badge").style.backgroundColor = `${contact.color}`;
+  document.getElementById("badge").innerHTML = `${contact.initials}`;
   document.getElementById("editbutton").onclick = () => edicontact(contact.key);
   document.getElementById("deletebutton").onclick = () =>
     deletecontact(contact.key);

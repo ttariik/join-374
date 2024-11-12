@@ -29,80 +29,92 @@ function allowDrop(event) {
 
 function drag(event) {
   const taskId = event.target.id;
-  const parentFolderId = event.target.parentElement.id;
+  const taskElement = document.getElementById(taskId);
+
+  // Use the `data-current-folder-id` attribute for accurate parent folder
+  const parentFolderId = taskElement.getAttribute("data-current-folder-id");
 
   event.dataTransfer.setData("taskId", taskId);
   event.dataTransfer.setData("parentFolderId", parentFolderId);
+
+  console.log(`Dragging task ${taskId} from folder ${parentFolderId}`);
 }
 
 async function drop(event) {
   event.preventDefault();
 
   const taskId = event.dataTransfer.getData("taskId");
-  const parentFolderId = event.dataTransfer.getData("parentFolderId");
-  const targetFolder = event.currentTarget.id;
   const taskElement = document.getElementById(taskId);
+  const parentFolderId = taskElement.parentElement.id; // Directly fetch the parent element's ID
+  const targetFolder = event.currentTarget.id;
 
   if (!taskElement) {
     console.error("Task element not found in the DOM.");
     return;
   }
 
-  // Prevent moving back to the same folder immediately
+  // Check if the task is dropped in the same folder; if so, do nothing
   if (parentFolderId === targetFolder) {
-    console.log("Task is already in the target folder.");
+    console.log("Task dropped in the same folder, no action taken.");
     return;
   }
 
   try {
-    // Disable dragging temporarily to prevent consecutive actions
     taskElement.setAttribute("draggable", "false");
 
-    // Step 1: Fetch task data from the original folder
+    // Fetch task data from the original folder
     const response = await fetch(
-      GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
+      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
     const taskData = await response.json();
 
     if (!taskData) {
-      console.error("Task not found in the source folder.");
+      console.error("Task data not found in the source folder.");
       taskElement.setAttribute("draggable", "true");
       return;
     }
 
-    // Step 2: Add the task to the target folder
+    // Add the task to the target folder
     await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
-    // Step 3: Delete the task from the original folder and wait for confirmation
+    // Delete the task from the original folder
     await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-    // Step 4: Confirm deletion from the original folder
-    const checkDeletion = await fetch(
-      GLOBAL + `users/1/tasks/${parentFolderId}/${taskId}.json`
+    // Confirm deletion
+    const deletionCheck = await fetch(
+      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
-    const deletedData = await checkDeletion.json();
+    const deletedData = await deletionCheck.json();
 
     if (deletedData !== null) {
-      console.error("Deletion not completed in Firebase.");
+      console.error("Task deletion failed.");
       taskElement.setAttribute("draggable", "true");
       return;
     }
 
-    // Step 5: Update the DOM
+    // Append the task to the target folder and update the folder ID
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
       targetContainer.appendChild(taskElement);
-    }
+      taskElement.setAttribute("data-current-folder-id", targetFolder);
 
-    console.log(`Task moved from ${parentFolderId} to ${targetFolder}`);
-    taskElement.setAttribute("draggable", "true");
+      console.log(`Task moved from ${parentFolderId} to ${targetFolder}`);
+    }
   } catch (error) {
     console.error("Error during drop operation:", error);
   } finally {
-    // Re-enable dragging
     taskElement.setAttribute("draggable", "true");
   }
 }
+
+document.querySelectorAll(".task").forEach((taskElement) => {
+  if (!taskElement.hasAttribute("data-current-folder-id")) {
+    taskElement.setAttribute(
+      "data-current-folder-id",
+      taskElement.parentElement.id
+    );
+  }
+});
 
 async function loadtasks() {
   const todos = [];
