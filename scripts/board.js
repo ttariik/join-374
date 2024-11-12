@@ -31,7 +31,6 @@ function drag(event) {
   const taskId = event.target.id;
   const taskElement = document.getElementById(taskId);
 
-  // Use the `data-current-folder-id` attribute for accurate parent folder
   const parentFolderId = taskElement.getAttribute("data-current-folder-id");
 
   event.dataTransfer.setData("taskId", taskId);
@@ -45,7 +44,7 @@ async function drop(event) {
 
   const taskId = event.dataTransfer.getData("taskId");
   const taskElement = document.getElementById(taskId);
-  const parentFolderId = taskElement.parentElement.id; // Directly fetch the parent element's ID
+  const parentFolderId = taskElement.parentElement.id;
   const targetFolder = event.currentTarget.id;
 
   if (!taskElement) {
@@ -53,7 +52,6 @@ async function drop(event) {
     return;
   }
 
-  // Check if the task is dropped in the same folder; if so, do nothing
   if (parentFolderId === targetFolder) {
     console.log("Task dropped in the same folder, no action taken.");
     return;
@@ -62,7 +60,6 @@ async function drop(event) {
   try {
     taskElement.setAttribute("draggable", "false");
 
-    // Fetch task data from the original folder
     const response = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -74,13 +71,10 @@ async function drop(event) {
       return;
     }
 
-    // Add the task to the target folder
     await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
-    // Delete the task from the original folder
     await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-    // Confirm deletion
     const deletionCheck = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -92,7 +86,6 @@ async function drop(event) {
       return;
     }
 
-    // Append the task to the target folder and update the folder ID
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
       targetContainer.appendChild(taskElement);
