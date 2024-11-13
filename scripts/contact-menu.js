@@ -22,10 +22,6 @@ async function showcontacts(id = 1) {
     .map(([key, contact]) => ({ key, ...contact }))
     .filter((contact) => contact && contact.name)
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-  if (innerWidth <= 400) {
-    document.querySelector(".phrase").innerHTML =
-      '<div class="alignment4"><span class="phrase_1">Contacts</span><span class="phrase_2">Better with a team</span><div class="seperator"></div></div><button type="button" onclick="returntomenu()"><img src="/img/arrow.png"></button>';
-  }
 
   displayedLetters.clear();
   const contactMenu = document.getElementById("contactmenu");

@@ -6,6 +6,7 @@
     <title>Contact</title>
     <link rel="stylesheet" href="/style.css" />
     <link rel="stylesheet" href="/styles/contact-template.css" />
+    <script src="/script.js"></script>
   </head>
   <body>
     <div class="contact_box">
@@ -51,6 +52,19 @@
         </div>
       </div>
     </div>
-    <div class="overlay-options"><img src="img/Menu Contact options.png"></div>
+    <div class="overlay-options">
+      <!-- Bild mit Klickfunktion -->
+      <img src="img/Menu Contact options.png" alt="Menü Optionen" onclick="toggleMenu()">
+      
+      <!-- Drop-Up Menü -->
+      <div class="dropup-menu" id="dropupMenu">
+        <div id="editbutton" onclick="">
+          <img src="../img/edit.png" alt="" /><span>Edit</span>
+        </div>
+      <div id="deletebutton" onclick="">
+          <img src="../img/delete.png" alt="" /><span>Delete</span>
+      </div>
+      </div>
+  </div>
   </body>
 </html>

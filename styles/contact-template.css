@@ -52,7 +52,7 @@
 }
 
 #email {
-  color: rgb(41,171,226);
+  color: rgb(41, 171, 226);
 }
 
 .contact-box__detail {
@@ -79,6 +79,7 @@ button {
   color: white;
   border: solid 2px white;
 }
+
 .arrow-left-overlay-container {
   display: none;
   width: 100%;
@@ -91,8 +92,8 @@ button {
 
 
 .arrow-left-overlay:hover {
- transform: scale(1.1);
- background-color: white;
+  transform: scale(1.1);
+  background-color: white;
 }
 
 .contact-overlay-head {
@@ -110,6 +111,26 @@ button {
   cursor: pointer;
 }
 
+.dropup-menu {
+  display: none;
+  position: absolute;
+  bottom: 40px;
+  right: 50px;
+  background-color: rgb(42,54,71);
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropup-menu span {
+  color: white;
+}
+
+.dropup-menu a:hover {
+  background-color: #555;
+}
+
 
 @media (max-width: 990px) {
 
@@ -121,7 +142,7 @@ button {
 @media (max-width: 849px) {
 
   .contact_box {
-    background-color: rgb(246,247,248);
+    background-color: rgb(246, 247, 248);
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -136,7 +157,7 @@ button {
     margin-bottom: 32px;
   }
 
-  .overlay-headline{
+  .overlay-headline {
     gap: 128px;
     display: flex;
   }
@@ -152,37 +173,38 @@ button {
     display: flex;
   }
 
-    .arrow-left-overlay{
-      display: flex;
-      background-color: rgba(128, 128, 128, 0.13);
-      border-radius: 20px;
-      margin-right: 24px;
-    }
+  .arrow-left-overlay {
+    display: flex;
+    background-color: rgba(128, 128, 128, 0.13);
+    border-radius: 20px;
+    margin-right: 24px;
+  }
+}
+
+@media (max-width: 474px) {
+
+  .overlay-options {
+    display: flex;
+    right: 10px;
+    bottom: 80px;
+    display: inline-block;
   }
 
-  @media (max-width: 474px) {
-
-    .overlay-options {
-      display: flex;
-      right: 10px;
-      bottom: 80px;
-    }
-
-    .contact-box__badge {
-      width: 80px;
-      height: 80px;
-    }
-
-    .contact-box__actions {
-      display: none;
-    }
+  .contact-box__badge {
+    width: 80px;
+    height: 80px;
   }
 
-    
-  @media (max-width: 369px) {
-
-    .overlay-headline {
-      gap: 72px;
-    }
-   
+  .contact-box__actions {
+    display: none;
   }
+}
+
+
+@media (max-width: 369px) {
+
+  .overlay-headline {
+    gap: 72px;
+  }
+
+}
