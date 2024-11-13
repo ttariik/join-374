@@ -44,11 +44,17 @@
 .contactside-form {
   display: flex;
   align-items: center;
-  gap: 123px;
+  gap: 0;
+  max-width: 800px;
+  width: 100%;
 }
 
 .logo {
-  margin-left: 90px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .alignwords {
@@ -81,10 +87,7 @@
   border-radius: 10px;
   border: 1px solid #d1d1d1;
   padding: 13px 21px 13px 21px;
-  width: 100%;
-  background-image: url(../img/person.png);
-  background-repeat: no-repeat;
-  background-position: 337px 12px;
+  width: calc(100% - 45px);
 }
 
 .emailinput {
@@ -93,10 +96,7 @@
   border-radius: 10px;
   border: 1px solid #d1d1d1;
   padding: 13px 21px 13px 21px;
-  width: 100%;
-  background-image: url(../img/mail.png);
-  background-repeat: no-repeat;
-  background-position: 338px 11px;
+  width: calc(100% - 45px);
 }
 
 .telefoneinput {
@@ -105,10 +105,7 @@
   border-radius: 10px;
   border: 1px solid #d1d1d1;
   padding: 13px 21px 13px 21px;
-  width: 100%;
-  background-image: url(../img/call.png);
-  background-repeat: no-repeat;
-  background-position: 342px 14px;
+  width: calc(100% - 45px);
 }
 
 .inputs {
@@ -125,6 +122,7 @@
   align-items: flex-end;
   gap: 37px;
   width: 100%;
+  margin-top: 57px;
 }
 
 .deletebutton {
@@ -164,47 +162,52 @@
   display: flex;
   align-items: center;
   max-width: 364px;
-  width: calc(100% - 32px);
-  margin-left: auto;
+  width: 100%;
   flex-direction: column;
+  position: relative;
+  justify-content: center;
 }
 
 .textinputarea img {
-  position: relative;
-  right: 30px;
+  position: absolute;
+  right: 13px;
 }
 
 .emailinputarea {
   display: flex;
   align-items: center;
   max-width: 364px;
-  width: calc(100% - 32px);
-  margin-left: auto;
+  width: 100%;
   flex-direction: column;
+  position: relative;
+  justify-content: center;
 }
 
 .emailinputarea img {
-  position: relative;
-  right: 30px;
+  position: absolute;
+  right: 13px;
+  width: 24px;
 }
 
 .telefoneinputarea {
   display: flex;
   align-items: center;
   max-width: 364px;
-  width: calc(100% - 32px);
-  margin-left: auto;
+  width: 100%;
   flex-direction: column;
+  position: relative;
+  justify-content: center;
 }
 
 .telefoneinputarea img {
-  position: relative;
-  right: 30px;
+  position: absolute;
+  right: 13px;
 }
 
 .buttonsalignment {
   display: flex;
   gap: 25px;
+  width: 100%;
 }
 
 #closeimage-white {

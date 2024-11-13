@@ -4,9 +4,8 @@ async function addcontact(event) {
   event.preventDefault();
   let form = document.querySelector("form");
 
-  // Perform custom validations
   if (!performCustomValidation()) {
-    return; // Stop submission if custom validation fails
+    return;
   }
 
   let contactsPath = `/users/1/contacts`;
@@ -134,32 +133,23 @@ const errorMessage = document.getElementById("error-message");
 const phoneInput = document.getElementById("phone");
 const phoneErrorMessage = document.getElementById("phone-error-message");
 
-// Function to validate phone number
 function validatePhoneNumber(value) {
-  // Regular expression to allow:
-  // - Optional "+" at the start
-  // - Digits, spaces, hyphens, parentheses
-  // - Minimum 10 digits in total
   const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
   return phonePattern.test(value);
 }
 
-// Event listener for input blur (when user leaves the input field)
 phoneInput.addEventListener("blur", () => {
   const inputValue = phoneInput.value.trim();
 
   if (inputValue === "" || !validatePhoneNumber(inputValue)) {
-    // Show error message if input is invalid
     phoneErrorMessage.style.display = "block";
     phoneInput.classList.add("invalid");
   } else {
-    // Hide error message if input is valid
     phoneErrorMessage.style.display = "none";
     phoneInput.classList.remove("invalid");
   }
 });
 
-// Optional: Clear error message when user starts typing
 phoneInput.addEventListener("input", () => {
   phoneErrorMessage.style.display = "none";
   phoneInput.classList.remove("invalid");
@@ -168,29 +158,23 @@ phoneInput.addEventListener("input", () => {
 const emailInput = document.getElementById("emailarea");
 const emailErrorMessage = document.getElementById("email-error-message");
 
-// Function to validate email
 function validateEmail(value) {
-  // Regular expression for basic email validation
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailPattern.test(value);
 }
 
-// Event listener for input blur (when user leaves the input field)
 emailInput.addEventListener("blur", () => {
   const inputValue = emailInput.value.trim();
 
   if (inputValue === "" || !validateEmail(inputValue)) {
-    // Show error message if input is invalid
     emailErrorMessage.style.display = "block";
     emailInput.classList.add("invalid");
   } else {
-    // Hide error message if input is valid
     emailErrorMessage.style.display = "none";
     emailInput.classList.remove("invalid");
   }
 });
 
-// Optional: Clear error message when user starts typing
 emailInput.addEventListener("input", () => {
   emailErrorMessage.style.display = "none";
   emailInput.classList.remove("invalid");
@@ -207,12 +191,10 @@ function performCustomValidation() {
 
   let isValid = true;
 
-  // Custom validation patterns
   const namePattern = /^[a-zA-Z\s\-]+$/;
   const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-  // Name validation
   if (!namePattern.test(nameInput.value.trim())) {
     nameErrorMessage.style.display = "block";
     nameInput.classList.add("invalid");
@@ -222,7 +204,6 @@ function performCustomValidation() {
     nameInput.classList.remove("invalid");
   }
 
-  // Phone number validation
   if (!phonePattern.test(phoneInput.value.trim())) {
     phoneErrorMessage.style.display = "block";
     phoneInput.classList.add("invalid");
@@ -232,7 +213,6 @@ function performCustomValidation() {
     phoneInput.classList.remove("invalid");
   }
 
-  // Email validation
   if (!emailPattern.test(emailInput.value.trim())) {
     emailErrorMessage.style.display = "block";
     emailInput.classList.add("invalid");
