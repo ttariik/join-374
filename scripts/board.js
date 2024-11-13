@@ -374,6 +374,7 @@ async function inputacesstechnicall(task) {
   document.getElementById("showassignedperson").innerHTML = "";
   document.getElementById("showassignedperson").innerHTML +=
     await assignedtotemplate(task);
+  document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML += await showsubtaskstemplate(
     task
   );
