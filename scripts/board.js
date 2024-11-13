@@ -370,6 +370,7 @@ async function inputacesstechnicall(task) {
     "due-date-containerinput"
   ).innerHTML = `${task.duedate}`;
   document.getElementById("showprio").innerHTML = `${task.prio}`;
+  document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
   document.getElementById("showassignedperson").innerHTML = "";
   document.getElementById("showassignedperson").innerHTML +=
     await assignedtotemplate(task);
