@@ -34,6 +34,23 @@ async function addcontact(event) {
 
   emptyinputs();
   closecontactstemplate();
+  showcontactlog();
+}
+
+function showcontactlog() {
+  document.getElementById("successfullcontactlogoverlay").style =
+    "transform: translateX(126%);transition: transform 0.2s ease, visibility 0.2s;";
+  setTimeout(() => {
+    document
+      .getElementById("successfullcontactlogoverlay")
+      .classList.remove("d-none");
+    document.getElementById("successfullcontactlogoverlay").style =
+      "transform: translateX(0%)";
+  }, 0.5);
+  setTimeout(() => {
+    document.getElementById("successfullcontactlogoverlay").style =
+      "transform: translateX(126%)";
+  }, 500);
 }
 
 function emptyinputs() {
@@ -138,47 +155,10 @@ function validatePhoneNumber(value) {
   return phonePattern.test(value);
 }
 
-phoneInput.addEventListener("blur", () => {
-  const inputValue = phoneInput.value.trim();
-
-  if (inputValue === "" || !validatePhoneNumber(inputValue)) {
-    phoneErrorMessage.style.display = "block";
-    phoneInput.classList.add("invalid");
-  } else {
-    phoneErrorMessage.style.display = "none";
-    phoneInput.classList.remove("invalid");
-  }
-});
-
-phoneInput.addEventListener("input", () => {
-  phoneErrorMessage.style.display = "none";
-  phoneInput.classList.remove("invalid");
-});
-
-const emailInput = document.getElementById("emailarea");
-const emailErrorMessage = document.getElementById("email-error-message");
-
 function validateEmail(value) {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailPattern.test(value);
 }
-
-emailInput.addEventListener("blur", () => {
-  const inputValue = emailInput.value.trim();
-
-  if (inputValue === "" || !validateEmail(inputValue)) {
-    emailErrorMessage.style.display = "block";
-    emailInput.classList.add("invalid");
-  } else {
-    emailErrorMessage.style.display = "none";
-    emailInput.classList.remove("invalid");
-  }
-});
-
-emailInput.addEventListener("input", () => {
-  emailErrorMessage.style.display = "none";
-  emailInput.classList.remove("invalid");
-});
 
 function performCustomValidation() {
   const nameInput = document.getElementById("name");
@@ -196,7 +176,9 @@ function performCustomValidation() {
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   if (!namePattern.test(nameInput.value.trim())) {
-    nameErrorMessage.style.display = "block";
+    nameErrorMessage.innerHTML =
+      "Please enter a valid name (letters, spaces, and hyphens only).";
+    nameErrorMessage.classList.remove("d-none");
     nameInput.classList.add("invalid");
     isValid = false;
   } else {
@@ -205,16 +187,17 @@ function performCustomValidation() {
   }
 
   if (!phonePattern.test(phoneInput.value.trim())) {
-    phoneErrorMessage.style.display = "block";
+    phoneErrorMessage.style.display = "flex";
+    phoneErrorMessage.innerHTML = "Please enter a valid phone number.";
     phoneInput.classList.add("invalid");
     isValid = false;
   } else {
-    phoneErrorMessage.style.display = "none";
     phoneInput.classList.remove("invalid");
   }
 
   if (!emailPattern.test(emailInput.value.trim())) {
-    emailErrorMessage.style.display = "block";
+    emailErrorMessage.style.display = "flex";
+    emailErrorMessage.innerHTML = "Please enter a valid email address.";
     emailInput.classList.add("invalid");
     isValid = false;
   } else {

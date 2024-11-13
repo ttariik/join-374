@@ -16,6 +16,18 @@ body {
   width: 100%;
 }
 
+.logooverlay {
+  font-size: 20px;
+  font-weight: 400;
+  position: absolute;
+  top: 125px;
+  right: 0;
+  background-color: #2a3647;
+  padding: 17px;
+  border-radius: 20px;
+  color: white;
+}
+
 .content {
   display: flex;
   flex-direction: row;
@@ -219,7 +231,6 @@ body {
   right: 10px;
   bottom: 90px;
 }
-
 
 .d-none {
   display: none;

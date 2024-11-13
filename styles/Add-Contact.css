@@ -38,7 +38,6 @@
   width: 100%;
   display: flex;
   justify-content: flex-end;
-  padding-bottom: 21px;
 }
 
 .contactside-form {
@@ -108,6 +107,19 @@
   width: calc(100% - 45px);
 }
 
+.spandesignname {
+  color: red;
+  height: 40px;
+}
+.spandesignemail {
+  color: red;
+  height: 20px;
+}
+.spandesignphone {
+  color: red;
+  height: 20px;
+}
+
 .inputs {
   display: flex;
   flex-direction: column;
@@ -171,6 +183,7 @@
 .textinputarea img {
   position: absolute;
   right: 13px;
+  top: 14px;
 }
 
 .emailinputarea {
@@ -187,6 +200,7 @@
   position: absolute;
   right: 13px;
   width: 24px;
+  top: 14px;
 }
 
 .telefoneinputarea {
@@ -202,6 +216,7 @@
 .telefoneinputarea img {
   position: absolute;
   right: 13px;
+  top: 17px;
 }
 
 .buttonsalignment {
