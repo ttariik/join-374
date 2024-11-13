@@ -165,15 +165,29 @@ async function loadtasks() {
 
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
+      const response2 = await fetch(GLOBAL + "users/1/contacts.json");
+      const contacts = await response2.json();
       tasks.forEach(async (task) => {
         if (task && task.category) {
           const taskId = task.id;
           let taskHTML;
 
           if (task.category === "Technical Task") {
-            taskHTML = await Technicaltasktemplate({ ...task, id: taskId });
+            taskHTML = await Technicaltasktemplate(
+              {
+                ...task,
+                id: taskId,
+              },
+              contacts
+            );
           } else {
-            taskHTML = await userstorytemplate({ ...task, id: taskId });
+            taskHTML = await userstorytemplate(
+              {
+                ...task,
+                id: taskId,
+              },
+              contacts
+            );
           }
 
           container.insertAdjacentHTML("beforeend", taskHTML);
@@ -190,9 +204,9 @@ async function loadtasks() {
             .getElementById(taskId)
             .addEventListener("click", function () {
               if (task.category === "Technical Task") {
-                opentechnicaltemplate(task);
+                opentechnicaltemplate(task, contacts);
               } else {
-                openprofiletemplate(task);
+                openprofiletemplate(task, contacts);
               }
             });
         }
@@ -208,12 +222,22 @@ async function loadtasks() {
   }
 }
 
-async function userstorytemplate(task) {
+async function userstorytemplate(task, contacts) {
+  const contactsArray = Object.values(contacts);
+
+  console.log("Contacts array:", contactsArray);
+
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const initialsHTML = initialsArray
     .map((initialObj) => {
       const initial = initialObj.initials;
-      const color = getColorFromInitials(initial);
+
+      const contact = contactsArray.find(
+        (contact) => contact.initials === initial
+      );
+
+      const color = contact ? contact.color : "#ccc";
+
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
@@ -227,55 +251,50 @@ async function userstorytemplate(task) {
 
   const progressBarHTML =
     totalSubtasks > 0
-      ? `
-      <div class="outsidebox" id="progress${task.id}">
-        <div class="progressbar">
-          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
-        </div>
-        <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
-      </div>`
+      ? `<div class="outsidebox" id="progress${task.id}">
+          <div class="progressbar">
+            <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+          </div>
+          <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
+        </div>`
       : "";
 
-  const htmlTemplate = /*html*/ `
-      <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
-        <div class="task-detailss">
-          <span>${task.category}</span>
-        </div>
-        <div class="titlecontainer">
-          <div class="section-one">${task.title}</div>
-          <div class="section-two">${task.description}</div>
-        </div>
-        ${progressBarHTML}
-        <div class="asignbox">
-          <div class="initialsbox" id="initialbox">${initialsHTML}</div>
-          <img src="/img/${task.prio}.png" alt="">
-        </div>
+  const htmlTemplate = `
+    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
+      <div class="task-detailss">
+        <span>${task.category}</span>
       </div>
-    `;
+      <div class="titlecontainer">
+        <div class="section-one">${task.title}</div>
+        <div class="section-two">${task.description}</div>
+      </div>
+      ${progressBarHTML}
+      <div class="asignbox">
+        <div class="initialsbox" id="initialbox">${initialsHTML}</div>
+        <img src="/img/${task.prio}.png" alt="">
+      </div>
+    </div>
+  `;
 
   return htmlTemplate;
 }
 
-function getColorFromInitials(initial) {
-  let hash = 0;
-  for (let i = 0; i < initial.length; i++) {
-    hash = initial.charCodeAt(i) + ((hash << 5) - hash);
-  }
+async function Technicaltasktemplate(task, contacts) {
+  const contactsArray = Object.values(contacts);
 
-  const hue = hash % 360;
-  const saturation = 60 + (hash % 20);
-  const lightness = 50 + (hash % 20);
+  console.log("Contacts array:", contactsArray);
 
-  const color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-  return color;
-}
-
-async function Technicaltasktemplate(task) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const initialsHTML = initialsArray
     .map((initialObj) => {
       const initial = initialObj.initials;
-      const color = getColorFromInitials(initial);
+
+      const contact = contactsArray.find(
+        (contact) => contact.initials === initial
+      );
+
+      const color = contact ? contact.color : "#ccc";
+
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
@@ -288,7 +307,7 @@ async function Technicaltasktemplate(task) {
     totalSubtasks > 0 ? (completedtaskss / totalSubtasks) * 100 : 0;
 
   return /*html*/ `
-    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}" >
+    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
       <div class="task-category">
         <span class="task-category-name">${task.category}</span>
       </div>
@@ -297,11 +316,11 @@ async function Technicaltasktemplate(task) {
         <div class="task-description">${task.description}</div>
       </div>
       <div class="outsidebox">
-              <div class="progressbar">
-                  <div class="progressbar-inside" style="width:${completionPercent}%"></div>
-              </div>
-              <div class="subtask-info"><span>${completedtaskss}/${totalSubtasks} Subtasks</span></div>
-          </div>
+        <div class="progressbar">
+          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+        </div>
+        <div class="subtask-info"><span>${completedtaskss}/${totalSubtasks} Subtasks</span></div>
+      </div>
       <div class="task-statuss">
         <div class="initialsboxdesign">${initialsHTML}</div>
         <img src="/img/${task.prio}.png" alt="Priority" />
@@ -310,7 +329,7 @@ async function Technicaltasktemplate(task) {
   `;
 }
 
-async function openprofiletemplate(task) {
+async function openprofiletemplate(task, contacts) {
   document.getElementById("overlayprofile-template").classList.add("overlayss");
   document.getElementById("overlayprofile-template").classList.remove("d-none");
 
@@ -318,52 +337,66 @@ async function openprofiletemplate(task) {
     document.querySelector(".overlayss").style = "transform: translateX(0%);";
   }, 0.5);
 
-  inputacessprofile(task);
+  inputacessprofile(task, contacts);
 }
 
-async function inputacessprofile(task) {
-  document.getElementById("profiletitle").innerHTML = task.title || "";
-  document.getElementById("profiledescription").innerHTML =
-    task.description || "";
-  document.getElementById("profileduedate").innerHTML = task.duedate || "";
-  document.getElementById("profilepriority").innerHTML = task.prio || "";
-  document.getElementById("profileicon").src = `../img/${
-    task.prio || "default"
-  }.png`;
+async function inputacessprofile(task, contacts) {
+  const profileTitleElement = document.getElementById("profiletitle");
+  if (profileTitleElement) profileTitleElement.innerHTML = task.title || "";
+
+  const profileDescriptionElement =
+    document.getElementById("profiledescription");
+  if (profileDescriptionElement)
+    profileDescriptionElement.innerHTML = task.description || "";
+
+  const profileDueDateElement = document.getElementById("profileduedate");
+  if (profileDueDateElement)
+    profileDueDateElement.innerHTML = task.duedate || "";
+
+  const profilePriorityElement = document.getElementById("profilepriority");
+  if (profilePriorityElement)
+    profilePriorityElement.innerHTML = task.prio || "";
+
+  const profileIconElement = document.getElementById("profileicon");
+  if (profileIconElement)
+    profileIconElement.src = `../img/${task.prio || "default"}.png`;
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
   const initialsHTMLPromises = initialsArray
     .filter((item) => item.initials)
     .map(async (item) => {
-      const color = getColorFromInitials(item.initials);
+      const contact = Object.values(contacts).find(
+        (contact) => contact.initials === item.initials
+      );
+      const color = contact ? contact.color : "#CCCCCC";
+      const name = contact ? contact.name : item.name || "Unknown";
+
       return /*html*/ `
         <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">${
-        item.initials
-      }</div>
-          <div>${item.name || ""}</div>
+          <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
+          <div>${name}</div>
         </div>`;
     });
 
   const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
-
-  document.getElementById("profileassingedarea").innerHTML = initialsHTML;
+  const profileAssignedArea = document.getElementById("profileassingedarea");
+  if (profileAssignedArea) profileAssignedArea.innerHTML = initialsHTML;
 
   const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
   const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
     return /*html*/ `
-    <div class="alignsubdiv2">
-      <div></div><div>${subtask.subtask}</div>
-    </div>`;
+      <div class="alignsubdiv2">
+        <div></div><div>${subtask.subtask || "No description"}</div>  
+      </div>`;
   });
 
   const subtaskHTML = (await Promise.all(subtaskHTMLPromises)).join("");
-
-  document.getElementById("subtaskarea").innerHTML = subtaskHTML;
+  const subtaskArea = document.getElementById("subtaskarea");
+  if (subtaskArea) subtaskArea.innerHTML = subtaskHTML;
 }
 
-async function inputacesstechnicall(task) {
+async function inputacesstechnicall(task, contacts) {
   document.getElementById("technicaltasktitle").innerHTML = `${task.title}`;
   document.getElementById("descriptioninput").innerHTML = `${task.description}`;
   document.getElementById(
@@ -373,7 +406,7 @@ async function inputacesstechnicall(task) {
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
   document.getElementById("showassignedperson").innerHTML = "";
   document.getElementById("showassignedperson").innerHTML +=
-    await assignedtotemplate(task);
+    await assignedtotemplate(task, contacts);
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML += await showsubtaskstemplate(
     task
@@ -413,7 +446,7 @@ async function showsubtaskstemplate(task) {
   `;
 }
 
-async function assignedtotemplate(task) {
+async function assignedtotemplate(task, contacts) {
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
   console.log("Initials Array:", initialsArray);
@@ -421,12 +454,21 @@ async function assignedtotemplate(task) {
   const initialsHTMLPromises = initialsArray
     .filter((item) => item.initials)
     .map(async (item) => {
-      const color = getColorFromInitials(item.initials);
+      const contact = Object.values(contacts).find(
+        (contact) => contact.initials === item.initials
+      );
+
+      const name = contact ? contact.name : item.name || "Unknown";
+      const color = contact
+        ? contact.color
+        : getColorFromInitials(item.initials);
+
       const html = `
         <div class="alignsubdiv">
           <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
-          <div>${item.name}</div> <!-- Assuming name is associated with initials -->
+          <div>${name}</div>
         </div>`;
+
       console.log("Generated HTML for Initial:", html);
       return html;
     });
@@ -438,13 +480,13 @@ async function assignedtotemplate(task) {
   console.log("Final HTML:", finalHTML);
 
   return /*html*/ `
-      <div class="align" id="showassignedperson">
-        ${finalHTML}  
-      </div>
+    <div class="align" id="showassignedperson">
+      ${finalHTML}  
+    </div>
   `;
 }
 
-async function opentechnicaltemplate(task) {
+async function opentechnicaltemplate(task, contacts) {
   document
     .getElementById("overlaytechinical-task-template")
     .classList.add("overlayss");
@@ -454,7 +496,7 @@ async function opentechnicaltemplate(task) {
   setTimeout(() => {
     document.querySelector(".overlayss").style = "transform: translateX(0%);";
   }, 0.5);
-  inputacesstechnicall(task);
+  inputacesstechnicall(task, contacts);
 }
 
 function closeaddtasktemplate() {
