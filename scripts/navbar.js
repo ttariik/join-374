@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-// Firebase-Konfiguration
+
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
     authDomain: "join-backend-dd268.firebaseapp.com",
@@ -14,17 +14,15 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-// Firebase initialisieren
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
 
-
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
         let initials = "G";
-
         if (user) {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
@@ -33,12 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Benutzerdokument nicht gefunden.');
             }
         }
-
         displayUserInitials(initials);
         setupLogout();
     });
 });
-
 
 
 function getInitials(name) {
@@ -54,14 +50,14 @@ function displayUserInitials(initials) {
         const initialsElement = document.getElementById('user-initials');
         if (initialsElement) {
             initialsElement.textContent = initials;
-            clearInterval(checkExist); // Stoppt die Überprüfung, sobald das Element gefunden wird
+            clearInterval(checkExist); 
         } else {
             console.error('Element mit ID "user-initials" nicht gefunden!');
         }
-    }, 100); // Überprüft alle 100ms
+    }, 100); 
 }
 
-// Logout-Button Setup
+
 function setupLogout() {
     const logoutButton = document.getElementById('logoutID');
     if (logoutButton) {
@@ -81,10 +77,7 @@ function setupLogout() {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialisiere Logout-Button nach dem Laden des DOMs
     setupLogout();
-    
-    // Andere Event-Listener setzen
     window.onclick = function (event) {
         if (!event.target.matches('.user-initials')) {
             const dropdowns = document.getElementsByClassName('dropdown-menu');
@@ -99,3 +92,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+window.onclick = function(event) {
+    const menu = document.getElementById('dropupMenu');
+    if (!event.target.matches('.overlay-options img') && !menu.contains(event.target)) {
+        menu.style.display = 'none';
+    }
+  }

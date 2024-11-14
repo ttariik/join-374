@@ -44,8 +44,6 @@ window.addEventListener('beforeunload', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
   const reloadButton = document.getElementById('reloadLastPage');
-
-
   if (reloadButton) {
     reloadButton.onclick = reloadLastPage; 
   }
@@ -74,24 +72,14 @@ window.onclick = function (event) {
 window.onload = function() {
   const logo = document.querySelector('.logo');
   const overlay = document.querySelector('.overlay');
-  
-
   logo.classList.add('fly-in');
-  
-
   setTimeout(() => {
     overlay.classList.add('fade-out');
   }, 500); 
 };
 
+
 function toggleMenu() {
   const menu = document.getElementById('dropupMenu');
   menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-}
-
-window.onclick = function(event) {
-  const menu = document.getElementById('dropupMenu');
-  if (!event.target.matches('.overlay-options img') && !menu.contains(event.target)) {
-      menu.style.display = 'none';
-  }
 }
