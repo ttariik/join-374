@@ -158,7 +158,6 @@ async function loadtasks() {
       console.log("Loaded tasks for done-folder:", donetasks);
     }
 
-    // Clear existing tasks in the DOM for each folder
     const folders = [
       "todo-folder",
       "inprogress-folder",
@@ -170,7 +169,6 @@ async function loadtasks() {
       if (folderElement) folderElement.innerHTML = "";
     });
 
-    // Helper function to display "No tasks" message if a folder is empty
     const displayNoTasksMessage = (folderId, message) => {
       const folderElement = document.getElementById(folderId);
       if (folderElement && folderElement.children.length === 0) {
@@ -222,13 +220,11 @@ async function loadtasks() {
       });
     };
 
-    // Render tasks for each folder
     await renderTasksWithTemplate(todos, "todo-folder");
     await renderTasksWithTemplate(inprogress, "inprogress-folder");
     await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
     await renderTasksWithTemplate(donetasks, "done-folder");
 
-    // Check for empty folders and add "No tasks" message
     displayNoTasksMessage("todo-folder", "No tasks to do");
     displayNoTasksMessage("inprogress-folder", "No tasks in progress");
     displayNoTasksMessage(
