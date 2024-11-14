@@ -222,3 +222,16 @@ async function putData(path = "", data = {}) {
 async function addEditSingleUser(contactKey, contact) {
   const result = await putData(`/users/1/contacts/${contactKey}`, contact);
 }
+
+
+function toggleMenu() {
+  const menu = document.getElementById('dropupMenu');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'flex';
+}
+
+window.onclick = function(event) {
+  const menu = document.getElementById('dropupMenu');
+  if (!event.target.matches('.overlay-options img') && !menu.contains(event.target)) {
+      menu.style.display = 'none';
+  }
+}
