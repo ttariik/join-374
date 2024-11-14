@@ -182,7 +182,7 @@ function performCustomValidation() {
     nameInput.classList.add("invalid");
     isValid = false;
   } else {
-    nameErrorMessage.style.display = "none";
+    nameErrorMessage.innerHTML = "";
     nameInput.classList.remove("invalid");
   }
 
@@ -192,6 +192,7 @@ function performCustomValidation() {
     phoneInput.classList.add("invalid");
     isValid = false;
   } else {
+    phoneErrorMessage.innerHTML = "";
     phoneInput.classList.remove("invalid");
   }
 
@@ -201,7 +202,7 @@ function performCustomValidation() {
     emailInput.classList.add("invalid");
     isValid = false;
   } else {
-    emailErrorMessage.style.display = "none";
+    emailErrorMessage.innerHTML = "";
     emailInput.classList.remove("invalid");
   }
 

@@ -99,12 +99,6 @@ async function edicontact(contactKey) {
     document.getElementById("overlayaddcontact").style.transform =
       "translateX(0%)";
   }, 0.5);
-  document.getElementById("deletedbtn").addEventListener("click", function () {
-    deletecontact(contactKey);
-    document.getElementById("overlap").innerHTML = "";
-    document.getElementById("contacttemplate").innerHTML = "";
-    showcontacts((id = 1));
-  });
 }
 
 function closeaddcontacttemplate() {
@@ -131,7 +125,7 @@ async function deletecontact(contactKey) {
 
   await deleteData(`/users/1/contacts/${contactKey}`);
   showcontacts((id = 1));
-  document.getElementById("contacttemplate").innerHTML = "";
+  document.getElementById("contacttemplate").classList.add("d-none");
 }
 
 async function deleteData(path = "", data = {}) {
@@ -161,7 +155,8 @@ async function showcontacttemplate(contactKey) {
   document.getElementById("editbutton").onclick = () => edicontact(contact.key);
   document.getElementById("deletebutton").onclick = () =>
     deletecontact(contact.key);
-  document.getElementById("editbutton-overlay").onclick = () => edicontact(contact.key);
+  document.getElementById("editbutton-overlay").onclick = () =>
+    edicontact(contact.key);
   document.getElementById("deletebutton-overlay").onclick = () =>
     deletecontact(contact.key);
 
@@ -223,21 +218,21 @@ async function addEditSingleUser(contactKey, contact) {
   const result = await putData(`/users/1/contacts/${contactKey}`, contact);
 }
 
-
 function toggleMenu() {
-  const menu = document.getElementById('dropupMenu');
-  if (menu.style.display === 'block' || menu.style.display === 'flex') {
-    menu.style.display = 'none';
+  const menu = document.getElementById("dropupMenu");
+  if (menu.style.display === "block" || menu.style.display === "flex") {
+    menu.style.display = "none";
   } else {
-    menu.style.display = 'flex';
+    menu.style.display = "flex";
   }
 }
 
-window.onclick = function(event) {
-  const menu = document.getElementById('dropupMenu');
-  if (!event.target.closest('#dropupMenu') && !event.target.matches('.overlay-options img')) {
-    menu.style.display = 'none';
+window.onclick = function (event) {
+  const menu = document.getElementById("dropupMenu");
+  if (
+    !event.target.closest("#dropupMenu") &&
+    !event.target.matches(".overlay-options img")
+  ) {
+    menu.style.display = "none";
   }
-}
-
-
+};
