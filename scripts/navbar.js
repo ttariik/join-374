@@ -19,7 +19,49 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Logout-Setup
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, async (user) => {
+        let initials = "G";
+
+        if (user) {
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+                initials = userDoc.data().name ? getInitials(userDoc.data().name) : initials;
+            } else {
+                console.log('Benutzerdokument nicht gefunden.');
+            }
+        }
+
+        displayUserInitials(initials);
+        setupLogout();
+    });
+});
+
+
+
+function getInitials(name) {
+    const nameParts = name.split(' ');
+    const firstInitial = nameParts[0].charAt(0);
+    const lastInitial = nameParts.length > 1 ? nameParts[1].charAt(0) : '';
+    return firstInitial + lastInitial;
+}
+
+
+function displayUserInitials(initials) {
+    const checkExist = setInterval(() => {
+        const initialsElement = document.getElementById('user-initials');
+        if (initialsElement) {
+            initialsElement.textContent = initials;
+            clearInterval(checkExist); // Stoppt die Überprüfung, sobald das Element gefunden wird
+        } else {
+            console.error('Element mit ID "user-initials" nicht gefunden!');
+        }
+    }, 100); // Überprüft alle 100ms
+}
+
+// Logout-Button Setup
 function setupLogout() {
     const logoutButton = document.getElementById('logoutID');
     if (logoutButton) {
@@ -34,43 +76,26 @@ function setupLogout() {
                 console.error('Fehler beim Abmelden:', error);
             });
         });
-    } else {
-        console.error('Logout-Button nicht gefunden!');
-    }
+    } 
 }
 
-onAuthStateChanged(auth, async (user) => {
-    let initials = "G"; 
 
-    if (user) {
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        if (userDoc.exists()) {
-            initials = userDoc.data().name ? getInitials(userDoc.data().name) : initials;
-        } else {
-            console.log('Benutzerdokument nicht gefunden.');
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialisiere Logout-Button nach dem Laden des DOMs
+    setupLogout();
+    
+    // Andere Event-Listener setzen
+    window.onclick = function (event) {
+        if (!event.target.matches('.user-initials')) {
+            const dropdowns = document.getElementsByClassName('dropdown-menu');
+            for (let i = 0; i < dropdowns.length; i++) {
+                const openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
         }
-    } else {
-        console.log('Kein Benutzer eingeloggt.');
-    }
-
-    displayUserInitials(initials); 
-    setupLogout(); 
+    };
 });
 
 
-function getInitials(name) {
-    const nameParts = name.split(' ');
-    const firstInitial = nameParts[0].charAt(0);
-    const lastInitial = nameParts.length > 1 ? nameParts[1].charAt(0) : '';
-    return firstInitial + lastInitial;
-}
-
-
-function displayUserInitials(initials) {
-    const initialsElement = document.getElementById('user-initials');
-    if (initialsElement) {
-        initialsElement.textContent = initials;
-    } else {
-        console.log('Element zum Anzeigen der Initialen nicht gefunden.');
-    }
-}

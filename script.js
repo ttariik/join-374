@@ -86,7 +86,7 @@ window.onload = function() {
 
 function toggleMenu() {
   const menu = document.getElementById('dropupMenu');
-  menu.style.display = menu.style.display === 'block' ? 'none' : 'flex';
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
 window.onclick = function(event) {
