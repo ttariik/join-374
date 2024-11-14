@@ -88,6 +88,17 @@ async function drop(event) {
 
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
+      const noTasksMessage = targetContainer.querySelector(".nothing");
+      if (noTasksMessage) {
+        noTasksMessage.remove();
+      }
+      const parentContainer = document.getElementById(parentFolderId);
+      if (parentContainer && parentContainer.children.length === 0) {
+        const noTasksMessageElement = document.createElement("div");
+        noTasksMessageElement.className = "nothing";
+      }
+
+      // Append the task element to the target container
       targetContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", targetFolder);
 
@@ -375,10 +386,10 @@ async function inputacessprofile(task, contacts) {
   const profileIconElement = document.getElementById("profileicon");
   if (profileIconElement)
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
-  document.getElementById("btn1").addEventListener("click", function () {
+  document.getElementById("btn1_1").addEventListener("click", function () {
     deletetask(task);
   });
-  document.getElementById("btn2").addEventListener("click", function () {
+  document.getElementById("btn2_1").addEventListener("click", function () {
     editprofile(task);
   });
 
@@ -418,36 +429,87 @@ async function inputacessprofile(task, contacts) {
 }
 
 async function inputacesstechnicall(task, contacts) {
-  document.getElementById("technicaltasktitle").innerHTML = `${task.title}`;
-  document.getElementById("descriptioninput").innerHTML = `${task.description}`;
-  document.getElementById(
-    "due-date-containerinput"
-  ).innerHTML = `${task.duedate}`;
-  document.getElementById("showprio").innerHTML = `${task.prio}`;
+  // Setting task details
+  document.getElementById("technicaltasktitle").innerHTML = task.title;
+  document.getElementById("descriptioninput").innerHTML = task.description;
+  document.getElementById("due-date-containerinput").innerHTML = task.duedate;
+  document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
-  document.getElementById("showassignedperson").innerHTML = "";
-  document.getElementById("showassignedperson").innerHTML +=
-    await assignedtotemplate(task, contacts);
 
-  document.getElementById("subtaskbox").innerHTML = "";
-  document.getElementById("subtaskbox").innerHTML += await showsubtaskstemplate(
-    task
-  );
-  document.getElementById("btn1").addEventListener("click", function () {
-    deletetask(task);
-  });
-  document.getElementById("btn2").addEventListener("click", function () {
-    editinputs(task);
-  });
+  // Render assigned persons and subtasks
+  const assignedPersonHTML = await assignedtotemplate(task, contacts);
+  document.getElementById("showassignedperson").innerHTML = assignedPersonHTML;
+
+  const subtaskHTML = await showsubtaskstemplate(task);
+  document.getElementById("subtaskbox").innerHTML = subtaskHTML;
+
+  // Remove existing event listeners to prevent duplicates
+  const deleteButton = document.getElementById("btn1");
+  const editButton = document.getElementById("btn2");
+
+  deleteButton.replaceWith(deleteButton.cloneNode(true));
+  editButton.replaceWith(editButton.cloneNode(true));
+
+  // Adding event listeners
+  document
+    .getElementById("btn1")
+    .addEventListener("click", () => deletetask(task));
+  document
+    .getElementById("btn2")
+    .addEventListener("click", () => editinputs(task));
 }
 
 function deletetask(task) {
   const taskId = task.id;
   const taskElement = document.getElementById(taskId);
-  const parentFolderId = taskElement.parentElement.id;
-  console.log(parentFolderId + taskId);
 
-  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task);
+  if (!taskElement) {
+    console.error("Task element not found in the DOM.");
+    return;
+  }
+
+  const parentFolder = taskElement.parentElement;
+  const parentFolderId = parentFolder.id;
+
+  // Delete task data from the database
+  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task)
+    .then(() => {
+      // Remove the task element from the DOM
+      taskElement.remove();
+
+      // Check if the parent folder is empty
+      if (parentFolder.children.length === 0) {
+        // Create a "No tasks" message
+        const noTasksMessage = document.createElement("div");
+        noTasksMessage.className = "nothing";
+
+        // Set appropriate message based on folder type
+        switch (parentFolderId) {
+          case "todo-folder":
+            noTasksMessage.textContent = "No tasks To do";
+            break;
+          case "inprogress-folder":
+            noTasksMessage.textContent = "No tasks in progress";
+            break;
+          case "awaiting-feedback-folder":
+            noTasksMessage.textContent = "No tasks awaiting feedback";
+            break;
+          case "done-folder":
+            noTasksMessage.textContent = "No tasks done";
+            break;
+          default:
+            noTasksMessage.textContent = "No tasks";
+        }
+
+        // Add the "No tasks" message to the empty parent folder
+        parentFolder.appendChild(noTasksMessage);
+      }
+
+      console.log(`Task ${taskId} deleted from ${parentFolderId}`);
+    })
+    .catch((error) => {
+      console.error("Error deleting task:", error);
+    });
 }
 
 async function deleteData(path = "", data = {}) {
