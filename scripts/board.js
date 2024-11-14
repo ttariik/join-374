@@ -60,7 +60,6 @@ async function drop(event) {
   try {
     taskElement.setAttribute("draggable", "false");
 
-    // Fetching the task data from the source folder
     const response = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -72,13 +71,10 @@ async function drop(event) {
       return;
     }
 
-    // Put the task data into the target folder
     await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
-    // Remove the task data from the source folder
     await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-    // Verify if the task has been deleted from the source folder
     const deletionCheck = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -90,13 +86,16 @@ async function drop(event) {
       return;
     }
 
-    // Move the task element to the new container in the DOM
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
-      // Remove "No tasks" message if it exists
       const noTasksMessage = targetContainer.querySelector(".nothing");
       if (noTasksMessage) {
         noTasksMessage.remove();
+      }
+      const parentContainer = document.getElementById(parentFolderId);
+      if (parentContainer && parentContainer.children.length === 0) {
+        const noTasksMessageElement = document.createElement("div");
+        noTasksMessageElement.className = "nothing";
       }
 
       // Append the task element to the target container
@@ -464,11 +463,53 @@ function deletetask(task) {
   const taskId = task.id;
   const taskElement = document.getElementById(taskId);
 
-  const parentFolder = taskElement.parentElement;
+  if (!taskElement) {
+    console.error("Task element not found in the DOM.");
+    return;
+  }
 
+  const parentFolder = taskElement.parentElement;
   const parentFolderId = parentFolder.id;
 
-  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task);
+  // Delete task data from the database
+  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task)
+    .then(() => {
+      // Remove the task element from the DOM
+      taskElement.remove();
+
+      // Check if the parent folder is empty
+      if (parentFolder.children.length === 0) {
+        // Create a "No tasks" message
+        const noTasksMessage = document.createElement("div");
+        noTasksMessage.className = "nothing";
+
+        // Set appropriate message based on folder type
+        switch (parentFolderId) {
+          case "todo-folder":
+            noTasksMessage.textContent = "No tasks To do";
+            break;
+          case "inprogress-folder":
+            noTasksMessage.textContent = "No tasks in progress";
+            break;
+          case "awaiting-feedback-folder":
+            noTasksMessage.textContent = "No tasks awaiting feedback";
+            break;
+          case "done-folder":
+            noTasksMessage.textContent = "No tasks done";
+            break;
+          default:
+            noTasksMessage.textContent = "No tasks";
+        }
+
+        // Add the "No tasks" message to the empty parent folder
+        parentFolder.appendChild(noTasksMessage);
+      }
+
+      console.log(`Task ${taskId} deleted from ${parentFolderId}`);
+    })
+    .catch((error) => {
+      console.error("Error deleting task:", error);
+    });
 }
 
 async function deleteData(path = "", data = {}) {
