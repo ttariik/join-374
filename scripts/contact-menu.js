@@ -161,6 +161,9 @@ async function showcontacttemplate(contactKey) {
   document.getElementById("editbutton").onclick = () => edicontact(contact.key);
   document.getElementById("deletebutton").onclick = () =>
     deletecontact(contact.key);
+  document.getElementById("editbutton-overlay").onclick = () => edicontact(contact.key);
+  document.getElementById("deletebutton-overlay").onclick = () =>
+    deletecontact(contact.key);
 
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";

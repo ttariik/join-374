@@ -1,70 +1,70 @@
 <!DOCTYPE html>
 <html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Contact</title>
-    <link rel="stylesheet" href="/style.css" />
-    <link rel="stylesheet" href="/styles/contact-template.css" />
-    <script src="/script.js"></script>
-  </head>
-  <body>
-    <div class="contact_box">
-      <div class="contact-overlay-head">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link rel="stylesheet" href="/style.css" />
+  <link rel="stylesheet" href="/styles/contact-template.css" />
+  <script src="/script.js"></script>
+</head>
+
+<body>
+  <div class="contact_box">
+    <div class="contact-overlay-head">
       <div class="overlay-headline">
         <div class="headline-span">
-        <span class="phrase_1">Contacts</span>
-        <span class="phrase_2">Better with a team</span>
+          <span class="phrase_1">Contacts</span>
+          <span class="phrase_2">Better with a team</span>
         </div>
-      <div class="arrow-left-overlay-container">
-        <a href="contacts-menu.html"><img class="arrow-left-overlay" src="img/arrow-left.png"> </a> 
-      </div>
-      </div>
-        <div class="seperator"></div>
-      </div>
-      <div class="contact-box__header">
-        <div id="badge" class="contact-box__badge">
-          <img src="../img/Group 13.png" alt="" />  
-        </div>
-        <div class="contact-box__title">
-          <span id="title" class="wordstyle">Anton Mayer</span>
-          <div class="contact-box__actions">
-            <button class="contact-box__action" id="editbutton" onclick="">
-              <img src="../img/edit.png" alt="" /><span>Edit</span>
-            </button>
-            <button class="contact-box__action" id="deletebutton" onclick="">
-              <img src="../img/delete.png" alt="" /><span>Delete</span>
-            </button>
-          </div>
+        <div class="arrow-left-overlay-container">
+          <a href=""><img class="arrow-left-overlay" src="img/arrow-left.png"> </a>
         </div>
       </div>
-      <div class="contact-box__info-title">
-        <span>Contact Information</span>
+      <div class="seperator"></div>
+    </div>
+    <div class="contact-box__header">
+      <div id="badge" class="contact-box__badge">
+        <img src="../img/Group 13.png" alt="" />
       </div>
-      <div class="contact-box__details">
-        <div class="contact-box__detail">
-          <span class="weight">Email</span>
-          <span id="email">antom@gmail.com</span>
-        </div>
-        <div class="contact-box__detail">
-          <span class="weight">Phone</span>
-          <span id="telefone">+49 1111 11 111 1</span>
+      <div class="contact-box__title">
+        <span id="title" class="wordstyle">Anton Mayer</span>
+        <div class="contact-box__actions">
+          <button class="contact-box__action" id="editbutton" onclick="">
+            <img src="../img/edit.png" alt="" /><span>Edit</span>
+          </button>
+          <button class="contact-box__action" id="deletebutton" onclick="">
+            <img src="../img/delete.png" alt="" /><span>Delete</span>
+          </button>
         </div>
       </div>
     </div>
-    <div class="overlay-options">
-      <!-- Bild mit Klickfunktion -->
-      <img src="img/Menu Contact options.png" alt="Menü Optionen" onclick="toggleMenu()">
-      
-      <!-- Drop-Up Menü -->
-      <div class="dropup-menu" id="dropupMenu">
-        <div id="editbutton" onclick="">
-          <img src="../img/edit.png" alt="" /><span>Edit</span>
-        </div>
-      <div id="deletebutton" onclick="">
-          <img src="../img/delete.png" alt="" /><span>Delete</span>
+    <div class="contact-box__info-title">
+      <span>Contact Information</span>
+    </div>
+    <div class="contact-box__details">
+      <div class="contact-box__detail">
+        <span class="weight">Email</span>
+        <span id="email">antom@gmail.com</span>
       </div>
+      <div class="contact-box__detail">
+        <span class="weight">Phone</span>
+        <span id="telefone">+49 1111 11 111 1</span>
       </div>
+    </div>
   </div>
-  </body>
+  <div class="overlay-options">
+    <img src="img/Menu Contact options.png" alt="Menü Optionen" onclick="toggleMenu()">
+    <div class="dropup-menu" id="dropupMenu">
+      <div id="editbutton-overlay" onclick="">
+        <span>Edit</span>
+      </div>
+      <div id="deletebutton-overlay" onclick="">
+        <span>Delete</span>
+      </div>
+    </div>
+  </div>
+</body>
+
 </html>
