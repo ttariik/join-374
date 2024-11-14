@@ -226,12 +226,18 @@ async function addEditSingleUser(contactKey, contact) {
 
 function toggleMenu() {
   const menu = document.getElementById('dropupMenu');
-  menu.style.display = menu.style.display === 'block' ? 'none' : 'flex';
+  if (menu.style.display === 'block' || menu.style.display === 'flex') {
+    menu.style.display = 'none';
+  } else {
+    menu.style.display = 'flex';
+  }
 }
 
 window.onclick = function(event) {
   const menu = document.getElementById('dropupMenu');
-  if (!event.target.matches('.overlay-options img') && !menu.contains(event.target)) {
-      menu.style.display = 'none';
+  if (!event.target.closest('#dropupMenu') && !event.target.matches('.overlay-options img')) {
+    menu.style.display = 'none';
   }
 }
+
+

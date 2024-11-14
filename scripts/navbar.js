@@ -90,11 +90,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 });
-
-
-window.onclick = function(event) {
-    const menu = document.getElementById('dropupMenu');
-    if (!event.target.matches('.overlay-options img') && !menu.contains(event.target)) {
-        menu.style.display = 'none';
-    }
-  }
