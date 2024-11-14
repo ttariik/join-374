@@ -125,11 +125,9 @@ function emptyinputs() {
   document.getElementById("assignedusers").innerHTML = "";
   document.getElementById("subtasksbox").innerHTML = "";
 
-
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
-
 
   document.getElementById("urgentImg").src = "/img/Urgent.png";
   document.getElementById("mediumImg").src = "/img/Medium.png";
@@ -300,12 +298,13 @@ function contactstemplate(contact, color) {
   `;
 }
 
-function variables(contact) {
+async function variables(contact) {
   const contactDiv = document.getElementById(`div${contact.id}`);
   const checkbox = document.getElementById(`checkbox${contact.id}`);
 
   const initials = contact.initials;
-  const color = getColorFromString(initials);
+  const color = contact.color;
+
   const assignedUsersDiv = document.getElementById("assignedusers");
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
@@ -332,7 +331,7 @@ async function selectcontact(id) {
   );
 
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
-    variables(selectedContact);
+    await variables(selectedContact);
 
   console.log("Contact ID:", selectedContact.id);
   console.log("Contact:", selectedContact);
