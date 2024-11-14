@@ -121,6 +121,8 @@ button {
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .dropup-menu span {
@@ -214,8 +216,7 @@ button {
   }
 
   .dropup-menu {
-    flex-direction: column;
-    gap: 12px;
+  
   }
 
 

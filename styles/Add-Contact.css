@@ -236,12 +236,14 @@
     height: 760px;
     position: relative;
   }
+
   .contactside {
     flex-direction: column;
     gap: unset;
     padding: unset;
     border-radius: 0 0 20px 20px;
   }
+
   .contactside-header {
     position: absolute;
     top: 22px;
@@ -251,35 +253,43 @@
   .alignimage {
     display: none;
   }
+
   .inputpart {
     align-items: center;
   }
+
   .background {
     max-width: 396px;
     height: 352px;
     border-radius: 20px 20px 0px 0px;
   }
+
   .logo {
     margin-left: unset;
     position: absolute;
     top: 213px;
-    left: 140px;
+    left: 130px;
+    height: unset;
+    width: unset;
   }
+
   .logodesign {
     width: 94%;
     text-align: center;
   }
+
   .inputs {
-    gap: 37px;
-    margin-top: 76px;
     max-width: 400px;
+    align-items: center;
   }
+
   .textinputarea,
   .emailinputarea,
   .telefoneinputarea {
     max-width: 364px;
     width: 100%;
   }
+
   .contactside-closebutton {
     background-color: #2a3647;
   }
@@ -287,19 +297,25 @@
   #closeimage-white {
     display: block;
   }
+
   #closeimage {
     display: none;
+  }
+
+  .buttonsalignment {
+    justify-content: center;
+    padding-bottom: 20px;
   }
 }
 
 @media (max-width: 415px) {
   .completebox {
-    width: unset;
+    width: 310px;
     margin: 0 10px;
   }
   .logo {
-    top: 234px;
-    left: 100px;
+    top: 220px;
+    left: 120px;
   }
 
   .maintitle {
@@ -321,17 +337,17 @@
   }
 
   .inputs {
-    gap: 24px;
+    gap: 0;
     margin-top: 24px;
+    width: 90%;
   }
 
-  .logo {
-    left: 130px;
-    top: 250px;
+  .spandesignemail, .spandesignname, .spandesignphone {
+    height: 20px;
   }
 
-  .inputpart {
-    gap: 16px;
+  .subwords {
+    font-size: 16px;
   }
 
   .contactside-closebutton {
