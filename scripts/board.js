@@ -60,6 +60,7 @@ async function drop(event) {
   try {
     taskElement.setAttribute("draggable", "false");
 
+    // Fetching the task data from the source folder
     const response = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -71,10 +72,13 @@ async function drop(event) {
       return;
     }
 
+    // Put the task data into the target folder
     await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 
+    // Remove the task data from the source folder
     await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
+    // Verify if the task has been deleted from the source folder
     const deletionCheck = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
@@ -86,8 +90,16 @@ async function drop(event) {
       return;
     }
 
+    // Move the task element to the new container in the DOM
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
+      // Remove "No tasks" message if it exists
+      const noTasksMessage = targetContainer.querySelector(".nothing");
+      if (noTasksMessage) {
+        noTasksMessage.remove();
+      }
+
+      // Append the task element to the target container
       targetContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", targetFolder);
 
@@ -375,10 +387,10 @@ async function inputacessprofile(task, contacts) {
   const profileIconElement = document.getElementById("profileicon");
   if (profileIconElement)
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
-  document.getElementById("btn1").addEventListener("click", function () {
+  document.getElementById("btn1_1").addEventListener("click", function () {
     deletetask(task);
   });
-  document.getElementById("btn2").addEventListener("click", function () {
+  document.getElementById("btn2_1").addEventListener("click", function () {
     editprofile(task);
   });
 
@@ -418,34 +430,43 @@ async function inputacessprofile(task, contacts) {
 }
 
 async function inputacesstechnicall(task, contacts) {
-  document.getElementById("technicaltasktitle").innerHTML = `${task.title}`;
-  document.getElementById("descriptioninput").innerHTML = `${task.description}`;
-  document.getElementById(
-    "due-date-containerinput"
-  ).innerHTML = `${task.duedate}`;
-  document.getElementById("showprio").innerHTML = `${task.prio}`;
+  // Setting task details
+  document.getElementById("technicaltasktitle").innerHTML = task.title;
+  document.getElementById("descriptioninput").innerHTML = task.description;
+  document.getElementById("due-date-containerinput").innerHTML = task.duedate;
+  document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
-  document.getElementById("showassignedperson").innerHTML = "";
-  document.getElementById("showassignedperson").innerHTML +=
-    await assignedtotemplate(task, contacts);
 
-  document.getElementById("subtaskbox").innerHTML = "";
-  document.getElementById("subtaskbox").innerHTML += await showsubtaskstemplate(
-    task
-  );
-  document.getElementById("btn1").addEventListener("click", function () {
-    deletetask(task);
-  });
-  document.getElementById("btn2").addEventListener("click", function () {
-    editinputs(task);
-  });
+  // Render assigned persons and subtasks
+  const assignedPersonHTML = await assignedtotemplate(task, contacts);
+  document.getElementById("showassignedperson").innerHTML = assignedPersonHTML;
+
+  const subtaskHTML = await showsubtaskstemplate(task);
+  document.getElementById("subtaskbox").innerHTML = subtaskHTML;
+
+  // Remove existing event listeners to prevent duplicates
+  const deleteButton = document.getElementById("btn1");
+  const editButton = document.getElementById("btn2");
+
+  deleteButton.replaceWith(deleteButton.cloneNode(true));
+  editButton.replaceWith(editButton.cloneNode(true));
+
+  // Adding event listeners
+  document
+    .getElementById("btn1")
+    .addEventListener("click", () => deletetask(task));
+  document
+    .getElementById("btn2")
+    .addEventListener("click", () => editinputs(task));
 }
 
 function deletetask(task) {
   const taskId = task.id;
   const taskElement = document.getElementById(taskId);
-  const parentFolderId = taskElement.parentElement.id;
-  console.log(parentFolderId + taskId);
+
+  const parentFolder = taskElement.parentElement;
+
+  const parentFolderId = parentFolder.id;
 
   deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task);
 }
