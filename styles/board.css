@@ -11,6 +11,7 @@ h2 {
 
 .nothing {
   width: 100%;
+  max-width: 248px;
   max-height: 48px;
   height: 100%;
   border-radius: 10px;
