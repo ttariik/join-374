@@ -1,4 +1,6 @@
-function editinputs() {
+function editinputs(task) {
+  console.log(task);
+
   document.getElementById("type").remove();
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.getElementById("title").innerHTML = titletemplate();
@@ -16,7 +18,7 @@ function editinputs() {
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
 }
 
-function editprofile() {
+function editprofile(task) {
   document.getElementById("userbox").classList.remove("userboxprofile");
   document.getElementById("profilecategory").remove();
   document.querySelector(".header").style.justifyContent = "flex-end";
@@ -33,6 +35,7 @@ function editprofile() {
     "buttons"
   ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
   document.querySelector(".layout").style = "gap: 3px";
+  document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
 }
 
@@ -145,7 +148,6 @@ function prioritytemplate() {
 
 function reselectionofcontacts() {
   return `<div class="selectbox">
-              <div><label>Assigned to</label></div>
                   <button
                     id="selectboxbutton"
                     type="button"

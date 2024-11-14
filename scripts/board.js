@@ -158,10 +158,25 @@ async function loadtasks() {
       console.log("Loaded tasks for done-folder:", donetasks);
     }
 
-    document.getElementById("todo-folder").innerHTML = "";
-    document.getElementById("inprogress-folder").innerHTML = "";
-    document.getElementById("awaiting-feedback-folder").innerHTML = "";
-    document.getElementById("done-folder").innerHTML = "";
+    // Clear existing tasks in the DOM for each folder
+    const folders = [
+      "todo-folder",
+      "inprogress-folder",
+      "awaiting-feedback-folder",
+      "done-folder",
+    ];
+    folders.forEach((folderId) => {
+      const folderElement = document.getElementById(folderId);
+      if (folderElement) folderElement.innerHTML = "";
+    });
+
+    // Helper function to display "No tasks" message if a folder is empty
+    const displayNoTasksMessage = (folderId, message) => {
+      const folderElement = document.getElementById(folderId);
+      if (folderElement && folderElement.children.length === 0) {
+        folderElement.innerHTML = `<div class='nothing'>${message}</div>`;
+      }
+    };
 
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
@@ -174,18 +189,12 @@ async function loadtasks() {
 
           if (task.category === "Technical Task") {
             taskHTML = await Technicaltasktemplate(
-              {
-                ...task,
-                id: taskId,
-              },
+              { ...task, id: taskId },
               contacts
             );
           } else {
             taskHTML = await userstorytemplate(
-              {
-                ...task,
-                id: taskId,
-              },
+              { ...task, id: taskId },
               contacts
             );
           }
@@ -213,10 +222,20 @@ async function loadtasks() {
       });
     };
 
+    // Render tasks for each folder
     await renderTasksWithTemplate(todos, "todo-folder");
     await renderTasksWithTemplate(inprogress, "inprogress-folder");
     await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
     await renderTasksWithTemplate(donetasks, "done-folder");
+
+    // Check for empty folders and add "No tasks" message
+    displayNoTasksMessage("todo-folder", "No tasks to do");
+    displayNoTasksMessage("inprogress-folder", "No tasks in progress");
+    displayNoTasksMessage(
+      "awaiting-feedback-folder",
+      "No tasks awaiting feedback"
+    );
+    displayNoTasksMessage("done-folder", "No tasks done");
   } catch (error) {
     console.error("Error loading tasks:", error);
   }
@@ -360,6 +379,12 @@ async function inputacessprofile(task, contacts) {
   const profileIconElement = document.getElementById("profileicon");
   if (profileIconElement)
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
+  document.getElementById("btn1").addEventListener("click", function () {
+    deletetask(task);
+  });
+  document.getElementById("btn2").addEventListener("click", function () {
+    editprofile(task);
+  });
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
 
@@ -407,10 +432,26 @@ async function inputacesstechnicall(task, contacts) {
   document.getElementById("showassignedperson").innerHTML = "";
   document.getElementById("showassignedperson").innerHTML +=
     await assignedtotemplate(task, contacts);
+
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML += await showsubtaskstemplate(
     task
   );
+  document.getElementById("btn1").addEventListener("click", function () {
+    deletetask(task);
+  });
+  document.getElementById("btn2").addEventListener("click", function () {
+    editinputs(task);
+  });
+}
+
+function deletetask(task) {
+  const taskId = task.id;
+  const taskElement = document.getElementById(taskId);
+  const parentFolderId = taskElement.parentElement.id;
+  console.log(parentFolderId + taskId);
+
+  deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task);
 }
 
 async function deleteData(path = "", data = {}) {
@@ -459,9 +500,7 @@ async function assignedtotemplate(task, contacts) {
       );
 
       const name = contact ? contact.name : item.name || "Unknown";
-      const color = contact
-        ? contact.color
-        : getColorFromInitials(item.initials);
+      const color = contact.color;
 
       const html = `
         <div class="alignsubdiv">
