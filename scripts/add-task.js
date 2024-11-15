@@ -287,7 +287,7 @@ function contactstemplate(contact, color) {
   return /*html*/ `
     <li class="contact-menudesign" id="div${contact.id}" onclick="selectcontact(${contact.id})">
       <div class="splitdivs">
-        <div class="contactbox-badge badge" style="background-color:${color}">${contact.initials}</div>
+        <div class="contactbox-badge" style="background-color:${color}">${contact.initials}</div>
         <div>${contact.name}</div>
       </div>
       <label class="custom-checkbox" >
