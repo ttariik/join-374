@@ -126,17 +126,14 @@ async function loadtasks() {
   const donetasks = [];
 
   try {
-    // Ensure the 'tasks' folder exists or is created empty
     const response = await fetch(GLOBAL + `users/1/tasks.json`);
     const userData = await response.json();
 
-    // If 'tasks' folder doesn't exist, create it as an empty object
     if (userData === null) {
-      const result = await putData("users/1/tasks", {}); // Create the tasks folder as an empty object
+      const result = await putData("/users/1/tasks", {});
       console.log(`Created empty ${result} folder.`);
     }
 
-    // Ensure folders within 'tasks' exist or are empty
     const folderNames = [
       "todo-folder",
       "inprogress-folder",
@@ -144,21 +141,18 @@ async function loadtasks() {
       "done-folder",
     ];
 
-    // Create empty folders if they don't exist
     for (let folder of folderNames) {
       if (!userData[folder]) {
-        await putData(`users/1/tasks/${folder}`, {}); // Create the folder as empty
+        await putData(`users/1/tasks/${folder}`, {});
         console.log(`Created empty folder: ${folder}`);
       }
     }
 
-    // Re-fetch user data after ensuring folders are created
     const updatedResponse = await fetch(GLOBAL + `users/1/tasks.json`);
     const updatedUserData = await updatedResponse.json();
 
     console.log("Fetched userData after ensuring folders:", updatedUserData);
 
-    // Push tasks to the respective arrays
     const pushTasksFromFolder = (folderData, taskArray) => {
       if (folderData && typeof folderData === "object") {
         Object.entries(folderData).forEach(([key, task]) => {
@@ -170,7 +164,6 @@ async function loadtasks() {
       }
     };
 
-    // Load tasks for each folder
     if (updatedUserData["todo-folder"]) {
       pushTasksFromFolder(updatedUserData["todo-folder"], todos);
       console.log("Loaded tasks for todo-folder:", todos);
@@ -197,7 +190,6 @@ async function loadtasks() {
       console.log("Loaded tasks for done-folder:", donetasks);
     }
 
-    // Clear previous content in the folders (if needed)
     const folders = [
       "todo-folder",
       "inprogress-folder",
@@ -209,7 +201,6 @@ async function loadtasks() {
       if (folderElement) folderElement.innerHTML = "";
     });
 
-    // Display "No tasks" message for empty folders
     const displayNoTasksMessage = (folderId, message) => {
       const folderElement = document.getElementById(folderId);
       if (folderElement && folderElement.children.length === 0) {
@@ -217,7 +208,6 @@ async function loadtasks() {
       }
     };
 
-    // Render tasks in each folder
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
       const response2 = await fetch(GLOBAL + "users/1/contacts.json");
@@ -227,7 +217,6 @@ async function loadtasks() {
           const taskId = task.id;
           let taskHTML;
 
-          // Load different templates based on category
           if (task.category === "Technical Task") {
             taskHTML = await Technicaltasktemplate(
               { ...task, id: taskId },
@@ -240,10 +229,8 @@ async function loadtasks() {
             );
           }
 
-          // Insert task into container
           container.insertAdjacentHTML("beforeend", taskHTML);
 
-          // Make tasks draggable
           const taskElement = document.getElementById(taskId);
           if (taskElement) {
             taskElement.setAttribute("draggable", "true");
@@ -253,7 +240,6 @@ async function loadtasks() {
             });
           }
 
-          // Add click event to open task details
           document.getElementById(taskId).addEventListener("click", () => {
             if (task.category === "Technical Task") {
               opentechnicaltemplate(task, contacts);
@@ -265,13 +251,11 @@ async function loadtasks() {
       });
     };
 
-    // Render tasks for each folder
     await renderTasksWithTemplate(todos, "todo-folder");
     await renderTasksWithTemplate(inprogress, "inprogress-folder");
     await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
     await renderTasksWithTemplate(donetasks, "done-folder");
 
-    // Show messages if no tasks in folder
     displayNoTasksMessage("todo-folder", "No tasks to do");
     displayNoTasksMessage("inprogress-folder", "No tasks in progress");
     displayNoTasksMessage(
@@ -285,8 +269,9 @@ async function loadtasks() {
 }
 
 async function userstorytemplate(task, contacts) {
-  const contactsArray = Object.values(contacts);
-
+  const contactsArray = (
+    Array.isArray(contacts) ? contacts : Object.values(contacts)
+  ).filter((contact) => contact !== null && contact !== undefined);
   console.log("Contacts array:", contactsArray);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
@@ -342,8 +327,9 @@ async function userstorytemplate(task, contacts) {
 }
 
 async function Technicaltasktemplate(task, contacts) {
-  const contactsArray = Object.values(contacts);
-
+  const contactsArray = (
+    Array.isArray(contacts) ? contacts : Object.values(contacts)
+  ).filter((contact) => contact !== null && contact !== undefined);
   console.log("Contacts array:", contactsArray);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
@@ -487,12 +473,8 @@ async function inputacesstechnicall(task, contacts) {
   editButton.replaceWith(editButton.cloneNode(true));
 
   // Adding event listeners
-  document
-    .getElementById("btn1")
-    .addEventListener("click", () => deletetask(task));
-  document
-    .getElementById("btn2")
-    .addEventListener("click", () => editinputs(task));
+  deleteButton.addEventListener("click", () => deletetask(task));
+  editButton.addEventListener("click", () => editinputs(task));
 }
 
 function deletetask(task) {
