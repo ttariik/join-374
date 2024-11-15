@@ -497,11 +497,11 @@ select {
 }
 
 .lightorange {
-  background-color: #ffa800;
+  background-color: #ffa800 !important;
 }
 
 .lightgreen {
-  background-color: #7ae229;
+  background-color: #7ae229 !important;
 }
 
 .buttonsalignment {
