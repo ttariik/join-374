@@ -32,8 +32,8 @@
                       class="titleinput"
                       placeholder="Enter a title"
                       type="text"
-                      required
                     />
+                    <span id="spantitle"></span>
                   </div>
                 </div>
                 <div class="descriptioninput">
@@ -44,8 +44,8 @@
                     <textarea
                       id="description"
                       placeholder="Enter a Description"
-                      required
                     ></textarea>
+                    <span id="spandescription"></span>
                   </div>
                 </div>
                 <div class="selectbox">
@@ -61,6 +61,7 @@
                   </button>
                   <ul id="contacts-box" class="outsidedesign"></ul>
                 </div>
+                <span id="spantasignedbox"></span>
                 <div id="assignedusers"></div>
               </div>
               <div class="line"></div>
@@ -72,9 +73,7 @@
                     </div>
                     <div class="emailinput">
                       <input
-                        required
                         oninput="filternumbers(this)"
-                        required
                         class="emailinput2"
                         type="datetime"
                         name="date"
@@ -82,6 +81,7 @@
                         placeholder="dd/mm/yyyy"
                         maxlength="10"
                       />
+                      <span id="spandate"></span>
                     </div>
                   </div>
                   <div class="buttons">
@@ -96,7 +96,12 @@
                         >
                           <span id="urgent">Urgent</span>
                           <img id="urgentImg" src="/img/Urgent.png" alt="" />
-                          <img id="urgentWhiteImg" src="/img/urgent-white.png" alt="urgent white" class="hidden" />
+                          <img
+                            id="urgentWhiteImg"
+                            src="/img/urgent-white.png"
+                            alt="urgent white"
+                            class="hidden"
+                          />
                         </button>
                       </div>
                       <div class="button-containerss">
@@ -107,8 +112,17 @@
                           class="buttons2_2"
                         >
                           <span id="medium">Medium</span>
-                          <img id="mediumImg" src="/img/Medium.png" alt="medium task" />
-                          <img id="mediumWhiteImg" src="/img/medium-white.png" alt="medium white" class="hidden" />
+                          <img
+                            id="mediumImg"
+                            src="/img/Medium.png"
+                            alt="medium task"
+                          />
+                          <img
+                            id="mediumWhiteImg"
+                            src="/img/medium-white.png"
+                            alt="medium white"
+                            class="hidden"
+                          />
                         </button>
                       </div>
                       <div class="button-containerss">
@@ -120,10 +134,16 @@
                         >
                           <span id="low">Low</span>
                           <img id="lowImg" src="/img/Low.png" alt="low task" />
-                          <img id="lowWhiteImg" src="/img/low-white.png" alt="low white" class="hidden" />
-                        </button>                    
+                          <img
+                            id="lowWhiteImg"
+                            src="/img/low-white.png"
+                            alt="low white"
+                            class="hidden"
+                          />
+                        </button>
                       </div>
                     </div>
+                    <span id="spanprio"></span>
                   </div>
                 </div>
                 <div class="secondhalfbox">
@@ -131,7 +151,7 @@
                     <label
                       >Category<span class="required-indicator">*</span></label
                     >
-                    <select name="" id="Category" required>
+                    <select name="" id="Category">
                       <option
                         disabled
                         selected
@@ -143,6 +163,7 @@
                       <option value="Technical Task">Technical Task</option>
                       <option value="User Story">User Story</option>
                     </select>
+                    <span id="spancategory"></span>
                   </div>
                   <div>
                     <label>Subtasks</label>
@@ -179,7 +200,8 @@
                       >
                         <img src="/img/checkmark.png" alt="" />
                       </button>
-                      <div id="subtasksbox" required class="subtasksbox1"></div>
+                      <span id="spansubtask"></span>
+                      <div id="subtasksbox" class="subtasksbox1"></div>
                       <div id="spanplace"></div>
                     </div>
                   </div>
@@ -206,7 +228,7 @@
     <script>
       includeHTML();
     </script>
-      <script type="module" src="../scripts/navbar.js"></script>
+    <script type="module" src="../scripts/navbar.js"></script>
     <script src="../scripts/add-task.js"></script>
   </body>
 </html>

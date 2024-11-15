@@ -82,41 +82,38 @@ async function addtask(event) {
   event.preventDefault();
 
   const form = document.querySelector("form");
-  if (!form.checkValidity() || !selectedPriority) {
-    form.reportValidity();
-    if (!selectedPriority) alert("Please select a priority!");
-    return;
-  }
-  let userResponse = await getAllUsers("users");
-  let title = document.getElementById("title").value;
-  let description = document.getElementById("description").value;
-  let duedate = document.getElementById("date").value;
-  let category = document.getElementById("Category").value;
-  let UserKeyArray = Object.keys(userResponse);
-  if (!selectedPriority) {
-    alert("Please select a priority!");
-    return;
-  }
-  for (let index = 0; index < UserKeyArray.length; index++) {
-    users.push({
-      id: UserKeyArray[index],
-      user: userResponse[UserKeyArray[index]],
+  // Call validation function
+  if (validateTaskForm()) {
+    let userResponse = await getAllUsers("users");
+    let title = document.getElementById("title").value;
+    let description = document.getElementById("description").value;
+    let duedate = document.getElementById("date").value;
+    let category = document.getElementById("Category").value;
+    let UserKeyArray = Object.keys(userResponse);
+
+    for (let index = 0; index < UserKeyArray.length; index++) {
+      users.push({
+        id: UserKeyArray[index],
+        user: userResponse[UserKeyArray[index]],
+      });
+    }
+    await addEditSingleUser((id = 1), {
+      title: title,
+      description: description,
+      asignedto: asignedtousers,
+      prio: selectedPriority,
+      duedate: duedate,
+      category: category,
+      subtask: subtasks.map((subtask) => ({
+        subtask: subtask,
+        completed: false,
+      })),
+      initials: initialsArray,
     });
+    emptyinputs();
+  } else {
+    console.log("Form validation failed. Please fix the errors.");
   }
-  await addEditSingleUser((id = 1), {
-    title: title,
-    description: description,
-    asignedto: asignedtousers,
-    prio: selectedPriority,
-    duedate: duedate,
-    category: category,
-    subtask: subtasks.map((subtask) => ({
-      subtask: subtask,
-      completed: false,
-    })),
-    initials: initialsArray,
-  });
-  emptyinputs();
 }
 
 function emptyinputs() {
@@ -415,3 +412,105 @@ window.addEventListener("resize", () => {
 });
 
 window.dispatchEvent(new Event("resize"));
+
+function validateTaskForm() {
+  let isValid = true;
+
+  // Clear previous validation messages
+  clearValidationMessages();
+
+  // Validate Title
+  const title = document.getElementById("title").value.trim();
+  if (title === "") {
+    isValid = false;
+    displayError("spantitle", "Please select a title.");
+  }
+
+  // Validate Description
+  const description = document.getElementById("description").value.trim();
+  if (description === "") {
+    isValid = false;
+    displayError("spandescription", "Please enter a description.");
+  }
+
+  // Validate Assigned (Contact selection)
+  const assignedUsers =
+    document.getElementById("assignedusers").children.length;
+  if (assignedUsers === 0) {
+    isValid = false;
+    displayError("spantasignedbox", "Please select a contact.");
+  }
+
+  // Validate Due Date
+  const date = document.getElementById("date").value.trim();
+  if (date === "") {
+    isValid = false;
+    displayError("spandate", "Please enter a date.");
+  }
+
+  // Validate Priority
+  const priority = getSelectedPriority();
+  if (!priority) {
+    isValid = false;
+    displayError("spanprio", "Please select a priority.");
+  }
+
+  // Validate Category
+  const category = document.getElementById("Category").value;
+  if (category === "" || category === "Select Task Category") {
+    isValid = false;
+    displayError("spancategory", "Please select a category.");
+  }
+
+  const subtasks = document.querySelectorAll(".subbox").length;
+  if (subtasks < 2) {
+    isValid = false;
+    displayError("spansubtask", "Please enter at least 2 tasks.");
+  } else if (subtasks > 2) {
+    isValid = false;
+    displayError("spansubtask", "You can only add up to 2 subtasks.");
+    return isValid; // Stops further validation if there are more than 3 subtasks
+  }
+  // Return the result of validation
+  return isValid;
+}
+
+// Function to display error message with red color
+function displayError(elementId, message) {
+  const element = document.getElementById(elementId);
+  element.textContent = message;
+  element.classList.add("error-message"); // Add red color style
+}
+
+// Function to check if any priority button is selected
+function getSelectedPriority() {
+  const buttons = document.querySelectorAll(".buttons2 button");
+  for (let button of buttons) {
+    if (button.classList.contains("selected")) {
+      return true; // A priority has been selected
+    }
+  }
+  return false; // No priority selected
+}
+
+// Function to clear all previous validation messages
+function clearValidationMessages() {
+  // Clear validation message text and remove error styles
+  const errorElements = document.querySelectorAll(".error-message");
+  errorElements.forEach((element) => {
+    element.textContent = "";
+    element.classList.remove("error-message");
+  });
+}
+
+// Function to handle button selection for priority
+function handleButtonClick(priority) {
+  const buttons = document.querySelectorAll(".buttons2 button");
+  buttons.forEach((button) => {
+    if (button.querySelector("span").textContent === priority) {
+      button.classList.add("selected");
+    } else {
+      button.classList.remove("selected");
+    }
+  });
+}

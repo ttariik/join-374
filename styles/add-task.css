@@ -98,6 +98,11 @@
   align-items: center;
 }
 
+.error-message {
+  color: red;
+  font-size: 20px;
+}
+
 .flex {
   display: flex;
 }
@@ -415,7 +420,6 @@ select {
   height: fit-content;
   display: flex;
   flex-direction: column;
-  gap: 59px;
   width: 100%;
 }
 
