@@ -179,19 +179,26 @@ async function savedata(contactKey) {
     return;
   }
 
-  let name = document.getElementById("name").value.trim();
-  let email = document.getElementById("emailarea").value.trim();
-  let telefone = document.getElementById("phone").value.trim();
+  let telefonename = document.getElementById("name").value;
+  let nameParts = telefonename.trim().split(" ");
+  let firstname = nameParts[0].charAt(0).toUpperCase();
+  let lastname = nameParts[1]?.charAt(0).toUpperCase();
+  let initials = firstname + (lastname || "");
+  let color = getColorFromString(telefonename);
+  let email = document.getElementById("emailarea").value;
+  let phone = document.getElementById("phone").value;
 
-  if (!name || !email || !telefone) {
+  if (!telefonename || !email || !telefone) {
     alert("All fields must be filled out.");
     return;
   }
 
   const response = await putData(`/users/1/contacts/${contactKey}`, {
-    name: name,
+    color: color,
+    initials: initials,
+    name: telefonename,
     email: email,
-    telefone: telefone,
+    telefone: phone,
   });
 
   await showcontacts(1);

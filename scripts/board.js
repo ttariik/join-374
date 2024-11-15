@@ -98,7 +98,6 @@ async function drop(event) {
         noTasksMessageElement.className = "nothing";
       }
 
-      // Append the task element to the target container
       targetContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", targetFolder);
 
@@ -127,6 +126,9 @@ async function loadtasks() {
   const donetasks = [];
 
   try {
+    const result = await putData("users/1/tasks/4", {});
+    console.log(result);
+
     const response = await fetch(GLOBAL + `users/1/tasks.json`);
     const userData = await response.json();
 
