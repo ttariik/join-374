@@ -408,46 +408,51 @@ async function inputacessprofile(task, contacts) {
   const profileIconElement = document.getElementById("profileicon");
   if (profileIconElement)
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
-  document.getElementById("btn1_1").addEventListener("click", function () {
-    deletetask(task);
-  });
-  document.getElementById("btn2_1").addEventListener("click", function () {
-    editprofile(task);
-  });
 
-  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-
-  const initialsHTMLPromises = initialsArray
-    .filter((item) => item.initials)
-    .map(async (item) => {
-      const contact = Object.values(contacts).find(
-        (contact) => contact.initials === item.initials
-      );
-      const color = contact ? contact.color : "#CCCCCC";
-      const name = contact ? contact.name : item.name || "Unknown";
-
-      return /*html*/ `
-        <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
-          <div>${name}</div>
-        </div>`;
+  // Event listeners for buttons
+  const btn1_1 = document.getElementById("btn1_1");
+  if (btn1_1) {
+    btn1_1.addEventListener("click", function () {
+      deletetask(task);
     });
+  }
 
-  const initialsHTML = (await Promise.all(initialsHTMLPromises)).join("");
+  const btn2_1 = document.getElementById("btn2-1");
+  if (btn2_1) {
+    btn2_1.addEventListener("click", function () {
+      editprofile(task);
+    });
+  }
+
+  // Handling initials and creating HTML
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+  const contactsArray = (
+    Array.isArray(contacts) ? contacts : Object.values(contacts)
+  ).filter((contact) => contact !== null && contact !== undefined);
+
+  // Update profile assigned area
   const profileAssignedArea = document.getElementById("profileassingedarea");
-  if (profileAssignedArea) profileAssignedArea.innerHTML = initialsHTML;
+  if (profileAssignedArea) {
+    profileAssignedArea.innerHTML = `${initialsArray[0].initials} `;
+  }
 
+  // Handling subtasks and creating HTML
   const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
   const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
     return /*html*/ `
       <div class="alignsubdiv2">
-        <div></div><div>${subtask.subtask || "No description"}</div>  
+        <div></div><div>${subtask.subtask || "No description"}</div>
       </div>`;
   });
 
+  // Wait for all subtask HTML to resolve and join the results
   const subtaskHTML = (await Promise.all(subtaskHTMLPromises)).join("");
+
+  // Update subtask area
   const subtaskArea = document.getElementById("subtaskarea");
-  if (subtaskArea) subtaskArea.innerHTML = subtaskHTML;
+  if (subtaskArea) {
+    subtaskArea.innerHTML = subtaskHTML;
+  }
 }
 
 async function inputacesstechnicall(task, contacts) {
@@ -568,23 +573,30 @@ async function showsubtaskstemplate(task) {
 }
 
 async function assignedtotemplate(task, contacts) {
-  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+  // Convert the object to an array of initials
+  const assignedInitialsArray = Object.values(task.initials);
 
-  console.log("Initials Array:", initialsArray);
+  console.log("Assigned Initials Array:", assignedInitialsArray);
 
-  const initialsHTMLPromises = initialsArray
-    .filter((item) => item.initials)
-    .map(async (item) => {
+  // Generate HTML for each assigned contact based on initials
+  const initialsHTMLPromises = assignedInitialsArray
+    .filter((initial) => initial) // Filter out invalid or empty initials
+    .map(async (initial) => {
+      // Find the contact by initials in the contacts object
       const contact = Object.values(contacts).find(
-        (contact) => contact.initials === item.initials
+        (contact) => contact.initials === initial
       );
 
-      const name = contact ? contact.name : item.name || "Unknown";
-      const color = contact.color;
+      // Fallback values if the contact is not found
+      const name = contact ? contact.name : "Unknown";
+      const color = contact && contact.color ? contact.color : "#ccc";
 
+      // Generate HTML for this contact's badge
       const html = `
         <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">${item.initials}</div>
+          <div class="badgestyle badge" style="background-color:${color}">
+            ${initial}
+          </div>
           <div>${name}</div>
         </div>`;
 
@@ -592,15 +604,18 @@ async function assignedtotemplate(task, contacts) {
       return html;
     });
 
+  // Resolve all promises and join the HTML strings
   const initialsHTML = await Promise.all(initialsHTMLPromises);
   console.log("Initials HTML Array Before Joining:", initialsHTML);
 
+  // Filter out any undefined or empty HTML strings
   const finalHTML = initialsHTML.filter(Boolean).join("");
   console.log("Final HTML:", finalHTML);
 
+  // Return the final HTML template
   return /*html*/ `
     <div class="align" id="showassignedperson">
-      ${finalHTML}  
+      ${initialsHTML}  
     </div>
   `;
 }
