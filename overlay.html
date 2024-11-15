@@ -23,7 +23,10 @@
           </div>
         </div>
         <div class="wholebox">
-          <form id="myform" onsubmit="return addtask(event)">
+          <form
+            id="myform"
+            onsubmit="return addtask(event) && loadtasks()&& closeaddtasktemplate()"
+          >
             <div class="alignment2">
               <div class="firstbox">
                 <div class="title2">

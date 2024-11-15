@@ -457,24 +457,27 @@ async function inputacesstechnicall(task, contacts) {
   document.getElementById("due-date-containerinput").innerHTML = task.duedate;
   document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+  // Safely add event listeners to buttons
+  const deleteButton = document.getElementById("btn1");
+  const editButton = document.getElementById("btn2");
 
+  // Remove old buttons by cloning them without listeners first
+  const newDeleteButton = deleteButton.cloneNode(true);
+  const newEditButton = editButton.cloneNode(true);
+
+  // Replace old buttons with cloned ones (no listeners)
+  deleteButton.replaceWith(newDeleteButton);
+  editButton.replaceWith(newEditButton);
+
+  // Add event listeners to the new cloned buttons
+  newDeleteButton.addEventListener("click", () => deletetask(task));
+  newEditButton.addEventListener("click", () => editinputs(task));
   // Render assigned persons and subtasks
   const assignedPersonHTML = await assignedtotemplate(task, contacts);
   document.getElementById("showassignedperson").innerHTML = assignedPersonHTML;
 
   const subtaskHTML = await showsubtaskstemplate(task);
   document.getElementById("subtaskbox").innerHTML = subtaskHTML;
-
-  // Remove existing event listeners to prevent duplicates
-  const deleteButton = document.getElementById("btn1");
-  const editButton = document.getElementById("btn2");
-
-  deleteButton.replaceWith(deleteButton.cloneNode(true));
-  editButton.replaceWith(editButton.cloneNode(true));
-
-  // Adding event listeners
-  deleteButton.addEventListener("click", () => deletetask(task));
-  editButton.addEventListener("click", () => editinputs(task));
 }
 
 function deletetask(task) {
@@ -528,6 +531,7 @@ function deletetask(task) {
     .catch((error) => {
       console.error("Error deleting task:", error);
     });
+  closeoverlaytechnicaltemplate();
 }
 
 async function deleteData(path = "", data = {}) {
