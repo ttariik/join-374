@@ -78,6 +78,80 @@ function handleButtonClick(priority) {
   selectedPriority = priority;
 }
 
+// Function to check if all inputs are filled and enable the button
+function checkAddTaskInputs() {
+  // Get input values
+  const title = document.getElementById("title").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const dueDate = document.getElementById("date").value.trim();
+  const category = document.getElementById("Category").value;
+  const assignedUsers =
+    document.getElementById("assignedusers").children.length;
+  const selectedPriority = getSelectedPriority(); // Custom function to get priority
+  const subtasks = document.querySelectorAll(".subbox").length;
+  const createTaskButton = document.querySelector(".bt2");
+
+  // Check if all required fields are filled and valid
+  const isFormValid =
+    title &&
+    description &&
+    assignedUsers > 0 &&
+    selectedPriority &&
+    dueDate &&
+    category !== "Select Task Category" &&
+    subtasks >= 2;
+
+  if (isFormValid) {
+    // Enable the "Create Task" button
+    createTaskButton.disabled = false;
+    createTaskButton.style.backgroundColor = "#2a3647";
+    createTaskButton.classList.add("enabled-hover");
+  } else {
+    // Disable the "Create Task" button
+    createTaskButton.disabled = true;
+    createTaskButton.style.backgroundColor = "#d3d3d3";
+    createTaskButton.classList.remove("enabled-hover");
+  }
+}
+
+// Custom function to check which priority is selected
+function getSelectedPriority() {
+  const urgentButton = document.getElementById("button1");
+  const mediumButton = document.getElementById("button2");
+  const lowButton = document.getElementById("button3");
+
+  if (urgentButton.classList.contains("lightred")) return "Urgent";
+  if (mediumButton.classList.contains("lightorange")) return "Medium";
+  if (lowButton.classList.contains("lightgreen")) return "Low";
+
+  return null; // No priority selected
+}
+
+function initializeFormCheck() {
+  // Add event listeners to all inputs, textarea, select, and priority buttons
+  const inputs = document.querySelectorAll(
+    "#title, #description, #date, #Category"
+  );
+  const priorityButtons = document.querySelectorAll(
+    "#button1, #button2, #button3"
+  );
+  const subtaskInput = document.getElementById("subtaskinput");
+
+  inputs.forEach((input) =>
+    input.addEventListener("input", checkAddTaskInputs)
+  );
+  priorityButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      getSelectedPriority(button); // Assuming you have a function to set the 'active' class
+      checkAddTaskInputs();
+    })
+  );
+  subtaskInput.addEventListener("input", checkAddTaskInputs);
+
+  // Run the check once on load
+  checkAddTaskInputs();
+}
+
 async function addtask(event) {
   event.preventDefault();
 
@@ -200,7 +274,29 @@ function addsubtask() {
   document.getElementById("subtasksbox").innerHTML +=
     subtaskstemplate(subtaskinput1);
   subtasks.push(subtaskinput1);
+  console.log(subtasks.length);
+  checkAddTaskInputs();
+  document
+    .querySelector(".subbox")
+    .addEventListener("mouseenter", showeditsubtasks);
+  document
+    .querySelector(".subbox")
+    .addEventListener("mouseleave", hideeditsubtasks);
   subtaskiconsreset();
+}
+
+function showeditsubtasks() {
+  // Loop through each element with the class 'buttondesign' and remove 'd-none'
+  document.querySelectorAll(".buttondesign").forEach((button) => {
+    button.classList.remove("d-none");
+  });
+}
+
+function hideeditsubtasks() {
+  // Loop through each element with the class 'buttondesign' and add 'd-none'
+  document.querySelectorAll(".buttondesign").forEach((button) => {
+    button.classList.add("d-none");
+  });
 }
 
 function resetsubtask() {
@@ -211,13 +307,97 @@ function resetsubtask() {
 
 function subtaskstemplate(subtaskinput1) {
   return /*html*/ `
-    <div class="subbox">
+    <div class="subbox" id="subboxinput${subtasks.length + 1}" >
+      <div class="subbox_1" >
       <div>•</div>
-      <div>${subtaskinput1}</div>
-      <button class="d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
-      <button class="d-none"><img src="/img/check.png" alt="Check" /></button>
+      <div onclick="editsubtask(${subtasks.length + 1})">${subtaskinput1}</div>
+      </div>
+      <div class="subbox_2">
+      <button class="buttondesign d-none"><img src="/img/edit.png" alt=""></button>
+      <button id="deletesub" type="button" class="buttondesign d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
+      <button id="savesub" type="button" class="buttondesign1 d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
+      </div>
     </div>
   `;
+}
+
+function editsubtask(index) {
+  const subboxElement = document.getElementById(`subboxinput${index}`);
+  // Remove hover event listeners for this specific subtask box
+  subboxElement.removeEventListener("mouseenter", showeditsubtasks);
+  subboxElement.removeEventListener("mouseleave", hideeditsubtasks);
+
+  subboxElement.onclick = "";
+  // Replace content with input field and buttons
+  subboxElement.innerHTML = `
+    <input id="inputsub${index}" class="editinput" type="text" placeholder="Edit subtask" />
+    <div class="flex">
+      <button id="deletesubbutton${index}" type="button"  class="buttondesign1">
+        <img src="/img/delete1 (2).png" alt="Delete" />
+      </button>
+      <button id="savesubbutton${index}" class="buttondesign" type="button" >
+        <img src="/img/check1 (1).png" alt="Check" />
+      </button>
+    </div>
+  `;
+
+  document
+    .getElementById(`savesubbutton${index}`)
+    .addEventListener("click", function () {
+      savesub(index);
+    });
+  document
+    .getElementById(`deletesubbutton${index}`)
+    .addEventListener("click", function () {
+      deletesub(index);
+    });
+
+  // Set focus on the input field for better user experience
+  const inputField = document.getElementById(`inputsub${index}`);
+  inputField.focus();
+}
+
+function deletesub(index) {
+  const result = document.getElementById(`inputsub${index}`).value.trim();
+  subtasks[index - 1] = result;
+}
+
+function savesub(index) {
+  console.log("hello");
+
+  // Get the new value from the input
+  const result = document.getElementById(`inputsub${index}`).value.trim();
+
+  // Validate the input (optional)
+  if (result === "") {
+    alert("Subtask cannot be empty!");
+    return;
+  }
+
+  // Log the result (or update your subtask array here)
+  console.log(`Edited subtask ${index}: ${result}`);
+
+  // Update the global subtasks array (assuming it exists)
+  subtasks[index - 1] = result;
+
+  // Replace the input with the updated text
+  const subboxElement = document.getElementById(`subboxinput${index}`);
+  subboxElement.innerHTML = `
+    <div class="subbox" id="subboxinput${subtasks.length + 1}" >
+      <div class="subbox_1" >
+      <div>•</div>
+      <div onclick="editsubtask(${subtasks.length + 1})">${result}</div>
+      </div>
+      <div class="subbox_2">
+      <button class="buttondesign d-none"><img src="/img/edit.png" alt=""></button>
+      <button id="deletesub" type="button" class="buttondesign d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
+      <button id="savesub" type="button" class="buttondesign1 d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
+      </div>
+    </div>
+  `;
+  subboxElement.addEventListener("mouseenter", showeditsubtasks);
+  subboxElement.addEventListener("mouseleave", hideeditsubtasks);
+  subtaskstemplate();
 }
 
 function smallerfunction() {

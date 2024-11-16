@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="/styles/add-task.css" />
     <link rel="stylesheet" href="/style.css" />
     <script src="../script.js"></script>
+    <script src="../scripts/add-task.js"></script>
   </head>
-  <body onload="getUserTaskss()">
+  <body onload="getUserTaskss();initializeFormCheck();checkAddTaskInputs()">
     <div w3-include-html="../navbar.html"></div>
     <div class="test123">
       <div class="test">
@@ -216,7 +217,7 @@
               <div class="buttonsalignment_2">
                 <button type="button" class="bt1" onclick="clearinputs()">
                   Clear <img src="/img/vector.png" alt="" /></button
-                ><button class="bt2">
+                ><button class="bt2" disabled>
                   Create Task <img src="/img/check.png" alt="" />
                 </button>
               </div>
@@ -229,6 +230,5 @@
       includeHTML();
     </script>
     <script type="module" src="../scripts/navbar.js"></script>
-    <script src="../scripts/add-task.js"></script>
   </body>
 </html>
