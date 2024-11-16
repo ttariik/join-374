@@ -440,6 +440,7 @@ select {
 .editinput {
   border: none;
   background-color: white;
+  height: 20px;
 }
 
 .buttondesign1 {
