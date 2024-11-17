@@ -186,6 +186,7 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-left: 12px;
 }
 
 .task-status {
@@ -370,6 +371,7 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-left: 12px;
 }
 
 .badgestyle {

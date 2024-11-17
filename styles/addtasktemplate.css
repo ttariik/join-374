@@ -61,24 +61,24 @@
 }
 
 .outsidedesign {
-  padding: 0; /* No padding for list */
-  margin: 0; /* No margin */
-  position: absolute; /* Absolute positioning */
-  top: 100%; /* Position just below the button */
-  left: 0; /* Align with the left edge of the button */
-  max-width: 440px; /* Max width to match your design */
-  width: 100%; /* Full width */
-  background-color: #f6f7f8; /* Background color */
-  z-index: 2; /* Stack order below the button */
-  box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
-  display: none; /* Initially hidden */
-  border-radius: 10px; /* Rounded corners */
-  overflow-y: auto; /* Enable scrolling if necessary */
+  padding: 0; 
+  margin: 0; 
+  position: absolute; 
+  top: 100%;
+  left: 0; 
+  max-width: 440px; 
+  width: 100%; 
+  background-color: #f6f7f8; 
+  z-index: 2; 
+  box-shadow: 0px 0px 14px 3px rgba(0, 0, 0, 0.1); 
+  display: none; 
+  border-radius: 10px; 
+  overflow-y: auto; 
 }
 
 .outsidedesign li {
-  padding: 12px 16px; /* Padding for list items */
-  cursor: pointer; /* Pointer cursor for better UX */
+  padding: 12px 16px; 
+  cursor: pointer; 
 }
 
 .dark-blue {
@@ -120,6 +120,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1;
+  position: relative;
+  margin-left: -12px;
+  border: solid #ffffff 1px;
 }
 
 nav {
@@ -320,7 +324,7 @@ select {
   color: black;
 }
 
-.subtaskbutton {
+.subtaskbutton, .subtaskbutton2, .subtaskbutton3  {
   height: fit-content;
   border: none;
   width: fit-content;
@@ -339,36 +343,8 @@ select {
   display: flex;
 }
 
-.subtaskbutton2 {
-  height: 24px;
-  border: none;
-  width: 24px;
-  position: absolute;
-  bottom: 0;
-  background-color: #ffffff;
-  right: 38px;
-  top: 12px;
-  padding: 5px;
-  border-radius: 50% 50%;
-  cursor: pointer;
-}
-
 .subtaskbutton2:hover {
   background-color: #dedede;
-}
-
-.subtaskbutton3 {
-  height: 24px;
-  border: none;
-  width: 24px;
-  position: absolute;
-  bottom: 0;
-  background-color: #ffffff;
-  right: 4px;
-  top: 11px;
-  padding: 1px;
-  border-radius: 50% 50%;
-  cursor: pointer;
 }
 
 .subtaskbutton3:hover {
