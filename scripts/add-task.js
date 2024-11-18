@@ -355,14 +355,29 @@ function subtaskstemplate(subtaskinput1) {
 
 function editsubtask(index) {
   console.log(`.subs${index}`);
-  document
-    .getElementById(`subboxinput_${index}`)
-    .classList.remove(`subs${index}`);
 
   const subboxElement = document.getElementById(`sub${index}`);
   document.getElementById("dot").classList.add("d-none");
   document.getElementById(`editsub${index}`).classList.add("d-none");
+  setTimeout(() => {
+    const subtaskElement = document.querySelector(`.subs${index}`);
 
+    // Ensure the element exists before attaching event listeners
+    if (subtaskElement) {
+      // Attach hover event listeners to the specific subtask div
+      subtaskElement.removeEventListener("mouseenter", () => {
+        const buttons = subtaskElement.querySelectorAll(".buttondesign");
+        buttons.forEach((button) => button.classList.add("d-none"));
+      });
+
+      subtaskElement.removeEventListener("mouseleave", () => {
+        const buttons = subtaskElement.querySelectorAll(".buttondesign");
+        buttons.forEach((button) => button.classList.add("d-none"));
+      });
+    } else {
+      console.error(`Subtask element with class .subs${index} not found.`);
+    }
+  }, 0);
   document.getElementById(`savesub${index}`).classList.remove("d-none");
   document.getElementById(`editsub${index}`).classList.remove("d-none");
 
@@ -414,8 +429,7 @@ function savesub(index) {
 
   // Replace the input with the updated text
   const subboxElement = document.getElementById(`inputsub${index}`);
-  subboxElement.addEventListener("mouseenter", showeditsubtasks);
-  subboxElement.addEventListener("mouseleave", hideeditsubtasks);
+
   document.getElementById(`inputsub${index}`).remove();
   document.getElementById(
     `inputsub${index}`
