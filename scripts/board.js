@@ -432,8 +432,36 @@ async function inputacessprofile(task, contacts) {
 
   // Update profile assigned area
   const profileAssignedArea = document.getElementById("profileassingedarea");
+
+  // Check if the area exists and there are contacts/initials available
+  let badgeHTML = "";
+
+  // Loop through contacts to find and display only recognized initials
+  contactsArray.forEach((contact) => {
+    // Find a matching initials object for the current contact
+    const matchingInitials = initialsArray.find(
+      (initialObj) => initialObj.initials === contact.initials
+    );
+
+    // If there is a match, create the badge
+    if (matchingInitials) {
+      const initials = matchingInitials.initials;
+      const name = matchingInitials.name;
+      const contactColor = contact.color || "#000"; // Default to black if no color
+
+      // Create the badge HTML
+      badgeHTML += `
+      <div class="badge alignment" style="background-color:${contactColor}">
+        ${initials} 
+      </div>
+      <span>${name}</span>
+    `;
+    }
+  });
+
+  // Set the generated HTML for the profile assigned area
   if (profileAssignedArea) {
-    profileAssignedArea.innerHTML = `${initialsArray[0].initials} `;
+    profileAssignedArea.innerHTML = badgeHTML;
   }
 
   // Handling subtasks and creating HTML
@@ -478,8 +506,7 @@ async function inputacesstechnicall(task, contacts) {
   newDeleteButton.addEventListener("click", () => deletetask(task));
   newEditButton.addEventListener("click", () => editinputs(task));
   // Render assigned persons and subtasks
-  const assignedPersonHTML = await assignedtotemplate(task, contacts);
-  document.getElementById("showassignedperson").innerHTML = assignedPersonHTML;
+  await assignedtotemplate(task, contacts);
 
   const subtaskHTML = await showsubtaskstemplate(task);
   document.getElementById("subtaskbox").innerHTML = subtaskHTML;
@@ -573,51 +600,47 @@ async function showsubtaskstemplate(task) {
 }
 
 async function assignedtotemplate(task, contacts) {
-  // Convert the object to an array of initials
-  const assignedInitialsArray = Object.values(task.initials);
+  // Handling initials and creating HTML
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+  const contactsArray = (
+    Array.isArray(contacts) ? contacts : Object.values(contacts)
+  ).filter((contact) => contact !== null && contact !== undefined);
 
-  console.log("Assigned Initials Array:", assignedInitialsArray);
+  // Update profile assigned area
+  const profileAssignedArea = document.getElementById("showassignedperson");
 
-  // Generate HTML for each assigned contact based on initials
-  const initialsHTMLPromises = assignedInitialsArray
-    .filter((initial) => initial) // Filter out invalid or empty initials
-    .map(async (initial) => {
-      // Find the contact by initials in the contacts object
-      const contact = Object.values(contacts).find(
-        (contact) => contact.initials === initial
-      );
+  // Check if the area exists and there are contacts/initials available
+  let badgeHTML = "";
 
-      // Fallback values if the contact is not found
-      const name = contact ? contact.name : "Unknown";
-      const color = contact && contact.color ? contact.color : "#ccc";
+  // Loop through contacts to find and display only recognized initials
+  contactsArray.forEach((contact) => {
+    // Find a matching initials object for the current contact
+    const matchingInitials = initialsArray.find(
+      (initialObj) => initialObj.initials === contact.initials
+    );
 
-      // Generate HTML for this contact's badge
-      const html = `
-        <div class="alignsubdiv">
-          <div class="badgestyle badge" style="background-color:${color}">
-            ${initial}
-          </div>
-          <div>${name}</div>
-        </div>`;
+    // If there is a match, create the badge
+    if (matchingInitials) {
+      const initials = matchingInitials.initials;
+      const name = matchingInitials.name || "Unknown"; // Fallback to "Unknown" if no name is found
+      const contactColor = contact.color || "#000"; // Default to black if no color
 
-      console.log("Generated HTML for Initial:", html);
-      return html;
-    });
+      // Create the badge HTML
+      badgeHTML += `
+      <div class="badge alignment" style="background-color:${contactColor}">
+        ${initials} 
+      </div>
+      <span class="badge-name">${name}</span>
+    `;
+    }
+  });
 
-  // Resolve all promises and join the HTML strings
-  const initialsHTML = await Promise.all(initialsHTMLPromises);
-  console.log("Initials HTML Array Before Joining:", initialsHTML);
-
-  // Filter out any undefined or empty HTML strings
-  const finalHTML = initialsHTML.filter(Boolean).join("");
-  console.log("Final HTML:", finalHTML);
-
-  // Return the final HTML template
-  return /*html*/ `
-    <div class="align" id="showassignedperson">
-      ${initialsHTML}  
-    </div>
-  `;
+  // Set the generated HTML for the profile assigned area
+  if (profileAssignedArea) {
+    profileAssignedArea.innerHTML = badgeHTML;
+  } else {
+    console.error("Profile assigned area not found");
+  }
 }
 
 async function opentechnicaltemplate(task, contacts) {

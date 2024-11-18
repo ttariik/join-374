@@ -88,7 +88,7 @@ function checkAddTaskInputs() {
   const assignedUsers =
     document.getElementById("assignedusers").children.length;
   const selectedPriority = getSelectedPriority(); // Custom function to get priority
-  const subtasks = document.querySelectorAll(".subbox").length;
+  const subtasks = document.querySelectorAll(".subbox1 ").length;
   const createTaskButton = document.querySelector(".bt2");
 
   // Check if all required fields are filled and valid
@@ -310,6 +310,7 @@ function addsubtask() {
         hidesubeditbuttons(event, subtaskNumber)
       );
     }
+    checkAddTaskInputs();
     document.getElementById("subtaskinput").value = "";
   } else {
     return displayError("spansubtask", "You can only add up to 2 subtasks.");
@@ -582,6 +583,7 @@ async function selectcontact(id) {
   });
 
   checkbox.dispatchEvent(new Event("change"));
+  checkAddTaskInputs();
 }
 
 function iffunction(
@@ -676,10 +678,37 @@ function validateTaskForm() {
   }
 
   // Validate Due Date
-  const date = document.getElementById("date").value.trim();
-  if (date === "") {
+  const dateInput = document.getElementById("date").value.trim();
+  const dateElement = document.getElementById("date");
+
+  if (dateInput === "") {
     isValid = false;
     displayError("spandate", "Please enter a date.");
+  } else {
+    const dueDate = new Date(dateInput);
+    const today = new Date();
+
+    // Reset time components for accurate comparison (set to midnight)
+    today.setHours(0, 0, 0, 0);
+
+    // Check if the input is a valid date and is not in the past
+    if (isNaN(dueDate.getTime())) {
+      isValid = false;
+      displayError("spandate", "Please enter a valid date.");
+    } else if (dueDate < today) {
+      isValid = false;
+      displayError("spandate", "Due date cannot be in the past.");
+    } else {
+      // If the date is valid and in the future, clear any existing error
+      clearError("spandate");
+    }
+  }
+
+  function clearError(spanId) {
+    const errorElement = document.getElementById(spanId);
+    if (errorElement) {
+      errorElement.textContent = "";
+    }
   }
 
   // Validate Priority
@@ -696,7 +725,7 @@ function validateTaskForm() {
     displayError("spancategory", "Please select a category.");
   }
 
-  const subtasks = document.querySelectorAll(".subbox").length;
+  const subtasks = document.querySelectorAll(".subbox1 ").length;
   if (subtasks < 2) {
     isValid = false;
     displayError("spansubtask", "Please enter at least 2 tasks.");

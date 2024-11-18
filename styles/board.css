@@ -21,6 +21,12 @@ h2 {
   align-items: center;
 }
 
+.alignment {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
 .content {
   max-width: 1208px;
   display: flex;

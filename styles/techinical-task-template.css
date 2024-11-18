@@ -209,6 +209,8 @@
   justify-content: space-around;
   padding: 7px 16px 7px 16px;
   width: 100%;
+  align-items: center;
+  gap: 16px;
 }
 
 .alignsubdiv2 {
