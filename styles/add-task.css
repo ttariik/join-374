@@ -394,14 +394,16 @@ select {
   padding: 6px 16px 6px 16px;
 }
 
-.subbox:hover {
+.subbox1:hover {
   background: #eeeeee;
   cursor: pointer;
 }
 
 .subbox1 {
-  height: 109px;
   padding: 6px 16px 6px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .emailbox {
@@ -423,18 +425,28 @@ select {
 }
 
 .d-none {
-  display: none;
+  display: none !important;
 }
 
-.subbox_1,
-.subbox_2 {
+.subbox_11,
+.subbox_22 {
   display: flex;
   gap: 10px;
+}
+
+.spansubtaskdesign {
+  display: flex;
+  justify-content: center;
 }
 
 .buttondesign {
   border: none;
   background: none;
+  width: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 26px;
 }
 
 .editinput {
@@ -446,6 +458,8 @@ select {
 .buttondesign1 {
   border: none;
   background: none;
+  display: flex;
+  align-items: center;
 }
 
 .secondbox {

@@ -270,31 +270,63 @@ function subtaskiconsreset() {
 }
 
 function addsubtask() {
-  let subtaskinput1 = document.getElementById("subtaskinput").value;
-  document.getElementById("subtasksbox").innerHTML +=
-    subtaskstemplate(subtaskinput1);
-  subtasks.push(subtaskinput1);
-  console.log(subtasks.length);
-  checkAddTaskInputs();
-  document
-    .querySelector(`subbox${subtasks.length + 1}`)
-    .addEventListener("mouseenter", showeditsubtasks);
-  document
-    .querySelector(`subbox${subtasks.length + 1}`)
-    .addEventListener("mouseleave", hideeditsubtasks);
-  subtaskiconsreset();
+  const subtaskinput1 = document.getElementById("subtaskinput").value;
+  // Push the new subtask to the array
+  if (subtasks.length <= 1) {
+    subtasks.push(subtaskinput1);
+
+    // Determine the current subtask number (1-based index)
+    const subtaskNumber = subtasks.length;
+    console.log(subtasks.length);
+    // Append the new subtask using `insertAdjacentHTML` instead of modifying `innerHTML`
+    document
+      .getElementById("subtasksbox")
+      .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+
+    // Use setTimeout to ensure DOM is updated before selecting the element
+    setTimeout(() => {
+      const subtaskElement = document.querySelector(`.subs${subtaskNumber}`);
+
+      // Ensure the element exists before attaching event listeners
+      if (subtaskElement) {
+        // Attach hover event listeners to the specific subtask div
+        subtaskElement.addEventListener("mouseenter", () => {
+          const buttons = subtaskElement.querySelectorAll(".buttondesign");
+          buttons.forEach((button) => button.classList.remove("d-none"));
+        });
+
+        subtaskElement.addEventListener("mouseleave", () => {
+          const buttons = subtaskElement.querySelectorAll(".buttondesign");
+          buttons.forEach((button) => button.classList.add("d-none"));
+        });
+      } else {
+        console.error(
+          `Subtask element with class .subs${subtaskNumber} not found.`
+        );
+      }
+    }, 0);
+
+    // Clear the input field after adding the subtask
+    document.getElementById("subtaskinput").value = "";
+  } else {
+    return displayError("spansubtask", "You can only add up to 2 subtasks.");
+  }
 }
 
-function showeditsubtasks() {
-  // Loop through each element with the class 'buttondesign' and remove 'd-none'
-  document.querySelectorAll(".buttondesign").forEach((button) => {
+function showeditsubtasks(event) {
+  const subtaskBox = event.currentTarget;
+  const buttons = subtaskBox.querySelectorAll(".buttondesign");
+
+  buttons.forEach((button) => {
     button.classList.remove("d-none");
   });
 }
 
-function hideeditsubtasks() {
-  // Loop through each element with the class 'buttondesign' and add 'd-none'
-  document.querySelectorAll(".buttondesign").forEach((button) => {
+function hideeditsubtasks(event) {
+  const subtaskBox = event.currentTarget;
+  const buttons = subtaskBox.querySelectorAll(".buttondesign");
+
+  buttons.forEach((button) => {
     button.classList.add("d-none");
   });
 }
@@ -307,25 +339,15 @@ function resetsubtask() {
 
 function subtaskstemplate(subtaskinput1) {
   return /*html*/ `
-    <div class="subbox${subtasks.length + 1}" id="subboxinput${
-    subtasks.length + 1
-  }" >
-      <div class="subbox_1" >
+    <div class="subbox1 subs${subtasks.length}" id="subboxinput_${subtasks.length}" >
+      <div class="subbox_11">
       <div>•</div>
-      <div id="sub${subtasks.length + 1}" onclick="editsubtask(${
-    subtasks.length + 1
-  })">${subtaskinput1}</div>
+      <div id="sub${subtasks.length}" onclick="editsubtask(${subtasks.length})">${subtaskinput1}</div>
       </div>
-      <div class="subbox_2">
-      <button id="editsub${
-        subtasks.length + 1
-      }" class="buttondesign d-none"><img src="/img/edit.png" alt=""></button>
-      <button id="deletesub${
-        subtasks.length + 1
-      }" type="button" class="buttondesign d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
-      <button id="savesub${
-        subtasks.length + 1
-      }" type="button" class="buttondesign1 d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
+      <div class="subbox_22">
+      <button type="button" id="editsub${subtasks.length}" class="buttondesign d-none"><img src="/img/edit.png" alt=""></button>
+      <button id="deletesub${subtasks.length}" type="button" class="buttondesign d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
+      <button id="savesub${subtasks.length}" type="button" class="buttondesign1 d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
       </div>
     </div>
   `;
@@ -393,9 +415,7 @@ function savesub(index) {
     `inputsub${index}`
   ).innerHTML = `<div class="subbox_1" >
       <div>•</div>
-      <div id="sub${subtasks.length + 1}" onclick="editsubtask(${
-    subtasks.length + 1
-  })">${result}</div>
+      <div id="sub${subtasks.length}" onclick="editsubtask(${subtasks.length})">${result}</div>
       </div><div class="subbox_2">
       <button id="editsub" class="buttondesign d-none"><img src="/img/edit.png" alt=""></button>
       <button id="deletesub" type="button" class="buttondesign d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
