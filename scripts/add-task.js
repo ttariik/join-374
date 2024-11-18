@@ -341,7 +341,7 @@ function subtaskstemplate(subtaskinput1) {
   return /*html*/ `
     <div class="subbox1 subs${subtasks.length}" id="subboxinput_${subtasks.length}" >
       <div class="subbox_11">
-      <div>•</div>
+      <div id="dot">•</div>
       <div id="sub${subtasks.length}" onclick="editsubtask(${subtasks.length})">${subtaskinput1}</div>
       </div>
       <div class="subbox_22">
@@ -354,11 +354,17 @@ function subtaskstemplate(subtaskinput1) {
 }
 
 function editsubtask(index) {
-  const subboxElement = document.querySelector(`.subboxinput${index}`);
+  console.log(`.subs${index}`);
+  document
+    .getElementById(`subboxinput_${index}`)
+    .classList.remove(`subs${index}`);
+
+  const subboxElement = document.getElementById(`sub${index}`);
+  document.getElementById("dot").classList.add("d-none");
   document.getElementById(`editsub${index}`).classList.add("d-none");
-  subboxElement.removeEventListener("mouseenter", showeditsubtasks);
-  subboxElement.removeEventListener("mouseleave", hideeditsubtasks);
+
   document.getElementById(`savesub${index}`).classList.remove("d-none");
+  document.getElementById(`editsub${index}`).classList.remove("d-none");
 
   // Replace content with input field and buttons
   subboxElement.innerHTML = `
