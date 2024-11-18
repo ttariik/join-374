@@ -464,23 +464,8 @@ async function inputacessprofile(task, contacts) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
 
-  // Handling subtasks and creating HTML
-  const subtaskArray = Array.isArray(task.subtask) ? task.subtask : [];
-  const subtaskHTMLPromises = subtaskArray.map(async (subtask) => {
-    return /*html*/ `
-      <div class="alignsubdiv2">
-        <div></div><div>${subtask.subtask || "No description"}</div>
-      </div>`;
-  });
-
-  // Wait for all subtask HTML to resolve and join the results
-  const subtaskHTML = (await Promise.all(subtaskHTMLPromises)).join("");
-
-  // Update subtask area
-  const subtaskArea = document.getElementById("subtaskarea");
-  if (subtaskArea) {
-    subtaskArea.innerHTML = subtaskHTML;
-  }
+  const subtaskHTML = await showsubtaskstemplate(task);
+  document.getElementById("subtaskarea").innerHTML = subtaskHTML;
 }
 
 async function inputacesstechnicall(task, contacts) {
