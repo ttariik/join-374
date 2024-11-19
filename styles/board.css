@@ -408,6 +408,14 @@ input:focus {
   gap: 24px;
 }
 
+.task:active {
+  cursor: grabbing; 
+  transform: rotate(5deg) scale(1.02);
+  background-color: #e4e2e298;
+}
+
+
+
 @media (max-width: 1439px) {
   .content2 {
     flex-direction: column;
