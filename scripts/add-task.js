@@ -26,6 +26,7 @@ function selectbutton_1() {
   document.getElementById("lowImg").src = "/img/Low.png";
   document.getElementById("medium").style.color = "black";
   document.getElementById("low").style.color = "black";
+  selectedPriority = "Urgent"; // Set priority to "Urgent"
 }
 
 function selectbutton_2() {
@@ -45,6 +46,7 @@ function selectbutton_2() {
   document.getElementById("lowImg").src = "/img/Low.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("low").style.color = "black";
+  selectedPriority = "Medium"; // Set priority to "Urgent"
 }
 
 function selectbutton_3() {
@@ -63,6 +65,7 @@ function selectbutton_3() {
   document.getElementById("mediumImg").src = "/img/Medium.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
+  selectedPriority = "Low"; // Set priority to "Urgent"
 }
 
 function clearinputs() {
@@ -78,7 +81,6 @@ function handleButtonClick(priority) {
   selectedPriority = priority;
 }
 
-// Function to check if all inputs are filled and enable the button
 function checkAddTaskInputs() {
   // Get input values
   const title = document.getElementById("title").value.trim();
@@ -87,7 +89,6 @@ function checkAddTaskInputs() {
   const category = document.getElementById("Category").value;
   const assignedUsers =
     document.getElementById("assignedusers").children.length;
-  const selectedPriority = getSelectedPriority(); // Custom function to get priority
   const subtasks = document.querySelectorAll(".subbox1 ").length;
   const createTaskButton = document.querySelector(".bt2");
 
@@ -112,19 +113,6 @@ function checkAddTaskInputs() {
     createTaskButton.style.backgroundColor = "#d3d3d3";
     createTaskButton.classList.remove("enabled-hover");
   }
-}
-
-// Custom function to check which priority is selected
-function getSelectedPriority() {
-  const urgentButton = document.getElementById("button1");
-  const mediumButton = document.getElementById("button2");
-  const lowButton = document.getElementById("button3");
-
-  if (urgentButton.classList.contains("lightred")) return "Urgent";
-  if (mediumButton.classList.contains("lightorange")) return "Medium";
-  if (lowButton.classList.contains("lightgreen")) return "Low";
-
-  return null; // No priority selected
 }
 
 function initializeFormCheck() {
@@ -727,8 +715,7 @@ function validateTaskForm() {
 
   const subtasks = document.querySelectorAll(".subbox1 ").length;
   if (subtasks < 2) {
-    isValid = false;
-    displayError("spansubtask", "Please enter at least 2 tasks.");
+    isValid = true;
   } else if (subtasks > 2) {
     isValid = false;
     displayError("spansubtask", "You can only add up to 2 subtasks.");
