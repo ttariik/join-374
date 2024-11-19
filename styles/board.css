@@ -411,6 +411,7 @@ input:focus {
 @media (max-width: 1439px) {
   .content2 {
     flex-direction: column;
+    margin-bottom: 40px;
   }
 
   .folder-group {
@@ -439,6 +440,7 @@ input:focus {
   .content2 {
     flex-direction: column;
     width: 100%;
+    margin-bottom: 0;
   }
 
   .folder-group {
