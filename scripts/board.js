@@ -190,7 +190,6 @@ async function loadtasks() {
       console.log("Loaded tasks for done-folder:", donetasks);
     }
 
-    // Clear all folder elements before adding tasks
     const folders = [
       "todo-folder",
       "inprogress-folder",
@@ -202,7 +201,6 @@ async function loadtasks() {
       if (folderElement) folderElement.innerHTML = "";
     });
 
-    // Display message if no tasks are available
     const displayNoTasksMessage = (folderId, message) => {
       const folderElement = document.getElementById(folderId);
       if (folderElement && folderElement.children.length === 0) {
@@ -210,15 +208,10 @@ async function loadtasks() {
       }
     };
 
-    // Render tasks with template
     const renderTasksWithTemplate = async (tasks, containerId) => {
       const container = document.getElementById(containerId);
       const response2 = await fetch(GLOBAL + "users/1/contacts.json");
       const contacts = await response2.json();
-
-      // Clear the existing tasks (if any)
-      container.innerHTML = "";
-
       tasks.forEach(async (task) => {
         if (task && task.category) {
           const taskId = task.id;
@@ -236,7 +229,6 @@ async function loadtasks() {
             );
           }
 
-          // Insert task HTML into the container
           container.insertAdjacentHTML("beforeend", taskHTML);
 
           const taskElement = document.getElementById(taskId);
@@ -247,33 +239,23 @@ async function loadtasks() {
               event.dataTransfer.setData("parentFolderId", containerId);
             });
           }
-        }
-      });
 
-      // Event delegation for task clicks on the container
-      container.addEventListener("click", (event) => {
-        const taskElement = event.target.closest(".task-container task"); // Replace ".task-class" with the actual task element class or selector
-        if (taskElement) {
-          const taskId = taskElement.id;
-          const task = tasks.find((t) => t.id === taskId);
-          if (task) {
+          document.getElementById(taskId).addEventListener("click", () => {
             if (task.category === "Technical Task") {
               opentechnicaltemplate(task, contacts);
             } else {
               openprofiletemplate(task, contacts);
             }
-          }
+          });
         }
       });
     };
 
-    // Render tasks for each folder
     await renderTasksWithTemplate(todos, "todo-folder");
     await renderTasksWithTemplate(inprogress, "inprogress-folder");
     await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
     await renderTasksWithTemplate(donetasks, "done-folder");
 
-    // Display 'No tasks' message if no tasks are available in each folder
     displayNoTasksMessage("todo-folder", "No tasks to do");
     displayNoTasksMessage("inprogress-folder", "No tasks in progress");
     displayNoTasksMessage(
