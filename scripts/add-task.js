@@ -99,7 +99,7 @@ function checkAddTaskInputs() {
     selectedPriority &&
     dueDate &&
     category !== "Select Task Category" &&
-    subtasks >= 2;
+    subtasks <= 2;
 
   if (isFormValid) {
     // Enable the "Create Task" button
