@@ -116,7 +116,6 @@
   padding: 5px;
   border-radius: 50% 50%;
   background-color: #f6f7f8;
-  width: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,6 +123,9 @@
   position: relative;
   margin-left: -12px;
   border: solid #ffffff 1px;
+  color: white;
+  width: 17px;
+  font-weight: 400;
 }
 
 nav {
