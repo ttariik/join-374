@@ -389,25 +389,33 @@ async function openprofiletemplate(task, contacts) {
 }
 
 async function inputacessprofile(task, contacts) {
+  document.getElementById("subtaskarea").style = "padding: 6px 0px 0px;";
+
   const profileTitleElement = document.getElementById("profiletitle");
-  if (profileTitleElement) profileTitleElement.innerHTML = task.title || "";
+  if (profileTitleElement) {
+    profileTitleElement.innerHTML = task.title || "";
+  }
 
   const profileDescriptionElement =
     document.getElementById("profiledescription");
-  if (profileDescriptionElement)
+  if (profileDescriptionElement) {
     profileDescriptionElement.innerHTML = task.description || "";
+  }
 
   const profileDueDateElement = document.getElementById("profileduedate");
-  if (profileDueDateElement)
+  if (profileDueDateElement) {
     profileDueDateElement.innerHTML = task.duedate || "";
+  }
 
   const profilePriorityElement = document.getElementById("profilepriority");
-  if (profilePriorityElement)
+  if (profilePriorityElement) {
     profilePriorityElement.innerHTML = task.prio || "";
+  }
 
   const profileIconElement = document.getElementById("profileicon");
-  if (profileIconElement)
+  if (profileIconElement) {
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
+  }
 
   // Event listeners for buttons
   const btn1_1 = document.getElementById("btn1_1");

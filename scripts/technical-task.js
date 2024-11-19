@@ -1,15 +1,14 @@
 function editinputs(task) {
   console.log(task);
-
   document.getElementById("type").remove();
   document.querySelector(".header").style.justifyContent = "flex-end";
-  document.getElementById("title").innerHTML = titletemplate();
+  document.getElementById("title").innerHTML = titletemplate(task);
   document.getElementById("descriptioninput").innerHTML = descriptiontemplate();
   document.getElementById("duedatecontainer").innerHTML = duedatetemplate();
   document.getElementById("priority-containercontent").innerHTML =
     prioritytemplate();
   document.getElementById("assigned-containercontent").innerHTML =
-    reselectionofcontacts();
+    reselectionofcontacts(task);
   document.getElementById("buttons").innerHTML = "";
   document.getElementById(
     "buttons"
@@ -19,11 +18,10 @@ function editinputs(task) {
 }
 
 function editprofile(task) {
-  document.getElementById("userbox").classList.remove("userboxprofile");
-  document.getElementById("profilecategory").remove();
+  document.getElementById("userbox").remove();
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.querySelector(".titlebox span").style = "line-height: unset";
-  document.getElementById("profiletitle").innerHTML = titletemplate();
+  document.getElementById("profiletitle").innerHTML = titletemplate(task);
   document.getElementById("profiledescription").innerHTML =
     descriptiontemplate();
   document.getElementById("due-date-container-edit").innerHTML =
@@ -31,12 +29,62 @@ function editprofile(task) {
   document.getElementById("prio").innerHTML = prioritytemplate();
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
-  document.getElementById(
-    "buttons"
-  ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
+  document.querySelector(".button-containers").innerHTML = buttontemplate(task);
   document.querySelector(".layout").style = "gap: 3px";
   document.getElementById("subtaskbox").innerHTML = "";
-  document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
+
+  document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
+  document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
+  document.getElementById("profileassingedarea").style.gap = "unset";
+  document.getElementById("subtaskinput").id = "subtaskinput15";
+  document
+    .getElementById("oksavebutton")
+    .addEventListener("click", function () {
+      savechanges(task);
+    });
+}
+
+function buttontemplate(task) {
+  return /*html*/ `
+    <button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>
+  `;
+}
+
+async function savechanges(task) {
+  const title = document.querySelector(".titleinputdesign").value;
+  const description = document.querySelector(".descriptionpartinput").value;
+  const duedate = document.querySelector(".duedateinput").value;
+
+  await putData(`/users/1/tasks/${task.id}`, {
+    title: title,
+    description: description,
+    duedate: duedate,
+    selectedPriority: selectedPriority,
+  });
+  loadtasks();
+}
+
+function categorytemplate() {
+  return /*html*/ `
+    <div class="firsthalfbox">
+                  <div class="emailbox">
+                    <div class="buttonsalignment_1-2">
+                      Due Date <span class="required-indicator">*</span>
+                    </div>
+                    <div class="emailinput">
+                      <input
+                        oninput="filternumbers(this)"
+                        class="emailinput2"
+                        type="datetime"
+                        name="date"
+                        id="date"
+                        placeholder="dd/mm/yyyy"
+                        maxlength="10"
+                      />
+                      <span class="spansubtaskdesign" id="spandate"></span>
+                    </div>
+                  </div>
+  `;
 }
 
 function subtaskboxemplate() {
@@ -55,7 +103,7 @@ function subtaskboxemplate() {
                         class="subtaskbutton"
                         id="inputsubtask1"
                       >
-                        <img src="/img/add.png" alt="" />
+                        <img src="/img/plusblack.png" alt="" />
                       </button>
                       <button
                         class="subtaskbutton2 d-none"
@@ -63,7 +111,7 @@ function subtaskboxemplate() {
                         type="button"
                         id="inputsubtask2"
                       >
-                        <img src="/img/Vector.png" alt="" />
+                        <img src="/img/vector.png" alt="" />
                       </button>
                       <div class="seperateline d-none" id="seperate"></div>
                       <button
@@ -74,21 +122,22 @@ function subtaskboxemplate() {
                       >
                         <img src="/img/checkmark.png" alt="" />
                       </button>
-                      <div id="subtasksbox" required class="subtasksbox1"></div>
+                      <span class="spansubtaskdesign" id="spansubtask"></span>
+                      <div id="subtasksbox" class="subtasksbox1"></div>
                       <div id="spanplace"></div>
                     </div>
   `;
 }
 
-function titletemplate() {
-  return `<div class="headertitle">
+function titletemplate(task) {
+  return /*html*/ `<div class="headertitle">
     <label>Title</label>
     <input type="text" placeholder="Enter a title" class="titleinputdesign">
     </div>`;
 }
 
 function descriptiontemplate() {
-  return `
+  return /*html*/ `
     <div class="descriptionpart">
     <label>Description</label>
     <textarea  class="descriptionpartinput" placeholder="Enter a Description"></textarea>
@@ -97,7 +146,7 @@ function descriptiontemplate() {
 }
 
 function duedatetemplate() {
-  return `
+  return /*html*/ `
 <div class="duedateinputcontainer">
    <label>Due date</label>
    <input type="date" class="duedateinput">
@@ -105,7 +154,7 @@ function duedatetemplate() {
 }
 
 function prioritytemplate() {
-  return `<div class="buttons">
+  return /*html*/ `<div class="buttons">
                 <label>Prio</label>
                 <div class="buttons2">
                   <div class="button-container1">
@@ -147,7 +196,7 @@ function prioritytemplate() {
 }
 
 function reselectionofcontacts() {
-  return `<div class="selectbox">
+  return /*html*/ `<div class="selectbox">
                   <button
                     id="selectboxbutton"
                     type="button"
@@ -157,9 +206,10 @@ function reselectionofcontacts() {
                     <span>Select contacts to assign</span
                     ><img src="/img/arrow_drop_down.png" alt="" />
                   </button>
-                  <ul id="contacts-box" class="outsidedesign"></ul>
-                <div id="assignedusers"></div>
-            </div>`;
+                  
+            </div>
+            <ul id="contacts-box" class="outsidedesign"></ul>
+                <div id="assignedusers"></div>`;
 }
 
 async function getUserTaskss(id = 1) {

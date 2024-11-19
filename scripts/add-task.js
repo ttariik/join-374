@@ -448,9 +448,9 @@ function smallerfunction() {
   document.getElementById("selectboxbutton").onclick = "";
 }
 
-async function showcontacts(id = 1) {
+async function showcontacts() {
   smallerfunction();
-  let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  let response = await fetch(GLOBAL + `users/1/contacts.json`);
   let responsestoJson = await response.json();
 
   responsestoJson = Object.entries(responsestoJson).map(
