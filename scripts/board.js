@@ -130,8 +130,16 @@ async function loadtasks() {
     const userData = await response.json();
 
     if (userData === null) {
-      const result = await putData("/users/1/tasks", {});
+      const result = await putData("users/1/tasks", {
+        todofolder: {},
+        inprogressfolder: {},
+        awaitingfeedbackfolder: {},
+        donefolder: {},
+      });
       console.log(`Created empty ${result} folder.`);
+      if (userData === null) {
+        return;
+      }
     }
 
     const folderNames = [
@@ -418,16 +426,16 @@ async function inputacessprofile(task, contacts) {
   }
 
   // Event listeners for buttons
-  const btn1_1 = document.getElementById("btn1_1");
-  if (btn1_1) {
-    btn1_1.addEventListener("click", function () {
+  const btn1_10 = document.getElementById("btn1_10");
+  if (btn1_10) {
+    btn1_10.addEventListener("click", function () {
       deletetask(task);
     });
   }
 
-  const btn2_1 = document.getElementById("btn2-1");
-  if (btn2_1) {
-    btn2_1.addEventListener("click", function () {
+  const btn2_11 = document.getElementById("btn2-11");
+  if (btn2_11) {
+    btn2_11.addEventListener("click", function () {
       editprofile(task);
     });
   }

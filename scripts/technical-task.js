@@ -18,7 +18,10 @@ function editinputs(task) {
 }
 
 function editprofile(task) {
-  document.getElementById("userbox").remove();
+  const titlebox = document.getElementById("userbox");
+  if (titlebox) {
+    titlebox.remove();
+  }
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.querySelector(".titlebox span").style = "line-height: unset";
   document.getElementById("profiletitle").innerHTML = titletemplate(task);
@@ -42,6 +45,7 @@ function editprofile(task) {
     .addEventListener("click", function () {
       savechanges(task);
     });
+  console.log(task.category);
 }
 
 function buttontemplate(task) {
@@ -51,17 +55,24 @@ function buttontemplate(task) {
 }
 
 async function savechanges(task) {
+  const parentElement = document.getElementById(`${task.id}`).parentElement.id;
+  console.log(parentElement);
+
   const title = document.querySelector(".titleinputdesign").value;
   const description = document.querySelector(".descriptionpartinput").value;
   const duedate = document.querySelector(".duedateinput").value;
 
-  await putData(`/users/1/tasks/${task.id}`, {
+  await putData(`/users/1/tasks/${parentElement}/${task.id}`, {
     title: title,
     description: description,
     duedate: duedate,
-    selectedPriority: selectedPriority,
+    prio: selectedPriority,
+    category: `${task.category}`,
+    asignedto: `${task.asignedto}`,
+    initials: `${task.initials}`,
+    subtask: `${task.subtasks}`,
   });
-  loadtasks();
+  await loadtasks();
 }
 
 function categorytemplate() {
