@@ -414,7 +414,6 @@ input:focus {
   background-color: #e4e2e298;
 }
 
-
 @media (max-width: 1439px) {
   .content2 {
     flex-direction: column;
