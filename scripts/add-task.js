@@ -681,6 +681,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (requiredmessage && spanplace) {
       if (window.innerWidth < 400) {
         spanplace.appendChild(requiredmessage);
+      } else {
+        document.getElementById("parent").appendChild(requiredmessage);
+        parent.insertBefore(requiredmessage, parent.firstChild);
       }
     }
   });
