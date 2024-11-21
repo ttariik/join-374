@@ -531,7 +531,7 @@ function resetsearchbar() {
   }
 
   document.getElementById("contacts-box").innerHTML = "";
-  document.querySelector(".outsidedesign").style.position = "absolute";
+  document.querySelector(".outsidedesign1").style.position = "absolute";
   if (document.getElementById("selectboxbutton1")) {
     document.getElementById("selectboxbutton1").onclick = function () {
       showcontacts();
