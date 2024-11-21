@@ -670,18 +670,19 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-window.addEventListener("resize", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const requiredmessage = document.getElementById("requiredmessage");
   const parent = document.getElementById("parent");
   const spanplace = document.getElementById("spanplace");
 
-  if (window.innerWidth < 400) {
-    spanplace.appendChild(requiredmessage);
-  } else {
-  }
+  window.addEventListener("resize", () => {
+    if (requiredmessage && spanplace) {
+      if (window.innerWidth < 400) {
+        spanplace.appendChild(requiredmessage);
+      }
+    }
+  });
 });
-
-window.dispatchEvent(new Event("resize"));
 
 function validateTaskForm() {
   let isValid = true;
