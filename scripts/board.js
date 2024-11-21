@@ -130,12 +130,7 @@ async function loadtasks() {
     const userData = await response.json();
 
     if (userData === null) {
-      const result = await putData("users/1/tasks", {
-        todofolder: {},
-        inprogressfolder: {},
-        awaitingfeedbackfolder: {},
-        donefolder: {},
-      });
+      const result = await putData("users/1/tasks", {});
       console.log(`Created empty ${result} folder.`);
       if (userData === null) {
         return;
