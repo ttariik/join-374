@@ -243,18 +243,37 @@ async function getAllUsers(path) {
 }
 
 function subtaskchangeicons() {
-  document.getElementById("inputsubtask1").classList.add("d-none");
-  document.getElementById("inputsubtask2").classList.remove("d-none");
-  document.getElementById("inputsubtask3").classList.remove("d-none");
-  document.getElementById("seperate").classList.remove("d-none");
+  if (
+    document.querySelector("#inputsubtask11, #inputsubtask22, #inputsubtask33")
+  ) {
+    document.getElementById("inputsubtask11").classList.add("d-none");
+    document.getElementById("inputsubtask22").classList.remove("d-none");
+    document.getElementById("inputsubtask33").classList.remove("d-none");
+    document.getElementById("seperate1").classList.remove("d-none");
+  } else {
+    document.getElementById("inputsubtask1").classList.add("d-none");
+    document.getElementById("inputsubtask2").classList.remove("d-none");
+    document.getElementById("inputsubtask3").classList.remove("d-none");
+    document.getElementById("seperate").classList.remove("d-none");
+  }
 }
 
 function subtaskiconsreset() {
-  document.getElementById("inputsubtask1").classList.remove("d-none");
-  document.getElementById("inputsubtask2").classList.add("d-none");
-  document.getElementById("inputsubtask3").classList.add("d-none");
-  document.getElementById("seperate").classList.add("d-none");
-  document.getElementById("subtaskinput").value = "";
+  if (
+    document.querySelector("#inputsubtask11, #inputsubtask22, #inputsubtask33")
+  ) {
+    document.getElementById("inputsubtask11").classList.remove("d-none");
+    document.getElementById("inputsubtask22").classList.add("d-none");
+    document.getElementById("inputsubtask33").classList.add("d-none");
+    document.getElementById("seperate1").classList.add("d-none");
+    document.getElementById("subtaskinput0").value = "";
+  } else {
+    document.getElementById("inputsubtask1").classList.remove("d-none");
+    document.getElementById("inputsubtask2").classList.add("d-none");
+    document.getElementById("inputsubtask3").classList.add("d-none");
+    document.getElementById("seperate").classList.add("d-none");
+    document.getElementById("subtaskinput").value = "";
+  }
 }
 
 function addsubtask() {

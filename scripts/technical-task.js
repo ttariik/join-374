@@ -1,8 +1,10 @@
 function editinputs(task) {
-  console.log(task);
-  document.getElementById("type").remove();
+  const type = document.getElementById("type");
+  if (type) {
+    type.remove();
+  }
   document.querySelector(".header").style.justifyContent = "flex-end";
-  document.getElementById("title").innerHTML = titletemplate(task);
+  document.getElementById("technicaltasktitle").innerHTML = titletemplate(task);
   document.getElementById("descriptioninput").innerHTML = descriptiontemplate();
   document.getElementById("duedatecontainer").innerHTML = duedatetemplate();
   document.getElementById("priority-containercontent").innerHTML =
@@ -88,6 +90,11 @@ async function savechanges(task) {
     subtask: `${task.subtasks}`,
   });
   await loadtasks();
+  if (task.category === "User Story") {
+    await closeoverlayprofiletemplate();
+  } else {
+    await closeoverlaytechnicaltemplate();
+  }
 }
 
 function categorytemplate() {
@@ -119,7 +126,7 @@ function subtaskboxemplate() {
                       <input
                         onclick="subtaskchangeicons()"
                         type="text"
-                        id="subtaskinput"
+                        id="subtaskinput0"
                         placeholder="Add New Subtask"
                         class="inputsubtask"
                       />
@@ -127,7 +134,7 @@ function subtaskboxemplate() {
                         type="button"
                         onclick="subtaskchangeicons()"
                         class="subtaskbutton"
-                        id="inputsubtask1"
+                        id="inputsubtask11"
                       >
                         <img src="/img/plusblack.png" alt="" />
                       </button>
@@ -135,16 +142,16 @@ function subtaskboxemplate() {
                         class="subtaskbutton2 d-none"
                         onclick="resetsubtaskinput()"
                         type="button"
-                        id="inputsubtask2"
+                        id="inputsubtask22"
                       >
                         <img src="/img/vector.png" alt="" />
                       </button>
-                      <div class="seperateline d-none" id="seperate"></div>
+                      <div class="seperateline d-none" id="seperate1"></div>
                       <button
                         type="button"
                         onclick="addsubtask()"
                         class="subtaskbutton3 d-none"
-                        id="inputsubtask3"
+                        id="inputsubtask33"
                       >
                         <img src="/img/checkmark.png" alt="" />
                       </button>

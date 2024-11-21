@@ -661,7 +661,7 @@ function closeaddtasktemplate() {
   }, 1000);
 }
 
-function closeoverlayprofiletemplate() {
+async function closeoverlayprofiletemplate() {
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
 
   setTimeout(() => {
@@ -672,7 +672,7 @@ function closeoverlayprofiletemplate() {
   }, 1000);
 }
 
-function closeoverlaytechnicaltemplate() {
+async function closeoverlaytechnicaltemplate() {
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
 
   setTimeout(() => {
