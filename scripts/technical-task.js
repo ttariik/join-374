@@ -231,7 +231,7 @@ function prioritytemplate() {
 function reselectionofcontacts() {
   return /*html*/ `<div class="selectbox">
                   <button
-                    id="selectboxbutton"
+                    id="selectboxbutton1"
                     type="button"
                     class="selectbutton"
                     onclick="showcontacts()"
@@ -241,8 +241,8 @@ function reselectionofcontacts() {
                   </button>
                   
             </div>
-            <ul id="contacts-box" class="outsidedesign"></ul>
-                <div id="assignedusers"></div>`;
+            <ul id="contacts-box1" class="outsidedesign"></ul>
+                <div id="assignedusers1"></div>`;
 }
 
 async function getUserTaskss(id = 1) {

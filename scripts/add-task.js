@@ -463,8 +463,13 @@ function savesub(index) {
 }
 
 function smallerfunction() {
-  document.getElementById("contacts-box").style.display = "flex";
-  document.getElementById("selectboxbutton").onclick = "";
+  if (document.querySelector("#contacts-box1,#selectboxbutton1")) {
+    document.getElementById("contacts-box1").style.display = "flex";
+    document.getElementById("selectboxbutton1").onclick = "";
+  } else {
+    document.getElementById("contacts-box").style.display = "flex";
+    document.getElementById("selectboxbutton").onclick = "";
+  }
 }
 
 async function showcontacts() {
@@ -485,9 +490,14 @@ async function showcontacts() {
       return null;
     }
   );
-  document.getElementById("selectboxbutton").onclick = resetsearchbar;
+  if (document.getElementById("selectboxbutton1")) {
+    document.getElementById("selectboxbutton1").onclick = resetsearchbar;
+    document.getElementById("selectboxbutton1").innerHTML = searchbar();
+  } else {
+    document.getElementById("selectboxbutton").onclick = resetsearchbar;
 
-  document.getElementById("selectboxbutton").innerHTML = searchbar();
+    document.getElementById("selectboxbutton").innerHTML = searchbar();
+  }
 
   let contactHTML = "";
 
@@ -500,20 +510,37 @@ async function showcontacts() {
       contactHTML += contactstemplate(contact, color);
     }
   });
-
-  document.getElementById("contacts-box").innerHTML = contactHTML;
+  if (document.getElementById("contacts-box1")) {
+    document.getElementById("contacts-box1").innerHTML = contactHTML;
+  } else {
+    document.getElementById("contacts-box").innerHTML = contactHTML;
+  }
 }
 
 function resetsearchbar() {
-  document.getElementById("selectboxbutton").innerHTML = `
+  if (document.getElementById("selectbutton1")) {
+    document.getElementById("selectboxbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
   `;
+  } else {
+    document.getElementById("selectboxbutton").innerHTML = `
+      <span>Select contacts to assign</span>
+      <img src="/img/arrow_drop_down.png" alt="" />
+  `;
+  }
+
   document.getElementById("contacts-box").innerHTML = "";
   document.querySelector(".outsidedesign").style.position = "absolute";
-  document.getElementById("selectboxbutton").onclick = function () {
-    showcontacts();
-  };
+  if (document.getElementById("selectboxbutton1")) {
+    document.getElementById("selectboxbutton1").onclick = function () {
+      showcontacts();
+    };
+  } else {
+    document.getElementById("selectboxbutton").onclick = function () {
+      showcontacts();
+    };
+  }
 }
 
 function searchbar() {

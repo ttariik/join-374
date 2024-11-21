@@ -60,7 +60,27 @@
   background-color: #f6f7f8;
 }
 
-.outsidedesign {
+#contacts-box1 {
+  position: absolute;
+  top: 71%;
+  left: 24.7%;
+  width: 100%;
+  z-index: 2;
+  display: none;
+  background-color: white;
+  border: 1px solid #d1d1d1;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0px 0px 10px 10px;
+  margin-top: 5px;
+  flex-direction: column;
+  border-top: none;
+  max-width: 436px;
+  scrollbar-width: thin;
+}
+
+.outsidedesign1 {
   padding: 0;
   margin: 0;
   position: absolute;
@@ -76,7 +96,7 @@
   overflow-y: auto;
 }
 
-.outsidedesign li {
+.outsidedesign1 li {
   padding: 12px 16px;
   cursor: pointer;
 }
