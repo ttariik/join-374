@@ -91,7 +91,7 @@
   width: calc(100% - 45px);
 }
 
-.emailinput {
+.emailinput12 {
   max-width: 380px;
   height: 24px;
   border-radius: 10px;
@@ -342,7 +342,9 @@
     width: 90%;
   }
 
-  .spandesignemail, .spandesignname, .spandesignphone {
+  .spandesignemail,
+  .spandesignname,
+  .spandesignphone {
     height: 20px;
   }
 

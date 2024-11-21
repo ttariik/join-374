@@ -68,16 +68,18 @@
                 <div class="firsthalfbox">
                   <div class="emailbox">
                     <div><label>Due date*</label></div>
-                    <input
-                      oninput="filternumbers(this)"
-                      required
-                      class="emailinput2"
-                      type="datetime"
-                      name="date"
-                      id="date"
-                      placeholder="dd/mm/yyyy"
-                      maxlength="10"
-                    />
+                    <div class="emailinput">
+                      <input
+                        oninput="filternumbers(this)"
+                        class="emailinput2"
+                        type="datetime"
+                        name="date"
+                        id="date"
+                        placeholder="dd/mm/yyyy"
+                        maxlength="10"
+                      />
+                      <span class="spansubtaskdesign" id="spandate"></span>
+                    </div>
                   </div>
                   <div class="buttons">
                     <label>Prio</label>

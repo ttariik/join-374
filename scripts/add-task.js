@@ -465,7 +465,7 @@ function savesub(index) {
 function smallerfunction() {
   if (document.querySelector("#contacts-box1,#selectboxbutton1")) {
     document.getElementById("contacts-box1").style.display = "flex";
-    document.getElementById("selectboxbutton1").onclick = "";
+    document.getElementById("selectbutton1").onclick = "";
   } else {
     document.getElementById("contacts-box").style.display = "flex";
     document.getElementById("selectboxbutton").onclick = "";
@@ -490,9 +490,9 @@ async function showcontacts() {
       return null;
     }
   );
-  if (document.getElementById("selectboxbutton1")) {
-    document.getElementById("selectboxbutton1").onclick = resetsearchbar;
-    document.getElementById("selectboxbutton1").innerHTML = searchbar();
+  if (document.getElementById("selectbutton1")) {
+    document.getElementById("selectbutton1").onclick = resetsearchbar;
+    document.getElementById("selectbutton1").innerHTML = searchbar();
   } else {
     document.getElementById("selectboxbutton").onclick = resetsearchbar;
 
@@ -519,11 +519,14 @@ async function showcontacts() {
 
 function resetsearchbar() {
   if (document.getElementById("selectbutton1")) {
-    document.getElementById("selectboxbutton").innerHTML = `
+    document.getElementById("contacts-box1").innerHTML = "";
+
+    document.getElementById("selectbutton1").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
   `;
   } else {
+    document.getElementById("contacts-box1").innerHTML = "";
     document.getElementById("selectboxbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
@@ -531,13 +534,12 @@ function resetsearchbar() {
   }
 
   document.getElementById("contacts-box").innerHTML = "";
-  document.querySelector(".outsidedesign1").style.position = "absolute";
-  if (document.getElementById("selectboxbutton1")) {
-    document.getElementById("selectboxbutton1").onclick = function () {
+  if (document.getElementById("selectbutton1")) {
+    document.getElementById("selectbutton1").onclick = function () {
       showcontacts();
     };
   } else {
-    document.getElementById("selectboxbutton").onclick = function () {
+    document.getElementById("selectbutton").onclick = function () {
       showcontacts();
     };
   }

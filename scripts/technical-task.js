@@ -180,10 +180,18 @@ function descriptiontemplate() {
 
 function duedatetemplate() {
   return /*html*/ `
-<div class="duedateinputcontainer">
-   <label>Due date</label>
-   <input type="date" class="duedateinput">
-</div>  `;
+<div class="emailinput">
+                      <input
+                        oninput="filternumbers(this)"
+                        class="emailinput2"
+                        type="datetime"
+                        name="date"
+                        id="date"
+                        placeholder="dd/mm/yyyy"
+                        maxlength="10"
+                      />
+                      <span class="spansubtaskdesign" id="spandate"></span>
+                    </div>`;
 }
 
 function prioritytemplate() {
@@ -232,7 +240,7 @@ function reselectionofcontacts() {
   return /*html*/ `
   <div class="selectbox">
                   <button
-                    id="selectboxbutton1"
+                    id="selectbutton1"
                     type="button"
                     class="selectbutton"
                     onclick="showcontacts()"
