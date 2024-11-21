@@ -24,7 +24,7 @@ function editprofile(task) {
   if (titlebox) {
     titlebox.remove();
   }
-  document.querySelector(".header").style.justifyContent = "flex-end";
+  document.querySelector(".headerprofile").style.justifyContent = "flex-end";
   document.querySelector(".titlebox span").style = "line-height: unset";
   document.getElementById("profiletitle").innerHTML = titletemplate(task);
   document.getElementById("profiledescription").innerHTML =
