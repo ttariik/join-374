@@ -45,7 +45,22 @@ function editprofile(task) {
     .addEventListener("click", function () {
       savechanges(task);
     });
-  console.log(task.category);
+  document.getElementById("closebtn").addEventListener("click", function () {
+    resettemplate(task);
+  });
+}
+
+async function resettemplate(task) {
+  if (task.category === "User Story") {
+    closeoverlayprofiletemplate();
+    const response2 = await fetch(GLOBAL + "users/1/contacts.json");
+    const contacts = await response2.json();
+    const profiletemplate = document.getElementById("overlayprofile-template");
+    profiletemplate.innerHTML = "";
+    profiletemplate.setAttribute("w3-include-html", "profile-template.html");
+    w3.includeHTML();
+  } else {
+  }
 }
 
 function buttontemplate(task) {
