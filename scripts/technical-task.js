@@ -83,7 +83,7 @@ async function savechanges(task) {
   // Extract current values from the UI
   const title = document.querySelector(".titleinputdesign").value;
   const description = document.querySelector(".descriptionpartinput").value;
-  const duedate = document.getElementById("date").value;
+  const duedate = document.getElementById("date1").value;
 
   // Create an object to store only the changed fields
   const changes = {};
@@ -98,7 +98,7 @@ async function savechanges(task) {
   if (duedate && duedate !== task.duedate) {
     changes.duedate = duedate;
   }
-  if (selectedPriority && selectedPriority !== task.prio) {
+  if (selectedPriority !== task.prio) {
     changes.prio = selectedPriority;
   }
   if (
@@ -137,9 +137,12 @@ async function savechanges(task) {
   // Reload the tasks and close the overlay
   await loadtasks();
   if (task.category === "User Story") {
-    await closeoverlayprofiletemplate();
+    document.getElementById("profiletitle").innerHTML = "";
+    document.getElementById("profiletitle").innerHTML = `${task.title}`;
+
+    await inputacessprofile();
   } else {
-    await closeoverlaytechnicaltemplate();
+    await inputacesstechnicall();
   }
 }
 
@@ -212,7 +215,7 @@ function duedatetemplate() {
                         class="emailinput2"
                         type="datetime"
                         name="date"
-                        id="date"
+                        id="date1"
                         placeholder="dd/mm/yyyy"
                         maxlength="10"
                       />
