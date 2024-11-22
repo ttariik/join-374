@@ -521,12 +521,12 @@ function savesub(index) {
 }
 
 function smallerfunction() {
-  if (document.querySelector("#contacts-box1,#selectboxbutton1")) {
+  if (document.querySelector("#contacts-box1,#selectbutton1")) {
     document.getElementById("contacts-box1").style.display = "flex";
     document.getElementById("selectbutton1").onclick = "";
   } else {
     document.getElementById("contacts-box").style.display = "flex";
-    document.getElementById("selectboxbutton").onclick = "";
+    document.getElementById("selectbutton").onclick = "";
   }
 }
 
@@ -552,9 +552,9 @@ async function showcontacts() {
     document.getElementById("selectbutton1").onclick = resetsearchbar;
     document.getElementById("selectbutton1").innerHTML = searchbar();
   } else {
-    document.getElementById("selectboxbutton").onclick = resetsearchbar;
+    document.getElementById("selectbutton").onclick = resetsearchbar;
 
-    document.getElementById("selectboxbutton").innerHTML = searchbar();
+    document.getElementById("selectbutton").innerHTML = searchbar();
   }
 
   let contactHTML = "";
@@ -578,28 +578,17 @@ async function showcontacts() {
 function resetsearchbar() {
   if (document.getElementById("selectbutton1")) {
     document.getElementById("contacts-box1").innerHTML = "";
-
     document.getElementById("selectbutton1").innerHTML = `
       <span>Select contacts to assign</span>
-      <img src="/img/arrow_drop_down.png" alt="" />
-  `;
+      <img src="/img/arrow_drop_down.png" alt="" />`;
+    document.getElementById("selectbutton1").onclick = showcontacts;
   } else {
-    document.getElementById("contacts-box1").innerHTML = "";
-    document.getElementById("selectboxbutton").innerHTML = `
+    document.getElementById("contacts-box").innerHTML = "";
+    document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
   `;
-  }
-
-  document.getElementById("contacts-box").innerHTML = "";
-  if (document.getElementById("selectbutton1")) {
-    document.getElementById("selectbutton1").onclick = function () {
-      showcontacts();
-    };
-  } else {
-    document.getElementById("selectbutton").onclick = function () {
-      showcontacts();
-    };
+    document.getElementById("selectbutton").onclick = showcontacts;
   }
 }
 
@@ -630,8 +619,9 @@ async function variables(contact) {
 
   const initials = contact.initials;
   const color = contact.color;
-
-  const assignedUsersDiv = document.getElementById("assignedusers");
+  const assignedUsersDiv =
+    document.getElementById("assignedusers1") ||
+    document.getElementById("assignedusers");
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
