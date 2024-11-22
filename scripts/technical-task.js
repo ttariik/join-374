@@ -3,18 +3,22 @@ function editinputs(task) {
   if (type) {
     type.remove();
   }
+  document.getElementById("layoutid").style.gap = "10px";
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.getElementById("technicaltasktitle").innerHTML = titletemplate(task);
   document.getElementById("descriptioninput").innerHTML = descriptiontemplate();
   document.getElementById("duedatecontainer").innerHTML = duedatetemplate();
+  document.getElementById("duedatecontainer").style =
+    "gap: 10px;flex-direction:column;!important";
   document.getElementById("priority-containercontent").innerHTML =
     prioritytemplate();
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
+  document.getElementById;
   document.getElementById("buttons").innerHTML = "";
   document.getElementById(
-    "buttons"
-  ).innerHTML = `<button>OK <img "/img/checkmark.png" alt="" /> </button>`;
+    "buttonss"
+  ).innerHTML = `<button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>`;
   document.querySelector(".layout").style = "gap: 3px";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
 }
@@ -29,8 +33,11 @@ function editprofile(task) {
   document.getElementById("profiletitle").innerHTML = titletemplate(task);
   document.getElementById("profiledescription").innerHTML =
     descriptiontemplate();
+
   document.getElementById("due-date-container-edit").innerHTML =
     duedatetemplate();
+  document.querySelector(".due-date-container").style =
+    "gap: 10px;flex-direction:column;!important";
   document.getElementById("prio").innerHTML = prioritytemplate();
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
@@ -99,24 +106,66 @@ async function savechanges(task) {
 
 function categorytemplate() {
   return /*html*/ `
-    <div class="firsthalfbox">
-                  <div class="emailbox">
-                    <div class="buttonsalignment_1-2">
-                      Due Date <span class="required-indicator">*</span>
-                    </div>
-                    <div class="emailinput">
+    <div class="secondhalfbox">
+                  <div>
+                    <label
+                      >Category<span class="required-indicator">*</span></label
+                    >
+                    <select name="" id="Category">
+                      <option
+                        disabled
+                        selected
+                        hidden
+                        value="Select Task Category"
+                      >
+                        Select Task Category
+                      </option>
+                      <option value="Technical Task">Technical Task</option>
+                      <option value="User Story">User Story</option>
+                    </select>
+                    <span class="spansubtaskdesign" id="spancategory"></span>
+                  </div>
+                  <div>
+                    <label>Subtasks</label>
+                    <div class="subtaskcontainer">
                       <input
-                        oninput="filternumbers(this)"
-                        class="emailinput2"
-                        type="datetime"
-                        name="date"
-                        id="date"
-                        placeholder="dd/mm/yyyy"
-                        maxlength="10"
+                        onclick="subtaskchangeicons()"
+                        type="text"
+                        id="subtaskinput"
+                        placeholder="Add New Subtask"
+                        class="inputsubtask"
                       />
-                      <span class="spansubtaskdesign" id="spandate"></span>
+                      <button
+                        type="button"
+                        onclick="subtaskchangeicons()"
+                        class="subtaskbutton"
+                        id="inputsubtask1"
+                      >
+                        <img src="/img/plusblack.png" alt="" />
+                      </button>
+                      <button
+                        class="subtaskbutton2 d-none"
+                        onclick="resetsubtaskinput()"
+                        type="button"
+                        id="inputsubtask2"
+                      >
+                        <img src="/img/vector.png" alt="" />
+                      </button>
+                      <div class="seperateline d-none" id="seperate"></div>
+                      <button
+                        type="button"
+                        onclick="addsubtask()"
+                        class="subtaskbutton3 d-none"
+                        id="inputsubtask3"
+                      >
+                        <img src="/img/checkmark.png" alt="" />
+                      </button>
+                      <span class="spansubtaskdesign" id="spansubtask"></span>
+                      <div id="subtasksbox" class="subtasksbox1"></div>
+                      <div id="spanplace"></div>
                     </div>
                   </div>
+                </div>
   `;
 }
 
@@ -180,7 +229,10 @@ function descriptiontemplate() {
 
 function duedatetemplate() {
   return /*html*/ `
-<div class="emailinput">
+<div class="buttonsalignment_1-2">
+                      Due Date <span class="required-indicator">*</span>
+                    </div>
+                    <div class="emailinput">
                       <input
                         oninput="filternumbers(this)"
                         class="emailinput2"
