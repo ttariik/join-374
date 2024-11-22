@@ -38,19 +38,17 @@ async function addcontact(event) {
 }
 
 function showcontactlog() {
-  document.getElementById("successfullcontactlogoverlay").style =
-    "transform: translateX(126%);transition: transform 0.2s ease, visibility 0.2s;";
+  const overlay = document.getElementById("successfullcontactlogoverlay");
+  
+  overlay.style = "transform: translateX(126%); transition: transform 0.2s ease;";
   setTimeout(() => {
-    document
-      .getElementById("successfullcontactlogoverlay")
-      .classList.remove("d-none");
-    document.getElementById("successfullcontactlogoverlay").style =
-      "transform: translateX(0%)";
-  }, 0.5);
+    overlay.classList.remove("d-none"); 
+    overlay.style.transform = "translateX(0%)"; 
+  }, 50);
+
   setTimeout(() => {
-    document.getElementById("successfullcontactlogoverlay").style =
-      "transform: translateX(126%)";
-  }, 500);
+    overlay.style.transform = "translateX(126%)"; 
+  }, 4000); 
 }
 
 function emptyinputs() {
