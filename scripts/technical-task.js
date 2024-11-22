@@ -44,11 +44,9 @@ function editprofile(task) {
   document.querySelector(".button-containers").innerHTML = buttontemplate(task);
   document.querySelector(".layout").style = "gap: 3px";
   document.getElementById("subtaskbox").innerHTML = "";
-
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
   document.getElementById("profileassingedarea").style.gap = "unset";
-  document.getElementById("subtaskinput").id = "subtaskinput15";
   document
     .getElementById("oksavebutton")
     .addEventListener("click", function () {
@@ -82,91 +80,67 @@ async function savechanges(task) {
   const parentElement = document.getElementById(`${task.id}`).parentElement.id;
   console.log(parentElement);
 
+  // Extract current values from the UI
   const title = document.querySelector(".titleinputdesign").value;
   const description = document.querySelector(".descriptionpartinput").value;
-  const duedate = document.querySelector(".duedateinput").value;
+  const duedate = document.getElementById("date").value;
 
-  await putData(`/users/1/tasks/${parentElement}/${task.id}`, {
-    title: title,
-    description: description,
-    duedate: duedate,
-    prio: selectedPriority,
-    category: `${task.category}`,
-    asignedto: `${task.asignedto}`,
-    initials: `${task.initials}`,
-    subtask: `${task.subtasks}`,
-  });
+  // Create an object to store only the changed fields
+  const changes = {};
+
+  // Check for changes and add to the changes object
+  if (title && title !== task.title) {
+    changes.title = title;
+  }
+  if (description && description !== task.description) {
+    changes.description = description;
+  }
+  if (duedate && duedate !== task.duedate) {
+    changes.duedate = duedate;
+  }
+  if (selectedPriority && selectedPriority !== task.prio) {
+    changes.prio = selectedPriority;
+  }
+  if (
+    asignedtousers &&
+    JSON.stringify(asignedtousers) !== JSON.stringify(task.asignedto)
+  ) {
+    changes.asignedto = asignedtousers;
+  }
+  if (
+    initialsArray &&
+    JSON.stringify(initialsArray) !== JSON.stringify(task.initials)
+  ) {
+    changes.initials = initialsArray;
+  }
+  if (
+    subtasks &&
+    JSON.stringify(
+      subtasks.map((subtask) => ({
+        subtask: subtask,
+        completed: false,
+      }))
+    ) !== JSON.stringify(task.subtask)
+  ) {
+    changes.subtask = subtasks.map((subtask) => ({
+      subtask: subtask,
+      completed: false,
+    }));
+  }
+
+  // Include the category (if it must be sent unchanged)
+  changes.category = task.category;
+
+  // Make the PUT request only with the changed fields
+  await putData(`/users/1/tasks/${parentElement}/${task.id}`, changes);
+
+  // Reload the tasks and close the overlay
   await loadtasks();
   if (task.category === "User Story") {
     await closeoverlayprofiletemplate();
   } else {
     await closeoverlaytechnicaltemplate();
   }
-}
-
-function categorytemplate() {
-  return /*html*/ `
-    <div class="secondhalfbox">
-                  <div>
-                    <label
-                      >Category<span class="required-indicator">*</span></label
-                    >
-                    <select name="" id="Category">
-                      <option
-                        disabled
-                        selected
-                        hidden
-                        value="Select Task Category"
-                      >
-                        Select Task Category
-                      </option>
-                      <option value="Technical Task">Technical Task</option>
-                      <option value="User Story">User Story</option>
-                    </select>
-                    <span class="spansubtaskdesign" id="spancategory"></span>
-                  </div>
-                  <div>
-                    <label>Subtasks</label>
-                    <div class="subtaskcontainer">
-                      <input
-                        onclick="subtaskchangeicons()"
-                        type="text"
-                        id="subtaskinput"
-                        placeholder="Add New Subtask"
-                        class="inputsubtask"
-                      />
-                      <button
-                        type="button"
-                        onclick="subtaskchangeicons()"
-                        class="subtaskbutton"
-                        id="inputsubtask1"
-                      >
-                        <img src="/img/plusblack.png" alt="" />
-                      </button>
-                      <button
-                        class="subtaskbutton2 d-none"
-                        onclick="resetsubtaskinput()"
-                        type="button"
-                        id="inputsubtask2"
-                      >
-                        <img src="/img/vector.png" alt="" />
-                      </button>
-                      <div class="seperateline d-none" id="seperate"></div>
-                      <button
-                        type="button"
-                        onclick="addsubtask()"
-                        class="subtaskbutton3 d-none"
-                        id="inputsubtask3"
-                      >
-                        <img src="/img/checkmark.png" alt="" />
-                      </button>
-                      <span class="spansubtaskdesign" id="spansubtask"></span>
-                      <div id="subtasksbox" class="subtasksbox1"></div>
-                      <div id="spanplace"></div>
-                    </div>
-                  </div>
-                </div>
-  `;
 }
 
 function subtaskboxemplate() {
@@ -205,7 +179,7 @@ function subtaskboxemplate() {
                         <img src="/img/checkmark.png" alt="" />
                       </button>
                       <span class="spansubtaskdesign" id="spansubtask"></span>
-                      <div id="subtasksbox" class="subtasksbox1"></div>
+                      <div id="subtasksbox11" class="subtasksbox1"></div>
                       <div id="spanplace"></div>
                     </div>
   `;
@@ -247,7 +221,7 @@ function duedatetemplate() {
 }
 
 function prioritytemplate() {
-  return /*html*/ `<div class="buttons">
+  return /*html*/ `<div class="buttonss">
                 <label>Prio</label>
                 <div class="buttons2">
                   <div class="button-container1">

@@ -277,50 +277,108 @@ function subtaskiconsreset() {
 }
 
 function addsubtask() {
-  const subtaskinput1 = document.getElementById("subtaskinput").value;
-  if (subtasks.length <= 1) {
-    // Push the new subtask to the array
-    subtasks.push(subtaskinput1);
+  if (document.getElementById("subtaskinput0")) {
+    const subtaskinput1 = document.getElementById("subtaskinput0").value;
+    if (subtasks.length <= 1) {
+      // Push the new subtask to the array
+      subtasks.push(subtaskinput1);
 
-    // Get the current subtask number (1-based index)
-    const subtaskNumber = subtasks.length;
+      // Get the current subtask number (1-based index)
+      const subtaskNumber = subtasks.length;
+      if (document.getElementById("subtasksbox11")) {
+        document
+          .getElementById("subtasksbox11")
+          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+      } else {
+        document
+          .getElementById("subtasksbox")
+          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+      }
+      // Generate and add the subtask template to the HTML
 
-    // Generate and add the subtask template to the HTML
-    document
-      .getElementById("subtasksbox")
-      .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
-
-    // Select the newly created subtask element using the current subtask number
-    const subtaskElement = document.getElementById(
-      `subboxinput_${subtaskNumber}`
-    );
-
-    setTimeout(() => {
-      document
-        .getElementById(`savesub${subtasks.length}`)
-        .addEventListener("click", function () {
-          savesub(subtasks.length);
-        });
-      document
-        .getElementById(`deletesub${subtasks.length}`)
-        .addEventListener("click", function () {
-          deletesub(subtasks.length);
-        });
-    }, 0);
-
-    if (subtaskElement) {
-      // Attach hover event listeners to the specific subtask div
-      subtaskElement.addEventListener("mouseover", (event) =>
-        showeditsubtasks(event, subtaskNumber)
+      // Select the newly created subtask element using the current subtask number
+      const subtaskElement = document.getElementById(
+        `subboxinput_${subtaskNumber}`
       );
-      subtaskElement.addEventListener("mouseleave", (event) =>
-        hidesubeditbuttons(event, subtaskNumber)
-      );
+
+      setTimeout(() => {
+        document
+          .getElementById(`savesub${subtasks.length}`)
+          .addEventListener("click", function () {
+            savesub(subtasks.length);
+          });
+        document
+          .getElementById(`deletesub${subtasks.length}`)
+          .addEventListener("click", function () {
+            deletesub(subtasks.length);
+          });
+      }, 0);
+
+      if (subtaskElement) {
+        // Attach hover event listeners to the specific subtask div
+        subtaskElement.addEventListener("mouseover", (event) =>
+          showeditsubtasks(event, subtaskNumber)
+        );
+        subtaskElement.addEventListener("mouseleave", (event) =>
+          hidesubeditbuttons(event, subtaskNumber)
+        );
+      }
+      checkAddTaskInputs();
+      document.getElementById("subtaskinput0").value = "";
+    } else {
+      return displayError("spansubtask", "You can only add up to 2 subtasks.");
     }
-    checkAddTaskInputs();
-    document.getElementById("subtaskinput").value = "";
   } else {
-    return displayError("spansubtask", "You can only add up to 2 subtasks.");
+    const subtaskinput1 = document.getElementById("subtaskinput").value;
+    if (subtasks.length <= 1) {
+      // Push the new subtask to the array
+      subtasks.push(subtaskinput1);
+
+      // Get the current subtask number (1-based index)
+      const subtaskNumber = subtasks.length;
+      if (document.getElementById("subtasksbox11")) {
+        document
+          .getElementById("subtasksbox11")
+          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+      } else {
+        document
+          .getElementById("subtasksbox")
+          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+      }
+      // Generate and add the subtask template to the HTML
+
+      // Select the newly created subtask element using the current subtask number
+      const subtaskElement = document.getElementById(
+        `subboxinput_${subtaskNumber}`
+      );
+
+      setTimeout(() => {
+        document
+          .getElementById(`savesub${subtasks.length}`)
+          .addEventListener("click", function () {
+            savesub(subtasks.length);
+          });
+        document
+          .getElementById(`deletesub${subtasks.length}`)
+          .addEventListener("click", function () {
+            deletesub(subtasks.length);
+          });
+      }, 0);
+
+      if (subtaskElement) {
+        // Attach hover event listeners to the specific subtask div
+        subtaskElement.addEventListener("mouseover", (event) =>
+          showeditsubtasks(event, subtaskNumber)
+        );
+        subtaskElement.addEventListener("mouseleave", (event) =>
+          hidesubeditbuttons(event, subtaskNumber)
+        );
+      }
+      checkAddTaskInputs();
+      document.getElementById("subtaskinput").value = "";
+    } else {
+      return displayError("spansubtask", "You can only add up to 2 subtasks.");
+    }
   }
 }
 
@@ -604,20 +662,52 @@ async function selectcontact(id) {
   console.log("Contact ID:", selectedContact.id);
   console.log("Contact:", selectedContact);
 
+  // Add event listener to the checkbox to handle changes
   checkbox.addEventListener("change", () => {
-    checkbox.checked = !checkbox.checked;
-    contactDiv.classList.toggle("dark-blue", checkbox.checked);
-
-    iffunction(
-      initials,
-      selectedContact.name,
-      color,
-      contactDiv,
-      assignedUsersDiv,
-      selectedContact.id
-    );
+    if (checkbox.checked) {
+      // Add 'dark-blue' class when checked
+      contactDiv.classList.add("dark-blue");
+      iffunction(
+        initials,
+        selectedContact.name,
+        color,
+        contactDiv,
+        assignedUsersDiv,
+        selectedContact.id
+      );
+    } else {
+      // Remove 'dark-blue' class when unchecked
+      contactDiv.classList.remove("dark-blue");
+      elsefunction(initials, selectedContact.id);
+    }
   });
 
+  // Add event listener to the contactDiv to toggle the checkbox
+  contactDiv.addEventListener("click", () => {
+    // Toggle the checkbox checked state
+    checkbox.checked = !checkbox.checked;
+
+    // Manually trigger the change event to update the class and handle logic
+    if (checkbox.checked) {
+      contactDiv.classList.add("dark-blue");
+      iffunction(
+        initials,
+        selectedContact.name,
+        color,
+        contactDiv,
+        assignedUsersDiv,
+        selectedContact.id
+      );
+    } else {
+      contactDiv.classList.remove("dark-blue");
+      elsefunction(initials, selectedContact.id);
+    }
+
+    // Triggering change event manually
+    checkbox.dispatchEvent(new Event("change"));
+  });
+
+  // Initialize the checkbox state based on the contactDiv
   checkbox.dispatchEvent(new Event("change"));
   checkAddTaskInputs();
 }
@@ -709,12 +799,20 @@ function validateTaskForm() {
     displayError("spandescription", "Please enter a description.");
   }
 
-  // Validate Assigned (Contact selection)
-  const assignedUsers =
-    document.getElementById("assignedusers").children.length;
-  if (assignedUsers === 0) {
-    isValid = false;
-    displayError("spantasignedbox", "Please select a contact.");
+  if (document.getElementById("assignedusers1")) {
+    const assignedUsers =
+      document.getElementById("assignedusers1").children.length;
+    if (assignedUsers === 0) {
+      isValid = false;
+      displayError("spantasignedbox", "Please select a contact.");
+    }
+  } else {
+    const assignedUsers =
+      document.getElementById("assignedusers").children.length;
+    if (assignedUsers === 0) {
+      isValid = false;
+      displayError("spantasignedbox", "Please select a contact.");
+    }
   }
 
   // Validate Due Date
