@@ -583,12 +583,17 @@ function resetsearchbar() {
       <img src="/img/arrow_drop_down.png" alt="" />`;
     document.getElementById("selectbutton1").onclick = showcontacts;
   } else {
-    document.getElementById("contacts-box").innerHTML = "";
+    document.getElementById("contacts-box").style.display = "none";
     document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
   `;
-    document.getElementById("selectbutton").onclick = showcontacts;
+
+    if ((document.getElementById("contacts-box").style.display = "flex")) {
+      document.getElementById("contacts-box").style.display = "none";
+    } else {
+      document.getElementById("contacts-box").style.display = "flex";
+    }
   }
 }
 
@@ -654,32 +659,23 @@ async function selectcontact(id) {
 
   // Add event listener to the checkbox to handle changes
   checkbox.addEventListener("change", () => {
-    if (checkbox.checked) {
-      // Add 'dark-blue' class when checked
-      contactDiv.classList.add("dark-blue");
-      iffunction(
-        initials,
-        selectedContact.name,
-        color,
-        contactDiv,
-        assignedUsersDiv,
-        selectedContact.id
-      );
-    } else {
-      // Remove 'dark-blue' class when unchecked
-      contactDiv.classList.remove("dark-blue");
-      elsefunction(initials, selectedContact.id);
-    }
-  });
-
-  // Add event listener to the contactDiv to toggle the checkbox
-  contactDiv.addEventListener("click", () => {
-    // Toggle the checkbox checked state
     checkbox.checked = !checkbox.checked;
-
-    // Manually trigger the change event to update the class and handle logic
     if (checkbox.checked) {
+      // If the checkbox is checked, add the 'dark-blue' class
       contactDiv.classList.add("dark-blue");
+
+      // Set up an event listener for future changes (e.g., uncheck on click)
+      contactDiv.addEventListener("click", () => {
+        // Uncheck the checkbox
+        checkbox.checked = false;
+        // Remove the 'dark-blue' class
+        contactDiv.classList.remove("dark-blue");
+
+        // Optionally, call the function when unchecked
+        elsefunction(initials, selectedContact.id);
+      });
+
+      // Call the function for the checked state
       iffunction(
         initials,
         selectedContact.name,
@@ -689,12 +685,11 @@ async function selectcontact(id) {
         selectedContact.id
       );
     } else {
+      // If the checkbox is unchecked, remove the 'dark-blue' class
       contactDiv.classList.remove("dark-blue");
+      // Call the function when unchecked
       elsefunction(initials, selectedContact.id);
     }
-
-    // Triggering change event manually
-    checkbox.dispatchEvent(new Event("change"));
   });
 
   // Initialize the checkbox state based on the contactDiv
@@ -723,6 +718,29 @@ function iffunction(
     badge.style.backgroundColor = color;
     badge.textContent = initials;
     assignedUsersDiv.appendChild(badge);
+  } else {
+    // Assuming `initials` is the value to be removed
+    // Find and remove from `asignedtousers` array
+    const index = asignedtousers.indexOf(initials);
+    if (index !== -1) {
+      asignedtousers.splice(index, 1);
+    }
+
+    // Find and remove from `initialsArray`
+    const objIndex = initialsArray.findIndex(
+      (item) => item.initials === initials
+    );
+    if (objIndex !== -1) {
+      initialsArray.splice(objIndex, 1);
+    }
+
+    // Remove the corresponding badge from the DOM
+    const badge = document.querySelector(
+      `.badgeassigned[data-initials="${initials}"]`
+    );
+    if (badge) {
+      badge.remove();
+    }
   }
 }
 
