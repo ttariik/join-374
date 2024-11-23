@@ -25,7 +25,6 @@ function editinputs(task) {
     .addEventListener("click", function () {
       savechanges(task);
     });
-  document.querySelector(".layout").style = "gap: 3px";
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
   document.getElementById("closebtn").addEventListener("click", function () {
@@ -52,7 +51,6 @@ function editprofile(task) {
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
   document.querySelector(".button-containers").innerHTML = buttontemplate(task);
-  document.querySelector(".layout").style = "gap: 3px";
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";

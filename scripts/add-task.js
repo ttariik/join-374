@@ -771,20 +771,21 @@ function getColorFromString(str) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Ensure all three elements are present
   const requiredmessage = document.getElementById("requiredmessage");
   const parent = document.getElementById("parent");
   const spanplace = document.getElementById("spanplace");
 
-  window.addEventListener("resize", () => {
-    if (requiredmessage && spanplace) {
+  if (requiredmessage && parent && spanplace) {
+    window.addEventListener("resize", () => {
       if (window.innerWidth < 400) {
         spanplace.appendChild(requiredmessage);
       } else {
-        document.getElementById("parent").appendChild(requiredmessage);
+        // Insert at the beginning of the parent container
         parent.insertBefore(requiredmessage, parent.firstChild);
       }
-    }
-  });
+    });
+  }
 });
 
 function validateTaskForm() {

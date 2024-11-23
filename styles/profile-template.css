@@ -54,10 +54,17 @@
   padding: 4px 18px 4px 18px;
 }
 
+.scrollbar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 .assigned-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 72px;
 }
 
 .subtasks-container {

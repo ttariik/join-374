@@ -397,6 +397,7 @@ async function inputacessprofile(task, contacts) {
   if (document.getElementById("subtaskarea")) {
     document.getElementById("subtaskarea").style = "padding: 6px 0px 0px;";
   }
+
   const profileTitleElement = document.getElementById("profiletitle");
   if (profileTitleElement) {
     profileTitleElement.innerHTML = task.title || "";
@@ -485,10 +486,13 @@ async function inputacessprofile(task, contacts) {
 }
 
 async function inputacesstechnicall(task, contacts) {
-  // Setting task details
   document.getElementById("technicaltasktitle").innerHTML = task.title;
   document.getElementById("descriptioninput").innerHTML = task.description;
   document.getElementById("due-date-containerinput").innerHTML = task.duedate;
+  if (
+    document.getElementById("overlayprofile-template").contains("overlayss")
+  ) {
+  }
   document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
   // Safely add event listeners to buttons
@@ -654,6 +658,7 @@ async function opentechnicaltemplate(task, contacts) {
     .classList.remove("d-none");
   setTimeout(() => {
     document.querySelector(".overlayss").style = "transform: translateX(0%);";
+    document.querySelector(".badge").style = "margin-right: unset";
   }, 0.5);
   inputacesstechnicall(task, contacts);
 }

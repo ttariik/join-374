@@ -11,43 +11,47 @@
   <body>
     <div class="boxtemplate" id="boxtemplateid">
       <div class="layout">
-        <div class="headerprofile">
-          <div class="userboxprofile" id="userbox">
-            <span class="task-title" id="profilecategory">User Story</span>
+        <div class="scrollbar">
+          <div class="headerprofile">
+            <div class="userboxprofile" id="userbox">
+              <span class="task-title" id="profilecategory">User Story</span>
+            </div>
+            <button id="closebtn" class onclick="closeoverlayprofiletemplate()">
+              <img src="../img/close.png" alt="" />
+            </button>
           </div>
-          <button id="closebtn" class onclick="closeoverlayprofiletemplate()">
-            <img src="../img/close.png" alt="" />
-          </button>
-        </div>
-        <div class="titlebox">
-          <span id="profiletitle">Kochwelt Page & Recipe Recommender</span>
-        </div>
-        <div class="description">
-          <span id="profiledescription"
-            >Build start page with recipe recommendation.</span
-          >
-        </div>
-        <div class="due-date-container" id="due-date-container-edit">
-          <div><span class="duedate">Due date: </span></div>
-          <div><span class="duedate" id="profileduedate">10/05/2023</span></div>
-        </div>
-        <div class="priority-container" id="prio">
-          <div class="prio"><span>Priority: </span></div>
-          <div class="prioicondiv">
-            <span class="priority-indicator"
-              ><div class="priotitle" id="profilepriority">Medium</div>
-              <div class="prioicon">
-                <img id="profileicon" src="../img/Medium.png" alt="" /></div
-            ></span>
+          <div class="titlebox">
+            <span id="profiletitle">Kochwelt Page & Recipe Recommender</span>
           </div>
-        </div>
-        <div class="assigned-container">
-          <span>Assigned To</span>
-          <div class="alignment" id="profileassingedarea"></div>
-        </div>
-        <div class="subtasks-container">
-          <span>Subtasks</span>
-          <div id="subtaskarea" class="subtasksbox1"></div>
+          <div class="description">
+            <span id="profiledescription"
+              >Build start page with recipe recommendation.</span
+            >
+          </div>
+          <div class="due-date-container" id="due-date-container-edit">
+            <div><span class="duedate">Due date: </span></div>
+            <div>
+              <span class="duedate" id="profileduedate">10/05/2023</span>
+            </div>
+          </div>
+          <div class="priority-container" id="prio">
+            <div class="prio"><span>Priority: </span></div>
+            <div class="prioicondiv">
+              <span class="priority-indicator"
+                ><div class="priotitle" id="profilepriority">Medium</div>
+                <div class="prioicon">
+                  <img id="profileicon" src="../img/Medium.png" alt="" /></div
+              ></span>
+            </div>
+          </div>
+          <div class="assigned-container">
+            <span>Assigned To</span>
+            <div class="alignment1" id="profileassingedarea"></div>
+          </div>
+          <div class="subtasks-container">
+            <span>Subtasks</span>
+            <div id="subtaskarea" class="subtasksbox1"></div>
+          </div>
         </div>
         <div class="button-containers" id="buttons">
           <button class="button1" onclick="" id="btn1_10">

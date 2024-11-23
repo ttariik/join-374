@@ -21,10 +21,11 @@ h2 {
   align-items: center;
 }
 
-.alignment {
+.alignment1 {
   display: flex;
-  gap: 8px;
+  gap: 16px;
   align-items: center;
+  padding: 7px 16px 7px 16px;
 }
 
 .content {
@@ -377,7 +378,6 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-left: 12px;
 }
 
 .badgestyle {
@@ -409,7 +409,7 @@ input:focus {
 }
 
 .task:active {
-  cursor: grabbing; 
+  cursor: grabbing;
   transform: rotate(5deg) scale(1.02);
   background-color: #e4e2e298;
 }
