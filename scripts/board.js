@@ -394,8 +394,9 @@ async function openprofiletemplate(task, contacts) {
 }
 
 async function inputacessprofile(task, contacts) {
-  document.getElementById("subtaskarea").style = "padding: 6px 0px 0px;";
-
+  if (document.getElementById("subtaskarea")) {
+    document.getElementById("subtaskarea").style = "padding: 6px 0px 0px;";
+  }
   const profileTitleElement = document.getElementById("profiletitle");
   if (profileTitleElement) {
     profileTitleElement.innerHTML = task.title || "";
@@ -478,7 +479,9 @@ async function inputacessprofile(task, contacts) {
   }
 
   const subtaskHTML = await showsubtaskstemplate(task);
-  document.getElementById("subtaskarea").innerHTML = subtaskHTML;
+  if (document.getElementById("subtaskarea")) {
+    document.getElementById("subtaskarea").innerHTML = subtaskHTML;
+  }
 }
 
 async function inputacesstechnicall(task, contacts) {

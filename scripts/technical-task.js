@@ -15,12 +15,22 @@ function editinputs(task) {
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
   document.getElementById;
+
   document.getElementById("buttons").innerHTML = "";
   document.getElementById(
     "buttonss"
   ).innerHTML = `<button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>`;
+  document
+    .getElementById("oksavebutton")
+    .addEventListener("click", function () {
+      savechanges(task);
+    });
   document.querySelector(".layout").style = "gap: 3px";
+  document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
+  document.getElementById("closebtn").addEventListener("click", function () {
+    resettemplate(task);
+  });
 }
 
 function editprofile(task) {
@@ -127,7 +137,8 @@ async function savechanges(task) {
       completed: false,
     }));
   }
-
+  const response2 = await fetch(GLOBAL + "users/1/contacts.json");
+  const contacts = await response2.json();
   // Include the category (if it must be sent unchanged)
   changes.category = task.category;
 
@@ -137,12 +148,28 @@ async function savechanges(task) {
   // Reload the tasks and close the overlay
   await loadtasks();
   if (task.category === "User Story") {
-    document.getElementById("profiletitle").innerHTML = "";
-    document.getElementById("profiletitle").innerHTML = `${task.title}`;
-
-    await inputacessprofile();
+    document.getElementById("overlayprofile-template").innerHTML = "";
+    resetOverlayTemplate("overlayprofile-template", "profile-template.html");
+    setTimeout(() => {
+      inputacessprofile(task, contacts);
+    }, 10);
   } else {
-    await inputacesstechnicall();
+    document.getElementById("overlaytechinical-task-template").innerHTML = "";
+    resetOverlayTemplate(
+      "overlaytechinical-task-template",
+      "techinical-task-template.html"
+    );
+    setTimeout(() => {
+      inputacesstechnicall(task, contacts);
+    }, 10);
+  }
+}
+
+async function resetOverlayTemplate(elementId, templatePath) {
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.setAttribute("w3-include-html", templatePath);
+    includeHTML(); // Re-run the includeHTML function to load the content
   }
 }
 
