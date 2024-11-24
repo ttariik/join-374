@@ -489,10 +489,6 @@ async function inputacesstechnicall(task, contacts) {
   document.getElementById("technicaltasktitle").innerHTML = task.title;
   document.getElementById("descriptioninput").innerHTML = task.description;
   document.getElementById("due-date-containerinput").innerHTML = task.duedate;
-  if (
-    document.getElementById("overlayprofile-template").contains("overlayss")
-  ) {
-  }
   document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
   // Safely add event listeners to buttons

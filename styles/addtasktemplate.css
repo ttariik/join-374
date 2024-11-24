@@ -227,7 +227,7 @@ label {
   color: black;
 }
 
-textarea {
+.text {
   height: 168px;
   border-radius: 10px;
   border: 1px solid #d1d1d1;
@@ -664,7 +664,7 @@ select {
     scrollbar-width: none;
   }
 
-  textarea {
+  .text {
     height: 20px;
     scrollbar-width: none;
   }
