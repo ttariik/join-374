@@ -398,7 +398,6 @@ input:focus {
 
 .initialsboxdesign {
   display: flex;
-  gap: 5px;
 }
 
 .folder-complete {
