@@ -750,11 +750,26 @@ function elsefunction(initials, firebaseId) {
 }
 
 function filternumbers(input) {
-  let date = document.getElementById("date").value;
-  date = date.replace(/[^0-9:/-]/g, "");
-  document.getElementById("date").value = date;
-}
+  // Get the raw input value
+  let value = input.value.replace(/[^0-9]/g, ""); // Allow only numbers
 
+  // Format as DD/MM/YYYY
+  if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
+  if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5, 10);
+  if (value.length > 3) {
+    const month = value.slice(3, 5);
+    if (month[0] > "1") value = value.slice(0, 3) + "1"; // First digit max 1
+    if (month[0] === "1" && month[1] > "2") value = value.slice(0, 4) + "2"; // Second digit max 2
+  }
+  if (value.length > 6) {
+    const year = value.slice(6, 10);
+    if (year[0] !== "2") value = value.slice(0, 6) + "2"; // First digit must be 2
+    if (year[1] !== "0") value = value.slice(0, 7) + "0"; // Second digit must be 0
+    if (year[2] !== "2") value = value.slice(0, 8) + "2"; // Third digit must be 2
+  }
+  // Set the formatted value back
+  input.value = value;
+}
 function getColorFromString(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {

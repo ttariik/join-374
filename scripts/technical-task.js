@@ -39,22 +39,28 @@ function editprofile(task) {
   }
   document.querySelector(".headerprofile").style.justifyContent = "flex-end";
   document.querySelector(".titlebox span").style = "line-height: unset";
-  document.getElementById("profiletitle").innerHTML = titletemplate(task);
-  document.getElementById("profiledescription").innerHTML =
-    descriptiontemplate();
+  document.querySelector(".titlebox").innerHTML = titletemplate(task);
+  document.querySelector(".description").innerHTML = descriptiontemplate();
 
   document.getElementById("due-date-container-edit").innerHTML =
     duedatetemplate();
-  document.querySelector(".due-date-container").style =
-    "gap: 10px;flex-direction:column;!important";
+  document
+    .getElementById("due-date-container-edit")
+    .classList.add("due-date-containerprofile");
   document.getElementById("prio").innerHTML = prioritytemplate();
+  document.getElementById("prio").classList.add("buttonss");
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
+  document.getElementById("profileassingedarea").style.gap = "unset";
+  document.getElementById("profileassingedarea").style.padding = "unset";
   document.querySelector(".button-containers").innerHTML = buttontemplate(task);
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
-  document.getElementById("profileassingedarea").style.gap = "unset";
+  document.getElementById("selectbutton1").parentElement.style = "gap: unset";
+  document.querySelector(".scrollbar").style =
+    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;";
+
   document
     .getElementById("oksavebutton")
     .addEventListener("click", function () {
@@ -214,18 +220,16 @@ function subtaskboxemplate() {
 }
 
 function titletemplate(task) {
-  return /*html*/ `<div class="headertitle">
+  return /*html*/ `
     <label>Title</label>
     <input type="text" placeholder="Enter a title" class="titleinputdesign">
-    </div>`;
+    `;
 }
 
 function descriptiontemplate() {
   return /*html*/ `
-    <div class="descriptionpart">
     <label>Description</label>
     <textarea  class="descriptionpartinput" placeholder="Enter a Description"></textarea>
-    </div>
     `;
 }
 
@@ -249,7 +253,7 @@ function duedatetemplate() {
 }
 
 function prioritytemplate() {
-  return /*html*/ `<div class="buttonss">
+  return /*html*/ `
                 <label>Prio</label>
                 <div class="buttons2">
                   <div class="button-container1">
@@ -287,7 +291,7 @@ function prioritytemplate() {
                   </div>
                 </div>
               </div>
-            </div>`;
+            `;
 }
 
 function reselectionofcontacts() {
