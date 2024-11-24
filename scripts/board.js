@@ -149,14 +149,12 @@ async function loadtasks() {
     for (let folder of folderNames) {
       if (!userData[folder]) {
         await putData(`users/1/tasks/${folder}`, {});
-        console.log(`Created empty folder: ${folder}`);
       }
     }
 
     const updatedResponse = await fetch(GLOBAL + `users/1/tasks.json`);
     const updatedUserData = await updatedResponse.json();
 
-    console.log("Fetched userData after ensuring folders:", updatedUserData);
 
     const pushTasksFromFolder = (folderData, taskArray) => {
       if (folderData && typeof folderData === "object") {
@@ -171,12 +169,10 @@ async function loadtasks() {
 
     if (updatedUserData["todo-folder"]) {
       pushTasksFromFolder(updatedUserData["todo-folder"], todos);
-      console.log("Loaded tasks for todo-folder:", todos);
     }
 
     if (updatedUserData["inprogress-folder"]) {
       pushTasksFromFolder(updatedUserData["inprogress-folder"], inprogress);
-      console.log("Loaded tasks for inprogress-folder:", inprogress);
     }
 
     if (updatedUserData["awaiting-feedback-folder"]) {
@@ -277,7 +273,6 @@ async function userstorytemplate(task, contacts) {
   const contactsArray = (
     Array.isArray(contacts) ? contacts : Object.values(contacts)
   ).filter((contact) => contact !== null && contact !== undefined);
-  console.log("Contacts array:", contactsArray);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const initialsHTML = initialsArray
