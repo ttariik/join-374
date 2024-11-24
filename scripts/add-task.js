@@ -585,7 +585,7 @@ function resetsearchbar() {
 
     document.getElementById("selectbutton1").onclick = showcontacts;
   } else {
-    document.getElementById("contacts-box1").style.display = "none";
+    document.getElementById("contacts-box").style.display = "none";
     document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />
@@ -720,15 +720,19 @@ function iffunction(
     badge.style.backgroundColor = color;
     badge.textContent = initials;
     assignedUsersDiv.appendChild(badge);
-    if (document.getElementById("assignedusers")) {
-      document.getElementById("assignedusers").children[0].style.width = "40px";
-      document.getElementById("assignedusers").children[0].style.height =
-        "40px";
-    }
-    if (document.getElementById("assignedusers1")) {
-      document.getElementById("assignedusers").children[0].style.width = "40px";
-      document.getElementById("assignedusers").children[0].style.height =
-        "40px";
+    const assignedUsers1 = document.getElementById("assignedusers1");
+
+    // Check if the element exists and has at least one child
+    if (assignedUsers1 && assignedUsers1.children[0]) {
+      assignedUsers1.style.display = "flex";
+      assignedUsers1.style.marginLeft = "20px";
+      assignedUsers1.children[0].style.marginLeft = "0";
+      document.getElementById("contacts-box1").style.top = "46%";
+      document.getElementById("contacts-box1").style.maxWidth = "422px%";
+    } else {
+      console.warn(
+        "Element with ID 'assignedusers1' or its first child is not found."
+      );
     }
   } else {
     // Assuming `initials` is the value to be removed
@@ -768,6 +772,11 @@ function filternumbers(input) {
   // Format as DD/MM/YYYY
   if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
   if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5, 10);
+  if (value.length > 0) {
+    const day = value.slice(0, 2);
+    if (day[0] > "3") value = "3" + value.slice(1);
+    if (day[0] === "3" && day[1] > "1") value = "31" + value.slice(2);
+  }
   if (value.length > 3) {
     const month = value.slice(3, 5);
     if (month[0] > "1") value = value.slice(0, 3) + "1"; // First digit max 1
@@ -778,6 +787,9 @@ function filternumbers(input) {
     if (year[0] !== "2") value = value.slice(0, 6) + "2"; // First digit must be 2
     if (year[1] !== "0") value = value.slice(0, 7) + "0"; // Second digit must be 0
     if (year[2] !== "2") value = value.slice(0, 8) + "2"; // Third digit must be 2
+    if (year[3] && (year[3] < "4" || year[3] > "9")) {
+      value = value.slice(0, 8) + "2"; // Fourth digit must be between 2 and 9
+    }
   }
   // Set the formatted value back
   input.value = value;
