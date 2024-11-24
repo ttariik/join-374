@@ -718,6 +718,8 @@ function iffunction(
     badge.style.backgroundColor = color;
     badge.textContent = initials;
     assignedUsersDiv.appendChild(badge);
+    document.getElementById("assignedusers").children[0].style.width = "40px";
+    document.getElementById("assignedusers").children[0].style.height = "40px";
   } else {
     // Assuming `initials` is the value to be removed
     // Find and remove from `asignedtousers` array
