@@ -12,11 +12,16 @@ function editinputs(task) {
     "gap: 10px;flex-direction:column;!important";
   document.getElementById("priority-containercontent").innerHTML =
     prioritytemplate();
+  document.getElementById("date1").style.marginBottom = "unset";
+  document.getElementById("priority-containercontent").style.flexDirection =
+    "column";
+  document.getElementById("priority-containercontent").style.gap = "10px";
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
   document.getElementById;
-
-  document.getElementById("buttons").innerHTML = "";
+  document
+    .getElementById("assigned-containercontent")
+    .children[0].document.getElementById("buttons").innerHTML = "";
   document.getElementById(
     "buttonss"
   ).innerHTML = `<button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>`;
