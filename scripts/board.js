@@ -179,10 +179,6 @@ async function loadtasks() {
         updatedUserData["awaiting-feedback-folder"],
         awaitingfeedback
       );
-      console.log(
-        "Loaded tasks for awaiting-feedback-folder:",
-        awaitingfeedback
-      );
     }
 
     if (updatedUserData["done-folder"]) {
