@@ -19,9 +19,9 @@ function editinputs(task) {
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
   document.getElementById;
-  document
-    .getElementById("assigned-containercontent")
-    .children[0].document.getElementById("buttons").innerHTML = "";
+  document.getElementById("assigned-containercontent").children[0].style.gap =
+    "unset";
+  document.getElementById("buttons").innerHTML = "";
   document.getElementById(
     "buttonss"
   ).innerHTML = `<button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>`;

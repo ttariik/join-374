@@ -628,7 +628,7 @@ async function assignedtotemplate(task, contacts) {
       const contactColor = contact.color || "#000"; // Default to black if no color
 
       // Create the badge HTML
-      badgeHTML += `<div>
+      badgeHTML += `<div id="assignedusers">
       <div class="badge alignment" style="background-color:${contactColor}">
         ${initials} 
       </div>
