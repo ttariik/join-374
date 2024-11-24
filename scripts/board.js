@@ -654,7 +654,6 @@ async function opentechnicaltemplate(task, contacts) {
     .classList.remove("d-none");
   setTimeout(() => {
     document.querySelector(".overlayss").style = "transform: translateX(0%);";
-    document.querySelector(".badge").style = "margin-right: unset";
   }, 0.5);
   inputacesstechnicall(task, contacts);
 }
