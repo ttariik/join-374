@@ -103,7 +103,7 @@ async function savechanges(task) {
 
   // Extract current values from the UI
   const title = document.querySelector(".titleinputdesign").value;
-  const description = document.querySelector(".descriptionpartinput").value;
+  const description = document.querySelector(".text").value;
   const duedate = document.getElementById("date1").value;
 
   // Create an object to store only the changed fields
@@ -112,28 +112,46 @@ async function savechanges(task) {
   // Check for changes and add to the changes object
   if (title && title !== task.title) {
     changes.title = title;
+  } else if (!title && task.title) {
+    changes.title = task.title; // Add the current task title if no change
   }
+
   if (description && description !== task.description) {
     changes.description = description;
+  } else if (!description && task.description) {
+    changes.description = task.description; // Add the current task description if no change
   }
+
   if (duedate && duedate !== task.duedate) {
     changes.duedate = duedate;
+  } else if (!duedate && task.duedate) {
+    changes.duedate = task.duedate; // Add the current task due date if no change
   }
+
   if (selectedPriority !== task.prio) {
     changes.prio = selectedPriority;
+  } else if (selectedPriority === task.prio) {
+    changes.prio = task.prio; // Keep the original priority if no change
   }
+
   if (
     asignedtousers &&
     JSON.stringify(asignedtousers) !== JSON.stringify(task.asignedto)
   ) {
     changes.asignedto = asignedtousers;
+  } else if (!asignedtousers && task.asignedto) {
+    changes.asignedto = task.asignedto; // Add the current assigned users if no change
   }
+
   if (
     initialsArray &&
     JSON.stringify(initialsArray) !== JSON.stringify(task.initials)
   ) {
     changes.initials = initialsArray;
+  } else if (!initialsArray && task.initials) {
+    changes.initials = task.initials; // Keep current initials if no change
   }
+
   if (
     subtasks &&
     JSON.stringify(
@@ -147,17 +165,19 @@ async function savechanges(task) {
       subtask: subtask,
       completed: false,
     }));
+  } else if (!subtasks && task.subtask) {
+    changes.subtask = task.subtask; // Keep current subtasks if no change
   }
+
   const response2 = await fetch(GLOBAL + "users/1/contacts.json");
   const contacts = await response2.json();
-  // Include the category (if it must be sent unchanged)
-  changes.category = task.category;
 
-  // Make the PUT request only with the changed fields
+  // Include the category (if it must be sent unchanged)
   await putData(`/users/1/tasks/${parentElement}/${task.id}`, changes);
 
   // Reload the tasks and close the overlay
   await loadtasks();
+
   if (task.category === "User Story") {
     document.getElementById("overlayprofile-template").innerHTML = "";
     resetOverlayTemplate("overlayprofile-template", "profile-template.html");

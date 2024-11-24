@@ -100,6 +100,7 @@ function checkAddTaskInputs() {
     selectedPriority &&
     dueDate &&
     category !== "Select Task Category" &&
+    subtasks >= 0 &&
     subtasks <= 2;
 
   if (isFormValid) {
@@ -720,6 +721,20 @@ function iffunction(
     badge.style.backgroundColor = color;
     badge.textContent = initials;
     assignedUsersDiv.appendChild(badge);
+    if (document.getElementById("assignedusers1")) {
+      document.getElementById("assignedusers1").children[0].style.width =
+        "40px";
+      document.getElementById("assignedusers1").children[0].style.height =
+        "40px";
+    } else {
+    }
+    if (document.getElementById("assignedusers")) {
+      document.getElementById("assignedusers").children[0].style.width = "40px";
+      document.getElementById("assignedusers").children[0].style.height =
+        "40px";
+    } else {
+    }
+
     const assignedUsers1 = document.getElementById("assignedusers1");
 
     // Check if the element exists and has at least one child
@@ -730,9 +745,6 @@ function iffunction(
       document.getElementById("contacts-box1").style.top = "46%";
       document.getElementById("contacts-box1").style.maxWidth = "422px%";
     } else {
-      console.warn(
-        "Element with ID 'assignedusers1' or its first child is not found."
-      );
     }
   } else {
     // Assuming `initials` is the value to be removed
