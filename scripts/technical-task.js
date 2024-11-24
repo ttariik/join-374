@@ -30,6 +30,8 @@ function editinputs(task) {
   document.getElementById("closebtn").addEventListener("click", function () {
     resettemplate(task);
   });
+  document.getElementById("layoutid").children[1].style =
+    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
 }
 
 function editprofile(task) {
