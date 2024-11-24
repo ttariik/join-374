@@ -133,6 +133,12 @@
   padding-left: 12px;
 }
 
+.align div {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .progressbar {
   max-width: 108px;
   width: 100%;
