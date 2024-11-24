@@ -34,17 +34,19 @@ async function showcontacts(id = 1) {
 
 function contactsmenutemplate(contact) {
   let firstLetter = contact.name.charAt(0).toUpperCase();
+  let title = ""; // Define title here
 
+  // Only create the title if it hasn't been displayed already
   if (!displayedLetters.has(firstLetter)) {
     title = `<h2>${firstLetter}</h2>
              <div class="lineseperator"></div>`;
-    displayedLetters.add(firstLetter);
+    displayedLetters.add(firstLetter); // Add the letter to the set to prevent it from being repeated
   }
 
   const color = getColorFromString(contact.name);
 
   return /*html*/ `
-      ${title}
+      ${title} <!-- Only renders title once per letter -->
       <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
     contact.key
   }'); ">
