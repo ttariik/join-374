@@ -150,6 +150,11 @@
   width: 12px;
   font-weight: 400;
   height: 12px;
+  margin-left: -12px;
+}
+
+.initialsbox {
+  padding-left: 12px;
 }
 
 nav {
