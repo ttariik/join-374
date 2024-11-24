@@ -330,7 +330,6 @@ async function Technicaltasktemplate(task, contacts) {
   const contactsArray = (
     Array.isArray(contacts) ? contacts : Object.values(contacts)
   ).filter((contact) => contact !== null && contact !== undefined);
-  console.log("Contacts array:", contactsArray);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const initialsHTML = initialsArray
