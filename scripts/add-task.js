@@ -581,9 +581,11 @@ function resetsearchbar() {
     document.getElementById("selectbutton1").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />`;
+    document.getElementById("contacts-box1").style.display = "none";
+
     document.getElementById("selectbutton1").onclick = showcontacts;
   } else {
-    document.getElementById("contacts-box").style.display = "none";
+    document.getElementById("contacts-box1").style.display = "none";
     document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />

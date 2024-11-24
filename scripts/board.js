@@ -155,7 +155,6 @@ async function loadtasks() {
     const updatedResponse = await fetch(GLOBAL + `users/1/tasks.json`);
     const updatedUserData = await updatedResponse.json();
 
-
     const pushTasksFromFolder = (folderData, taskArray) => {
       if (folderData && typeof folderData === "object") {
         Object.entries(folderData).forEach(([key, task]) => {
@@ -608,6 +607,7 @@ async function assignedtotemplate(task, contacts) {
 
   // Check if the area exists and there are contacts/initials available
   let badgeHTML = "";
+  const displayedInitials = new Set(); // To track already displayed initials
 
   // Loop through contacts to find and display only recognized initials
   contactsArray.forEach((contact) => {
@@ -616,8 +616,8 @@ async function assignedtotemplate(task, contacts) {
       (initialObj) => initialObj.initials === contact.initials
     );
 
-    // If there is a match, create the badge
-    if (matchingInitials) {
+    // If there is a match and the initials haven't been displayed yet, create the badge
+    if (matchingInitials && !displayedInitials.has(matchingInitials.initials)) {
       const initials = matchingInitials.initials;
       const name = matchingInitials.name || "Unknown"; // Fallback to "Unknown" if no name is found
       const contactColor = contact.color || "#000"; // Default to black if no color
@@ -630,6 +630,9 @@ async function assignedtotemplate(task, contacts) {
       <span class="badge-name">${name}</span>
       </div>
     `;
+
+      // Add initials to the Set to avoid duplicates
+      displayedInitials.add(matchingInitials.initials);
     }
   });
 
