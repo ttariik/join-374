@@ -45,7 +45,9 @@ function contactsmenutemplate(contact) {
 
   return /*html*/ `
       ${title}
-      <div class="align" id="${contact.key}" onclick="showcontacttemplate('${contact.key}'); changeBackground(this);">
+      <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
+    contact.key
+  }'); ">
         <div class="badge" style="background-color: ${contact.color};">
           ${contact.initials || contact.name.charAt(0).toUpperCase()}
         </div>
