@@ -59,7 +59,7 @@ function editprofile(task) {
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
   document.getElementById("selectbutton1").parentElement.style = "gap: unset";
   document.querySelector(".scrollbar").style =
-    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;";
+    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
 
   document
     .getElementById("oksavebutton")
@@ -229,7 +229,7 @@ function titletemplate(task) {
 function descriptiontemplate() {
   return /*html*/ `
     <label>Description</label>
-    <textarea  class="descriptionpartinput" placeholder="Enter a Description"></textarea>
+    <textarea  class="text" placeholder="Enter a Description"></textarea>
     `;
 }
 
