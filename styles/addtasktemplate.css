@@ -122,6 +122,10 @@
   display: flex;
 }
 
+.activelink2 {
+  background-color: unset !important;
+}
+
 .contactbox-badge {
   width: 42px;
   border-radius: 50% 50%;
