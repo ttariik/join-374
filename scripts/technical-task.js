@@ -103,7 +103,7 @@ async function savechanges(task) {
 
   // Extract current values from the UI
   const title = document.querySelector(".titleinputdesign").value;
-  const description = document.querySelector(".text").value;
+  const description = document.querySelector(".description").children[1].value;
   const duedate = document.getElementById("date1").value;
 
   // Create an object to store only the changed fields
@@ -116,57 +116,44 @@ async function savechanges(task) {
     changes.title = task.title; // Add the current task title if no change
   }
 
-  if (description && description !== task.description) {
-    changes.description = description;
-  } else if (!description && task.description) {
-    changes.description = task.description; // Add the current task description if no change
+  if (description === "") {
+    changes.description = task.description;
+  } else {
+    changes.description = description; // Add the current task description if no change
   }
 
-  if (duedate && duedate !== task.duedate) {
-    changes.duedate = duedate;
-  } else if (!duedate && task.duedate) {
+  if (duedate === "") {
     changes.duedate = task.duedate; // Add the current task due date if no change
+  } else {
+    changes.duedate = duedate;
   }
 
-  if (selectedPriority !== task.prio) {
-    changes.prio = selectedPriority;
-  } else if (selectedPriority === task.prio) {
-    changes.prio = task.prio; // Keep the original priority if no change
+  if (selectedPriority === null) {
+    changes.prio = task.prio;
+  } else {
+    changes.prio = selectedPriority; // Keep the original priority if no change
   }
-
-  if (
-    asignedtousers &&
-    JSON.stringify(asignedtousers) !== JSON.stringify(task.asignedto)
-  ) {
+  changes.category = task.category;
+  if (asignedtousers.length === 0) {
+    changes.asignedto = task.asignedto;
+  } else {
     changes.asignedto = asignedtousers;
-  } else if (!asignedtousers && task.asignedto) {
-    changes.asignedto = task.asignedto; // Add the current assigned users if no change
   }
 
-  if (
-    initialsArray &&
-    JSON.stringify(initialsArray) !== JSON.stringify(task.initials)
-  ) {
+  if (initialsArray.length === 0) {
+    // If initials have changed or it's a new value
+    changes.initials = task.initials;
+  } else {
     changes.initials = initialsArray;
-  } else if (!initialsArray && task.initials) {
-    changes.initials = task.initials; // Keep current initials if no change
   }
 
-  if (
-    subtasks &&
-    JSON.stringify(
-      subtasks.map((subtask) => ({
-        subtask: subtask,
-        completed: false,
-      }))
-    ) !== JSON.stringify(task.subtask)
-  ) {
+  if (subtasks.length === 0) {
+    changes.subtask = task.subtask; // Keep current subtasks if no change
+  } else {
     changes.subtask = subtasks.map((subtask) => ({
       subtask: subtask,
       completed: false,
     }));
-  } else if (!subtasks && task.subtask) {
-    changes.subtask = task.subtask; // Keep current subtasks if no change
   }
 
   const response2 = await fetch(GLOBAL + "users/1/contacts.json");
