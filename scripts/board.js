@@ -342,6 +342,15 @@ async function Technicaltasktemplate(task, contacts) {
     .join("");
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
+  const progressBarHTML =
+    totalSubtasks > 0
+      ? `<div class="outsidebox" id="progress${task.id}">
+        <div class="progressbar">
+          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+        </div>
+        <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
+      </div>`
+      : "";
   const completedtaskss = task.subtask
     ? task.subtask.filter((subtask) => subtask.completed).length
     : 0;
@@ -357,12 +366,7 @@ async function Technicaltasktemplate(task, contacts) {
         <div class="task-title">${task.title}</div>
         <div class="task-description">${task.description}</div>
       </div>
-      <div class="outsidebox">
-        <div class="progressbar">
-          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
-        </div>
-        <div class="subtask-info"><span>${completedtaskss}/${totalSubtasks} Subtasks</span></div>
-      </div>
+      ${progressBarHTML}
       <div class="task-statuss">
         <div class="initialsboxdesign">${initialsHTML}</div>
         <img src="/img/${task.prio}.png" alt="Priority" />
