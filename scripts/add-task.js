@@ -170,6 +170,28 @@ async function addtask(event) {
     emptyinputs();
   } else {
   }
+  showsuccesstaskmessage();
+}
+
+function showsuccesstaskmessage() {
+  document.getElementById("overlaysuccesstask").classList.add("overlayss");
+  document.getElementById("overlaysuccesstask").style.transform =
+    "translateX(0)";
+
+  document.getElementById("overlaysuccesstask").innerHTML =
+    sucsessfullycreatedtasktemplate();
+  setTimeout(() => {
+    document.getElementById("overlaysuccesstask").style.transform =
+      "translateX(250%)";
+  }, 1500);
+}
+
+function sucsessfullycreatedtasktemplate() {
+  return /*html*/ `
+    <div class="successdesign">
+      <div class="successoverlay"><span class="successdesign_span">Task added to board</span><img src="/img/board.png" alt=""></div>
+    </div>   
+`;
 }
 
 function emptyinputs() {
