@@ -35,8 +35,6 @@ function drag(event) {
 
   event.dataTransfer.setData("taskId", taskId);
   event.dataTransfer.setData("parentFolderId", parentFolderId);
-
-  console.log(`Dragging task ${taskId} from folder ${parentFolderId}`);
 }
 
 async function drop(event) {
@@ -46,16 +44,6 @@ async function drop(event) {
   const taskElement = document.getElementById(taskId);
   const parentFolderId = taskElement.parentElement.id;
   const targetFolder = event.currentTarget.id;
-
-  if (!taskElement) {
-    console.error("Task element not found in the DOM.");
-    return;
-  }
-
-  if (parentFolderId === targetFolder) {
-    console.log("Task dropped in the same folder, no action taken.");
-    return;
-  }
 
   try {
     taskElement.setAttribute("draggable", "false");
@@ -100,8 +88,6 @@ async function drop(event) {
 
       targetContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", targetFolder);
-
-      console.log(`Task moved from ${parentFolderId} to ${targetFolder}`);
     }
   } catch (error) {
     console.error("Error during drop operation:", error);
@@ -133,7 +119,6 @@ async function loadtasks() {
       const result = await putData("users/1/tasks/todofolder", {
         todofolder: "",
       });
-      console.log(`Created empty ${result} folder.`);
       if (userData === null) {
         return;
       }
@@ -183,7 +168,6 @@ async function loadtasks() {
 
     if (updatedUserData["done-folder"]) {
       pushTasksFromFolder(updatedUserData["done-folder"], donetasks);
-      console.log("Loaded tasks for done-folder:", donetasks);
     }
 
     const folders = [
@@ -533,8 +517,6 @@ function deletetask(task) {
 
         parentFolder.appendChild(noTasksMessage);
       }
-
-      console.log(`Task ${taskId} deleted from ${parentFolderId}`);
     })
     .catch((error) => {
       console.error("Error deleting task:", error);
