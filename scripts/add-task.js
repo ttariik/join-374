@@ -707,17 +707,23 @@ function iffunction(
     badge.textContent = initials;
     assignedUsersDiv.appendChild(badge);
     if (document.getElementById("assignedusers1")) {
-      document.getElementById("assignedusers1").children[0].style.width =
-        "40px";
-      document.getElementById("assignedusers1").children[0].style.height =
-        "40px";
-    } else {
+      const assignedUsers1Children =
+        document.getElementById("assignedusers1").children;
+      for (let i = 0; i < assignedUsers1Children.length; i++) {
+        assignedUsers1Children[i].style.width = "40px";
+        assignedUsers1Children[i].style.height = "40px";
+        assignedUsersChildren[i].style.marginLeft = "0";
+      }
     }
+
     if (document.getElementById("assignedusers")) {
-      document.getElementById("assignedusers").children[0].style.width = "40px";
-      document.getElementById("assignedusers").children[0].style.height =
-        "40px";
-    } else {
+      const assignedUsersChildren =
+        document.getElementById("assignedusers").children;
+      for (let i = 0; i < assignedUsersChildren.length; i++) {
+        assignedUsersChildren[i].style.width = "40px";
+        assignedUsersChildren[i].style.height = "40px";
+        assignedUsersChildren[i].style.marginLeft = "0";
+      }
     }
 
     const assignedUsers1 = document.getElementById("assignedusers1");
