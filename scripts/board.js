@@ -417,7 +417,6 @@ async function inputacessprofile(task, contacts) {
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
   }
 
-  // Event listeners for buttons
   const btn1_10 = document.getElementById("btn1_10");
   if (btn1_10) {
     btn1_10.addEventListener("click", function () {
@@ -432,32 +431,25 @@ async function inputacessprofile(task, contacts) {
     });
   }
 
-  // Handling initials and creating HTML
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const contactsArray = (
     Array.isArray(contacts) ? contacts : Object.values(contacts)
   ).filter((contact) => contact !== null && contact !== undefined);
 
-  // Update profile assigned area
   const profileAssignedArea = document.getElementById("profileassingedarea");
 
-  // Check if the area exists and there are contacts/initials available
   let badgeHTML = "";
 
-  // Loop through contacts to find and display only recognized initials
   contactsArray.forEach((contact) => {
-    // Find a matching initials object for the current contact
     const matchingInitials = initialsArray.find(
       (initialObj) => initialObj.initials === contact.initials
     );
 
-    // If there is a match, create the badge
     if (matchingInitials) {
       const initials = matchingInitials.initials;
       const name = matchingInitials.name;
-      const contactColor = contact.color || "#000"; // Default to black if no color
+      const contactColor = contact.color || "#000";
 
-      // Create the badge HTML
       badgeHTML += `<div>
       <div class="badge alignment" style="background-color:${contactColor}">
         ${initials} 
@@ -468,7 +460,6 @@ async function inputacessprofile(task, contacts) {
     }
   });
 
-  // Set the generated HTML for the profile assigned area
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
@@ -485,19 +476,15 @@ async function inputacesstechnicall(task, contacts) {
   document.getElementById("due-date-containerinput").innerHTML = task.duedate;
   document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
-  // Safely add event listeners to buttons
   const deleteButton = document.getElementById("btn1");
   const editButton = document.getElementById("btn2");
 
-  // Remove old buttons by cloning them without listeners first
   const newDeleteButton = deleteButton.cloneNode(true);
   const newEditButton = editButton.cloneNode(true);
 
-  // Replace old buttons with cloned ones (no listeners)
   deleteButton.replaceWith(newDeleteButton);
   editButton.replaceWith(newEditButton);
 
-  // Add event listeners to the new cloned buttons
   newDeleteButton.addEventListener("click", () => deletetask(task));
   newEditButton.addEventListener("click", () => editinputs(task));
   // Render assigned persons and subtasks
@@ -519,19 +506,14 @@ function deletetask(task) {
   const parentFolder = taskElement.parentElement;
   const parentFolderId = parentFolder.id;
 
-  // Delete task data from the database
   deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task)
     .then(() => {
-      // Remove the task element from the DOM
       taskElement.remove();
 
-      // Check if the parent folder is empty
       if (parentFolder.children.length === 0) {
-        // Create a "No tasks" message
         const noTasksMessage = document.createElement("div");
         noTasksMessage.className = "nothing";
 
-        // Set appropriate message based on folder type
         switch (parentFolderId) {
           case "todo-folder":
             noTasksMessage.textContent = "No tasks To do";
@@ -549,7 +531,6 @@ function deletetask(task) {
             noTasksMessage.textContent = "No tasks";
         }
 
-        // Add the "No tasks" message to the empty parent folder
         parentFolder.appendChild(noTasksMessage);
       }
 
@@ -595,33 +576,26 @@ async function showsubtaskstemplate(task) {
 }
 
 async function assignedtotemplate(task, contacts) {
-  // Handling initials and creating HTML
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const contactsArray = (
     Array.isArray(contacts) ? contacts : Object.values(contacts)
   ).filter((contact) => contact !== null && contact !== undefined);
 
-  // Update profile assigned area
   const profileAssignedArea = document.getElementById("showassignedperson");
 
-  // Check if the area exists and there are contacts/initials available
   let badgeHTML = "";
-  const displayedInitials = new Set(); // To track already displayed initials
+  const displayedInitials = new Set();
 
-  // Loop through contacts to find and display only recognized initials
   contactsArray.forEach((contact) => {
-    // Find a matching initials object for the current contact
     const matchingInitials = initialsArray.find(
       (initialObj) => initialObj.initials === contact.initials
     );
 
-    // If there is a match and the initials haven't been displayed yet, create the badge
     if (matchingInitials && !displayedInitials.has(matchingInitials.initials)) {
       const initials = matchingInitials.initials;
-      const name = matchingInitials.name || "Unknown"; // Fallback to "Unknown" if no name is found
-      const contactColor = contact.color || "#000"; // Default to black if no color
+      const name = matchingInitials.name || "Unknown";
+      const contactColor = contact.color || "#000";
 
-      // Create the badge HTML
       badgeHTML += `<div id="assignedusers">
       <div class="badge alignment" style="background-color:${contactColor}">
         ${initials} 
@@ -630,12 +604,10 @@ async function assignedtotemplate(task, contacts) {
       </div>
     `;
 
-      // Add initials to the Set to avoid duplicates
       displayedInitials.add(matchingInitials.initials);
     }
   });
 
-  // Set the generated HTML for the profile assigned area
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   } else {
