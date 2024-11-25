@@ -230,6 +230,21 @@ label {
   color: black;
 }
 
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translateX(250%);
+  transition: transform 0.2s ease, visibility 0.2s;
+}
+
 .text {
   height: 168px;
   border-radius: 10px;

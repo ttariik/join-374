@@ -26,7 +26,7 @@ function selectbutton_1() {
   document.getElementById("lowImg").src = "/img/Low.png";
   document.getElementById("medium").style.color = "black";
   document.getElementById("low").style.color = "black";
-  selectedPriority = "Urgent"; // Set priority to "Urgent"
+  selectedPriority = "Urgent";
 }
 
 function selectbutton_2() {
@@ -46,7 +46,7 @@ function selectbutton_2() {
   document.getElementById("lowImg").src = "/img/Low.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("low").style.color = "black";
-  selectedPriority = "Medium"; // Set priority to "Urgent"
+  selectedPriority = "Medium";
 }
 
 function selectbutton_3() {
@@ -65,7 +65,7 @@ function selectbutton_3() {
   document.getElementById("mediumImg").src = "/img/Medium.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
-  selectedPriority = "Low"; // Set priority to "Urgent"
+  selectedPriority = "Low";
 }
 
 function clearinputs() {
@@ -82,7 +82,6 @@ function handleButtonClick(priority) {
 }
 
 function checkAddTaskInputs() {
-  // Get input values
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
   const dueDate = document.getElementById("date").value.trim();
@@ -174,16 +173,31 @@ async function addtask(event) {
 }
 
 function showsuccesstaskmessage() {
-  document.getElementById("overlaysuccesstask").classList.add("overlayss");
-  document.getElementById("overlaysuccesstask").style.transform =
-    "translateX(0)";
+  if (document.getElementById("overlaysuccesstaskprofile")) {
+    document
+      .getElementById("overlaysuccesstaskprofile")
+      .classList.add("overlay");
+    document.getElementById("overlaysuccesstaskprofile").style.transform =
+      "translateX(0)";
 
-  document.getElementById("overlaysuccesstask").innerHTML =
-    sucsessfullycreatedtasktemplate();
-  setTimeout(() => {
+    document.getElementById("overlaysuccesstaskprofile").innerHTML =
+      sucsessfullycreatedtasktemplate();
+    setTimeout(() => {
+      document.getElementById("overlaysuccesstaskprofile").style.transform =
+        "translateX(250%)";
+    }, 1500);
+  } else {
+    document.getElementById("overlaysuccesstask").classList.add("overlay");
     document.getElementById("overlaysuccesstask").style.transform =
-      "translateX(250%)";
-  }, 1500);
+      "translateX(0)";
+
+    document.getElementById("overlaysuccesstask").innerHTML =
+      sucsessfullycreatedtasktemplate();
+    setTimeout(() => {
+      document.getElementById("overlaysuccesstask").style.transform =
+        "translateX(250%)";
+    }, 1500);
+  }
 }
 
 function sucsessfullycreatedtasktemplate() {
@@ -215,6 +229,13 @@ function emptyinputs() {
   asignedtousers = [];
   subtasks = [];
   initialsArray = [];
+  if (document.getElementById("contacts-box1")) {
+    document.getElementById("contacts-box1").innerHTML = "";
+    document.getElementById("selectbutton1").onclick = showcontacts;
+  } else {
+    document.getElementById("contacts-box").innerHTML = "";
+    document.getElementById("selectbutton").onclick = showcontacts;
+  }
 }
 
 async function putData(path = "", data = {}) {
@@ -860,11 +881,22 @@ function validateTaskForm() {
     isValid = false;
     displayError("spandate", "Please enter a date.");
   } else {
-    const dueDate = new Date(dateInput);
-    const today = new Date();
+    // Split the date string by slashes to handle DD/MM/YYYY format
+    const [day, month, year] = dateInput.split("/").map(Number);
 
+    // Check if the split components are valid numbers
+    if (!day || !month || !year || day > 31 || month > 12) {
+      isValid = false;
+      displayError("spandate", "Please enter a valid date.");
+      return;
+    }
+
+    // Construct a new date using the parsed values
+    const dueDate = new Date(year, month - 1, day); // month is 0-indexed in JS
+    const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // Check if dueDate is valid and not in the past
     if (isNaN(dueDate.getTime())) {
       isValid = false;
       displayError("spandate", "Please enter a valid date.");
