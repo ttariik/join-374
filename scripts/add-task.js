@@ -92,7 +92,6 @@ function checkAddTaskInputs() {
   const subtasks = document.querySelectorAll(".subbox1 ").length;
   const createTaskButton = document.querySelector(".bt2");
 
-  // Check if all required fields are filled and valid
   const isFormValid =
     title &&
     description &&
@@ -104,12 +103,10 @@ function checkAddTaskInputs() {
     subtasks <= 2;
 
   if (isFormValid) {
-    // Enable the "Create Task" button
     createTaskButton.disabled = false;
     createTaskButton.style.backgroundColor = "#2a3647";
     createTaskButton.classList.add("enabled-hover");
   } else {
-    // Disable the "Create Task" button
     createTaskButton.disabled = true;
     createTaskButton.style.backgroundColor = "#d3d3d3";
     createTaskButton.classList.remove("enabled-hover");
@@ -117,7 +114,6 @@ function checkAddTaskInputs() {
 }
 
 function initializeFormCheck() {
-  // Add event listeners to all inputs, textarea, select, and priority buttons
   const inputs = document.querySelectorAll(
     "#title, #description, #date, #Category"
   );
@@ -131,13 +127,12 @@ function initializeFormCheck() {
   );
   priorityButtons.forEach((button) =>
     button.addEventListener("click", () => {
-      getSelectedPriority(button); // Assuming you have a function to set the 'active' class
+      getSelectedPriority(button);
       checkAddTaskInputs();
     })
   );
   subtaskInput.addEventListener("input", checkAddTaskInputs);
 
-  // Run the check once on load
   checkAddTaskInputs();
 }
 
@@ -145,7 +140,6 @@ async function addtask(event) {
   event.preventDefault();
 
   const form = document.querySelector("form");
-  // Call validation function
   if (validateTaskForm()) {
     let userResponse = await getAllUsers("users");
     let title = document.getElementById("title").value;
@@ -281,10 +275,8 @@ function addsubtask() {
   if (document.getElementById("subtaskinput0")) {
     const subtaskinput1 = document.getElementById("subtaskinput0").value;
     if (subtasks.length <= 1) {
-      // Push the new subtask to the array
       subtasks.push(subtaskinput1);
 
-      // Get the current subtask number (1-based index)
       const subtaskNumber = subtasks.length;
       if (document.getElementById("subtasksbox11")) {
         document
@@ -295,9 +287,7 @@ function addsubtask() {
           .getElementById("subtasksbox")
           .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
       }
-      // Generate and add the subtask template to the HTML
 
-      // Select the newly created subtask element using the current subtask number
       const subtaskElement = document.getElementById(
         `subboxinput_${subtaskNumber}`
       );
@@ -316,7 +306,6 @@ function addsubtask() {
       }, 0);
 
       if (subtaskElement) {
-        // Attach hover event listeners to the specific subtask div
         subtaskElement.addEventListener("mouseover", (event) =>
           showeditsubtasks(event, subtaskNumber)
         );
@@ -332,10 +321,8 @@ function addsubtask() {
   } else {
     const subtaskinput1 = document.getElementById("subtaskinput").value;
     if (subtasks.length <= 1) {
-      // Push the new subtask to the array
       subtasks.push(subtaskinput1);
 
-      // Get the current subtask number (1-based index)
       const subtaskNumber = subtasks.length;
       if (document.getElementById("subtasksbox11")) {
         document
@@ -346,9 +333,7 @@ function addsubtask() {
           .getElementById("subtasksbox")
           .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
       }
-      // Generate and add the subtask template to the HTML
 
-      // Select the newly created subtask element using the current subtask number
       const subtaskElement = document.getElementById(
         `subboxinput_${subtaskNumber}`
       );
@@ -367,7 +352,6 @@ function addsubtask() {
       }, 0);
 
       if (subtaskElement) {
-        // Attach hover event listeners to the specific subtask div
         subtaskElement.addEventListener("mouseover", (event) =>
           showeditsubtasks(event, subtaskNumber)
         );
@@ -450,51 +434,35 @@ function editsubtask(index) {
       </div>
   `;
 
-  // Set focus on the input field for better user experience
   const inputField = document.getElementById(`inputsub${index}`);
   inputField.focus();
 }
 
 function deletesub(index) {
-  // Retrieve the subtask content (for logging purposes)
   const subtaskElement = document.getElementById(`sub${index}`);
   if (subtaskElement) {
     const result = subtaskElement.innerHTML.trim();
     console.log(`Deleting subtask: ${result}`);
   }
 
-  // Correctly remove the subtask from the global array
   subtasks.splice(index - 1, 1);
 
-  // Remove the subtask container from the DOM
   const subtaskContainer = document.getElementById(`subboxinput_${index}`);
   if (subtaskContainer) {
     subtaskContainer.remove();
-    console.log(`Subtask container 'subboxinput_${index}' removed.`);
   } else {
-    console.error(`Element with ID 'subboxinput_${index}' not found.`);
   }
 }
 
 function savesub(index) {
   console.log("hello");
 
-  // Get the new value from the input
   const result = document.getElementById(`inputsub${index}`).value.trim();
 
-  // Validate the input (optional)
-  if (result === "") {
-    alert("Subtask cannot be empty!");
-    return;
-  }
-
-  // Log the result (or update your subtask array here)
   console.log(`Edited subtask ${index}: ${result}`);
 
-  // Update the global subtasks array (assuming it exists)
   subtasks[index - 1] = result;
 
-  // Replace the input with the updated text
   const subboxElement = document.getElementById(`inputsub${index}`);
 
   document.getElementById(
@@ -660,25 +628,18 @@ async function selectcontact(id) {
   console.log("Contact ID:", selectedContact.id);
   console.log("Contact:", selectedContact);
 
-  // Add event listener to the checkbox to handle changes
   checkbox.addEventListener("change", () => {
     checkbox.checked = !checkbox.checked;
     if (checkbox.checked) {
-      // If the checkbox is checked, add the 'dark-blue' class
       contactDiv.classList.add("dark-blue");
 
-      // Set up an event listener for future changes (e.g., uncheck on click)
       contactDiv.addEventListener("click", () => {
-        // Uncheck the checkbox
         checkbox.checked = false;
-        // Remove the 'dark-blue' class
         contactDiv.classList.remove("dark-blue");
 
-        // Optionally, call the function when unchecked
         elsefunction(initials, selectedContact.id);
       });
 
-      // Call the function for the checked state
       iffunction(
         initials,
         selectedContact.name,
@@ -688,14 +649,11 @@ async function selectcontact(id) {
         selectedContact.id
       );
     } else {
-      // If the checkbox is unchecked, remove the 'dark-blue' class
       contactDiv.classList.remove("dark-blue");
-      // Call the function when unchecked
       elsefunction(initials, selectedContact.id);
     }
   });
 
-  // Initialize the checkbox state based on the contactDiv
   checkbox.dispatchEvent(new Event("change"));
   checkAddTaskInputs();
 }
@@ -737,7 +695,6 @@ function iffunction(
 
     const assignedUsers1 = document.getElementById("assignedusers1");
 
-    // Check if the element exists and has at least one child
     if (assignedUsers1 && assignedUsers1.children[0]) {
       assignedUsers1.style.display = "flex";
       assignedUsers1.style.marginLeft = "20px";
@@ -747,14 +704,11 @@ function iffunction(
     } else {
     }
   } else {
-    // Assuming `initials` is the value to be removed
-    // Find and remove from `asignedtousers` array
     const index = asignedtousers.indexOf(initials);
     if (index !== -1) {
       asignedtousers.splice(index, 1);
     }
 
-    // Find and remove from `initialsArray`
     const objIndex = initialsArray.findIndex(
       (item) => item.initials === initials
     );
@@ -762,7 +716,6 @@ function iffunction(
       initialsArray.splice(objIndex, 1);
     }
 
-    // Remove the corresponding badge from the DOM
     const badge = document.querySelector(
       `.badgeassigned[data-initials="${initials}"]`
     );
@@ -778,10 +731,8 @@ function elsefunction(initials, firebaseId) {
 }
 
 function filternumbers(input) {
-  // Get the raw input value
-  let value = input.value.replace(/[^0-9]/g, ""); // Allow only numbers
+  let value = input.value.replace(/[^0-9]/g, "");
 
-  // Format as DD/MM/YYYY
   if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
   if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5, 10);
   if (value.length > 0) {
@@ -791,19 +742,18 @@ function filternumbers(input) {
   }
   if (value.length > 3) {
     const month = value.slice(3, 5);
-    if (month[0] > "1") value = value.slice(0, 3) + "1"; // First digit max 1
-    if (month[0] === "1" && month[1] > "2") value = value.slice(0, 4) + "2"; // Second digit max 2
+    if (month[0] > "1") value = value.slice(0, 3) + "1";
+    if (month[0] === "1" && month[1] > "2") value = value.slice(0, 4) + "2";
   }
   if (value.length > 6) {
     const year = value.slice(6, 10);
-    if (year[0] !== "2") value = value.slice(0, 6) + "2"; // First digit must be 2
-    if (year[1] !== "0") value = value.slice(0, 7) + "0"; // Second digit must be 0
-    if (year[2] !== "2") value = value.slice(0, 8) + "2"; // Third digit must be 2
+    if (year[0] !== "2") value = value.slice(0, 6) + "2";
+    if (year[1] !== "0") value = value.slice(0, 7) + "0";
+    if (year[2] !== "2") value = value.slice(0, 8) + "2";
     if (year[3] && (year[3] < "4" || year[3] > "9")) {
-      value = value.slice(0, 8) + "2"; // Fourth digit must be between 2 and 9
+      value = value.slice(0, 8) + "2";
     }
   }
-  // Set the formatted value back
   input.value = value;
 }
 function getColorFromString(str) {
@@ -822,7 +772,6 @@ function getColorFromString(str) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Ensure all three elements are present
   const requiredmessage = document.getElementById("requiredmessage");
   const parent = document.getElementById("parent");
   const spanplace = document.getElementById("spanplace");
@@ -832,7 +781,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (window.innerWidth < 400) {
         spanplace.appendChild(requiredmessage);
       } else {
-        // Insert at the beginning of the parent container
         parent.insertBefore(requiredmessage, parent.firstChild);
       }
     });
@@ -842,17 +790,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function validateTaskForm() {
   let isValid = true;
 
-  // Clear previous validation messages
   clearValidationMessages();
 
-  // Validate Title
   const title = document.getElementById("title").value.trim();
   if (title === "") {
     isValid = false;
     displayError("spantitle", "Please select a title.");
   }
 
-  // Validate Description
   const description = document.getElementById("description").value.trim();
   if (description === "") {
     isValid = false;
@@ -875,7 +820,6 @@ function validateTaskForm() {
     }
   }
 
-  // Validate Due Date
   const dateInput = document.getElementById("date").value.trim();
   const dateElement = document.getElementById("date");
 
@@ -886,10 +830,8 @@ function validateTaskForm() {
     const dueDate = new Date(dateInput);
     const today = new Date();
 
-    // Reset time components for accurate comparison (set to midnight)
     today.setHours(0, 0, 0, 0);
 
-    // Check if the input is a valid date and is not in the past
     if (isNaN(dueDate.getTime())) {
       isValid = false;
       displayError("spandate", "Please enter a valid date.");
@@ -897,7 +839,6 @@ function validateTaskForm() {
       isValid = false;
       displayError("spandate", "Due date cannot be in the past.");
     } else {
-      // If the date is valid and in the future, clear any existing error
       clearError("spandate");
     }
   }
@@ -909,14 +850,12 @@ function validateTaskForm() {
     }
   }
 
-  // Validate Priority
   const priority = getSelectedPriority();
   if (!priority) {
     isValid = false;
     displayError("spanprio", "Please select a priority.");
   }
 
-  // Validate Category
   const category = document.getElementById("Category").value;
   if (category === "" || category === "Select Task Category") {
     isValid = false;
@@ -929,33 +868,28 @@ function validateTaskForm() {
   } else if (subtasks > 2) {
     isValid = false;
     displayError("spansubtask", "You can only add up to 2 subtasks.");
-    return isValid; // Stops further validation if there are more than 3 subtasks
+    return isValid;
   }
-  // Return the result of validation
   return isValid;
 }
 
-// Function to display error message with red color
 function displayError(elementId, message) {
   const element = document.getElementById(elementId);
   element.textContent = message;
-  element.classList.add("error-message"); // Add red color style
+  element.classList.add("error-message");
 }
 
-// Function to check if any priority button is selected
 function getSelectedPriority() {
   const buttons = document.querySelectorAll(".buttons2 button");
   for (let button of buttons) {
     if (button.classList.contains("selected")) {
-      return true; // A priority has been selected
+      return true;
     }
   }
-  return false; // No priority selected
+  return false;
 }
 
-// Function to clear all previous validation messages
 function clearValidationMessages() {
-  // Clear validation message text and remove error styles
   const errorElements = document.querySelectorAll(".error-message");
   errorElements.forEach((element) => {
     element.textContent = "";
@@ -963,7 +897,6 @@ function clearValidationMessages() {
   });
 }
 
-// Function to handle button selection for priority
 function handleButtonClick(priority) {
   const buttons = document.querySelectorAll(".buttons2 button");
   buttons.forEach((button) => {
