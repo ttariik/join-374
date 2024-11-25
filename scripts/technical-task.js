@@ -37,6 +37,9 @@ function editinputs(task) {
   });
   document.getElementById("layoutid").children[1].style =
     "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
+  document.getElementById("closebtn1").addEventListener("click", function () {
+    resettemplate(task);
+  });
 }
 
 function editprofile(task) {
@@ -88,6 +91,18 @@ async function resettemplate(task) {
     profiletemplate.setAttribute("w3-include-html", "profile-template.html");
     w3.includeHTML();
   } else {
+    closeoverlayprofiletemplate();
+    const response2 = await fetch(GLOBAL + "users/1/contacts.json");
+    const contacts = await response2.json();
+    const profiletemplate = document.getElementById(
+      "overlaytechinical-task-template"
+    );
+    profiletemplate.innerHTML = "";
+    profiletemplate.setAttribute(
+      "w3-include-html",
+      "techinical-task-template.html"
+    );
+    w3.includeHTML();
   }
 }
 
@@ -181,7 +196,7 @@ async function savechanges(task) {
       "techinical-task-template.html"
     );
     setTimeout(() => {
-      inputacesstechnicall(task, contacts);
+      inputacesstechnicall(changes, contacts);
     }, 10);
   }
 }

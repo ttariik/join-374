@@ -73,6 +73,7 @@
 .task-title {
   font-size: 23px;
   font-weight: 400;
+  overflow-wrap: anywhere;
 }
 
 .due-date-container {
@@ -165,6 +166,7 @@
   width: 100%;
   font-weight: 400;
   font-size: 23px;
+  overflow-wrap: anywhere;
 }
 
 .description span {
