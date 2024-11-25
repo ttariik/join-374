@@ -491,6 +491,20 @@ function smallerfunction() {
   }
 }
 
+function showcontactbox() {
+  if (document.getElementById("contacts-box")) {
+    document.getElementById("contacts-box").classList.remove("d-none");
+    document.getElementById("selectbutton").onclick = resetsearchbar;
+    document.getElementById("contacts-box").style.display = "flex";
+  }
+  if (document.getElementById("contacts-box1")) {
+    document.getElementById("contacts-box").classList.remove("d-none");
+    document.getElementById("selectbutton").onclick = resetsearchbar;
+    document.getElementById("contacts-box1").style.display = "flex";
+    document.ge;
+  }
+}
+
 async function showcontacts() {
   smallerfunction();
   let response = await fetch(GLOBAL + `users/1/contacts.json`);
@@ -538,25 +552,27 @@ async function showcontacts() {
 
 function resetsearchbar() {
   if (document.getElementById("selectbutton1")) {
-    document.getElementById("contacts-box1").innerHTML = "";
     document.getElementById("selectbutton1").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />`;
-    document.getElementById("contacts-box1").style.display = "none";
+    document.getElementById("contacts-box1").classList.add("d-none");
 
-    document.getElementById("selectbutton1").onclick = showcontacts;
+    document.getElementById("selectbutton1").onclick = showcontactbox;
   } else {
-    document.getElementById("contacts-box").style.display = "none";
+  }
+  if (document.getElementById("selectbutton")) {
     document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
-      <img src="/img/arrow_drop_down.png" alt="" />
-  `;
+      <img src="/img/arrow_drop_down.png" alt="" />`;
+    document.getElementById("contacts-box").classList.add("d-none");
 
-    if ((document.getElementById("contacts-box").style.display = "flex")) {
-      document.getElementById("contacts-box").style.display = "none";
-    } else {
-      document.getElementById("contacts-box").style.display = "flex";
-    }
+    document.getElementById("selectbutton").onclick = showcontactbox;
+  }
+
+  if ((document.getElementById("contacts-box").style.display = "flex")) {
+    document.getElementById("contacts-box").style.display = "none";
+  } else {
+    document.getElementById("contacts-box").style.display = "flex";
   }
 }
 
