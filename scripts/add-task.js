@@ -169,7 +169,6 @@ async function addtask(event) {
     });
     emptyinputs();
   } else {
-    console.log("Form validation failed. Please fix the errors.");
   }
 }
 
@@ -406,8 +405,6 @@ function subtaskstemplate(subtaskinput1) {
 }
 
 function editsubtask(index) {
-  console.log(`.subs${index}`);
-
   const subboxElement = document.getElementById(`sub${index}`);
   document.getElementById("dot").classList.add("d-none");
   document.getElementById(`editsub${index}`).classList.add("d-none");
@@ -442,7 +439,6 @@ function deletesub(index) {
   const subtaskElement = document.getElementById(`sub${index}`);
   if (subtaskElement) {
     const result = subtaskElement.innerHTML.trim();
-    console.log(`Deleting subtask: ${result}`);
   }
 
   subtasks.splice(index - 1, 1);
@@ -455,11 +451,7 @@ function deletesub(index) {
 }
 
 function savesub(index) {
-  console.log("hello");
-
   const result = document.getElementById(`inputsub${index}`).value.trim();
-
-  console.log(`Edited subtask ${index}: ${result}`);
 
   subtasks[index - 1] = result;
 
@@ -624,9 +616,6 @@ async function selectcontact(id) {
 
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
-
-  console.log("Contact ID:", selectedContact.id);
-  console.log("Contact:", selectedContact);
 
   checkbox.addEventListener("change", () => {
     checkbox.checked = !checkbox.checked;
