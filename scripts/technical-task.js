@@ -115,7 +115,6 @@ function buttontemplate(task) {
 
 async function savechanges(task) {
   const parentElement = document.getElementById(`${task.id}`).parentElement.id;
-  console.log(parentElement);
 
   // Extract current values from the UI
   const title = document.querySelector(".titleinputdesign").value;
