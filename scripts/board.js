@@ -326,20 +326,22 @@ async function Technicaltasktemplate(task, contacts) {
     .join("");
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
-  const progressBarHTML =
-    totalSubtasks > 0
-      ? `<div class="outsidebox" id="progress${task.id}">
-        <div class="progressbar">
-          <div class="progressbar-inside" style="width:${completionPercent}%"></div>
-        </div>
-        <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
-      </div>`
-      : "";
-  const completedtaskss = task.subtask
+  const completedTasks = task.subtask
     ? task.subtask.filter((subtask) => subtask.completed).length
     : 0;
   const completionPercent =
-    totalSubtasks > 0 ? (completedtaskss / totalSubtasks) * 100 : 0;
+    totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
+
+  // Render the progress bar only if there are subtasks
+  const progressBarHTML =
+    totalSubtasks > 0
+      ? `<div class="outsidebox" id="progress${task.id}">
+          <div class="progressbar">
+            <div class="progressbar-inside" style="width:${completionPercent}%"></div>
+          </div>
+          <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
+        </div>`
+      : ""; // Empty string if no subtasks
 
   return /*html*/ `
     <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
@@ -350,7 +352,7 @@ async function Technicaltasktemplate(task, contacts) {
         <div class="task-title">${task.title}</div>
         <div class="task-description">${task.description}</div>
       </div>
-      ${progressBarHTML}
+      ${progressBarHTML} <!-- Rendered conditionally -->
       <div class="task-statuss">
         <div class="initialsboxdesign">${initialsHTML}</div>
         <img src="/img/${task.prio}.png" alt="Priority" />
