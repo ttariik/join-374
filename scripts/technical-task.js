@@ -103,7 +103,10 @@ async function savechanges(task) {
 
   // Extract current values from the UI
   const title = document.querySelector(".titleinputdesign").value;
-  const description = document.querySelector(".description").children[1].value;
+  const description =
+    document.querySelector(".description")?.children[1]?.value ||
+    document.getElementById("descriptioninput")?.children[1]?.value;
+
   const duedate = document.getElementById("date1").value;
 
   // Create an object to store only the changed fields

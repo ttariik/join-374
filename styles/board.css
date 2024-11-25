@@ -286,6 +286,7 @@ input:focus {
 .task-description {
   display: flex;
   text-align: left;
+  overflow-wrap: anywhere;
 }
 
 .task-category-name {
