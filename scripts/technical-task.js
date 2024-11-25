@@ -21,7 +21,6 @@ function editinputs(task) {
   document.getElementById;
   document.getElementById("assigned-containercontent").children[0].style.gap =
     "unset";
-  document.getElementById("buttons").innerHTML = "";
   document.getElementById(
     "buttonss"
   ).innerHTML = `<button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>`;
@@ -89,6 +88,7 @@ async function resettemplate(task) {
     const profiletemplate = document.getElementById("overlayprofile-template");
     profiletemplate.innerHTML = "";
     profiletemplate.setAttribute("w3-include-html", "profile-template.html");
+    includeHTML();
     w3.includeHTML();
   } else {
     closeoverlayprofiletemplate();
@@ -102,6 +102,7 @@ async function resettemplate(task) {
       "w3-include-html",
       "techinical-task-template.html"
     );
+    includeHTML();
     w3.includeHTML();
   }
 }
