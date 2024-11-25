@@ -117,7 +117,7 @@ body {
   width: 86%;
   margin-top: 10px;
   border-radius: 20px;
-  background-color: rgb(246,247,248);
+  background-color: rgb(246, 247, 248);
 }
 
 .align:hover {
@@ -264,7 +264,6 @@ body {
 .activelink4 {
   background-color: rgb(9, 25, 49) !important;
 }
-
 
 @media (max-width: 1259px) {
   .contact-menu-wrapper {

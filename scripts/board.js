@@ -363,11 +363,13 @@ async function openprofiletemplate(task, contacts) {
   document.getElementById("overlayprofile-template").classList.add("overlayss");
   document.getElementById("overlayprofile-template").classList.remove("d-none");
 
-  setTimeout(() => {
-    document.querySelector(".overlayss").style = "transform: translateX(0%);";
-  }, 0.5);
+  // Ensure the content is updated before starting the transition
+  await inputacessprofile(task, contacts);
 
-  inputacessprofile(task, contacts);
+  // Apply the transition after content is updated
+  setTimeout(() => {
+    document.querySelector(".overlayss").style.transform = "translateX(0%)";
+  }, 0); // A slight delay for the transform effect
 }
 
 async function inputacessprofile(task, contacts) {
@@ -606,7 +608,7 @@ async function opentechnicaltemplate(task, contacts) {
     .classList.remove("d-none");
   setTimeout(() => {
     document.querySelector(".overlayss").style = "transform: translateX(0%);";
-  }, 0.5);
+  }, 0);
   inputacesstechnicall(task, contacts);
 }
 
