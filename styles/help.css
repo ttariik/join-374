@@ -76,6 +76,10 @@
     display: none;
 }
 
+.profileSection {
+    padding-left: 32px;
+}
+
 @media (max-width:1259px) {
 
     .help-container {
