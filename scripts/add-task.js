@@ -676,32 +676,36 @@ async function selectcontact(id) {
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
 
+  // Handle checkbox change event
   checkbox.addEventListener("change", () => {
-    checkbox.checked = !checkbox.checked;
     if (checkbox.checked) {
       contactDiv.classList.add("dark-blue");
 
-      contactDiv.addEventListener("click", () => {
-        checkbox.checked = false;
-        contactDiv.classList.remove("dark-blue");
-
-        elsefunction(initials, selectedContact.id);
-      });
-
-      iffunction(
-        initials,
-        selectedContact.name,
-        color,
-        contactDiv,
-        assignedUsersDiv,
-        selectedContact.id
-      );
+      // Only add the badge if it hasn't been added yet
+      if (!asignedtousers.includes(initials)) {
+        iffunction(
+          initials,
+          selectedContact.name,
+          color,
+          contactDiv,
+          assignedUsersDiv,
+          selectedContact.id
+        );
+      }
     } else {
       contactDiv.classList.remove("dark-blue");
+      // Remove the badge
       elsefunction(initials, selectedContact.id);
     }
   });
 
+  // Handle click event on contact div to toggle checkbox state
+  contactDiv.addEventListener("click", () => {
+    checkbox.checked = !checkbox.checked; // Toggle the checked state
+    checkbox.dispatchEvent(new Event("change")); // Trigger the change event
+  });
+
+  // Trigger the change event once on initial load
   checkbox.dispatchEvent(new Event("change"));
   checkAddTaskInputs();
 }
@@ -714,6 +718,7 @@ function iffunction(
   assignedUsersDiv,
   firebaseId
 ) {
+  // Only add the badge if it's not already assigned
   if (!asignedtousers.includes(initials)) {
     asignedtousers.push(initials);
 
@@ -722,66 +727,63 @@ function iffunction(
       initials: initials,
       name: name,
     });
+
     const badge = document.createElement("div");
     badge.className = "badgeassigned badge";
     badge.style.backgroundColor = color;
     badge.textContent = initials;
+    badge.setAttribute("data-initials", initials); // Ensure correct attribute
     assignedUsersDiv.appendChild(badge);
-    if (document.getElementById("assignedusers1")) {
-      const assignedUsers1Children =
-        document.getElementById("assignedusers1").children;
-      for (let i = 0; i < assignedUsers1Children.length; i++) {
-        assignedUsers1Children[i].style.width = "40px";
-        assignedUsers1Children[i].style.height = "40px";
-        assignedUsersChildren[i].style.marginLeft = "0";
-      }
-    }
 
-    if (document.getElementById("assignedusers")) {
-      const assignedUsersChildren =
-        document.getElementById("assignedusers").children;
-      for (let i = 0; i < assignedUsersChildren.length; i++) {
-        assignedUsersChildren[i].style.width = "40px";
-        assignedUsersChildren[i].style.height = "40px";
-        assignedUsersChildren[i].style.marginLeft = "0";
-      }
-    }
+    // Adjust badge sizes and margin as needed
+    updateAssignedUserStyles();
 
+    // Check if assignedusers1 is available and adjust layout
     const assignedUsers1 = document.getElementById("assignedusers1");
-
     if (assignedUsers1 && assignedUsers1.children[0]) {
       assignedUsers1.style.display = "flex";
       assignedUsers1.style.marginLeft = "20px";
       assignedUsers1.children[0].style.marginLeft = "0";
       document.getElementById("contacts-box1").style.top = "46%";
-      document.getElementById("contacts-box1").style.maxWidth = "422px%";
-    } else {
-    }
-  } else {
-    const index = asignedtousers.indexOf(initials);
-    if (index !== -1) {
-      asignedtousers.splice(index, 1);
-    }
-
-    const objIndex = initialsArray.findIndex(
-      (item) => item.initials === initials
-    );
-    if (objIndex !== -1) {
-      initialsArray.splice(objIndex, 1);
-    }
-
-    const badge = document.querySelector(
-      `.badgeassigned[data-initials="${initials}"]`
-    );
-    if (badge) {
-      badge.remove();
+      document.getElementById("contacts-box1").style.maxWidth = "422px";
     }
   }
 }
 
 function elsefunction(initials, firebaseId) {
+  // Remove the contact from the arrays
   asignedtousers = asignedtousers.filter((item) => item !== initials);
   initialsArray = initialsArray.filter((item) => item.id !== firebaseId);
+
+  // Remove the badge from the DOM
+  const badge = document.querySelector(
+    `.badgeassigned[data-initials="${initials}"]`
+  );
+  if (badge) {
+    badge.remove();
+  }
+}
+
+function updateAssignedUserStyles() {
+  const assignedUsers1 = document.getElementById("assignedusers1");
+  if (assignedUsers1) {
+    const assignedUsers1Children = assignedUsers1.children;
+    for (let i = 0; i < assignedUsers1Children.length; i++) {
+      assignedUsers1Children[i].style.width = "40px";
+      assignedUsers1Children[i].style.height = "40px";
+      assignedUsers1Children[i].style.marginLeft = "0";
+    }
+  }
+
+  const assignedUsers = document.getElementById("assignedusers");
+  if (assignedUsers) {
+    const assignedUsersChildren = assignedUsers.children;
+    for (let i = 0; i < assignedUsersChildren.length; i++) {
+      assignedUsersChildren[i].style.width = "40px";
+      assignedUsersChildren[i].style.height = "40px";
+      assignedUsersChildren[i].style.marginLeft = "0";
+    }
+  }
 }
 
 function filternumbers(input) {

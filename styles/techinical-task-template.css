@@ -31,10 +31,12 @@
   display: none;
 }
 
+/* General styles for hiding checkboxes */
 .custom-checkbox input[type="checkbox"] {
   display: none;
 }
 
+/* Base style for checkmark */
 .custom-checkbox .checkmark {
   width: 20px;
   height: 20px;
@@ -42,26 +44,34 @@
   background-size: contain;
   background-repeat: no-repeat;
   display: inline-block;
+  position: relative;
 }
 
+/* Style for checked state */
 .custom-checkbox input[type="checkbox"]:checked + .checkmark {
   background-image: url("/img/checked.png");
+}
 
-  .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
+/* Specific designlayout customization */
+.designlayout
+  .custom-checkbox
+  input[type="checkbox"]:checked
+  + .checkmark::after {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background-image: url(/img/checked.png);
+  background-size: cover;
+  display: block;
+}
 
-  .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
-    display: block;
-    left: 5px;
-    top: 2px;
-    width: 10px;
-    height: 10px;
-    background-image: url("/img/checked.png");
-    background-size: cover;
-  }
+/* Ensure the custom checkmark only applies within designlayout */
+.designlayout .custom-checkbox .checkmark {
+  border-radius: 4px; /* Optional for design differentiation */
+  transition: all 0.2s ease-in-out;
 }
 
 .header button {

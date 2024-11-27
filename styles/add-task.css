@@ -671,7 +671,7 @@ select {
 }
 
 .custom-checkbox input[type="checkbox"]:checked + .checkmark {
-  background-image: url("/img/Check button mobile (1).png");
+  background-image: url("/img/Check button mobile (1).png") !important;
 
   .custom-checkbox input[type="checkbox"]:checked + .checkmark:after {
     content: "";
