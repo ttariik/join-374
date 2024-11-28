@@ -309,6 +309,14 @@ input[type="password"] {
   line-height: 19px;
   color: #ffffff;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sign-up-button-footer:hover{
+  background-color: #29ABE2; 
+  border-color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 footer {

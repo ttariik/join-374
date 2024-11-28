@@ -2,7 +2,10 @@ import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/fi
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
-
+/**
+ * Firebase configuration object for the app.
+ * @constant {Object}
+ */
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
     authDomain: "join-backend-dd268.firebaseapp.com",
@@ -14,12 +17,14 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-
+// Initialize Firebase app, authentication, and Firestore.
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-
+/**
+ * Initializes user session handling after DOM content is fully loaded.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
         let initials = "G";
@@ -36,7 +41,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
+/**
+ * Generates initials from a user's full name.
+ *
+ * @param {string} name - The user's full name.
+ * @returns {string} The generated initials.
+ */
 function getInitials(name) {
     const nameParts = name.split(' ');
     const firstInitial = nameParts[0].charAt(0);
@@ -44,7 +54,11 @@ function getInitials(name) {
     return firstInitial + lastInitial;
 }
 
-
+/**
+ * Displays the user's initials in the DOM element with the ID `user-initials`.
+ *
+ * @param {string} initials - The user's initials to display.
+ */
 function displayUserInitials(initials) {
     const checkExist = setInterval(() => {
         const initialsElement = document.getElementById('user-initials');
@@ -57,7 +71,9 @@ function displayUserInitials(initials) {
     }, 100); 
 }
 
-
+/**
+ * Sets up the logout button functionality, handling user sign-out.
+ */
 function setupLogout() {
     const logoutButton = document.getElementById('logoutID');
     if (logoutButton) {
@@ -75,7 +91,9 @@ function setupLogout() {
     } 
 }
 
-
+/**
+ * Adds event listeners for dropdown management and logout functionality.
+ */
 document.addEventListener('DOMContentLoaded', function() {
     setupLogout();
     window.onclick = function (event) {

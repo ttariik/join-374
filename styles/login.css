@@ -92,6 +92,14 @@ header {
   line-height: 19px;
   color: #ffffff;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sign-up-button:hover{
+  background-color: #29ABE2; 
+  border-color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 h2 {
@@ -273,6 +281,7 @@ input[type="password"] {
   gap: 35px;
 }
 
+
 .login-button {
   height: 50px;
   width: 90px;
@@ -283,6 +292,14 @@ input[type="password"] {
   background-color: #2a3647;
   line-height: 19px;
   color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease; 
+}
+
+.login-button:hover{
+  background-color: #29ABE2; 
+  border-color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
@@ -296,6 +313,17 @@ input[type="password"] {
   background-color: #ffffff;
   line-height: 19px;
   color: #2a3647;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 140px;
+  transition: all 0.2s ease; 
+}
+
+.guest-button:hover{
+  border-color: #29ABE2; 
+  color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
