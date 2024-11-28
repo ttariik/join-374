@@ -655,7 +655,6 @@ async function variables(contact) {
 async function selectcontact(id) {
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
-
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
     contact && contact.name
       ? {
@@ -668,100 +667,49 @@ async function selectcontact(id) {
         }
       : null
   );
-
   const selectedContact = entries.find(
     (contact) => contact && contact.id === String(id)
   );
 
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
+  asignedtousers.push(initials);
 
-  // Handle checkbox change event
-  checkbox.addEventListener("change", () => {
-    if (checkbox.checked) {
-      contactDiv.classList.add("dark-blue");
-
-      // Only add the badge if it hasn't been added yet
-      if (!asignedtousers.includes(initials)) {
-        iffunction(
-          initials,
-          selectedContact.name,
-          color,
-          contactDiv,
-          assignedUsersDiv,
-          selectedContact.id
-        );
-      }
-    } else {
-      contactDiv.classList.remove("dark-blue");
-      // Remove the badge
-      elsefunction(initials, selectedContact.id);
-    }
+  initialsArray.push({
+    id: selectedContact.id, // Use selectedContact's ID
+    initials: initials,
+    name: selectedContact.name, // Correctly reference the name
   });
 
-  // Handle click event on contact div to toggle checkbox state
-  contactDiv.addEventListener("click", () => {
-    checkbox.checked = !checkbox.checked; // Toggle the checked state
-    checkbox.dispatchEvent(new Event("change")); // Trigger the change event
-  });
-
-  // Trigger the change event once on initial load
-  checkbox.dispatchEvent(new Event("change"));
+  checkbox.checked = !checkbox.checked;
+  const badge = document.createElement("div");
+  badge.className = "badgeassigned badge";
+  badge.style.backgroundColor = color;
+  badge.textContent = initials;
+  badge.setAttribute("data-initials", initials);
+  assignedUsersDiv.appendChild(badge);
+  contactDiv.classList.add("dark-blue");
+  contactDiv.onclick = function () {
+    resetcontact(contactDiv, checkbox, selectedContact.id, initials);
+  };
   checkAddTaskInputs();
 }
 
-function iffunction(
-  initials,
-  name,
-  color,
-  contactDiv,
-  assignedUsersDiv,
-  firebaseId
-) {
-  // Only add the badge if it's not already assigned
-  if (!asignedtousers.includes(initials)) {
-    asignedtousers.push(initials);
-
-    initialsArray.push({
-      id: firebaseId,
-      initials: initials,
-      name: name,
-    });
-
-    const badge = document.createElement("div");
-    badge.className = "badgeassigned badge";
-    badge.style.backgroundColor = color;
-    badge.textContent = initials;
-    badge.setAttribute("data-initials", initials); // Ensure correct attribute
-    assignedUsersDiv.appendChild(badge);
-
-    // Adjust badge sizes and margin as needed
-    updateAssignedUserStyles();
-
-    // Check if assignedusers1 is available and adjust layout
-    const assignedUsers1 = document.getElementById("assignedusers1");
-    if (assignedUsers1 && assignedUsers1.children[0]) {
-      assignedUsers1.style.display = "flex";
-      assignedUsers1.style.marginLeft = "20px";
-      assignedUsers1.children[0].style.marginLeft = "0";
-      document.getElementById("contacts-box1").style.top = "46%";
-      document.getElementById("contacts-box1").style.maxWidth = "422px";
-    }
-  }
-}
-
-function elsefunction(initials, firebaseId) {
-  // Remove the contact from the arrays
+function resetcontact(contactDiv, checkbox, id, initials) {
+  checkbox.checked = false;
+  contactDiv.classList.remove("dark-blue");
   asignedtousers = asignedtousers.filter((item) => item !== initials);
-  initialsArray = initialsArray.filter((item) => item.id !== firebaseId);
+  initialsArray = initialsArray.filter((item) => item.id !== id); // Corrected from firebaseId to id
 
-  // Remove the badge from the DOM
   const badge = document.querySelector(
     `.badgeassigned[data-initials="${initials}"]`
   );
   if (badge) {
     badge.remove();
   }
+  contactDiv.onclick = function () {
+    selectcontact(id);
+  };
 }
 
 function updateAssignedUserStyles() {
