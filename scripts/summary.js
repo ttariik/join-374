@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-import { getDatabase, ref, get, query, orderByChild, equalTo } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
+import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
 
 const firebaseConfig = {
@@ -90,67 +90,80 @@ function getGreetingMessage() {
 
 async function loadTaskCounts(userId) {
   try {
-    let taskCounts = { todos: 0, inprogress: 0, awaitingfeedback: 0, donetasks: 0, urgent: 0 };
-    let totalTasks = 0;
-    let upcomingDeadline = null;
-
-    // Liste der Folder, die gezählt werden sollen
-    const folders = {
-      todos: 'todo-folder',
-      inprogress: 'inprogress-folder',
-      awaitingfeedback: 'awaiting-feedback-folder',
-      donetasks: 'done-folder'
-    };
-
-    // Array zum Speichern der Urgent Tasks, um später das zufällige Fälligkeitsdatum auszuwählen
-    let urgentTasks = [];
-
-    // Durch jeden Folder iterieren und die Anzahl der Tasks zählen
-    for (let [key, folderName] of Object.entries(folders)) {
-      const folderRef = ref(realtimeDb, `users/${userId}/tasks/${folderName}`);
-      const folderSnapshot = await get(folderRef);
-
-      if (folderSnapshot.exists()) {
-        const tasks = folderSnapshot.val();
-        const taskCount = Object.keys(tasks).length;
-        taskCounts[key] = taskCount;
-        totalTasks += taskCount; // Gesamte Task-Zahl erhöhen
-
-        for (let taskId in tasks) {
-          const task = tasks[taskId];
-
-          // Zählen der "Urgent" Tasks und Bestimmen der Deadline
-          if (task.prio === "Urgent") {
-            taskCounts.urgent += 1;
-            urgentTasks.push(task); // Speichern der Urgent Tasks
-
-            if (!upcomingDeadline || new Date(task.duedate) < new Date(upcomingDeadline)) {
-              upcomingDeadline = task.duedate;
-            }
-          }
-        }
-      }
-    }
-    if (urgentTasks.length > 1) {
-      const randomUrgentTask = urgentTasks[Math.floor(Math.random() * urgentTasks.length)];
-      upcomingDeadline = randomUrgentTask.duedate;
-    }
-    document.getElementById("todo-task-count").textContent = taskCounts.todos || 0;
-    document.getElementById("done-task-count").textContent = taskCounts.donetasks || 0;
-    document.getElementById("total-task-count").textContent = totalTasks;
-    document.getElementById("inprogress-task-count").textContent = taskCounts.inprogress || 0;
-    document.getElementById("review-task-count").textContent = taskCounts.awaitingfeedback || 0;
-    document.getElementById("urgent-task-count").textContent = taskCounts.urgent || 0;
-    document.getElementById("due-date").textContent = upcomingDeadline || "No Date";
-
+    const { taskCounts, totalTasks, upcomingDeadline } = await initializeTaskCounts(userId);
+    updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline);
   } catch (error) {
     console.error("Fehler beim Laden der Task Counts von Firebase:", error);
   }
 }
 
+
+async function fetchTaskCountsFromFolders(userId, folders) {
+  let taskCounts = { todos: 0, inprogress: 0, awaitingfeedback: 0, donetasks: 0, urgent: 0 };
+  let totalTasks = 0, upcomingDeadline = null;
+  for (let [key, folderName] of Object.entries(folders)) {
+    const folderSnapshot = await fetchFolderData(userId, folderName);
+    if (folderSnapshot.exists()) {
+      const { tasks, urgent, deadline } = countUrgentTasks(folderSnapshot.val());
+      taskCounts[key] = Object.keys(tasks).length;
+      totalTasks += taskCounts[key];
+      taskCounts.urgent += urgent;
+      upcomingDeadline = deadline || upcomingDeadline;
+    }
+  }
+  return { taskCounts, totalTasks, upcomingDeadline };
+}
+
+
+async function initializeTaskCounts(userId) {
+  const folders = {
+    todos: 'todo-folder',
+    inprogress: 'inprogress-folder',
+    awaitingfeedback: 'awaiting-feedback-folder',
+    donetasks: 'done-folder'
+  };
+  const { taskCounts, totalTasks, upcomingDeadline } = await fetchTaskCountsFromFolders(userId, folders);
+  if (taskCounts.urgent > 1 && !upcomingDeadline) {
+    upcomingDeadline = urgentTasks[Math.floor(Math.random() * urgentTasks.length)].duedate;
+  }
+  return { taskCounts, totalTasks, upcomingDeadline };
+}
+
+
+async function fetchFolderData(userId, folderName) {
+  const folderRef = ref(realtimeDb, `users/${userId}/tasks/${folderName}`);
+  return await get(folderRef);
+}
+
+
+function countUrgentTasks(tasks) {
+  let urgentCount = 0;
+  let upcomingDeadline = null;
+  for (let task of Object.values(tasks)) {
+    if (task.prio === "Urgent") {
+      urgentCount++;
+      if (!upcomingDeadline || new Date(task.duedate) < new Date(upcomingDeadline)) {
+        upcomingDeadline = task.duedate;
+      }
+    }
+  }
+  return { tasks, urgent: urgentCount, deadline: upcomingDeadline };
+}
+
+
+function updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline) {
+  document.getElementById("todo-task-count").textContent = taskCounts.todos || 0;
+  document.getElementById("done-task-count").textContent = taskCounts.donetasks || 0;
+  document.getElementById("total-task-count").textContent = totalTasks || 0;
+  document.getElementById("inprogress-task-count").textContent = taskCounts.inprogress || 0;
+  document.getElementById("review-task-count").textContent = taskCounts.awaitingfeedback || 0;
+  document.getElementById("urgent-task-count").textContent = taskCounts.urgent || 0;
+  document.getElementById("due-date").textContent = upcomingDeadline || "No Date";
+}
+
+
 const userId = "1"; 
 loadTaskCounts(userId);
-
 
 const greet = [
   'Go to bed!',
@@ -159,13 +172,18 @@ const greet = [
   'Good evening,'
 ][parseInt(new Date().getHours() / 24 * 4)];
 
+
 if (document.getElementById("welcomeText")) document.getElementById("welcomeText").innerHTML = greet;
 if (document.getElementById("welcomeText-mobile")) document.getElementById("welcomeText-mobile").innerHTML = greet;
+
+
 setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.opacity = "0";
 }, 2000);
+
+
 setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.display = "none";
-}, 3000); 
+}, 3000);
