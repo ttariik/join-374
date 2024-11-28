@@ -54,7 +54,8 @@
 
 .how-to-content p {
     font-size: 20px;
-    margin-block-end: 0em;;
+    margin-block-end: 0em;
+    ;
 }
 
 .help-content a {
@@ -93,7 +94,7 @@
     .btn-arrow {
         position: fixed;
         right: 32px;
-}
+    }
 }
 
 @media (max-width: 440px) {
@@ -101,11 +102,11 @@
     .help-headline p {
         font-size: 47px;
     }
-  }
+}
 
-  @media (max-width: 380px) {
+@media (max-width: 380px) {
 
-    .help-headline  p {
+    .help-headline p {
         font-size: 40px;
     }
-  }
+}

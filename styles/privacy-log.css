@@ -51,7 +51,7 @@
     display: flex;
     justify-content: center;
     width: 232px;
-    background-color: rgb(9,25,49) !important;
+    background-color: rgb(9, 25, 49) !important;
     pointer-events: none !important;
 }
 
@@ -68,7 +68,7 @@
     .btn-arrow {
         position: fixed;
         right: 32px;
-}
+    }
 }
 
 @media (max-width: 440px) {
@@ -76,11 +76,11 @@
     .privacy-headline p {
         font-size: 47px;
     }
-  }
+}
 
-  @media (max-width: 380px) {
+@media (max-width: 380px) {
 
-    .privacy-headline  p {
+    .privacy-headline p {
         font-size: 40px;
     }
-  }
+}

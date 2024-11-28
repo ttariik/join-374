@@ -15,15 +15,11 @@ body {
   overflow-x: hidden;
 }
 
-/*  */
-
 .content-limitation {
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
 }
-
-/*  */
 
 .content-wrapper {
   height: 100vh;
@@ -66,7 +62,6 @@ header {
   width: 120px;
   margin-top: 50px;
   margin-left: 20px;
-  
 }
 
 .sign-up-header {
@@ -168,8 +163,6 @@ input[type="email"] {
   transform: translateY(50%);
 }
 
-/*  */
-
 input[type="password"] {
   width: 420px;
   height: 50px;
@@ -243,7 +236,6 @@ input[type="password"] {
   border-top-style: none;
   border-right-style: none;
   -ms-transform: rotate(-45deg);
-  /* IE9 */
   transform: rotate(-45deg);
   height: calc(var(--size) * 0.5);
   border-color: green;
@@ -263,7 +255,6 @@ input[type="password"] {
 .checkbox-wrapper-29 .checkbox__label:after:active {
   border-color: green;
 }
-
 .checkbox-wrapper-29 .checkbox__label {
   margin-right: calc(var(--size) * 0.45);
 }
@@ -337,8 +328,6 @@ input[type="password"] {
   animation: fadeOut 7s forwards;
   z-index: 10;
 }
-
-/*  */
 
 .overlay {
   position: fixed;

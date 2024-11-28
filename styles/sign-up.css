@@ -86,7 +86,6 @@ header {
 
 .sign-up-a:hover {
   text-decoration: underline 2px;
-  /* Unterstreichung beim Hover */
 }
 
 .sign-up-button {
@@ -261,7 +260,7 @@ input[type="password"] {
   transition: 100ms ease-in-out;
 }
 
-.checkbox-wrapper-29 .checkbox__input:checked ~ .checkbox__label:after {
+.checkbox-wrapper-29 .checkbox__input:checked~.checkbox__label:after {
   border-top-style: none;
   border-right-style: none;
   -ms-transform: rotate(-45deg);
@@ -367,22 +366,26 @@ a {
 .checkboxError {
   display: none;
   color: red;
-  position:absolute;
+  position: absolute;
   top: 580px;
 }
 
 @media (max-width:699px) {
 
-  html, body {
+  html,
+  body {
     overflow: unset;
   }
 
   .container {
     width: 450px;
   }
- 
-  .person-icon, .email-icon, .password-icon, .confrim-password-logo {
-    left: 400px ;
+
+  .person-icon,
+  .email-icon,
+  .password-icon,
+  .confrim-password-logo {
+    left: 400px;
   }
 
   .arrow-logo {
@@ -410,9 +413,12 @@ a {
   h2 {
     font-size: 48px;
   }
- 
-  .person-icon, .email-icon, .password-icon, .confrim-password-logo {
-    left: 315px ;
+
+  .person-icon,
+  .email-icon,
+  .password-icon,
+  .confrim-password-logo {
+    left: 315px;
   }
 
   .input-fields {
@@ -420,7 +426,9 @@ a {
     align-items: center;
   }
 
-  input[type="text"], input[type="email"],input[type="password"]  {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
     width: 320px;
   }
 
@@ -434,9 +442,12 @@ a {
   .container {
     width: 300px;
   }
- 
-  .person-icon, .email-icon, .password-icon, .confrim-password-logo {
-    left: 250px ;
+
+  .person-icon,
+  .email-icon,
+  .password-icon,
+  .confrim-password-logo {
+    left: 250px;
   }
 
   .input-fields {
@@ -444,7 +455,9 @@ a {
     align-items: center;
   }
 
-  input[type="text"], input[type="email"],input[type="password"]  {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
     width: 275px;
   }
 
