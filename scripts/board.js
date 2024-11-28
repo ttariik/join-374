@@ -76,23 +76,45 @@ async function drop(event) {
 
     const targetContainer = document.getElementById(targetFolder);
     if (targetContainer) {
+      // Remove "No tasks" message from the target folder if present
       const noTasksMessage = targetContainer.querySelector(".nothing");
       if (noTasksMessage) {
         noTasksMessage.remove();
       }
-      const parentContainer = document.getElementById(parentFolderId);
-      if (parentContainer && parentContainer.children.length === 0) {
-        const noTasksMessageElement = document.createElement("div");
-        noTasksMessageElement.className = "nothing";
-      }
 
+      // Move the task element to the target folder
       targetContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", targetFolder);
+    }
+
+    // Handle source folder to show "No tasks" if it's empty
+    const parentContainer = document.getElementById(parentFolderId);
+    if (parentContainer && parentContainer.children.length === 0) {
+      // Add "No tasks" message to source folder if it becomes empty
+      const noTasksMessageElement = document.createElement("div");
+      noTasksMessageElement.className = "nothing";
+      noTasksMessageElement.textContent = getNoTasksMessage(parentFolderId);
+      parentContainer.appendChild(noTasksMessageElement);
     }
   } catch (error) {
     console.error("Error during drop operation:", error);
   } finally {
     taskElement.setAttribute("draggable", "true");
+  }
+}
+
+function getNoTasksMessage(folderId) {
+  switch (folderId) {
+    case "todo-folder":
+      return "No tasks to do";
+    case "inprogress-folder":
+      return "No tasks in progress";
+    case "awaiting-feedback-folder":
+      return "No tasks awaiting feedback";
+    case "done-folder":
+      return "No tasks done";
+    default:
+      return "No tasks available";
   }
 }
 
