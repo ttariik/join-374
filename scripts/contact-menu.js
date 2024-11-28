@@ -218,7 +218,6 @@ async function savedata(contactKey) {
 
   await showcontacts(1);
   closecontactstemplate();
-
   setTimeout(() => {
     showcontacttemplate(contactKey);
   }, 500);
@@ -233,7 +232,6 @@ async function putData(path = "", data = {}) {
     },
     body: JSON.stringify(data),
   });
-
   return await response.json();
 }
 
@@ -261,4 +259,4 @@ window.onclick = function (event) {
   ) {
     menu.style.display = "none";
   }
-};
+}
