@@ -165,6 +165,7 @@ function updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline) {
 const userId = "1"; 
 loadTaskCounts(userId);
 
+
 const greet = [
   'Go to bed!',
   'Good morning,',

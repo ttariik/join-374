@@ -47,9 +47,8 @@ function contactsmenutemplate(contact) {
 
   return /*html*/ `
       ${title} <!-- Only renders title once per letter -->
-      <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
-    contact.key
-  }'); ">
+      <div class="align" id="${contact.key}" onclick="showcontacttemplate('${contact.key
+    }'); ">
         <div class="badge" style="background-color: ${contact.color};">
           ${contact.initials || contact.name.charAt(0).toUpperCase()}
         </div>
@@ -159,6 +158,7 @@ async function showcontacttemplate(contactKey) {
     deletecontact(contact.key);
   document.getElementById("editbutton-overlay").onclick = () =>
     edicontact(contact.key);
+    closeaddcontacttemplate();
   document.getElementById("deletebutton-overlay").onclick = () =>
     deletecontact(contact.key);
 
