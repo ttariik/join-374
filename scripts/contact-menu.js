@@ -1,5 +1,6 @@
 let displayedLetters = new Set();
 
+
 async function opencontactstemplate() {
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
@@ -10,9 +11,11 @@ async function opencontactstemplate() {
   document.getElementById("");
 }
 
+
 function closecontactstemplate() {
   document.querySelector(".overlay2").style.transform = "translateX(126%)";
 }
+
 
 async function showcontacts(id = 1) {
   const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
@@ -31,6 +34,7 @@ async function showcontacts(id = 1) {
     contactMenu.innerHTML += contactsmenutemplate(contact);
   });
 }
+
 
 function contactsmenutemplate(contact) {
   let firstLetter = contact.name.charAt(0).toUpperCase();
@@ -60,6 +64,7 @@ function contactsmenutemplate(contact) {
   `;
 }
 
+
 function getColorFromString(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -76,6 +81,7 @@ function getColorFromString(str) {
 
   return `rgb(${r}, ${g}, ${b})`;
 }
+
 
 async function edicontact(contactKey) {
   document.getElementById("overlayaddcontact").classList.remove("d-none");
@@ -102,6 +108,7 @@ async function edicontact(contactKey) {
   }, 0.5);
 }
 
+
 function closeaddcontacttemplate() {
   document.getElementById("overlayaddcontact").style.transform =
     "translateX(250%)";
@@ -115,6 +122,7 @@ function closeaddcontacttemplate() {
   }, 0.5);
 }
 
+
 async function deletecontact(contactKey) {
   const contactIndex = contactUsers.findIndex(
     (contact) => contact.key === contactKey
@@ -123,10 +131,11 @@ async function deletecontact(contactKey) {
     console.error("Contact not found");
     return;
   }
-
-  await deleteData(`/users/1/contacts/${contactKey}`);
-  showcontacts((id = 1));
-  document.getElementById("contacttemplate").classList.add("d-none");
+    await deleteData(`/users/1/contacts/${contactKey}`);
+    contactUsers.splice(contactIndex, 1);
+    showcontacts((id = 1));
+    document.getElementById("contacttemplate").classList.add("d-none");
+    location.reload();
 }
 
 async function deleteData(path = "", data = {}) {
@@ -136,12 +145,14 @@ async function deleteData(path = "", data = {}) {
   return await response.json();
 }
 
+
 function closecontacttemplate(contactkey) {
   document.getElementById("contacttemplate").style.transform =
     "translateX(250%)";
   document.getElementById(`${contactkey}`).onclick = () =>
     showcontacttemplate(contactkey);
 }
+
 
 async function showcontacttemplate(contactKey) {
   document.getElementById("contacttemplate").classList.remove("d-none");
@@ -169,10 +180,12 @@ async function showcontacttemplate(contactKey) {
     closecontacttemplate(contact.key);
 }
 
+
 function returntomenu() {
   document.querySelector(".boxalignment").style.display = "none";
   document.querySelector(".contact-content-wrapper").style.display = "unset";
 }
+
 
 async function savedata(contactKey) {
   const contact = contactUsers.find((user) => user.key === contactKey);
@@ -205,11 +218,11 @@ async function savedata(contactKey) {
 
   await showcontacts(1);
   closecontactstemplate();
-
   setTimeout(() => {
     showcontacttemplate(contactKey);
   }, 500);
 }
+
 
 async function putData(path = "", data = {}) {
   let response = await fetch(GLOBAL + path + ".json", {
@@ -219,13 +232,14 @@ async function putData(path = "", data = {}) {
     },
     body: JSON.stringify(data),
   });
-
   return await response.json();
 }
+
 
 async function addEditSingleUser(contactKey, contact) {
   const result = await putData(`/users/1/contacts/${contactKey}`, contact);
 }
+
 
 function toggleMenu() {
   const menu = document.getElementById("dropupMenu");
@@ -236,6 +250,7 @@ function toggleMenu() {
   }
 }
 
+
 window.onclick = function (event) {
   const menu = document.getElementById("dropupMenu");
   if (
@@ -244,4 +259,4 @@ window.onclick = function (event) {
   ) {
     menu.style.display = "none";
   }
-};
+}
