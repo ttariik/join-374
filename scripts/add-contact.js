@@ -146,14 +146,16 @@ function validateInput(el, pattern, errorMsg) {
   return true; 
 }
 
+
 function performCustomValidation() {
   const nameInput = document.getElementById("name");
   const phoneInput = document.getElementById("phone");
   const emailInput = document.getElementById("emailarea");
+  
   const namePattern = /^[a-zA-Z\s\-]+$/;
   const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+
   let isValid = true;
   isValid &= validateInput(nameInput, namePattern, "Please enter a valid name");
   isValid &= validateInput(phoneInput, phonePattern, "Please enter a valid phone number.");
