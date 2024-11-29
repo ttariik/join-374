@@ -633,6 +633,9 @@ async function selectcontact(id) {
   badge.style.backgroundColor = color;
   badge.textContent = initials;
   badge.setAttribute("data-initials", initials);
+  badge.style.width = "32px";
+  badge.style.height = "32px";
+  badge.style.marginLeft = "0";
   assignedUsersDiv.appendChild(badge);
   contactDiv.classList.add("dark-blue");
   contactDiv.onclick = function () {
