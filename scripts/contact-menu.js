@@ -163,6 +163,7 @@ async function showcontacttemplate(contactKey) {
   closeaddcontacttemplate();
   document.getElementById("deletebutton-overlay").onclick = () =>
     deletecontact(contact.key);
+  document.getElementById("formid").onsubmit = addcontact;
 
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";
