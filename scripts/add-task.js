@@ -8,6 +8,7 @@ let initialsarra = [];
 let asignedtousers = [];
 let usernamecolor = [];
 let initialsArray = [];
+let contacts = []; // Array to hold the contact data.
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
@@ -484,11 +485,14 @@ function showcontactbox() {
   if (document.getElementById("contacts-box")) {
     document.getElementById("contacts-box").classList.remove("d-none");
     document.getElementById("selectbutton").onclick = resetsearchbar;
+    document.getElementById("selectbutton").innerHTML = searchbar();
+
     document.getElementById("contacts-box").style.display = "flex";
   }
   if (document.getElementById("contacts-box1")) {
     document.getElementById("contacts-box").classList.remove("d-none");
     document.getElementById("selectbutton").onclick = resetsearchbar;
+    document.getElementById("selectbutton1").innerHTML = searchbar();
     document.getElementById("contacts-box1").style.display = "flex";
     document.ge;
   }
@@ -499,8 +503,9 @@ async function showcontacts() {
   let response = await fetch(GLOBAL + `users/1/contacts.json`);
   let responsestoJson = await response.json();
 
-  responsestoJson = Object.entries(responsestoJson).map(
-    ([firebaseId, contact]) => {
+  // Process the response to create a list of contact objects
+  contacts = Object.entries(responsestoJson)
+    .map(([firebaseId, contact]) => {
       if (contact && contact.name) {
         return {
           firebaseId,
@@ -510,33 +515,37 @@ async function showcontacts() {
         };
       }
       return null;
-    }
-  );
+    })
+    .filter((contact) => contact !== null);
+
+  // Initialize the search bar
   if (document.getElementById("selectbutton1")) {
     document.getElementById("selectbutton1").onclick = resetsearchbar;
     document.getElementById("selectbutton1").innerHTML = searchbar();
   } else {
     document.getElementById("selectbutton").onclick = resetsearchbar;
-
     document.getElementById("selectbutton").innerHTML = searchbar();
   }
 
+  // Render the contact list
+  renderContacts(contacts);
+}
+
+// Function to render contacts
+function renderContacts(contactList) {
   let contactHTML = "";
-
-  responsestoJson.forEach((contact) => {
+  contactList.forEach((contact) => {
     if (contact !== null) {
-      users.push(contact.name);
       const color = getColorFromString(contact.name);
-      usernamecolor.push(color);
-
       contactHTML += contactstemplate(contact, color);
     }
   });
-  if (document.getElementById("contacts-box1")) {
-    document.getElementById("contacts-box1").innerHTML = contactHTML;
-  } else {
-    document.getElementById("contacts-box").innerHTML = contactHTML;
-  }
+
+  // Display the contacts inside the contact box
+  const contactsBox =
+    document.getElementById("contacts-box1") ||
+    document.getElementById("contacts-box");
+  contactsBox.innerHTML = contactHTML;
 }
 
 function resetsearchbar() {
@@ -545,30 +554,56 @@ function resetsearchbar() {
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />`;
     document.getElementById("contacts-box1").classList.add("d-none");
-
     document.getElementById("selectbutton1").onclick = showcontactbox;
   } else {
-  }
-  if (document.getElementById("selectbutton")) {
     document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />`;
     document.getElementById("contacts-box").classList.add("d-none");
-
     document.getElementById("selectbutton").onclick = showcontactbox;
   }
 
-  if ((document.getElementById("contacts-box").style.display = "flex")) {
-    document.getElementById("contacts-box").style.display = "none";
-  } else {
-    document.getElementById("contacts-box").style.display = "flex";
-  }
+  // Toggle contact box visibility
+  const contactsBox = document.getElementById("contacts-box");
+  contactsBox.style.display =
+    contactsBox.style.display === "flex" ? "none" : "flex";
 }
 
+// Function to filter contacts based on search input
+function filterContacts(event) {
+  const filter = event.target.value.toLowerCase();
+
+  // Filter contacts based on the search input
+  const filteredContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes(filter)
+  );
+
+  // Re-render the filtered contacts
+  renderContacts(filteredContacts);
+}
+
+// Function to generate the search bar HTML and add event listener for filtering
 function searchbar() {
   return /*html*/ `
-  <input type="text" class="searchbar"> <img src="/img/drop-up-arrow.png" alt="">
+    <input id="search" type="text" class="searchbar" onclick="event.stopPropagation()" oninput="filterContacts(event)">
+    <img src="/img/drop-up-arrow.png" alt="">
   `;
+}
+
+// Function to display the contact box
+function showcontactbox() {
+  if (document.getElementById("contacts-box")) {
+    document.getElementById("contacts-box").classList.remove("d-none");
+    document.getElementById("selectbutton").onclick = resetsearchbar;
+    document.getElementById("selectbutton").innerHTML = searchbar();
+    document.getElementById("contacts-box").style.display = "flex";
+  }
+
+  if (document.getElementById("contacts-box1")) {
+    document.getElementById("contacts-box1").classList.remove("d-none");
+    document.getElementById("selectbutton1").innerHTML = searchbar();
+    document.getElementById("contacts-box1").style.display = "flex";
+  }
 }
 
 function contactstemplate(contact, color) {
