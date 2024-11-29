@@ -276,7 +276,10 @@ async function userstorytemplate(task, contacts) {
   ).filter((contact) => contact !== null && contact !== undefined);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-  const initialsHTML = initialsArray
+  const displayedInitials = initialsArray.slice(0, 5); // Nur die ersten 5 Initialen anzeigen
+  const remainingCount = initialsArray.length > 5 ? initialsArray.length - 5 : 0;
+
+  const initialsHTML = displayedInitials
     .map((initialObj) => {
       const initial = initialObj.initials;
 
@@ -289,6 +292,11 @@ async function userstorytemplate(task, contacts) {
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
+
+    const extraCircleHTML = remainingCount > 0 
+    ? `<div class="badgestyle badge extra-badge" style="background-color:black">+${remainingCount}</div>` 
+    : "";
+  
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
   const completedTasks = task.subtask
@@ -318,7 +326,10 @@ async function userstorytemplate(task, contacts) {
       </div>
       ${progressBarHTML}
       <div class="asignbox">
-        <div class="initialsbox" id="initialbox">${initialsHTML}</div>
+        <div class="initialsbox" id="initialbox">
+          ${initialsHTML}
+          ${extraCircleHTML}
+        </div>
         <img src="/img/${task.prio}.png" alt="">
       </div>
     </div>
@@ -326,6 +337,7 @@ async function userstorytemplate(task, contacts) {
 
   return htmlTemplate;
 }
+
 
 async function Technicaltasktemplate(task, contacts) {
   const contactsArray = (
