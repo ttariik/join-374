@@ -106,26 +106,32 @@ async function showsavedinitials(task) {
 
   // Loop through each assigned user (from task.asignedto)
   for (let index = 0; index < task.asignedto.length; index++) {
-    const contactId = task.asignedto[index]; // Get the contact ID for the current user
+    const assignedInitial = task.asignedto[index]; // Get the initials for the current user
 
-    // Find the corresponding contact object based on the contact ID
+    // Find the corresponding contact object based on the initials
     const selectedContact = entries.find(
-      (contact) => contact && contact.id === contactId
+      (contact) => contact && contact.initials === assignedInitial
     );
 
-    // Create a new div element for the initials
-    const badge = document.createElement("div");
-    badge.className = "badgeassigned badge";
-    badge.style.width = "32px";
-    badge.style.height = "32px";
-    badge.style.backgroundColor = selectedContact.color; // Use the color of the selected contact
-    badge.textContent = selectedContact.initials; // Set the text content to the initials
+    // Check if a contact was found for the initials
+    if (selectedContact) {
+      // Create a new div element for the initials
+      const badge = document.createElement("div");
+      badge.className = "badgeassigned badge";
+      badge.style.width = "32px";
+      badge.style.height = "32px";
+      badge.style.backgroundColor = selectedContact.color; // Use the color of the selected contact
+      badge.textContent = selectedContact.initials; // Set the text content to the initials
 
-    // Append the badge to the "assignedusers1" container
-    document.getElementById("assignedusers1").appendChild(badge);
+      // Append the badge to the "assignedusers1" container
+      document.getElementById("assignedusers1").appendChild(badge);
 
-    // Set the marginLeft of the newly added badge
-    badge.style.marginLeft = "0";
+      // Set the marginLeft of the newly added badge
+      badge.style.marginLeft = "0";
+    } else {
+      // Log a warning if no contact is found for the initials
+      console.warn(`No contact found for initials: ${assignedInitial}`);
+    }
   }
 }
 

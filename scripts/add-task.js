@@ -487,29 +487,15 @@ function savesub(index) {
 }
 
 function smallerfunction() {
-  if (document.querySelector("#contacts-box1,#selectbutton1")) {
-    document.getElementById("contacts-box1").style.display = "flex";
-    document.getElementById("selectbutton1").onclick = "";
-  } else {
-    document.getElementById("contacts-box").style.display = "flex";
-    document.getElementById("selectbutton").onclick = "";
-  }
-}
+  const contactsBox1 = document.getElementById("contacts-box1");
+  const contactsBox = document.getElementById("contacts-box");
 
-function showcontactbox() {
-  if (document.getElementById("contacts-box")) {
-    document.getElementById("contacts-box").classList.remove("d-none");
-    document.getElementById("selectbutton").onclick = resetsearchbar;
-    document.getElementById("selectbutton").innerHTML = searchbar();
-
-    document.getElementById("contacts-box").style.display = "flex";
-  }
-  if (document.getElementById("contacts-box1")) {
-    document.getElementById("contacts-box").classList.remove("d-none");
-    document.getElementById("selectbutton").onclick = resetsearchbar;
-    document.getElementById("selectbutton1").innerHTML = searchbar();
-    document.getElementById("contacts-box1").style.display = "flex";
-    document.ge;
+  if (contactsBox1) {
+    contactsBox1.style.display = "flex";
+    contactsBox1.style.top = "34%";
+    contactsBox1.style.left = "-5px";
+  } else if (contactsBox) {
+    contactsBox.style.display = "flex";
   }
 }
 
@@ -564,24 +550,26 @@ function renderContacts(contactList) {
 }
 
 function resetsearchbar() {
-  if (document.getElementById("selectbutton1")) {
+  const contactsBox = document.getElementById("contacts-box");
+  const contactsBox1 = document.getElementById("contacts-box1");
+
+  if (contactsBox1) {
     document.getElementById("selectbutton1").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />`;
-    document.getElementById("contacts-box1").classList.add("d-none");
+    contactsBox1.classList.add("d-none");
+    contactsBox1.style.display = "none";
     document.getElementById("selectbutton1").onclick = showcontactbox;
-  } else {
+  }
+
+  if (contactsBox) {
     document.getElementById("selectbutton").innerHTML = `
       <span>Select contacts to assign</span>
       <img src="/img/arrow_drop_down.png" alt="" />`;
-    document.getElementById("contacts-box").classList.add("d-none");
+    contactsBox.classList.add("d-none");
+    contactsBox.style.display = "none";
     document.getElementById("selectbutton").onclick = showcontactbox;
   }
-
-  // Toggle contact box visibility
-  const contactsBox = document.getElementById("contacts-box");
-  contactsBox.style.display =
-    contactsBox.style.display === "flex" ? "none" : "flex";
 }
 
 // Function to filter contacts based on search input
@@ -607,17 +595,21 @@ function searchbar() {
 
 // Function to display the contact box
 function showcontactbox() {
-  if (document.getElementById("contacts-box")) {
-    document.getElementById("contacts-box").classList.remove("d-none");
-    document.getElementById("selectbutton").onclick = resetsearchbar;
+  const contactsBox = document.getElementById("contacts-box");
+  const contactsBox1 = document.getElementById("contacts-box1");
+
+  if (contactsBox) {
+    contactsBox.classList.remove("d-none");
+    contactsBox.style.display = "flex";
     document.getElementById("selectbutton").innerHTML = searchbar();
-    document.getElementById("contacts-box").style.display = "flex";
+    document.getElementById("selectbutton").onclick = resetsearchbar;
   }
 
-  if (document.getElementById("contacts-box1")) {
-    document.getElementById("contacts-box1").classList.remove("d-none");
+  if (contactsBox1) {
+    contactsBox1.classList.remove("d-none");
+    contactsBox1.style.display = "flex";
     document.getElementById("selectbutton1").innerHTML = searchbar();
-    document.getElementById("contacts-box1").style.display = "flex";
+    document.getElementById("selectbutton1").onclick = resetsearchbar;
   }
 }
 
