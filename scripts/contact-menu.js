@@ -126,9 +126,7 @@ async function deletecontact(contactKey) {
   }
   await deleteData(`/users/1/contacts/${contactKey}`);
   contactUsers.splice(contactIndex, 1);
-  document.getElementById("contacttemplate").style = "";
-
-  document.getElementById("contacttemplate").classList.add("d-none");
+  document.getElementById("contacttemplate").style = "display: none";
 
   showcontacts((id = 1));
 }
