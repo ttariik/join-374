@@ -294,7 +294,7 @@ async function userstorytemplate(task, contacts) {
     .join("");
 
     const extraCircleHTML = remainingCount > 0 
-    ? `<div class="badgestyle badge extra-badge" style="background-color:black">+${remainingCount}</div>` 
+    ? `<div class="badgestyle badge extra-badge" style="background-color:grey">+${remainingCount}</div>` 
     : "";
   
 
@@ -345,7 +345,10 @@ async function Technicaltasktemplate(task, contacts) {
   ).filter((contact) => contact !== null && contact !== undefined);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-  const initialsHTML = initialsArray
+  const displayedInitials = initialsArray.slice(0, 5); // Nur die ersten 5 Initialen anzeigen
+  const remainingCount = initialsArray.length > 5 ? initialsArray.length - 5 : 0;
+
+  const initialsHTML = displayedInitials
     .map((initialObj) => {
       const initial = initialObj.initials;
 
@@ -358,6 +361,11 @@ async function Technicaltasktemplate(task, contacts) {
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
+
+  // Hinzufügen des extra badge, wenn mehr als 5 Initialen vorhanden sind
+  const extraCircleHTML = remainingCount > 0 
+    ? `<div class="badgestyle badge extra-badge" style="background-color:grey">+${remainingCount}</div>` 
+    : "";
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
   const completedTasks = task.subtask
@@ -374,7 +382,7 @@ async function Technicaltasktemplate(task, contacts) {
             <div class="progressbar-inside" style="width:${completionPercent}%"></div>
           </div>
           <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
-        </div>`
+        </div>` 
       : ""; // Empty string if no subtasks
 
   return /*html*/ `
@@ -388,12 +396,16 @@ async function Technicaltasktemplate(task, contacts) {
       </div>
       ${progressBarHTML} <!-- Rendered conditionally -->
       <div class="task-statuss">
-        <div class="initialsboxdesign">${initialsHTML}</div>
+        <div class="initialsboxdesign">
+          ${initialsHTML}
+          ${extraCircleHTML} <!-- Extra badge für die verbleibenden Initialen -->
+        </div>
         <img src="/img/${task.prio}.png" alt="Priority" />
       </div>
     </div>
   `;
 }
+
 
 async function openprofiletemplate(task, contacts) {
   document.getElementById("overlayprofile-template").classList.add("overlayss");
