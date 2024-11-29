@@ -1,3 +1,7 @@
+
+/**
+ * Validates the task input fields and enables or disables the "Create Task" button accordingly.
+ */
 function checkAddTaskInputs() {
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
@@ -29,6 +33,9 @@ function checkAddTaskInputs() {
   }
 }
 
+/**
+ * Initializes event listeners for the task input form and triggers validation on changes.
+ */
 function initializeFormCheck() {
   const inputs = document.querySelectorAll(
     "#title, #description, #date, #Category"
@@ -52,6 +59,10 @@ function initializeFormCheck() {
   checkAddTaskInputs();
 }
 
+/**
+ * Validates the task form and displays error messages for invalid inputs.
+ * @returns {boolean} True if the form is valid, false otherwise.
+ */
 function validateTaskForm() {
   let isValid = true;
 
@@ -149,12 +160,21 @@ function validateTaskForm() {
   return isValid;
 }
 
+/**
+ * Displays an error message for a specific element.
+ * @param {string} elementId - The ID of the element where the error should be displayed.
+ * @param {string} message - The error message to display.
+ */
 function displayError(elementId, message) {
   const element = document.getElementById(elementId);
   element.textContent = message;
   element.classList.add("error-message");
 }
 
+/**
+ * Retrieves the selected priority from the task form.
+ * @returns {boolean} True if a priority is selected, false otherwise.
+ */
 function getSelectedPriority() {
   const buttons = document.querySelectorAll(".buttons2 button");
   for (let button of buttons) {

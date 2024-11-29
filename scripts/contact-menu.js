@@ -1,5 +1,13 @@
+/**
+ * Set to track displayed letters in the contact menu.
+ * @type {Set<string>}
+ */
 let displayedLetters = new Set();
 
+/**
+ * Opens the "add contact" template with an overlay effect.
+ * @returns {Promise<void>}
+ */
 async function opencontactstemplate() {
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
@@ -10,10 +18,18 @@ async function opencontactstemplate() {
   document.getElementById("");
 }
 
+/**
+ * Closes the "add contact" template overlay.
+ */
 function closecontactstemplate() {
   document.querySelector(".overlay2").style.transform = "translateX(126%)";
 }
 
+/**
+ * Fetches and displays the list of contacts.
+ * @param {number} [id=1] - ID of the user whose contacts are to be displayed.
+ * @returns {Promise<void>}
+ */
 async function showcontacts(id = 1) {
   const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   const responsestoJson = await response.json();
@@ -32,21 +48,25 @@ async function showcontacts(id = 1) {
   });
 }
 
+/**
+ * Generates an HTML template for a single contact.
+ * @param {Object} contact - Contact object containing details like name and email.
+ * @returns {string} HTML template for the contact.
+ */
 function contactsmenutemplate(contact) {
   let firstLetter = contact.name.charAt(0).toUpperCase();
-  let title = ""; // Define title here
+  let title = "";
 
-  // Only create the title if it hasn't been displayed already
   if (!displayedLetters.has(firstLetter)) {
     title = `<h2>${firstLetter}</h2>
              <div class="lineseperator"></div>`;
-    displayedLetters.add(firstLetter); // Add the letter to the set to prevent it from being repeated
+    displayedLetters.add(firstLetter);
   }
 
   const color = getColorFromString(contact.name);
 
   return /*html*/ `
-      ${title} <!-- Only renders title once per letter -->
+      ${title}
       <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
     contact.key
   }'); ">
@@ -61,6 +81,11 @@ function contactsmenutemplate(contact) {
   `;
 }
 
+/**
+ * Generates a color based on a string.
+ * @param {string} str - Input string.
+ * @returns {string} RGB color value.
+ */
 function getColorFromString(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -78,6 +103,11 @@ function getColorFromString(str) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+/**
+ * Opens the "edit contact" template for a specific contact.
+ * @param {string} contactKey - Key of the contact to edit.
+ * @returns {Promise<void>}
+ */
 async function edicontact(contactKey) {
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
@@ -103,6 +133,9 @@ async function edicontact(contactKey) {
   }, 0.5);
 }
 
+/**
+ * Closes the "add contact" template and resets its fields.
+ */
 function closeaddcontacttemplate() {
   document.getElementById("overlayaddcontact").style.transform =
     "translateX(250%)";
@@ -116,6 +149,11 @@ function closeaddcontacttemplate() {
   }, 0.5);
 }
 
+/**
+ * Deletes a contact and updates the contact list.
+ * @param {string} contactKey - Key of the contact to delete.
+ * @returns {Promise<void>}
+ */
 async function deletecontact(contactKey) {
   const contactIndex = contactUsers.findIndex(
     (contact) => contact.key === contactKey
@@ -131,20 +169,34 @@ async function deletecontact(contactKey) {
   showcontacts((id = 1));
 }
 
-async function deleteData(path = "", data = {}) {
+/**
+ * Sends a DELETE request to remove a contact.
+ * @param {string} path - API endpoint for deleting the contact.
+ * @returns {Promise<Object>} Response from the server.
+ */
+async function deleteData(path = "") {
   const response = await fetch(GLOBAL + path + ".json", {
     method: "DELETE",
   });
   return await response.json();
 }
 
-function closecontacttemplate(contactkey) {
+/**
+ * Closes the contact template view for a specific contact.
+ * @param {string} contactKey - Key of the contact.
+ */
+function closecontacttemplate(contactKey) {
   document.getElementById("contacttemplate").style.transform =
     "translateX(250%)";
-  document.getElementById(`${contactkey}`).onclick = () =>
-    showcontacttemplate(contactkey);
+  document.getElementById(`${contactKey}`).onclick = () =>
+    showcontacttemplate(contactKey);
 }
 
+/**
+ * Displays the details of a specific contact in the contact template.
+ * @param {string} contactKey - Key of the contact to display.
+ * @returns {Promise<void>}
+ */
 async function showcontacttemplate(contactKey) {
   document.getElementById("contacttemplate").classList.remove("d-none");
 
@@ -172,11 +224,19 @@ async function showcontacttemplate(contactKey) {
     closecontacttemplate(contact.key);
 }
 
+/**
+ * Returns the user interface to the main contact menu view.
+ */
 function returntomenu() {
   document.querySelector(".boxalignment").style.display = "none";
   document.querySelector(".contact-content-wrapper").style.display = "unset";
 }
 
+/**
+ * Saves the updated data for a specific contact.
+ * @param {string} contactKey - Key of the contact to save.
+ * @returns {Promise<void>}
+ */
 async function savedata(contactKey) {
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
@@ -193,7 +253,7 @@ async function savedata(contactKey) {
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
 
-  if (!telefonename || !email || !telefone) {
+  if (!telefonename || !email || !phone) {
     alert("All fields must be filled out.");
     return;
   }
@@ -213,6 +273,12 @@ async function savedata(contactKey) {
   }, 500);
 }
 
+/**
+ * Sends a PUT request to update contact data.
+ * @param {string} path - API endpoint for updating contact data.
+ * @param {Object} data - Contact data to update.
+ * @returns {Promise<Object>} Response from the server.
+ */
 async function putData(path = "", data = {}) {
   let response = await fetch(GLOBAL + path + ".json", {
     method: "PUT",
@@ -224,10 +290,9 @@ async function putData(path = "", data = {}) {
   return await response.json();
 }
 
-async function addEditSingleUser(contactKey, contact) {
-  const result = await putData(`/users/1/contacts/${contactKey}`, contact);
-}
-
+/**
+ * Toggles the visibility of a dropdown menu.
+ */
 function toggleMenu() {
   const menu = document.getElementById("dropupMenu");
   if (menu.style.display === "block" || menu.style.display === "flex") {
@@ -237,6 +302,10 @@ function toggleMenu() {
   }
 }
 
+/**
+ * Closes the dropdown menu when clicking outside of it.
+ * @param {Event} event - Click event.
+ */
 window.onclick = function (event) {
   const menu = document.getElementById("dropupMenu");
   if (

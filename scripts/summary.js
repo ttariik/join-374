@@ -4,6 +4,10 @@ import { getFirestore, getDoc, doc } from "https://www.gstatic.com/firebasejs/11
 import { getDatabase, ref, get } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-database.js";
 
 
+/**
+ * Firebase configuration object containing project details.
+ */
+
 const firebaseConfig = {
   apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
   authDomain: "join-backend-dd268.firebaseapp.com",
@@ -15,7 +19,7 @@ const firebaseConfig = {
   measurementId: "G-D3K960J8WM"
 };
 
-
+// Firebase services initialization
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
@@ -35,6 +39,13 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
+/**
+ * Handles UI updates for logged-in users.
+ * @param {string} userId - The unique ID of the logged-in user.
+ * @param {HTMLElement} loggedUserNameElement - DOM element for displaying the username.
+ * @param {HTMLElement} loggedUserNameMobile - DOM element for displaying the username in mobile view.
+ * @param {HTMLElement} userGuest - DOM element for displaying user initials.
+ */
 async function handleLoggedInUser(userId, loggedUserNameElement, loggedUserNameMobile, userGuest) {
   try {
     const docSnap = await getDoc(doc(db, "users", userId));
@@ -50,7 +61,13 @@ async function handleLoggedInUser(userId, loggedUserNameElement, loggedUserNameM
   }
 }
 
-
+/**
+ * Updates the UI elements for a logged-in user.
+ * @param {string} userName - The name of the logged-in user.
+ * @param {HTMLElement} loggedUserNameElement - DOM element for the username.
+ * @param {HTMLElement} loggedUserNameMobile - DOM element for the username in mobile view.
+ * @param {HTMLElement} userGuest - DOM element for displaying user initials.
+ */
 function updateUIForLoggedInUser(userName, loggedUserNameElement, loggedUserNameMobile, userGuest) {
   const initials = getInitials(userName);
   if (loggedUserNameElement) loggedUserNameElement.innerText = userName;
@@ -58,7 +75,11 @@ function updateUIForLoggedInUser(userName, loggedUserNameElement, loggedUserName
   if (userGuest) userGuest.innerText = initials;
 }
 
-
+/**
+ * Retrieves initials from a given username.
+ * @param {string} userName - The user's full name.
+ * @returns {string} The initials of the user.
+ */
 function getInitials(userName) {
   const nameParts = userName.split(" ");
   return nameParts.length >= 2 
@@ -66,7 +87,12 @@ function getInitials(userName) {
       : userName[0].toUpperCase(); 
 }
 
-
+/**
+ * Handles UI updates for logged-out users.
+ * @param {HTMLElement} loggedUserNameElement - DOM element for the username.
+ * @param {HTMLElement} welcomeTextElement - DOM element for the welcome text.
+ * @param {HTMLElement} userGuest - DOM element for displaying user initials.
+ */
 function handleLoggedOutUser(loggedUserNameElement, welcomeTextElement, userGuest) {
   localStorage.removeItem('loggedInUserId');
   if (loggedUserNameElement) loggedUserNameElement.innerText = '';
@@ -76,7 +102,10 @@ function handleLoggedOutUser(loggedUserNameElement, welcomeTextElement, userGues
   if (userGuest) userGuest.innerText = 'G';
 }
 
-
+/**
+ * Generates a greeting message based on the current time.
+ * @returns {string} The greeting message.
+ */
 function getGreetingMessage() {
   const greetings = [
     'Good Night',
@@ -87,7 +116,10 @@ function getGreetingMessage() {
   return greetings[Math.floor(new Date().getHours() / 24 * greetings.length)];
 }
 
-
+/**
+ * Loads task counts from the database and updates the UI.
+ * @param {string} userId - The user's ID.
+ */
 async function loadTaskCounts(userId) {
   try {
     const { taskCounts, totalTasks, upcomingDeadline } = await initializeTaskCounts(userId);
@@ -97,7 +129,12 @@ async function loadTaskCounts(userId) {
   }
 }
 
-
+/**
+ * Fetches task counts and other related data from specified folders in the database.
+ * @param {string} userId - The user's ID.
+ * @param {Object} folders - A mapping of folder keys to folder names in the database.
+ * @returns {Promise<{taskCounts: Object, totalTasks: number, upcomingDeadline: string | null}>} An object containing task counts, total tasks, and the next upcoming deadline.
+ */
 async function fetchTaskCountsFromFolders(userId, folders) {
   let taskCounts = { todos: 0, inprogress: 0, awaitingfeedback: 0, donetasks: 0, urgent: 0 };
   let totalTasks = 0, upcomingDeadline = null;
@@ -115,6 +152,12 @@ async function fetchTaskCountsFromFolders(userId, folders) {
 }
 
 
+
+/**
+ * Initializes task counts by retrieving data from the user's task folders.
+ * @param {string} userId - The user's ID.
+ * @returns {Promise<{taskCounts: Object, totalTasks: number, upcomingDeadline: string | null}>} An object containing task counts, total tasks, and the next upcoming deadline.
+ */
 async function initializeTaskCounts(userId) {
   const folders = {
     todos: 'todo-folder',
@@ -129,13 +172,22 @@ async function initializeTaskCounts(userId) {
   return { taskCounts, totalTasks, upcomingDeadline };
 }
 
-
+/**
+ * Fetches data from a specific folder in the database.
+ * @param {string} userId - The user's ID.
+ * @param {string} folderName - The name of the folder to retrieve data from.
+ * @returns {Promise<Object>} The snapshot of the folder data.
+ */
 async function fetchFolderData(userId, folderName) {
   const folderRef = ref(realtimeDb, `users/${userId}/tasks/${folderName}`);
   return await get(folderRef);
 }
 
-
+/**
+ * Counts urgent tasks and identifies the nearest upcoming deadline from a list of tasks.
+ * @param {Object} tasks - The list of tasks to evaluate.
+ * @returns {Object} An object containing the count of urgent tasks, tasks, and the nearest deadline.
+ */
 function countUrgentTasks(tasks) {
   let urgentCount = 0;
   let upcomingDeadline = null;
@@ -150,7 +202,12 @@ function countUrgentTasks(tasks) {
   return { tasks, urgent: urgentCount, deadline: upcomingDeadline };
 }
 
-
+/**
+ * Updates the UI to display task counts and other related information.
+ * @param {Object} taskCounts - An object containing task counts for each folder.
+ * @param {number} totalTasks - The total number of tasks.
+ * @param {string | null} upcomingDeadline - The nearest deadline date, if available.
+ */
 function updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline) {
   document.getElementById("todo-task-count").textContent = taskCounts.todos || 0;
   document.getElementById("done-task-count").textContent = taskCounts.donetasks || 0;
@@ -161,11 +218,19 @@ function updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline) {
   document.getElementById("due-date").textContent = upcomingDeadline || "No Date";
 }
 
-
+// Initialize task counts for a predefined user ID
+/**
+ * Predefined user ID for testing purposes.
+ * @type {string}
+ */
 const userId = "1"; 
 loadTaskCounts(userId);
 
-
+// Display a greeting based on the time of day
+/**
+ * Array of greeting messages based on the time of day.
+ * @type {string[]}
+ */
 const greet = [
   'Go to bed!',
   'Good morning,',
@@ -177,13 +242,13 @@ const greet = [
 if (document.getElementById("welcomeText")) document.getElementById("welcomeText").innerHTML = greet;
 if (document.getElementById("welcomeText-mobile")) document.getElementById("welcomeText-mobile").innerHTML = greet;
 
-
+// Fade out the welcome wrapper after 2 seconds
 setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.opacity = "0";
 }, 2000);
 
-
+// Hide the welcome wrapper after 3 seconds
 setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.display = "none";

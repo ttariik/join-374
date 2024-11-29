@@ -1,3 +1,9 @@
+
+
+/**
+ * Edits the inputs for a task and updates the UI accordingly.
+ * @param {Object} task - The task object containing task details.
+ */
 function editinputs(task) {
   const type = document.getElementById("type");
   if (type) {
@@ -41,6 +47,11 @@ function editinputs(task) {
   });
 }
 
+
+/**
+ * Edits the profile section of a user or task and updates the UI.
+ * @param {Object} task - The task object containing all task details.
+ */
 function editprofile(task) {
   const titlebox = document.getElementById("userbox");
   if (titlebox) {
@@ -80,6 +91,10 @@ function editprofile(task) {
   });
 }
 
+/**
+ * Resets the template to its initial state based on the task type.
+ * @param {Object} task - The task object containing all task details.
+ */
 async function resettemplate(task) {
   if (task.category === "User Story") {
     closeoverlayprofiletemplate();
@@ -113,6 +128,11 @@ function buttontemplate(task) {
   `;
 }
 
+
+/**
+ * Saves changes made to the task by sending an update request to the server.
+ * @param {Object} task - The task object containing all task details.
+ */
 async function savechanges(task) {
   const parentElement = document.getElementById(`${task.id}`).parentElement.id;
 
