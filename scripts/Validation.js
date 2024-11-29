@@ -172,3 +172,72 @@ function clearValidationMessages() {
     element.classList.remove("error-message");
   });
 }
+
+/**
+ * Validates a phone number based on a predefined pattern.
+ *
+ * @param {string} value - The phone number to validate.
+ * @returns {boolean} - True if the phone number is valid, false otherwise.
+ */
+function validatePhoneNumber(value) {
+  const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
+  return phonePattern.test(value);
+}
+
+/**
+ * Validates an input field based on a pattern and shows error messages.
+ *
+ * @param {HTMLElement} el - The input element to validate.
+ * @param {RegExp} pattern - The regular expression pattern for validation.
+ * @param {string} errorMsg - The error message to display if validation fails.
+ * @returns {boolean} - True if the input is valid, false otherwise.
+ */
+function validateInput(el, pattern, errorMsg) {
+  const errorEl = document.getElementById(`${el.id}-error-message`);
+  if (errorEl) {
+    if (!pattern.test(el.value.trim())) {
+      errorEl.innerHTML = errorMsg;
+      errorEl.style.display = "flex";
+      el.classList.add("invalid");
+      return false;
+    } else {
+      errorEl.innerHTML = "";
+      el.classList.remove("invalid");
+      return true;
+    }
+  }
+  return true;
+}
+
+/**
+ * Performs custom validation on the contact form inputs.
+ *
+ * @returns {boolean} - True if all inputs are valid, false otherwise.
+ */
+function performCustomValidation() {
+  const nameInput = document.getElementById("name");
+  const phoneInput = document.getElementById("phone");
+  const emailInput = document.getElementById("emailarea");
+
+  const namePattern = /^[a-zA-Z\s\-]+$/;
+  const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  let isNameValid = validateInput(
+    nameInput,
+    namePattern,
+    "Please enter a valid name"
+  );
+  let isPhoneValid = validateInput(
+    phoneInput,
+    phonePattern,
+    "Please enter a valid phone number."
+  );
+  let isEmailValid = validateInput(
+    emailInput,
+    emailPattern,
+    "Please enter a valid email address."
+  );
+
+  return isNameValid && isPhoneValid && isEmailValid;
+}
