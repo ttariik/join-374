@@ -663,8 +663,8 @@ function updateAssignedUserStyles() {
   if (assignedUsers1) {
     const assignedUsers1Children = assignedUsers1.children;
     for (let i = 0; i < assignedUsers1Children.length; i++) {
-      assignedUsers1Children[i].style.width = "40px";
-      assignedUsers1Children[i].style.height = "40px";
+      assignedUsers1Children[i].style.width = "32pxpx";
+      assignedUsers1Children[i].style.height = "32pxpx";
       assignedUsers1Children[i].style.marginLeft = "0";
     }
   }
@@ -673,8 +673,8 @@ function updateAssignedUserStyles() {
   if (assignedUsers) {
     const assignedUsersChildren = assignedUsers.children;
     for (let i = 0; i < assignedUsersChildren.length; i++) {
-      assignedUsersChildren[i].style.width = "40px";
-      assignedUsersChildren[i].style.height = "40px";
+      assignedUsersChildren[i].style.width = "32px";
+      assignedUsersChildren[i].style.height = "32px";
       assignedUsersChildren[i].style.marginLeft = "0";
     }
   }

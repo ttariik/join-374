@@ -329,14 +329,14 @@ select {
   gap: 8px;
 }
 
-.buttons2_1:hover{
+.buttons2_1:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
-.buttons2_2:hover{
+.buttons2_2:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
-.buttons2_3:hover{
+.buttons2_3:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -550,9 +550,9 @@ select {
   transition: all 0.2s ease;
 }
 
-.bt1:hover{
+.bt1:hover {
   color: white;
-  border-color: #29ABE2; 
+  border-color: #29abe2;
   box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
@@ -767,8 +767,8 @@ select {
 }
 
 .badgeassigned {
-  width: 42px;
-  height: 42px;
+  width: 32px;
+  height: 32px;
   border-radius: 50% 50%;
   background-color: aqua;
   display: flex;
