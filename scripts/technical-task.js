@@ -2,6 +2,9 @@
  * Edits the inputs for a task and updates the UI accordingly.
  * @param {Object} task - The task object containing task details.
  */
+
+let button_1, button_2, button_3;
+
 function editinputs(task) {
   const type = document.getElementById("type");
   if (type) {
