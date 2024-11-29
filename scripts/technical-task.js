@@ -1,5 +1,3 @@
-
-
 /**
  * Edits the inputs for a task and updates the UI accordingly.
  * @param {Object} task - The task object containing task details.
@@ -29,7 +27,7 @@ function editinputs(task) {
     "unset";
   document.getElementById(
     "buttonss"
-  ).innerHTML = `<button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>`;
+  ).innerHTML = `<button id="oksavebutton" class="savecontact" type="button" ><span>OK</span><div> <img src="/img/checkwhite.png" alt="" /></div> </button>`;
   document
     .getElementById("oksavebutton")
     .addEventListener("click", function () {
@@ -45,8 +43,88 @@ function editinputs(task) {
   document.getElementById("closebtn1").addEventListener("click", function () {
     resettemplate(task);
   });
+  definedbuttons(button_1, button_2, button_3);
+
+  loadinfos(task);
 }
 
+function definedbuttons() {
+  // Assign the buttons inside the function
+  button_1 = document
+    .getElementById("priority-containercontent")
+    .children[1].children[0].querySelector("#button1");
+
+  button_2 = document
+    .getElementById("priority-containercontent")
+    .children[1].children[1].querySelector("#button2");
+
+  button_3 = document
+    .getElementById("priority-containercontent")
+    .children[1].children[2].querySelector("#button3");
+}
+
+function loadinfos(task) {
+  document.querySelector(".titleinputdesign").value = task.title;
+  document.getElementById("descriptioninput").children[1].value =
+    task.description;
+  document.getElementById("date1").value = task.duedate;
+  if (task.prio === "Urgent") {
+    selectbutton_1();
+  } else if (task.prio === "Medium") {
+    selectbutton_2();
+  } else {
+    selectbutton_3();
+  }
+  showsavedinitials(task);
+}
+
+async function showsavedinitials(task) {
+  // Fetch all contacts once to avoid repetitive API calls inside the loop
+  const response = await fetch(GLOBAL + `users/1/contacts.json`);
+  if (!response.ok) {
+    console.error("Failed to fetch contacts");
+    return;
+  }
+  const responsestoJson = await response.json();
+
+  // Map the response to an array of contact objects
+  const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
+    contact && contact.name
+      ? {
+          id: firebaseId,
+          initials: contact.initials,
+          name: contact.name,
+          color: contact.color,
+          email: contact.email,
+          telefone: contact.telefone,
+        }
+      : null
+  );
+
+  // Loop through each assigned user (from task.asignedto)
+  for (let index = 0; index < task.asignedto.length; index++) {
+    const contactId = task.asignedto[index]; // Get the contact ID for the current user
+
+    // Find the corresponding contact object based on the contact ID
+    const selectedContact = entries.find(
+      (contact) => contact && contact.id === contactId
+    );
+
+    // Create a new div element for the initials
+    const badge = document.createElement("div");
+    badge.className = "badgeassigned badge";
+    badge.style.width = "32px";
+    badge.style.height = "32px";
+    badge.style.backgroundColor = selectedContact.color; // Use the color of the selected contact
+    badge.textContent = selectedContact.initials; // Set the text content to the initials
+
+    // Append the badge to the "assignedusers1" container
+    document.getElementById("assignedusers1").appendChild(badge);
+
+    // Set the marginLeft of the newly added badge
+    badge.style.marginLeft = "0";
+  }
+}
 
 /**
  * Edits the profile section of a user or task and updates the UI.
@@ -89,6 +167,7 @@ function editprofile(task) {
   document.getElementById("closebtn").addEventListener("click", function () {
     resettemplate(task);
   });
+  definedbuttons();
 }
 
 /**
@@ -124,10 +203,9 @@ async function resettemplate(task) {
 
 function buttontemplate(task) {
   return /*html*/ `
-    <button id="oksavebutton" type="button" >OK <img src="/img/check1 (1).png" alt="" /> </button>
+    <button id="oksavebutton" class="savecontact" type="button" ><span>OK</span><div> <img src="/img/checkwhite.png" alt="" /></div> </button>
   `;
 }
-
 
 /**
  * Saves changes made to the task by sending an update request to the server.

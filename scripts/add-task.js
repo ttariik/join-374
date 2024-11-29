@@ -12,6 +12,11 @@ let contacts = []; // Array to hold the contact data.
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
+  if ((button_1, button_2, button_3)) {
+    button_1.classList.toggle("lightred");
+    button_2.classList.remove("lightorange");
+    button_3.classList.remove("lightgreen");
+  }
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
 
@@ -31,8 +36,13 @@ function selectbutton_1() {
 }
 
 function selectbutton_2() {
-  document.getElementById("button2").classList.toggle("lightorange");
+  if ((button_1, button_2, button_3)) {
+    button_1.classList.remove("lightred");
+    button_2.classList.toggle("lightorange");
+    button_3.classList.remove("lightgreen");
+  }
   document.getElementById("button1").classList.remove("lightred");
+  document.getElementById("button2").classList.toggle("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
 
   const mediumImg = document.getElementById("mediumImg");
@@ -51,9 +61,14 @@ function selectbutton_2() {
 }
 
 function selectbutton_3() {
-  document.getElementById("button3").classList.toggle("lightgreen");
-  document.getElementById("button2").classList.remove("lightorange");
+  if ((button_1, button_2, button_3)) {
+    button_1.classList.remove("lightred");
+    button_2.classList.remove("lightorange");
+    button_3.classList.toggle("lightgreen");
+  }
   document.getElementById("button1").classList.remove("lightred");
+  document.getElementById("button2").classList.remove("lightorange");
+  document.getElementById("button3").classList.toggle("lightgreen");
 
   const lowImg = document.getElementById("lowImg");
   lowImg.src = lowImg.src.includes("Low.png")
@@ -678,6 +693,8 @@ async function selectcontact(id) {
   };
   checkAddTaskInputs();
 }
+
+function initialsdiv() {}
 
 function resetcontact(contactDiv, checkbox, id, initials) {
   checkbox.checked = false;
