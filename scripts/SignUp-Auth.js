@@ -1,8 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
-
+/**
+ * Firebase configuration object for initializing the Firebase app.
+ */
 const firebaseConfig = {
     apiKey: "AIzaSyCgtAsiQmSwKltGMjS6qRva_RZJjPqOCpw",
     authDomain: "join-backend-dd268.firebaseapp.com",
@@ -14,12 +12,17 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-
+// Firebase initializations
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
 
-
+/**
+ * Displays a message in a specified HTML element for a limited time.
+ * 
+ * @param {string} message - The message to display.
+ * @param {string} divId - The ID of the HTML element where the message will be shown.
+ */
 function showMessage(message, divId) {
     const overlayDiv = document.getElementById('overlayDiv');
     const messageDiv = document.getElementById(divId);
@@ -32,7 +35,11 @@ function showMessage(message, divId) {
     }, 2000);
 }
 
-
+/**
+ * Validates if the privacy policy checkbox is checked.
+ * 
+ * @returns {boolean} - True if the checkbox is checked, false otherwise.
+ */
 function validatePrivacyCheckbox() {
     const checkbox = document.getElementById('checkPrivacy');
     const checkboxError = document.getElementById('checkboxError');
@@ -45,7 +52,13 @@ function validatePrivacyCheckbox() {
     return true;
 }
 
-
+/**
+ * Validates the password and confirms that it meets criteria.
+ * 
+ * @param {string} password - The entered password.
+ * @param {string} confirmPassword - The password confirmation.
+ * @returns {boolean} - True if the password is valid, false otherwise.
+ */
 function validatePassword(password, confirmPassword) {
     if (password !== confirmPassword) {
         showMessage('Passwords do not match', 'signUpMessage');
@@ -58,13 +71,22 @@ function validatePassword(password, confirmPassword) {
     return true;
 }
 
-
+/**
+ * Checks if an email address is valid.
+ * 
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} - True if the email is valid, false otherwise.
+ */
 function isValidEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(String(email).toLowerCase());
 }
 
-
+/**
+ * Handles the sign-up process when the sign-up form is submitted.
+ * 
+ * @param {Event} event - The submit event of the sign-up form.
+ */
 function handleSignUp(event) {
     event.preventDefault();
     if (!validatePrivacyCheckbox()) return;
@@ -83,7 +105,14 @@ function handleSignUp(event) {
         .catch((error) => handleSignUpError(error));
 }
 
-
+/**
+ * Creates a new user document in Firestore.
+ * 
+ * @param {Object} user - The Firebase user object.
+ * @param {string} email - The user's email address.
+ * @param {string} name - The user's name.
+ * @returns {Promise<void>} - A promise that resolves when the document is created.
+ */
 function createUserDocument(user, email, name) {
     const userData = { email, name };
     const docRef = doc(db, "users", user.uid);
@@ -94,7 +123,11 @@ function createUserDocument(user, email, name) {
         });
 }
 
-
+/**
+ * Handles errors that occur during the sign-up process.
+ * 
+ * @param {Object} error - The error object returned by Firebase.
+ */
 function handleSignUpError(error) {
     const errorMessages = {
         'auth/email-already-in-use': 'Email Already Exists!',
@@ -105,5 +138,5 @@ function handleSignUpError(error) {
     showMessage(message, 'signUpMessage');
 }
 
-
+// Event listener for the sign-up button
 document.getElementById('submitSignUp').addEventListener('click', handleSignUp);

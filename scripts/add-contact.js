@@ -1,12 +1,20 @@
+/** 
+ * Array to store initials of contacts.
+ * @type {string[]}
+ */
 let initialsarrays = [];
 
-
+// DOM elements
 const nameInput = document.getElementById("name");
 const errorMessage = document.getElementById("error-message");
 const phoneInput = document.getElementById("phone");
 const phoneErrorMessage = document.getElementById("phone-error-message");
 
-
+/**
+ * Adds a new contact and updates the contact list.
+ * 
+ * @param {Event} event - The form submit event.
+ */
 async function addcontact(event) {
   event.preventDefault();
   if (!performCustomValidation()) return;
@@ -24,7 +32,9 @@ async function addcontact(event) {
   showcontactlog();
 }
 
-
+/**
+ * Shows a success message when a contact is added.
+ */
 function showcontactlog() {
   const overlay = document.getElementById("successfullcontactlogoverlay");
   overlay.style.transform = "translateX(126%)";
@@ -32,7 +42,9 @@ function showcontactlog() {
   setTimeout(() => { overlay.style.transform = "translateX(126%)"; }, 4000);
 }
 
-
+/**
+ * Clears the input fields in the contact form.
+ */
 function emptyinputs() {
   document.getElementById("name").value = "";
   document.getElementById("emailarea").value = "";
@@ -40,7 +52,13 @@ function emptyinputs() {
   showcontacts();
 }
 
-
+/**
+ * Sends data to a specified path using a PUT request.
+ * 
+ * @param {string} path - The API endpoint path.
+ * @param {Object} data - The data to send.
+ * @returns {Promise<Object>} - The response data.
+ */
 async function putData(path = "", data = {}) {
   let response = await fetch(GLOBAL + path + ".json", {
     method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data)
@@ -48,20 +66,35 @@ async function putData(path = "", data = {}) {
   return await response.json();
 }
 
-
+/**
+ * Adds or edits a single user contact.
+ * 
+ * @param {number} id - The user ID.
+ * @param {Object} contact - The contact data.
+ * @returns {Promise<void>} - A promise that resolves when the contact is updated.
+ */
 async function addEditSingleUser(id = 1, contact = { name: "Kevin" }) {
   let userContacts = await getUserContacts(id) || {};
   let nextIndex = Math.max(...Object.keys(userContacts).map(Number), 0) + 1;
   await putData(`users/${id}/contacts/${nextIndex}`, contact);
 }
 
-
+/**
+ * Fetches the contacts of a specific user.
+ * 
+ * @param {number} id - The user ID.
+ * @returns {Promise<Object>} - The user's contacts.
+ */
 async function getUserContacts(id) {
   let response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   return await response.json();
 }
 
-
+/**
+ * Fetches all contacts and adds their initials to the `initialsarrays` array.
+ * 
+ * @param {number} [id=1] - The user ID.
+ */
 async function showInitials(id = 1) {
   let contacts = (await (await fetch(GLOBAL + `users/${id}/contacts.json`)).json())
     .filter((c) => c && c.name)
@@ -70,26 +103,48 @@ async function showInitials(id = 1) {
   contacts.forEach((contact) => initialsarrays.push((contact.name.trim().split(" ")[0]?.charAt(0) + (contact.name.split(" ")[1]?.charAt(0) || "")).toUpperCase()));
 }
 
-
+/**
+ * Fetches all users from a specific path.
+ * 
+ * @param {string} path - The API endpoint path.
+ * @returns {Promise<Object>} - All users.
+ */
 async function getAllUsers(path) {
   let response = await fetch(GLOBAL + path + ".json");
   return await response.json();
 }
 
-
+/**
+ * Generates a color based on a string input.
+ * 
+ * @param {string} str - The input string.
+ * @returns {string} - The generated RGB color string.
+ */
 function getColorFromString(str) {
   let hash = 0; for (let i = 0; i < str.length; i++) hash = str.charCodeAt(i) + ((hash << 5) - hash);
   let r = (hash >> 24) & 0xff, g = (hash >> 16) & 0xff, b = (hash >> 8) & 0xff;
   return `rgb(${Math.floor(r + (255 - r) * 0.4)}, ${Math.floor(g + (255 - g) * 0.4)}, ${Math.floor(b + (255 - b) * 0.4)})`;
 }
 
-
+/**
+ * Validates a phone number based on a predefined pattern.
+ * 
+ * @param {string} value - The phone number to validate.
+ * @returns {boolean} - True if the phone number is valid, false otherwise.
+ */
 function validatePhoneNumber(value) {
   const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
   return phonePattern.test(value);
 }
 
-
+/**
+ * Validates an input field based on a pattern and shows error messages.
+ * 
+ * @param {HTMLElement} el - The input element to validate.
+ * @param {RegExp} pattern - The regular expression pattern for validation.
+ * @param {string} errorMsg - The error message to display if validation fails.
+ * @returns {boolean} - True if the input is valid, false otherwise.
+ */
 function validateInput(el, pattern, errorMsg) {
   const errorEl = document.getElementById(`${el.id}-error-message`);
   if (errorEl) {
@@ -100,7 +155,11 @@ function validateInput(el, pattern, errorMsg) {
   return true;
 }
 
-
+/**
+ * Performs custom validation on the contact form inputs.
+ * 
+ * @returns {boolean} - True if all inputs are valid, false otherwise.
+ */
 function performCustomValidation() {
   const nameInput = document.getElementById("name");
   const phoneInput = document.getElementById("phone");
