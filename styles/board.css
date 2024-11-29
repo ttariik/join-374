@@ -73,7 +73,17 @@ h2 {
   color: #ffffff;
   font-weight: 700;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
+
+.task-button:hover{
+  background-color: #29ABE2;
+  color: white;
+  border-color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
 
 .button-items {
   display: flex;
@@ -105,10 +115,11 @@ h2 {
   position: relative;
   border: 1px solid;
   height: 32px;
-  padding: 8px 16px 8px 16px;
+  padding: 8px 106px 8px 106px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
+  border-radius: 8px;
 }
 
 .separator {
@@ -137,6 +148,9 @@ input:focus {
   width: 100%;
   border: none;
   height: 32px;
+  position: absolute;
+  left: 20px;
+  top: 10px;
 }
 
 .search-wrapper button {
@@ -171,6 +185,8 @@ input:focus {
 }
 
 .search-icon {
+  position: absolute;
+  top: 3px;
   width: 32px;
   margin: 0 8px;
 }

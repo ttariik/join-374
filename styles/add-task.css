@@ -329,6 +329,17 @@ select {
   gap: 8px;
 }
 
+.buttons2_1:hover{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.buttons2_2:hover{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.buttons2_3:hover{
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 .emailinput img {
   position: relative;
   right: 29px;
@@ -535,6 +546,14 @@ select {
   justify-content: center;
   align-items: center;
   gap: 13px;
+  font-size: 20px;
+  transition: all 0.2s ease;
+}
+
+.bt1:hover{
+  color: white;
+  border-color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 

@@ -196,6 +196,15 @@ body {
   border-radius: 10px;
   padding: 12px 0 12px 0;
   cursor: pointer;
+  font-size: 23px;
+}
+
+.add-contact-button:hover{
+  background-color: #29ABE2;
+  color: white;
+  border-color: #29ABE2; 
+  box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 }
 
 .overlay2 {
