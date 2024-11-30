@@ -187,6 +187,7 @@ async function deleteData(path = "") {
  * @param {string} contactKey - Key of the contact.
  */
 function closecontacttemplate(contactKey) {
+  document.getElementById("addbutton").disabled = true;
   document.getElementById("contacttemplate").style.transform =
     "translateX(250%)";
   document.getElementById(`${contactKey}`).onclick = () =>
