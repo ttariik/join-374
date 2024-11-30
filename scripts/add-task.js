@@ -545,7 +545,10 @@ function renderContacts(contactList) {
     document.getElementById("contacts-box1") ||
     document.getElementById("contacts-box");
   contactsBox.innerHTML = contactHTML;
-  if (document.getElementById("assignedusers1").innerHTML.trim() !== "") {
+  if (
+    document.getElementById("assignedusers1") &&
+    document.getElementById("assignedusers1").innerHTML.trim() !== ""
+  ) {
     initialsArray.forEach(function (initialsObj) {
       // Find the contact in the 'contacts' array that matches the initials
       const matchedContact = contacts.find(
@@ -573,6 +576,7 @@ function renderContacts(contactList) {
         );
       }
     });
+  } else {
   }
 }
 

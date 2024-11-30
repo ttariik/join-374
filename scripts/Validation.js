@@ -1,4 +1,3 @@
-
 /**
  * Validates the task input fields and enables or disables the "Create Task" button accordingly.
  */
@@ -19,18 +18,10 @@ function checkAddTaskInputs() {
     selectedPriority &&
     dueDate &&
     category !== "Select Task Category" &&
-    subtasks >= 0 &&
     subtasks <= 2;
-
-  if (isFormValid) {
-    createTaskButton.disabled = false;
-    createTaskButton.style.backgroundColor = "#2a3647";
-    createTaskButton.classList.add("enabled-hover");
-  } else {
-    createTaskButton.disabled = true;
-    createTaskButton.style.backgroundColor = "#d3d3d3";
-    createTaskButton.classList.remove("enabled-hover");
-  }
+  createTaskButton.disabled = !isFormValid;
+  createTaskButton.style.backgroundColor = isFormValid ? "#2a3647" : "#d3d3d3";
+  createTaskButton.classList.toggle("enabled-hover", isFormValid);
 }
 
 /**
@@ -65,99 +56,65 @@ function initializeFormCheck() {
  */
 function validateTaskForm() {
   let isValid = true;
-
   clearValidationMessages();
-
   const title = document.getElementById("title").value.trim();
-  if (title === "") {
+  if (!title) {
     isValid = false;
     displayError("spantitle", "Please select a title.");
   }
 
   const description = document.getElementById("description").value.trim();
-  if (description === "") {
+  if (!description) {
     isValid = false;
     displayError("spandescription", "Please enter a description.");
   }
 
-  if (document.getElementById("assignedusers1")) {
-    const assignedUsers =
-      document.getElementById("assignedusers1").children.length;
-    if (assignedUsers === 0) {
-      isValid = false;
-      displayError("spantasignedbox", "Please select a contact.");
-    }
-  } else {
-    const assignedUsers =
-      document.getElementById("assignedusers").children.length;
-    if (assignedUsers === 0) {
-      isValid = false;
-      displayError("spantasignedbox", "Please select a contact.");
-    }
+  const assignedUsers =
+    document.getElementById("assignedusers").children.length;
+  if (!assignedUsers) {
+    isValid = false;
+    displayError("spantasignedbox", "Please select a contact.");
   }
 
   const dateInput = document.getElementById("date").value.trim();
-  const dateElement = document.getElementById("date");
-
-  if (dateInput === "") {
+  if (!dateInput || !validateDate(dateInput)) {
     isValid = false;
-    displayError("spandate", "Please enter a date.");
-  } else {
-    // Split the date string by slashes to handle DD/MM/YYYY format
-    const [day, month, year] = dateInput.split("/").map(Number);
-
-    // Check if the split components are valid numbers
-    if (!day || !month || !year || day > 31 || month > 12) {
-      isValid = false;
-      displayError("spandate", "Please enter a valid date.");
-      return;
-    }
-
-    // Construct a new date using the parsed values
-    const dueDate = new Date(year, month - 1, day); // month is 0-indexed in JS
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // Check if dueDate is valid and not in the past
-    if (isNaN(dueDate.getTime())) {
-      isValid = false;
-      displayError("spandate", "Please enter a valid date.");
-    } else if (dueDate < today) {
-      isValid = false;
-      displayError("spandate", "Due date cannot be in the past.");
-    } else {
-      clearError("spandate");
-    }
+    displayError("spandate", "Please enter a valid date.");
   }
 
-  function clearError(spanId) {
-    const errorElement = document.getElementById(spanId);
-    if (errorElement) {
-      errorElement.textContent = "";
-    }
-  }
-
-  const priority = getSelectedPriority();
-  if (!priority) {
+  if (!getSelectedPriority()) {
     isValid = false;
     displayError("spanprio", "Please select a priority.");
   }
-
   const category = document.getElementById("Category").value;
-  if (category === "" || category === "Select Task Category") {
+  if (!category || category === "Select Task Category") {
     isValid = false;
     displayError("spancategory", "Please select a category.");
   }
 
   const subtasks = document.querySelectorAll(".subbox1 ").length;
-  if (subtasks < 2) {
-    isValid = true;
-  } else if (subtasks > 2) {
+  if (subtasks > 2) {
     isValid = false;
     displayError("spansubtask", "You can only add up to 2 subtasks.");
-    return isValid;
   }
+
   return isValid;
+}
+
+function getSelectedPriority() {
+  return [...document.querySelectorAll(".buttons2 button")].some((button) =>
+    button.classList.contains("selected")
+  );
+}
+
+function getSelectedPriority() {
+  const buttons = document.querySelectorAll(".buttons2 button");
+  for (let button of buttons) {
+    if (button.classList.contains("selected")) {
+      return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -186,8 +143,7 @@ function getSelectedPriority() {
 }
 
 function clearValidationMessages() {
-  const errorElements = document.querySelectorAll(".error-message");
-  errorElements.forEach((element) => {
+  document.querySelectorAll(".error-message").forEach((element) => {
     element.textContent = "";
     element.classList.remove("error-message");
   });
@@ -239,25 +195,21 @@ function performCustomValidation() {
   const phoneInput = document.getElementById("phone");
   const emailInput = document.getElementById("emailarea");
 
-  const namePattern = /^[a-zA-Z\s\-]+$/;
-  const phonePattern = /^\+?[\d\s\-\(\)]{10,15}$/;
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-  let isNameValid = validateInput(
+  const nameValid = validateInput(
     nameInput,
-    namePattern,
+    /^[a-zA-Z\s\-]+$/,
     "Please enter a valid name"
   );
-  let isPhoneValid = validateInput(
+  const phoneValid = validateInput(
     phoneInput,
-    phonePattern,
+    /^\+?[\d\s\-\(\)]{10,15}$/,
     "Please enter a valid phone number."
   );
-  let isEmailValid = validateInput(
+  const emailValid = validateInput(
     emailInput,
-    emailPattern,
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
     "Please enter a valid email address."
   );
 
-  return isNameValid && isPhoneValid && isEmailValid;
+  return nameValid && phoneValid && emailValid;
 }

@@ -868,6 +868,7 @@ select {
 
   #contacts-box {
     top: 76%;
+    max-width: 550px;
   }
 }
 
