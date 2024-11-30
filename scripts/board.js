@@ -277,7 +277,8 @@ async function userstorytemplate(task, contacts) {
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const displayedInitials = initialsArray.slice(0, 5); // Nur die ersten 5 Initialen anzeigen
-  const remainingCount = initialsArray.length > 5 ? initialsArray.length - 5 : 0;
+  const remainingCount =
+    initialsArray.length > 5 ? initialsArray.length - 5 : 0;
 
   const initialsHTML = displayedInitials
     .map((initialObj) => {
@@ -293,10 +294,10 @@ async function userstorytemplate(task, contacts) {
     })
     .join("");
 
-    const extraCircleHTML = remainingCount > 0 
-    ? `<div class="badgestyle badge extra-badge" style="background-color:grey">+${remainingCount}</div>` 
-    : "";
-  
+  const extraCircleHTML =
+    remainingCount > 0
+      ? `<div class="badgestyle badge extra-badge" style="background-color:grey">+${remainingCount}</div>`
+      : "";
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
   const completedTasks = task.subtask
@@ -338,7 +339,6 @@ async function userstorytemplate(task, contacts) {
   return htmlTemplate;
 }
 
-
 async function Technicaltasktemplate(task, contacts) {
   const contactsArray = (
     Array.isArray(contacts) ? contacts : Object.values(contacts)
@@ -346,7 +346,8 @@ async function Technicaltasktemplate(task, contacts) {
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const displayedInitials = initialsArray.slice(0, 5); // Nur die ersten 5 Initialen anzeigen
-  const remainingCount = initialsArray.length > 5 ? initialsArray.length - 5 : 0;
+  const remainingCount =
+    initialsArray.length > 5 ? initialsArray.length - 5 : 0;
 
   const initialsHTML = displayedInitials
     .map((initialObj) => {
@@ -363,9 +364,10 @@ async function Technicaltasktemplate(task, contacts) {
     .join("");
 
   // Hinzufügen des extra badge, wenn mehr als 5 Initialen vorhanden sind
-  const extraCircleHTML = remainingCount > 0 
-    ? `<div class="badgestyle badge extra-badge" style="background-color:grey">+${remainingCount}</div>` 
-    : "";
+  const extraCircleHTML =
+    remainingCount > 0
+      ? `<div class="badgestyle badge extra-badge" style="background-color:grey">+${remainingCount}</div>`
+      : "";
 
   const totalSubtasks = Array.isArray(task.subtask) ? task.subtask.length : 0;
   const completedTasks = task.subtask
@@ -382,7 +384,7 @@ async function Technicaltasktemplate(task, contacts) {
             <div class="progressbar-inside" style="width:${completionPercent}%"></div>
           </div>
           <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
-        </div>` 
+        </div>`
       : ""; // Empty string if no subtasks
 
   return /*html*/ `
@@ -405,7 +407,6 @@ async function Technicaltasktemplate(task, contacts) {
     </div>
   `;
 }
-
 
 async function openprofiletemplate(task, contacts) {
   document.getElementById("overlayprofile-template").classList.add("overlayss");
@@ -669,6 +670,12 @@ function closeaddtasktemplate() {
 }
 
 async function closeoverlayprofiletemplate() {
+  asignedtousers = [];
+  initialsArray = [];
+  if (document.getElementById("assignedusers1")) {
+    document.getElementById("assignedusers1").innerHTML = "";
+  }
+
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
 
   setTimeout(() => {

@@ -48,9 +48,13 @@ function editinputs(task) {
   loadinfos(task);
 }
 
-function loadinfos(task) {
-  subtasks = [];
+async function loadinfos(task) {
   if (task.category === "Technical Task") {
+    subtasks = [];
+    asignedtousers = [];
+    initialsArray = [];
+    document.getElementById("assignedusers1").innerHTML = "";
+
     document.getElementById("technicaltasktitle").children[1].value =
       task.title;
 
@@ -58,10 +62,15 @@ function loadinfos(task) {
     showsavedinitials(task);
     loadsubtasks(task);
   } else {
+    subtasks = [];
+    asignedtousers = [];
+    initialsArray = [];
+    document.getElementById("assignedusers1").innerHTML = "";
+
     document.querySelector(".titleinputdesign").value = task.title;
 
     document.getElementById("date1").value = task.duedate;
-    showsavedinitials(task);
+    await showsavedinitials(task);
     loadsubtasks(task);
   }
   document
@@ -114,15 +123,17 @@ function loadsubtasks(task) {
 }
 
 async function showsavedinitials(task) {
-  // Fetch all contacts once to avoid repetitive API calls inside the loop
+  // Clear previous badges to avoid duplicates
+  document.getElementById("assignedusers1").innerHTML = "";
+
+  // Fetch all contacts once
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   if (!response.ok) {
     console.error("Failed to fetch contacts");
     return;
   }
-  const responsestoJson = await response.json();
 
-  // Map the response to an array of contact objects
+  const responsestoJson = await response.json();
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
     contact && contact.name
       ? {
@@ -136,54 +147,41 @@ async function showsavedinitials(task) {
       : null
   );
 
-  // Loop through each assigned user (from task.asignedto)
+  // Create a Map for quick lookup by initials
+  const contactMap = new Map(
+    entries
+      .filter((contact) => contact)
+      .map((contact) => [contact.initials, contact])
+  );
+
+  // Process assigned users
   for (let index = 0; index < task.asignedto.length; index++) {
-    const assignedInitial = task.asignedto[index]; // Get the initials for the current user
+    const assignedInitial = task.asignedto[index];
+    const selectedContact = contactMap.get(assignedInitial);
 
-    // Find the corresponding contact object based on the initials
-    const selectedContact = entries.find(
-      (contact) => contact && contact.initials === assignedInitial
-    );
-
-    // Check if a contact was found for the initials
     if (selectedContact) {
-      // Create a new div element for the initials
       const badge = document.createElement("div");
       badge.className = "badgeassigned badge";
       badge.style.width = "32px";
       badge.style.height = "32px";
       badge.id = `${selectedContact.id}_${index}`;
-      badge.style.backgroundColor = selectedContact.color; // Use the color of the selected contact
-      badge.textContent = selectedContact.initials; // Set the text content to the initials
-      // Find the contact in the contact-box using the selectedContact.id
-      // Push the initials into initialsAinitialsArray
-      initialsArray.push({
-        id: selectedContact.id, // Use selectedContact's ID
-        initials: selectedContact.initials,
-        name: selectedContact.name, // Correctly reference the name
-      });
+      badge.style.backgroundColor = selectedContact.color;
+      badge.textContent = selectedContact.initials;
 
-      asignedtousers.push(selectedContact.initials);
-      // Access the parent 'contacts-box1' and get the child at the calculated index.
-      const contactDiv =
-        document.getElementById("contacts-box1").children[index];
-
-      if (contactDiv) {
-        // Add the 'dark-blue' class to the contact
-        contactDiv.classList.add("dark-blue");
-
-        // Find and check the corresponding checkbox
-        const checkbox = contactDiv.querySelector("input[type='checkbox']");
-        if (checkbox) {
-          checkbox.checked = true;
-        }
+      // Avoid duplicate badges
+      if (!document.getElementById(badge.id)) {
+        document.getElementById("assignedusers1").appendChild(badge);
+        badge.style.marginLeft = "0";
       }
-      // Append the badge to the "assignedusers1" container
-      document.getElementById("assignedusers1").appendChild(badge);
 
-      // Set the marginLeft of the newly added badge
-      badge.style.marginLeft = "0";
+      // Push to initialsArray
+      initialsArray.push({
+        id: selectedContact.id,
+        initials: selectedContact.initials,
+        name: selectedContact.name,
+      });
     } else {
+      console.error(`No contact found for initials: ${assignedInitial}`);
     }
   }
 }
