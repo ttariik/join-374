@@ -168,48 +168,59 @@ function validatePhoneNumber(value) {
  * @param {string} errorMsg - The error message to display if validation fails.
  * @returns {boolean} - True if the input is valid, false otherwise.
  */
-function validateInput(el, pattern, errorMsg) {
-  const errorEl = document.getElementById(`${el.id}-error-message`);
-  if (errorEl) {
-    if (!pattern.test(el.value.trim())) {
-      errorEl.innerHTML = errorMsg;
-      errorEl.style.display = "flex";
-      el.classList.add("invalid");
-      return false;
+
+function initializeFormValidation() {
+  const nameInput = document.getElementById("name");
+  const emailInput = document.getElementById("emailarea");
+  const phoneInput = document.getElementById("phone");
+  const saveButton = document.getElementById("addbutton");
+
+  const nameError = document.getElementById("name-error-message");
+  const emailError = document.getElementById("email-error-message");
+  const phoneError = document.getElementById("phone-error-message");
+
+  const isNameValid = (name) => /^[a-zA-Z\s]{3,20}$/.test(name.trim());
+  const isEmailValid = (email) =>
+    /^[^\s@]+@[^\s@0123456789]+\.[^\s@]+$/.test(email.trim());
+  const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
+
+  function performCustomValidation(input, validator, errorMessageElement) {
+    if (validator(input.value)) {
+      input.classList.remove("invalid");
+      input.classList.add("valid");
     } else {
-      errorEl.innerHTML = "";
-      el.classList.remove("invalid");
-      return true;
+      input.classList.remove("valid");
+      input.classList.add("invalid");
+      errorMessageElement.style.display = "flex";
+    }
+    toggleSaveButton();
+  }
+
+  function toggleSaveButton() {
+    if (
+      isNameValid(nameInput.value) &&
+      isEmailValid(emailInput.value) &&
+      isPhoneValid(phoneInput.value)
+    ) {
+      saveButton.disabled = false;
+    } else {
+      saveButton.disabled = true;
     }
   }
-  return true;
-}
 
-/**
- * Performs custom validation on the contact form inputs.
- *
- * @returns {boolean} - True if all inputs are valid, false otherwise.
- */
-function performCustomValidation() {
-  const nameInput = document.getElementById("name");
-  const phoneInput = document.getElementById("phone");
-  const emailInput = document.getElementById("emailarea");
+  // Add event listeners after ensuring elements exist
+  nameInput.addEventListener("input", function () {
+    performCustomValidation(nameInput, isNameValid, nameError);
+  });
 
-  const nameValid = validateInput(
-    nameInput,
-    /^[a-zA-Z\s\-]+$/,
-    "Please enter a valid name"
-  );
-  const phoneValid = validateInput(
-    phoneInput,
-    /^\+?[\d\s\-\(\)]{10,15}$/,
-    "Please enter a valid phone number."
-  );
-  const emailValid = validateInput(
-    emailInput,
-    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    "Please enter a valid email address."
-  );
+  emailInput.addEventListener("input", function () {
+    performCustomValidation(emailInput, isEmailValid, emailError);
+  });
 
-  return nameValid && phoneValid && emailValid;
+  phoneInput.addEventListener("input", function () {
+    performCustomValidation(phoneInput, isPhoneValid, phoneError);
+  });
+
+  // Initial button state
+  saveButton.disabled = true;
 }

@@ -4,14 +4,6 @@
  */
 let initialsarrays = [];
 
-// DOM elements
-const nameInput = document.getElementById("name");
-const errorMessage = document.getElementById("error-message");
-const phoneInput = document.getElementById("phone");
-const phoneErrorMessage = document.getElementById("phone-error-message");
-const emailInput = document.getElementById("email");
-const emailErrorMessage = document.getElementById("email-error-message");
-
 /**
  * Adds a new contact and updates the contact list.
  *

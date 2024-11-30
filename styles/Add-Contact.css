@@ -91,6 +91,16 @@
   width: calc(100% - 45px);
 }
 
+.savebutton:disabled {
+  background-color: rgb(211, 211, 211);
+  cursor: default;
+}
+
+.savebutton:disabled:hover {
+  background-color: rgb(211, 211, 211);
+  cursor: default;
+}
+
 .emailinput12 {
   max-width: 380px;
   height: 24px;
@@ -228,9 +238,6 @@
 #closeimage-white {
   display: none;
 }
-
-
-
 
 @media (max-width: 1050px) {
   .completebox {
