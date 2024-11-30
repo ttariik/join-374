@@ -31,7 +31,6 @@ h2 {
 .alignment1 div {
   display: flex;
   gap: 16px;
-  align-items: center;
 }
 
 .content {
@@ -326,6 +325,7 @@ input:focus {
 #assignedusers1 {
   display: flex;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
 .savecontact div {

@@ -12,14 +12,13 @@ let contacts = []; // Array to hold the contact data.
 
 function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
-  if ((button_1, button_2, button_3)) {
-    button_1.classList.toggle("lightred");
-    button_2.classList.remove("lightorange");
-    button_3.classList.remove("lightgreen");
-  }
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
-
+  if (document.querySelector("#button1-1,#utton2-2,#button3-3")) {
+    document.getElementById("button1-1").classList.toggle("lightred");
+    document.getElementById("button2-2").classList.remove("lightorange");
+    document.getElementById("button3-3").classList.remove("lightgreen");
+  }
   const urgentImg = document.getElementById("urgentImg");
   urgentImg.src = urgentImg.src.includes("Urgent.png")
     ? "/img/urgent-white.png"
@@ -36,15 +35,14 @@ function selectbutton_1() {
 }
 
 function selectbutton_2() {
-  if ((button_1, button_2, button_3)) {
-    button_1.classList.remove("lightred");
-    button_2.classList.toggle("lightorange");
-    button_3.classList.remove("lightgreen");
+  document.querySelector("#button1").classList.remove("lightred");
+  document.querySelector("#button2").classList.toggle("lightorange");
+  document.querySelector("#button3").classList.remove("lightgreen");
+  if (document.querySelector("#button1-1,#utton2-2,#button3-3")) {
+    document.getElementById("button1-1").classList.remove("lightred");
+    document.getElementById("button2-2").classList.toggle("lightorange");
+    document.getElementById("button3-3").classList.remove("lightgreen");
   }
-  document.getElementById("button1").classList.remove("lightred");
-  document.getElementById("button2").classList.toggle("lightorange");
-  document.getElementById("button3").classList.remove("lightgreen");
-
   const mediumImg = document.getElementById("mediumImg");
   mediumImg.src = mediumImg.src.includes("Medium.png")
     ? "/img/medium-white.png"
@@ -61,15 +59,14 @@ function selectbutton_2() {
 }
 
 function selectbutton_3() {
-  if ((button_1, button_2, button_3)) {
-    button_1.classList.remove("lightred");
-    button_2.classList.remove("lightorange");
-    button_3.classList.toggle("lightgreen");
-  }
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.toggle("lightgreen");
-
+  if (document.querySelector("#button1-1,#utton2-2,#button3-3")) {
+    document.getElementById("button1-1").classList.remove("lightred");
+    document.getElementById("button2-2").classList.remove("lightorange");
+    document.getElementById("button3-3").classList.toggle("lightgreen");
+  }
   const lowImg = document.getElementById("lowImg");
   lowImg.src = lowImg.src.includes("Low.png")
     ? "/img/low-white.png"
@@ -518,6 +515,7 @@ async function showcontacts() {
       return null;
     })
     .filter((contact) => contact !== null);
+  // Check if assignedusers1 is not empty and find corresponding contacts
 
   // Initialize the search bar
   if (document.getElementById("selectbutton1")) {
@@ -547,6 +545,35 @@ function renderContacts(contactList) {
     document.getElementById("contacts-box1") ||
     document.getElementById("contacts-box");
   contactsBox.innerHTML = contactHTML;
+  if (document.getElementById("assignedusers1").innerHTML.trim() !== "") {
+    initialsArray.forEach(function (initialsObj) {
+      // Find the contact in the 'contacts' array that matches the initials
+      const matchedContact = contacts.find(
+        (contact) => contact.initials === initialsObj.initials
+      );
+
+      if (matchedContact) {
+        const contactElement = document.querySelector(
+          `#contacts-box1 #div${matchedContact.id}`
+        );
+
+        if (contactElement) {
+          console.log("Found Contact Element:", contactElement);
+          // Additional logic for highlighting, checking, etc.
+          contactElement.classList.add("dark-blue");
+          document.getElementById(
+            `checkbox${matchedContact.id}`
+          ).checked = true;
+        } else {
+          console.log(`Element with id div${matchedContact.id} not found.`);
+        }
+      } else {
+        console.log(
+          `Contact with initials ${initialsObj.initials} not found in contacts.`
+        );
+      }
+    });
+  }
 }
 
 function resetsearchbar() {

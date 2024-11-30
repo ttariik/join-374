@@ -3,8 +3,6 @@
  * @param {Object} task - The task object containing task details.
  */
 
-let button_1, button_2, button_3;
-
 function editinputs(task) {
   const type = document.getElementById("type");
   if (type) {
@@ -18,7 +16,7 @@ function editinputs(task) {
   document.getElementById("duedatecontainer").style =
     "gap: 10px;flex-direction:column;!important";
   document.getElementById("priority-containercontent").innerHTML =
-    prioritytemplate();
+    prioritytemplatetechnicaltask();
   document.getElementById("date1").style.marginBottom = "unset";
   document.getElementById("priority-containercontent").style.flexDirection =
     "column";
@@ -46,31 +44,30 @@ function editinputs(task) {
   document.getElementById("closebtn1").addEventListener("click", function () {
     resettemplate(task);
   });
-  definedbuttons(button_1, button_2, button_3);
 
   loadinfos(task);
 }
 
-function definedbuttons() {
-  // Assign the buttons inside the function
-  button_1 = document
-    .getElementById("priority-containercontent")
-    .children[1].children[0].querySelector("#button1");
-
-  button_2 = document
-    .getElementById("priority-containercontent")
-    .children[1].children[1].querySelector("#button2");
-
-  button_3 = document
-    .getElementById("priority-containercontent")
-    .children[1].children[2].querySelector("#button3");
-}
-
 function loadinfos(task) {
-  document.querySelector(".titleinputdesign").value = task.title;
-  document.getElementById("descriptioninput").children[1].value =
-    task.description;
-  document.getElementById("date1").value = task.duedate;
+  subtasks = [];
+  if (task.category === "Technical Task") {
+    document.getElementById("technicaltasktitle").children[1].value =
+      task.title;
+
+    document.getElementById("date1").value = task.duedate;
+    showsavedinitials(task);
+    loadsubtasks(task);
+  } else {
+    document.querySelector(".titleinputdesign").value = task.title;
+
+    document.getElementById("date1").value = task.duedate;
+    showsavedinitials(task);
+    loadsubtasks(task);
+  }
+  document
+    .querySelectorAll(".text1")
+    .forEach((input) => (input.value = task.description));
+  // Setting the priority by calling appropriate select functions
   if (task.prio === "Urgent") {
     selectbutton_1();
   } else if (task.prio === "Medium") {
@@ -78,7 +75,42 @@ function loadinfos(task) {
   } else {
     selectbutton_3();
   }
-  showsavedinitials(task);
+}
+
+function loadsubtasks(task) {
+  // Prepare HTML for subtasks and inject them into the subtasksbox
+  let subtasksHTML = "";
+  if (task.subtask && Array.isArray(task.subtask)) {
+    task.subtask.forEach((subtask, index) => {
+      task.subtask.forEach((subtaskObj) => {
+        subtasks.push(subtaskObj.subtask);
+      });
+      // Generate a unique id based on index
+      const subtaskIndex = subtasks.length; // To make sure it starts from sub1, sub2, etc.
+
+      // Create HTML content for each subtask
+      subtasksHTML += `
+       <div class="subbox1 subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
+         <div class="subbox_11">
+           <div id="dot">•</div>
+           <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>
+         </div>
+         <div class="subbox_22">
+           <button type="button" id="editsub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})" class="buttondesign d-none">
+             <img src="/img/edit.png" alt="Edit">
+           </button>
+           <button id="deletesub${subtaskIndex}" type="button" class="buttondesign d-none">
+             <img src="/img/delete1 (2).png" alt="Delete">
+           </button>
+           <button id="savesub${subtaskIndex}" type="button" class="buttondesign1 d-none">
+             <img src="/img/check1 (1).png" alt="Check">
+           </button>
+         </div>
+       </div>
+     `;
+    });
+  }
+  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
 }
 
 async function showsavedinitials(task) {
@@ -120,17 +152,38 @@ async function showsavedinitials(task) {
       badge.className = "badgeassigned badge";
       badge.style.width = "32px";
       badge.style.height = "32px";
+      badge.id = `${selectedContact.id}_${index}`;
       badge.style.backgroundColor = selectedContact.color; // Use the color of the selected contact
       badge.textContent = selectedContact.initials; // Set the text content to the initials
+      // Find the contact in the contact-box using the selectedContact.id
+      // Push the initials into initialsAinitialsArray
+      initialsArray.push({
+        id: selectedContact.id, // Use selectedContact's ID
+        initials: selectedContact.initials,
+        name: selectedContact.name, // Correctly reference the name
+      });
 
+      asignedtousers.push(selectedContact.initials);
+      // Access the parent 'contacts-box1' and get the child at the calculated index.
+      const contactDiv =
+        document.getElementById("contacts-box1").children[index];
+
+      if (contactDiv) {
+        // Add the 'dark-blue' class to the contact
+        contactDiv.classList.add("dark-blue");
+
+        // Find and check the corresponding checkbox
+        const checkbox = contactDiv.querySelector("input[type='checkbox']");
+        if (checkbox) {
+          checkbox.checked = true;
+        }
+      }
       // Append the badge to the "assignedusers1" container
       document.getElementById("assignedusers1").appendChild(badge);
 
       // Set the marginLeft of the newly added badge
       badge.style.marginLeft = "0";
     } else {
-      // Log a warning if no contact is found for the initials
-      console.warn(`No contact found for initials: ${assignedInitial}`);
     }
   }
 }
@@ -154,7 +207,7 @@ function editprofile(task) {
   document
     .getElementById("due-date-container-edit")
     .classList.add("due-date-containerprofile");
-  document.getElementById("prio").innerHTML = prioritytemplate();
+  document.getElementById("prio").innerHTML = prioritytemplateprofile();
   document.getElementById("prio").classList.add("buttonss");
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
@@ -176,7 +229,7 @@ function editprofile(task) {
   document.getElementById("closebtn").addEventListener("click", function () {
     resettemplate(task);
   });
-  definedbuttons();
+  loadinfos(task);
 }
 
 /**
@@ -368,7 +421,7 @@ function titletemplate(task) {
 function descriptiontemplate() {
   return /*html*/ `
     <label>Description</label>
-    <textarea  class="text" placeholder="Enter a Description"></textarea>
+    <textarea  class="text1" placeholder="Enter a Description"></textarea>
     `;
 }
 
@@ -391,14 +444,14 @@ function duedatetemplate() {
                     </div>`;
 }
 
-function prioritytemplate() {
+function prioritytemplateprofile() {
   return /*html*/ `
                 <label>Prio</label>
                 <div class="buttons2">
                   <div class="button-container1">
                     <button
                       type="button"
-                      id="button1"
+                      id="button11"
                       class="buttons2_1"
                       onclick="selectbutton_1();handleButtonClick('Urgent')"
                     >
@@ -410,7 +463,7 @@ function prioritytemplate() {
                     <button
                       type="button"
                       onclick="selectbutton_2();handleButtonClick('Medium')"
-                      id="button2"
+                      id="button22"
                       class="buttons2_2"
                     >
                       <span id="medium">Medium</span>
@@ -421,7 +474,49 @@ function prioritytemplate() {
                     <button
                       type="button"
                       onclick="selectbutton_3();handleButtonClick('Low')"
-                      id="button3"
+                      id="button33"
+                      class="buttons2_3"
+                    >
+                      <span id="low">Low</span>
+                      <img src="/img/Low.png" alt="" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+}
+
+function prioritytemplatetechnicaltask() {
+  return /*html*/ `
+                <label>Prio</label>
+                <div class="buttons2">
+                  <div class="button-container1">
+                    <button
+                      type="button"
+                      id="button1-1"
+                      class="buttons2_1"
+                      onclick="selectbutton_1();handleButtonClick('Urgent')"
+                    >
+                      <span id="urgent">Urgent</span>
+                      <img src="/img/Urgent.png" alt="" />
+                    </button>
+                  </div>
+                  <div class="button-container1">
+                    <button
+                      type="button"
+                      onclick="selectbutton_2();handleButtonClick('Medium')"
+                      id="button2-2"
+                      class="buttons2_2"
+                    >
+                      <span id="medium">Medium</span>
+                      <img src="/img/Medium.png" alt="" />
+                    </button>
+                  </div>
+                  <div class="button-container1">
+                    <button
+                      type="button"
+                      onclick="selectbutton_3();handleButtonClick('Low')"
+                      id="button3-3"
                       class="buttons2_3"
                     >
                       <span id="low">Low</span>
