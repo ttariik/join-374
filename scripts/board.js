@@ -23,88 +23,6 @@ searchInput.addEventListener("input", function () {
   });
 });
 
-function allowDrop(event) {
-  event.preventDefault();
-}
-
-function drag(event) {
-  const taskId = event.target.id;
-  const taskElement = document.getElementById(taskId);
-
-  const parentFolderId = taskElement.getAttribute("data-current-folder-id");
-
-  event.dataTransfer.setData("taskId", taskId);
-  event.dataTransfer.setData("parentFolderId", parentFolderId);
-}
-
-async function drop(event) {
-  event.preventDefault();
-
-  const taskId = event.dataTransfer.getData("taskId");
-  const taskElement = document.getElementById(taskId);
-  const parentFolderId = taskElement.parentElement.id;
-  const targetFolder = event.currentTarget.id;
-
-  try {
-    taskElement.setAttribute("draggable", "false");
-
-    const response = await fetch(
-      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
-    );
-    const taskData = await response.json();
-    await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
-    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
-    const deletionCheck = await fetch(
-      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
-    );
-    const deletedData = await deletionCheck.json();
-
-    if (deletedData !== null) {
-      taskElement.setAttribute("draggable", "true");
-      return;
-    }
-    const targetContainer = document.getElementById(targetFolder);
-    if (targetContainer) {
-      // Remove "No tasks" message from the target folder if present
-      const noTasksMessage = targetContainer.querySelector(".nothing");
-      if (noTasksMessage) {
-        noTasksMessage.remove();
-      }
-      // Move the task element to the target folder
-      targetContainer.appendChild(taskElement);
-      taskElement.setAttribute("data-current-folder-id", targetFolder);
-    }
-    // Handle source folder to show "No tasks" if it's empty
-    const parentContainer = document.getElementById(parentFolderId);
-    if (parentContainer && parentContainer.children.length === 0) {
-      // Add "No tasks" message to source folder if it becomes empty
-      const noTasksMessageElement = document.createElement("div");
-      noTasksMessageElement.className = "nothing";
-      noTasksMessageElement.textContent = getNoTasksMessage(parentFolderId);
-      parentContainer.appendChild(noTasksMessageElement);
-    }
-  } catch (error) {
-    console.error("Error during drop operation:", error);
-  } finally {
-    taskElement.setAttribute("draggable", "true");
-  }
-}
-
-function getNoTasksMessage(folderId) {
-  switch (folderId) {
-    case "todo-folder":
-      return "No tasks to do";
-    case "inprogress-folder":
-      return "No tasks in progress";
-    case "awaiting-feedback-folder":
-      return "No tasks awaiting feedback";
-    case "done-folder":
-      return "No tasks done";
-    default:
-      return "No tasks available";
-  }
-}
-
 document.querySelectorAll(".task").forEach((taskElement) => {
   if (!taskElement.hasAttribute("data-current-folder-id")) {
     taskElement.setAttribute(
@@ -113,149 +31,6 @@ document.querySelectorAll(".task").forEach((taskElement) => {
     );
   }
 });
-
-async function loadtasks() {
-  const todos = [];
-  const inprogress = [];
-  const awaitingfeedback = [];
-  const donetasks = [];
-
-  try {
-    const response = await fetch(GLOBAL + `users/1/tasks.json`);
-    const userData = await response.json();
-
-    if (userData === null) {
-      const result = await putData("users/1/tasks/todofolder", {
-        todofolder: "",
-      });
-      if (userData === null) {
-        return;
-      }
-    }
-
-    const folderNames = [
-      "todo-folder",
-      "inprogress-folder",
-      "awaiting-feedback-folder",
-      "done-folder",
-    ];
-
-    for (let folder of folderNames) {
-      if (!userData[folder]) {
-        await putData(`users/1/tasks/${folder}`, {});
-      }
-    }
-
-    const updatedResponse = await fetch(GLOBAL + `users/1/tasks.json`);
-    const updatedUserData = await updatedResponse.json();
-
-    const pushTasksFromFolder = (folderData, taskArray) => {
-      if (folderData && typeof folderData === "object") {
-        Object.entries(folderData).forEach(([key, task]) => {
-          if (task !== null) {
-            task.id = key;
-            taskArray.push(task);
-          }
-        });
-      }
-    };
-
-    if (updatedUserData["todo-folder"]) {
-      pushTasksFromFolder(updatedUserData["todo-folder"], todos);
-    }
-
-    if (updatedUserData["inprogress-folder"]) {
-      pushTasksFromFolder(updatedUserData["inprogress-folder"], inprogress);
-    }
-
-    if (updatedUserData["awaiting-feedback-folder"]) {
-      pushTasksFromFolder(
-        updatedUserData["awaiting-feedback-folder"],
-        awaitingfeedback
-      );
-    }
-
-    if (updatedUserData["done-folder"]) {
-      pushTasksFromFolder(updatedUserData["done-folder"], donetasks);
-    }
-
-    const folders = [
-      "todo-folder",
-      "inprogress-folder",
-      "awaiting-feedback-folder",
-      "done-folder",
-    ];
-    folders.forEach((folderId) => {
-      const folderElement = document.getElementById(folderId);
-      if (folderElement) folderElement.innerHTML = "";
-    });
-
-    const displayNoTasksMessage = (folderId, message) => {
-      const folderElement = document.getElementById(folderId);
-      if (folderElement && folderElement.children.length === 0) {
-        folderElement.innerHTML = `<div class='nothing'>${message}</div>`;
-      }
-    };
-
-    const renderTasksWithTemplate = async (tasks, containerId) => {
-      const container = document.getElementById(containerId);
-      const response2 = await fetch(GLOBAL + "users/1/contacts.json");
-      const contacts = await response2.json();
-      tasks.forEach(async (task) => {
-        if (task && task.category) {
-          const taskId = task.id;
-          let taskHTML;
-
-          if (task.category === "Technical Task") {
-            taskHTML = await Technicaltasktemplate(
-              { ...task, id: taskId },
-              contacts
-            );
-          } else {
-            taskHTML = await userstorytemplate(
-              { ...task, id: taskId },
-              contacts
-            );
-          }
-
-          container.insertAdjacentHTML("beforeend", taskHTML);
-
-          const taskElement = document.getElementById(taskId);
-          if (taskElement) {
-            taskElement.setAttribute("draggable", "true");
-            taskElement.addEventListener("dragstart", (event) => {
-              event.dataTransfer.setData("taskId", taskId);
-              event.dataTransfer.setData("parentFolderId", containerId);
-            });
-          }
-
-          document.getElementById(taskId).addEventListener("click", () => {
-            if (task.category === "Technical Task") {
-              opentechnicaltemplate(task, contacts);
-            } else {
-              openprofiletemplate(task, contacts);
-            }
-          });
-        }
-      });
-    };
-
-    await renderTasksWithTemplate(todos, "todo-folder");
-    await renderTasksWithTemplate(inprogress, "inprogress-folder");
-    await renderTasksWithTemplate(awaitingfeedback, "awaiting-feedback-folder");
-    await renderTasksWithTemplate(donetasks, "done-folder");
-
-    displayNoTasksMessage("todo-folder", "No tasks to do");
-    displayNoTasksMessage("inprogress-folder", "No tasks in progress");
-    displayNoTasksMessage(
-      "awaiting-feedback-folder",
-      "No tasks awaiting feedback"
-    );
-    displayNoTasksMessage("done-folder", "No tasks done");
-  } catch (error) {
-    console.error("Error loading tasks:", error);
-  }
-}
 
 async function openprofiletemplate(task, contacts) {
   document.getElementById("overlayprofile-template").classList.add("overlayss");
@@ -450,9 +225,7 @@ async function closeoverlayprofiletemplate() {
   if (document.getElementById("assignedusers1")) {
     document.getElementById("assignedusers1").innerHTML = "";
   }
-
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
-
   setTimeout(() => {
     document.getElementById("overlayprofile-template").classList.add("d-none");
     document
@@ -463,7 +236,6 @@ async function closeoverlayprofiletemplate() {
 
 async function closeoverlaytechnicaltemplate() {
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
-
   setTimeout(() => {
     document
       .getElementById("overlaytechinical-task-template")
