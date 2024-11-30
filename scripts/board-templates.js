@@ -288,7 +288,5 @@ async function assignedtotemplate(task, contacts) {
   });
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
-  } else {
-    console.error("Profile assigned area not found");
   }
 }
