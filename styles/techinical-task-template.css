@@ -204,6 +204,9 @@
 .align {
   width: 100%;
   display: flex;
+  max-height: 150px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
   flex-direction: column;
   justify-content: flex-start;
   gap: 8px;
