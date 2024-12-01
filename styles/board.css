@@ -27,7 +27,6 @@ h2 {
   padding-left: 12px;
   gap: 18px;
   max-height: 150px;
-  overflow-y: scroll;
   scrollbar-width: thin;
   margin-top: 10px;
 }
