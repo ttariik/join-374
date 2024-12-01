@@ -228,10 +228,11 @@ function initializeFormValidation() {
     if (validator(input.value)) {
       input.classList.remove("invalid");
       input.classList.add("valid");
+      errorMessageElement.style.display = "none"; // Hide the error message
     } else {
       input.classList.remove("valid");
       input.classList.add("invalid");
-      errorMessageElement.style.display = "flex";
+      errorMessageElement.style.display = "flex"; // Show the error message
     }
     toggleSaveButton();
   }
@@ -263,4 +264,11 @@ function initializeFormValidation() {
 
   // Initial button state
   saveButton.disabled = true;
+
+  // Return true if all fields are valid, else false
+  return (
+    isNameValid(nameInput.value) &&
+    isEmailValid(emailInput.value) &&
+    isPhoneValid(phoneInput.value)
+  );
 }

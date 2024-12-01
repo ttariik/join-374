@@ -11,7 +11,7 @@ let initialsarrays = [];
  */
 async function addcontact(event) {
   event.preventDefault();
-  if (!performCustomValidation()) return;
+  if (!initializeFormValidation()) return;
   let contactsPath = `/users/1/contacts`;
   let contactsData =
     (await (await fetch(GLOBAL + contactsPath + ".json")).json()) ||
@@ -26,7 +26,7 @@ async function addcontact(event) {
   let color = getColorFromString(telefonename);
   await addEditSingleUser(1, {
     name: telefonename,
-    email,
+    email: email,
     telefone: phone,
     initials,
     color,

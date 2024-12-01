@@ -33,7 +33,7 @@ async function opencontactstemplate() {
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
     document.querySelector(".overlay2").style.transform = "translateX(0%)";
-    performCustomValidation();
+    initializeFormValidation();
   }, 0.5);
 }
 
