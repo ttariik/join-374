@@ -147,3 +147,39 @@ function updateAssignedUserStyles() {
     }
   }
 }
+
+function loadsubtasks(task) {
+  // Prepare HTML for subtasks and inject them into the subtasksbox
+  let subtasksHTML = "";
+  if (task.subtask && Array.isArray(task.subtask)) {
+    task.subtask.forEach((subtask, index) => {
+      task.subtask.forEach((subtaskObj) => {
+        subtasks.push(subtaskObj.subtask);
+      });
+      // Generate a unique id based on index
+      const subtaskIndex = subtasks.length; // To make sure it starts from sub1, sub2, etc.
+
+      // Create HTML content for each subtask
+      subtasksHTML += `
+       <div class="subbox1 subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
+         <div class="subbox_11">
+           <div id="dot">•</div>
+           <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>
+         </div>
+         <div class="subbox_22">
+           <button type="button" id="editsub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})" class="buttondesign d-none">
+             <img src="/img/edit.png" alt="Edit">
+           </button>
+           <button id="deletesub${subtaskIndex}" type="button" class="buttondesign d-none">
+             <img src="/img/delete1 (2).png" alt="Delete">
+           </button>
+           <button id="savesub${subtaskIndex}" type="button" class="buttondesign1 d-none">
+             <img src="/img/check1 (1).png" alt="Check">
+           </button>
+         </div>
+       </div>
+     `;
+    });
+  }
+  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
+}

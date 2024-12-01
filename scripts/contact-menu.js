@@ -28,12 +28,12 @@ async function showcontacts(id = 1) {
  * @returns {Promise<void>}
  */
 async function opencontactstemplate() {
-  initializeFormValidation();
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
     document.querySelector(".overlay2").style.transform = "translateX(0%)";
+    performCustomValidation();
   }, 0.5);
 }
 
@@ -116,10 +116,7 @@ async function edicontact(contactKey) {
 
   document.getElementById("spantitle").innerHTML = "Edit contact";
   const contact = contactUsers.find((user) => user.key === contactKey);
-  if (!contact) {
-    console.error("Contact not found");
-    return;
-  }
+
   document.getElementById("name").value = contact.name;
   document.getElementById("emailarea").value = contact.email || "";
   document.getElementById("phone").value = contact.telefone || "";

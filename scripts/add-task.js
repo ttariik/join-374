@@ -14,16 +14,6 @@ function selectbutton_1() {
   document.getElementById("button1").classList.toggle("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
-  if (document.querySelector("#button1-1,#button2-2,#button3-3")) {
-    document.getElementById("button1-1").classList.toggle("lightred");
-    document.getElementById("button2-2").classList.remove("lightorange");
-    document.getElementById("button3-3").classList.remove("lightgreen");
-  }
-  if (document.querySelector("#button11,#button22,#button33")) {
-    document.getElementById("button11").classList.toggle("lightred");
-    document.getElementById("button22").classList.remove("lightorange");
-    document.getElementById("button33").classList.remove("lightgreen");
-  }
   const urgentImg = document.getElementById("urgentImg");
   urgentImg.src = urgentImg.src.includes("Urgent.png")
     ? "/img/urgent-white.png"
@@ -43,16 +33,7 @@ function selectbutton_2() {
   document.querySelector("#button1").classList.remove("lightred");
   document.querySelector("#button2").classList.toggle("lightorange");
   document.querySelector("#button3").classList.remove("lightgreen");
-  if (document.querySelector("#button1-1,#button2-2,#button3-3")) {
-    document.getElementById("button1-1").classList.remove("lightred");
-    document.getElementById("button2-2").classList.toggle("lightorange");
-    document.getElementById("button3-3").classList.remove("lightgreen");
-  }
-  if (document.querySelector("#button11,#utton22,#button33")) {
-    document.getElementById("button11").classList.remove("lightred");
-    document.getElementById("button22").classList.toggle("lightorange");
-    document.getElementById("button33").classList.remove("lightgreen");
-  }
+
   const mediumImg = document.getElementById("mediumImg");
   mediumImg.src = mediumImg.src.includes("Medium.png")
     ? "/img/medium-white.png"
@@ -72,16 +53,7 @@ function selectbutton_3() {
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.toggle("lightgreen");
-  if (document.querySelector("#button1-1,#button2-2,#button3-3")) {
-    document.getElementById("button1-1").classList.remove("lightred");
-    document.getElementById("button2-2").classList.remove("lightorange");
-    document.getElementById("button3-3").classList.toggle("lightgreen");
-  }
-  if (document.querySelector("#button1-1,#button22,#button33")) {
-    document.getElementById("button11").classList.remove("lightred");
-    document.getElementById("button22").classList.remove("lightorange");
-    document.getElementById("button33").classList.toggle("lightgreen");
-  }
+
   const lowImg = document.getElementById("lowImg");
   lowImg.src = lowImg.src.includes("Low.png")
     ? "/img/low-white.png"

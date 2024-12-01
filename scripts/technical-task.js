@@ -49,77 +49,70 @@ function editinputs(task) {
 }
 
 async function loadinfos(task) {
-  if (task.category === "Technical Task") {
-    subtasks = [];
-    asignedtousers = [];
-    initialsArray = [];
-    document.getElementById("assignedusers1").innerHTML = "";
+  // Resetting shared variables
+  subtasks = [];
+  asignedtousers = [];
+  initialsArray = [];
+  document.getElementById("assignedusers1").innerHTML = "";
 
+  if (task.category === "Technical Task") {
     document.getElementById("technicaltasktitle").children[1].value =
       task.title;
 
     document.getElementById("date1").value = task.duedate;
+
     showsavedinitials(task);
     loadsubtasks(task);
+
+    document.getElementById("button11").addEventListener("click", function () {
+      selectbutton_11(task);
+    });
+    document.getElementById("button22").addEventListener("click", function () {
+      selectbutton_22(task);
+    });
+    document.getElementById("button33").addEventListener("click", function () {
+      selectbutton_33(task);
+    });
+
+    // Set priority based on task.prio
+    if (task.prio === "Urgent") {
+      selectbutton_11(task);
+    } else if (task.prio === "Medium") {
+      selectbutton_22(task);
+    } else if (task.prio === "Low") {
+      selectbutton_33(task);
+    }
   } else {
-    subtasks = [];
-    asignedtousers = [];
-    initialsArray = [];
-    document.getElementById("assignedusers1").innerHTML = "";
-
     document.querySelector(".titleinputdesign").value = task.title;
-
     document.getElementById("date1").value = task.duedate;
+
     await showsavedinitials(task);
     loadsubtasks(task);
+
+    document.getElementById("button1-1").addEventListener("click", function () {
+      selectbutton_11(task);
+    });
+    document.getElementById("button2-2").addEventListener("click", function () {
+      selectbutton_22(task);
+    });
+    document.getElementById("button3-3").addEventListener("click", function () {
+      selectbutton_33(task);
+    });
+
+    // Set priority based on task.prio
+    if (task.prio === "Urgent") {
+      selectbutton_11(task);
+    } else if (task.prio === "Medium") {
+      selectbutton_22(task);
+    } else if (task.prio === "Low") {
+      selectbutton_33(task);
+    }
   }
+
+  // Update all inputs with task description
   document
     .querySelectorAll(".text1")
     .forEach((input) => (input.value = task.description));
-  // Setting the priority by calling appropriate select functions
-  if (task.prio === "Urgent") {
-    selectbutton_1();
-  } else if (task.prio === "Medium") {
-    selectbutton_2();
-  } else {
-    selectbutton_3();
-  }
-}
-
-function loadsubtasks(task) {
-  // Prepare HTML for subtasks and inject them into the subtasksbox
-  let subtasksHTML = "";
-  if (task.subtask && Array.isArray(task.subtask)) {
-    task.subtask.forEach((subtask, index) => {
-      task.subtask.forEach((subtaskObj) => {
-        subtasks.push(subtaskObj.subtask);
-      });
-      // Generate a unique id based on index
-      const subtaskIndex = subtasks.length; // To make sure it starts from sub1, sub2, etc.
-
-      // Create HTML content for each subtask
-      subtasksHTML += `
-       <div class="subbox1 subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
-         <div class="subbox_11">
-           <div id="dot">•</div>
-           <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>
-         </div>
-         <div class="subbox_22">
-           <button type="button" id="editsub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})" class="buttondesign d-none">
-             <img src="/img/edit.png" alt="Edit">
-           </button>
-           <button id="deletesub${subtaskIndex}" type="button" class="buttondesign d-none">
-             <img src="/img/delete1 (2).png" alt="Delete">
-           </button>
-           <button id="savesub${subtaskIndex}" type="button" class="buttondesign1 d-none">
-             <img src="/img/check1 (1).png" alt="Check">
-           </button>
-         </div>
-       </div>
-     `;
-    });
-  }
-  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
 }
 
 async function showsavedinitials(task) {
@@ -186,6 +179,130 @@ async function showsavedinitials(task) {
   }
 }
 
+function selectbutton_11(task) {
+  if (task.category === "Technical Task") {
+    document.getElementById("button11").classList.toggle("lightred");
+    document.getElementById("button22").classList.remove("lightorange");
+    document.getElementById("button33").classList.remove("lightgreen");
+
+    const urgentImg = document.getElementById("urgentImg11");
+    urgentImg.src = urgentImg.src.includes("Urgent.png")
+      ? "/img/urgent-white.png"
+      : "/img/Urgent.png";
+
+    const urgentText = document.getElementById("urgent11");
+    urgentText.style.color =
+      urgentText.style.color === "white" ? "black" : "white";
+
+    document.getElementById("mediumImg22").src = "/img/Medium.png";
+    document.getElementById("lowImg33").src = "/img/Low.png";
+    document.getElementById("medium22").style.color = "black";
+    document.getElementById("low33").style.color = "black";
+    selectedPriority = "Urgent";
+  } else {
+    document.getElementById("button1-1").classList.toggle("lightred");
+    document.getElementById("button2-2").classList.remove("lightorange");
+    document.getElementById("button3-3").classList.remove("lightgreen");
+
+    const urgentImg = document.getElementById("urgentImg1-1");
+    urgentImg.src = urgentImg.src.includes("Urgent.png")
+      ? "/img/urgent-white.png"
+      : "/img/Urgent.png";
+
+    const urgentText = document.getElementById("urgent1-1");
+    urgentText.style.color =
+      urgentText.style.color === "white" ? "black" : "white";
+
+    document.getElementById("mediumImg2-2").src = "/img/Medium.png";
+    document.getElementById("lowImg3-3").src = "/img/Low.png";
+    document.getElementById("medium2-2").style.color = "black";
+    document.getElementById("low3-3").style.color = "black";
+    selectedPriority = "Urgent";
+  }
+}
+
+function selectbutton_22(task) {
+  if (task.category === "Technical Task") {
+    document.querySelector("#button11").classList.remove("lightred");
+    document.querySelector("#button22").classList.toggle("lightorange");
+    document.querySelector("#button33").classList.remove("lightgreen");
+
+    const mediumImg = document.getElementById("mediumImg22");
+    mediumImg.src = mediumImg.src.includes("Medium.png")
+      ? "/img/medium-white.png"
+      : "/img/Medium.png";
+
+    const mediumText = document.getElementById("medium22");
+    mediumText.style.color =
+      mediumText.style.color === "white" ? "black" : "white";
+
+    document.getElementById("urgentImg11").src = "/img/Urgent.png";
+    document.getElementById("lowImg33").src = "/img/Low.png";
+    document.getElementById("urgent11").style.color = "black";
+    document.getElementById("low33").style.color = "black";
+    selectedPriority = "Medium";
+  } else {
+    document.querySelector("#button1-1").classList.remove("lightred");
+    document.querySelector("#button2-2").classList.toggle("lightorange");
+    document.querySelector("#button3-3").classList.remove("lightgreen");
+
+    const mediumImg = document.getElementById("mediumImg2-2");
+    mediumImg.src = mediumImg.src.includes("Medium.png")
+      ? "/img/medium-white.png"
+      : "/img/Medium.png";
+
+    const mediumText = document.getElementById("medium2-2");
+    mediumText.style.color =
+      mediumText.style.color === "white" ? "black" : "white";
+
+    document.getElementById("urgentImg1-1").src = "/img/Urgent.png";
+    document.getElementById("lowImg3-3").src = "/img/Low.png";
+    document.getElementById("urgent1-1").style.color = "black";
+    document.getElementById("low3-3").style.color = "black";
+    selectedPriority = "Medium";
+  }
+}
+
+function selectbutton_33(task) {
+  if (task.category === "Technical Task") {
+    document.getElementById("button11").classList.remove("lightred");
+    document.getElementById("button22").classList.remove("lightorange");
+    document.getElementById("button33").classList.toggle("lightgreen");
+
+    const lowImg = document.getElementById("lowImg33");
+    lowImg.src = lowImg.src.includes("Low.png")
+      ? "/img/low-white.png"
+      : "/img/Low.png";
+
+    const lowText = document.getElementById("low33");
+    lowText.style.color = lowText.style.color === "white" ? "black" : "white";
+
+    document.getElementById("urgentImg11").src = "/img/Urgent.png";
+    document.getElementById("mediumImg22").src = "/img/Medium.png";
+    document.getElementById("urgent11").style.color = "black";
+    document.getElementById("medium22").style.color = "black";
+    selectedPriority = "Low";
+  } else {
+    document.getElementById("button1-1").classList.remove("lightred");
+    document.getElementById("button2-2").classList.remove("lightorange");
+    document.getElementById("button3-3").classList.toggle("lightgreen");
+
+    const lowImg = document.getElementById("lowImg3-3");
+    lowImg.src = lowImg.src.includes("Low.png")
+      ? "/img/low-white.png"
+      : "/img/Low.png";
+
+    const lowText = document.getElementById("low3-3");
+    lowText.style.color = lowText.style.color === "white" ? "black" : "white";
+
+    document.getElementById("urgentImg1-1").src = "/img/Urgent.png";
+    document.getElementById("mediumImg2-2").src = "/img/Medium.png";
+    document.getElementById("urgent1-1").style.color = "black";
+    document.getElementById("medium2-2").style.color = "black";
+    selectedPriority = "Low";
+  }
+}
+
 /**
  * Edits the profile section of a user or task and updates the UI.
  * @param {Object} task - The task object containing all task details.
@@ -196,6 +313,7 @@ function editprofile(task) {
     titlebox.remove();
   }
   document.querySelector(".headerprofile").style.justifyContent = "flex-end";
+
   document.querySelector(".titlebox span").style = "line-height: unset";
   document.querySelector(".titlebox").innerHTML = titletemplate(task);
   document.querySelector(".description").innerHTML = descriptiontemplate();
@@ -206,6 +324,8 @@ function editprofile(task) {
     .getElementById("due-date-container-edit")
     .classList.add("due-date-containerprofile");
   document.getElementById("prio").innerHTML = prioritytemplateprofile();
+  selectbutton_22(task);
+
   document.getElementById("prio").classList.add("buttonss");
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
@@ -265,98 +385,6 @@ function buttontemplate(task) {
   return /*html*/ `
     <button id="oksavebutton" class="savecontact" type="button" ><span>OK</span><div> <img src="/img/checkwhite.png" alt="" /></div> </button>
   `;
-}
-
-/**
- * Saves changes made to the task by sending an update request to the server.
- * @param {Object} task - The task object containing all task details.
- */
-async function savechanges(task) {
-  const parentElement = document.getElementById(`${task.id}`).parentElement.id;
-
-  // Extract current values from the UI
-  const title = document.querySelector(".titleinputdesign").value;
-  const description =
-    document.querySelector(".description")?.children[1]?.value ||
-    document.getElementById("descriptioninput")?.children[1]?.value;
-
-  const duedate = document.getElementById("date1").value;
-
-  // Create an object to store only the changed fields
-  const changes = {};
-
-  // Check for changes and add to the changes object
-  if (title && title !== task.title) {
-    changes.title = title;
-  } else if (!title && task.title) {
-    changes.title = task.title; // Add the current task title if no change
-  }
-
-  if (description === "") {
-    changes.description = task.description;
-  } else {
-    changes.description = description; // Add the current task description if no change
-  }
-
-  if (duedate === "") {
-    changes.duedate = task.duedate; // Add the current task due date if no change
-  } else {
-    changes.duedate = duedate;
-  }
-
-  if (selectedPriority === null) {
-    changes.prio = task.prio;
-  } else {
-    changes.prio = selectedPriority; // Keep the original priority if no change
-  }
-  changes.category = task.category;
-  if (asignedtousers.length === 0) {
-    changes.asignedto = task.asignedto;
-  } else {
-    changes.asignedto = asignedtousers;
-  }
-
-  if (initialsArray.length === 0) {
-    // If initials have changed or it's a new value
-    changes.initials = task.initials;
-  } else {
-    changes.initials = initialsArray;
-  }
-
-  if (subtasks.length === 0) {
-    changes.subtask = task.subtask; // Keep current subtasks if no change
-  } else {
-    changes.subtask = subtasks.map((subtask) => ({
-      subtask: subtask,
-      completed: false,
-    }));
-  }
-
-  const response2 = await fetch(GLOBAL + "users/1/contacts.json");
-  const contacts = await response2.json();
-
-  // Include the category (if it must be sent unchanged)
-  await putData(`/users/1/tasks/${parentElement}/${task.id}`, changes);
-
-  // Reload the tasks and close the overlay
-  await loadtasks();
-
-  if (task.category === "User Story") {
-    document.getElementById("overlayprofile-template").innerHTML = "";
-    resetOverlayTemplate("overlayprofile-template", "profile-template.html");
-    setTimeout(() => {
-      inputacessprofile(task, contacts);
-    }, 10);
-  } else {
-    document.getElementById("overlaytechinical-task-template").innerHTML = "";
-    resetOverlayTemplate(
-      "overlaytechinical-task-template",
-      "techinical-task-template.html"
-    );
-    setTimeout(() => {
-      inputacesstechnicall(changes, contacts);
-    }, 10);
-  }
 }
 
 async function resetOverlayTemplate(elementId, templatePath) {
@@ -445,84 +473,126 @@ function duedatetemplate() {
 function prioritytemplateprofile() {
   return /*html*/ `
                 <label>Prio</label>
-                <div class="buttons2">
-                  <div class="button-container1">
-                    <button
-                      type="button"
-                      id="button11"
-                      class="buttons2_1"
-                      onclick="selectbutton_1();handleButtonClick('Urgent')"
-                    >
-                      <span id="urgent">Urgent</span>
-                      <img src="/img/Urgent.png" alt="" />
-                    </button>
-                  </div>
-                  <div class="button-container1">
-                    <button
-                      type="button"
-                      onclick="selectbutton_2();handleButtonClick('Medium')"
-                      id="button22"
-                      class="buttons2_2"
-                    >
-                      <span id="medium">Medium</span>
-                      <img src="/img/Medium.png" alt="" />
-                    </button>
-                  </div>
-                  <div class="button-container1">
-                    <button
-                      type="button"
-                      onclick="selectbutton_3();handleButtonClick('Low')"
-                      id="button33"
-                      class="buttons2_3"
-                    >
-                      <span id="low">Low</span>
-                      <img src="/img/Low.png" alt="" />
-                    </button>
-                  </div>
-                </div>
-              </div>
+                    <div class="buttons2">
+                      <div class="button-containerss">
+                        <button
+                          type="button"
+                          id="button1-1"
+                          class="buttons2_1"
+                          onclick="handleButtonClick('Urgent')"
+                        >
+                          <span id="urgent1-1">Urgent</span>
+                          <img id="urgentImg1-1" src="/img/Urgent.png" alt="" />
+                          <img
+                            id="urgentWhiteImg1-1"
+                            src="/img/urgent-white.png"
+                            alt="urgent white"
+                            class="hidden"
+                          />
+                        </button>
+                      </div>
+                      <div class="button-containerss">
+                        <button
+                          type="button"
+                          onclick="handleButtonClick('Medium')"
+                          id="button2-2"
+                          class="buttons2_2"
+                        >
+                          <span id="medium2-2">Medium</span>
+                          <img
+                            id="mediumImg2-2"
+                            src="/img/Medium.png"
+                            alt="medium task"
+                          />
+                          <img
+                            id="mediumWhiteImg2-2"
+                            src="/img/medium-white.png"
+                            alt="medium white"
+                            class="hidden"
+                          />
+                        </button>
+                      </div>
+                      <div class="button-containerss">
+                        <button
+                          type="button"
+                          onclick="handleButtonClick('Low')"
+                          id="button3-3"
+                          class="buttons2_3"
+                        >
+                          <span id="low3-3">Low</span>
+                          <img id="lowImg3-3" src="/img/Low.png" alt="low task" />
+                          <img
+                            id="lowWhiteImg3-3"
+                            src="/img/low-white.png"
+                            alt="low white"
+                            class="hidden"
+                          />
+                        </button>
+                      </div>
+                    </div>
             `;
 }
 
 function prioritytemplatetechnicaltask() {
   return /*html*/ `
                 <label>Prio</label>
-                <div class="buttons2">
-                  <div class="button-container1">
-                    <button
-                      type="button"
-                      id="button1-1"
-                      class="buttons2_1"
-                      onclick="selectbutton_1();handleButtonClick('Urgent')"
-                    >
-                      <span id="urgent">Urgent</span>
-                      <img src="/img/Urgent.png" alt="" />
-                    </button>
-                  </div>
-                  <div class="button-container1">
-                    <button
-                      type="button"
-                      onclick="selectbutton_2();handleButtonClick('Medium')"
-                      id="button2-2"
-                      class="buttons2_2"
-                    >
-                      <span id="medium">Medium</span>
-                      <img src="/img/Medium.png" alt="" />
-                    </button>
-                  </div>
-                  <div class="button-container1">
-                    <button
-                      type="button"
-                      onclick="selectbutton_3();handleButtonClick('Low')"
-                      id="button3-3"
-                      class="buttons2_3"
-                    >
-                      <span id="low">Low</span>
-                      <img src="/img/Low.png" alt="" />
-                    </button>
-                  </div>
-                </div>
-              </div>
+                    <div class="buttons2">
+                      <div class="button-containerss">
+                        <button
+                          type="button"
+                          id="button11"
+                          class="buttons2_1"
+                          onclick="handleButtonClick('Urgent')"
+                        >
+                          <span id="urgent11">Urgent</span>
+                          <img id="urgentImg11" src="/img/Urgent.png" alt="" />
+                          <img
+                            id="urgentWhiteImg11"
+                            src="/img/urgent-white.png"
+                            alt="urgent white"
+                            class="hidden"
+                          />
+                        </button>
+                      </div>
+                      <div class="button-containerss">
+                        <button
+                          type="button"
+                          onclick="handleButtonClick('Medium')"
+                          id="button22"
+                          class="buttons2_2"
+                        >
+                          <span id="medium22">Medium</span>
+                          <img
+                            id="mediumImg22"
+                            src="/img/Medium.png"
+                            alt="medium task"
+                          />
+                          <img
+                            id="mediumWhiteImg22"
+                            src="/img/medium-white.png"
+                            alt="medium white"
+                            class="hidden"
+                          />
+                        </button>
+                      </div>
+                      <div class="button-containerss">
+                        <button
+                          type="button"
+                          onclick="handleButtonClick('Low')"
+                          id="button33"
+                          class="buttons2_3"
+                        >
+                          <span id="low33">Low</span>
+                          <img id="lowImg33" src="/img/Low.png" alt="low task" />
+                          <img
+                            id="lowWhiteImg33"
+                            src="/img/low-white.png"
+                            alt="low white"
+                            class="hidden"
+                          />
+                        </button>
+                      </div>
+                    </div>
             `;
 }
 

@@ -91,8 +91,6 @@ async function selectcontact(id) {
   checkAddTaskInputs();
 }
 
-function initialsdiv() {}
-
 function resetcontact(contactDiv, checkbox, id, initials) {
   checkbox.checked = false;
   contactDiv.classList.remove("dark-blue");
