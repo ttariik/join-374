@@ -9,14 +9,12 @@ let displayedLetters = new Set();
  * @returns {Promise<void>}
  */
 async function opencontactstemplate() {
-  initializeFormValidation();
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
   document.querySelector(".overlay2").style.display = "flex";
   setTimeout(() => {
     document.querySelector(".overlay2").style.transform = "translateX(0%)";
   }, 0.5);
-  document.getElementById("");
 }
 
 /**
@@ -31,23 +29,6 @@ function closecontactstemplate() {
  * @param {number} [id=1] - ID of the user whose contacts are to be displayed.
  * @returns {Promise<void>}
  */
-async function showcontacts(id = 1) {
-  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
-  const responsestoJson = await response.json();
-
-  contactUsers = Object.entries(responsestoJson || {})
-    .map(([key, contact]) => ({ key, ...contact }))
-    .filter((contact) => contact && contact.name)
-    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-
-  displayedLetters.clear();
-  const contactMenu = document.getElementById("contactmenu");
-  contactMenu.innerHTML = "";
-
-  contactUsers.forEach((contact) => {
-    contactMenu.innerHTML += contactsmenutemplate(contact);
-  });
-}
 
 /**
  * Generates an HTML template for a single contact.

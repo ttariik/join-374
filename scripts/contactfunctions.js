@@ -1,3 +1,23 @@
+async function showcontacts(id = 1) {
+  const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
+  const responsestoJson = await response.json();
+
+  contactUsers = Object.entries(responsestoJson || {})
+    .map(([key, contact]) => ({ key, ...contact }))
+    .filter((contact) => contact && contact.name)
+    .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+
+  displayedLetters.clear();
+  const contactMenu =
+    document.getElementById("contactmenu") ||
+    document.getElementById("contacts-box");
+  contactMenu.innerHTML = "";
+
+  contactUsers.forEach((contact) => {
+    contactMenu.innerHTML += contactsmenutemplate(contact);
+  });
+}
+
 // Function to display the contact box
 function showcontactbox() {
   const contactsBox = document.getElementById("contacts-box");
