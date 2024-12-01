@@ -208,7 +208,7 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 8px;
-  max-height: 150px;
+  max-height: 100px;
   overflow-y: scroll;
   scrollbar-width: none;
 }
@@ -374,7 +374,7 @@
   }
 
   .titlebox span {
-    font-size: 48px;
+    font-size: 23px;
   }
 
   .subtasks-title {
