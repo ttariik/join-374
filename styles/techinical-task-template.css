@@ -22,11 +22,6 @@
   justify-content: space-between;
 }
 
-.subtasks-title {
-  font-size: 20px;
-  font-weight: 400;
-  font-family: PT-Sans;
-}
 .d-none {
   display: none;
 }
@@ -115,17 +110,13 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-height: 109px;
 }
 
 .subtask {
   display: flex;
   gap: 16px;
-  height: 109px;
-}
 
-.subtask-title {
-  font-size: 16px;
-  font-weight: 400;
 }
 
 .button-container {
@@ -346,7 +337,7 @@
     width: 70%;
   }
 
-  .titlebox span {
-    font-size: 48px;
+  .titlebox {
+    font-size: 23px;
   }
 }
