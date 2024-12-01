@@ -142,6 +142,46 @@ function getSelectedPriority() {
   return false;
 }
 
+/**
+ * Validates whether a given date in DD/MM/YYYY format is valid and not in the past.
+ * @param {string} dateInput - The date string to validate in DD/MM/YYYY format.
+ * @returns {boolean} True if the date is valid and not in the past, false otherwise.
+ */
+function validateDate(dateInput) {
+  const [day, month, year] = dateInput.split("/").map(Number);
+
+  // Check if the parsed values are valid
+  if (
+    !day ||
+    !month ||
+    !year ||
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31
+  ) {
+    return false;
+  }
+
+  // Create a date object with the parsed values
+  const inputDate = new Date(year, month - 1, day); // Month is 0-indexed in Date
+
+  // Check if the date object is valid
+  if (
+    inputDate.getDate() !== day ||
+    inputDate.getMonth() !== month - 1 ||
+    inputDate.getFullYear() !== year
+  ) {
+    return false;
+  }
+
+  // Compare with today's date
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  return inputDate >= today;
+}
+
 function clearValidationMessages() {
   document.querySelectorAll(".error-message").forEach((element) => {
     element.textContent = "";
