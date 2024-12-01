@@ -116,7 +116,7 @@
 .subtask {
   display: flex;
   gap: 16px;
-
+  min-height: 20px;
 }
 
 .button-container {
