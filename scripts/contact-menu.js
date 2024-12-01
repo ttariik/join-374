@@ -111,6 +111,7 @@ function getColorFromString(str) {
  * @returns {Promise<void>}
  */
 async function edicontact(contactKey) {
+  initializeFormValidation();
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
 

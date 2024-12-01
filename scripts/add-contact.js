@@ -9,13 +9,16 @@ let initialsarrays = [];
  *
  * @param {Event} event - The form submit event.
  */
-async function addcontact(event) {
-  event.preventDefault();
-  if (!initializeFormValidation()) return;
+
+async function fetchContactsData() {
   let contactsPath = `/users/1/contacts`;
-  let contactsData =
-    (await (await fetch(GLOBAL + contactsPath + ".json")).json()) ||
-    (await putData(contactsPath, {}));
+  let contactsData = await fetch(GLOBAL + contactsPath + ".json")
+    .then((response) => response.json())
+    .catch(() => putData(contactsPath, {}));
+  return contactsData;
+}
+
+function getContactData() {
   let telefonename = document.getElementById("name").value;
   let [firstname, lastname] = telefonename.split(" ");
   let initials = (
@@ -24,9 +27,16 @@ async function addcontact(event) {
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
   let color = getColorFromString(telefonename);
+  return { telefonename, initials, email, phone, color };
+}
+
+async function addcontact(event) {
+  event.preventDefault();
+  if (!initializeFormValidation()) return;
+  const { telefonename, initials, email, phone, color } = getContactData();
   await addEditSingleUser(1, {
     name: telefonename,
-    email: email,
+    email,
     telefone: phone,
     initials,
     color,
