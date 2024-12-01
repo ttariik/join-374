@@ -120,23 +120,11 @@ async function addtask(event) {
 
 function showsuccesstaskmessage() {
   if (document.getElementById("overlaysuccesstaskprofile")) {
-    document
-      .getElementById("overlaysuccesstaskprofile")
-      .classList.add("overlay");
-    document.getElementById("overlaysuccesstaskprofile").style.transform =
-      "translateX(0)";
-
-    document.getElementById("overlaysuccesstaskprofile").innerHTML =
-      sucsessfullycreatedtasktemplate();
-    setTimeout(() => {
-      document.getElementById("overlaysuccesstaskprofile").style.transform =
-        "translateX(250%)";
-    }, 1500);
+    part1successmessage();
   } else {
     document.getElementById("overlaysuccesstask").classList.add("overlay");
     document.getElementById("overlaysuccesstask").style.transform =
       "translateX(0)";
-
     document.getElementById("overlaysuccesstask").innerHTML =
       sucsessfullycreatedtasktemplate();
     setTimeout(() => {
@@ -144,6 +132,19 @@ function showsuccesstaskmessage() {
         "translateX(250%)";
     }, 1500);
   }
+}
+
+function part1successmessage() {
+  document.getElementById("overlaysuccesstaskprofile").classList.add("overlay");
+  document.getElementById("overlaysuccesstaskprofile").style.transform =
+    "translateX(0)";
+
+  document.getElementById("overlaysuccesstaskprofile").innerHTML =
+    sucsessfullycreatedtasktemplate();
+  setTimeout(() => {
+    document.getElementById("overlaysuccesstaskprofile").style.transform =
+      "translateX(250%)";
+  }, 1500);
 }
 
 function sucsessfullycreatedtasktemplate() {
@@ -295,18 +296,8 @@ function savesub(index) {
 
   const subboxElement = document.getElementById(`inputsub${index}`);
 
-  document.getElementById(
-    `subboxinput_${index}`
-  ).innerHTML = `<div class="subbox_11" >
-      <div id="dot">•</div>
-      <div id="sub${index}" onclick="editsubtask(${index})">${result}</div>
-      </div>
-      <div class="subbox_22">
-      <button type="button" id="editsub${index}" class="buttondesign0 d-none"><img src="/img/edit.png" alt=""></button>
-      <button id="deletesub${index}" type="button" class="buttondesign0"><img src="/img/delete1 (2).png" alt="Delete" /></button>
-      <button id="savesub${index}" type="button" class="buttondesign1"><img src="/img/check1 (1).png" alt="Check" /></button>
-      </div>
-      </div>`;
+  document.getElementById(`subboxinput_${index}`).innerHTML =
+    subtaskedittemplate(index, result);
   document
     .getElementById(`savesub${index}`)
     .addEventListener("click", function () {
