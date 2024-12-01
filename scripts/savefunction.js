@@ -39,7 +39,7 @@ function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
 
   setTimeout(() => {
     if (task.category === "User Story") {
-      inputacessprofile(task, contacts);
+      inputacessprofile(changes, contacts);
     } else {
       inputacesstechnicall(changes, contacts);
     }
