@@ -28,6 +28,7 @@ async function showcontacts(id = 1) {
  * @returns {Promise<void>}
  */
 async function opencontactstemplate() {
+  initializeFormValidation();
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
   document.querySelector(".overlay2").style.display = "flex";
