@@ -25,11 +25,17 @@ h2 {
   display: flex;
   flex-direction: column;
   padding-left: 12px;
-  gap: 8px;
+  gap: 18px;
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 .alignment1 div {
   display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .content {

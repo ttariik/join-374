@@ -207,6 +207,13 @@
   flex-direction: column;
   justify-content: flex-start;
   gap: 8px;
+  max-height: 150px;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
+.align div {
+  align-items: center;
 }
 
 .button1 span:hover {
