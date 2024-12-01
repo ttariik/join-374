@@ -1,97 +1,114 @@
 function addsubtask() {
   if (document.getElementById("subtaskinput0")) {
+    subtasks.push(subtaskinput1);
     const subtaskinput1 = document.getElementById("subtaskinput0").value;
     if (subtasks.length <= 1) {
-      subtasks.push(subtaskinput1);
-
-      const subtaskNumber = subtasks.length;
-      if (document.getElementById("subtasksbox11")) {
-        document
-          .getElementById("subtasksbox11")
-          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
-      } else {
-        document
-          .getElementById("subtasksbox")
-          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
-      }
-
-      const subtaskElement = document.getElementById(
-        `subboxinput_${subtaskNumber}`
-      );
-
-      setTimeout(() => {
-        document
-          .getElementById(`savesub${subtasks.length}`)
-          .addEventListener("click", function () {
-            savesub(subtasks.length);
-          });
-        document
-          .getElementById(`deletesub${subtasks.length}`)
-          .addEventListener("click", function () {
-            deletesub(subtasks.length);
-          });
-      }, 0);
-
-      if (subtaskElement) {
-        subtaskElement.addEventListener("mouseover", (event) =>
-          showeditsubtasks(event, subtaskNumber)
-        );
-        subtaskElement.addEventListener("mouseleave", (event) =>
-          hidesubeditbuttons(event, subtaskNumber)
-        );
-      }
-      checkAddTaskInputs();
-      document.getElementById("subtaskinput0").value = "";
+      firstpartsubtask(subtasks, subtaskinput1);
     } else {
       return displayError("spansubtask", "You can only add up to 2 subtasks.");
     }
   } else {
-    const subtaskinput1 = document.getElementById("subtaskinput").value;
     if (subtasks.length <= 1) {
+      const subtaskinput1 = document.getElementById("subtaskinput").value;
       subtasks.push(subtaskinput1);
-
-      const subtaskNumber = subtasks.length;
-      if (document.getElementById("subtasksbox11")) {
-        document
-          .getElementById("subtasksbox11")
-          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
-      } else {
-        document
-          .getElementById("subtasksbox")
-          .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
-      }
-
-      const subtaskElement = document.getElementById(
-        `subboxinput_${subtaskNumber}`
-      );
-
-      setTimeout(() => {
-        document
-          .getElementById(`savesub${subtasks.length}`)
-          .addEventListener("click", function () {
-            savesub(subtasks.length);
-          });
-        document
-          .getElementById(`deletesub${subtasks.length}`)
-          .addEventListener("click", function () {
-            deletesub(subtasks.length);
-          });
-      }, 0);
-
-      if (subtaskElement) {
-        subtaskElement.addEventListener("mouseover", (event) =>
-          showeditsubtasks(event, subtaskNumber)
-        );
-        subtaskElement.addEventListener("mouseleave", (event) =>
-          hidesubeditbuttons(event, subtaskNumber)
-        );
-      }
-      checkAddTaskInputs();
-      document.getElementById("subtaskinput").value = "";
+      secondpartsubtask(subtasks, subtaskinput1);
     } else {
       return displayError("spansubtask", "You can only add up to 2 subtasks.");
     }
   }
+}
+
+function firstpartsubtask(subtasks, subtaskinput1) {
+  const subtaskNumber = subtasks.length;
+  if (document.getElementById("subtasksbox11")) {
+    document
+      .getElementById("subtasksbox11")
+      .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+  } else {
+    document
+      .getElementById("subtasksbox")
+      .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+  }
+
+  addingeventlistener(subtasks);
+  mouseroveroperations(subtaskNumber);
+}
+
+function addingeventlistener(subtasks) {
+  setTimeout(() => {
+    document
+      .getElementById(`savesub${subtasks.length}`)
+      .addEventListener("click", function () {
+        savesub(subtasks.length);
+      });
+    document
+      .getElementById(`deletesub${subtasks.length}`)
+      .addEventListener("click", function () {
+        deletesub(subtasks.length);
+      });
+  }, 0);
+}
+
+function mouseroveroperations(subtaskNumber) {
+  const subtaskElement = document.getElementById(
+    `subboxinput_${subtaskNumber}`
+  );
+  if (subtaskElement) {
+    subtaskElement.addEventListener("mouseover", (event) =>
+      showeditsubtasks(event, subtaskNumber)
+    );
+    subtaskElement.addEventListener("mouseleave", (event) =>
+      hidesubeditbuttons(event, subtaskNumber)
+    );
+  }
+  checkAddTaskInputs();
+  document.getElementById("subtaskinput0").value = "";
+}
+
+function secondpartsubtask(subtasks, subtaskinput1) {
+  const subtaskNumber = subtasks.length;
+  if (document.getElementById("subtasksbox11")) {
+    document
+      .getElementById("subtasksbox11")
+      .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+  } else {
+    document
+      .getElementById("subtasksbox")
+      .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
+  }
+  const subtaskElement = document.getElementById(
+    `subboxinput_${subtaskNumber}`
+  );
+  addingeventlistener2(subtaskElement);
+  mouseroveroperations2(subtaskNumber, subtaskElement);
+}
+
+function addingeventlistener2() {
+  setTimeout(() => {
+    document
+      .getElementById(`savesub${subtasks.length}`)
+      .addEventListener("click", function () {
+        savesub(subtasks.length);
+      });
+    document
+      .getElementById(`deletesub${subtasks.length}`)
+      .addEventListener("click", function () {
+        deletesub(subtasks.length);
+      });
+  }, 0);
+}
+
+function mouseroveroperations2(subtaskNumber, subtaskElement) {
+  if (subtaskElement) {
+    subtaskElement.addEventListener("mouseover", (event) =>
+      showeditsubtasks(event, subtaskNumber)
+    );
+    subtaskElement.addEventListener("mouseleave", (event) =>
+      hidesubeditbuttons(event, subtaskNumber)
+    );
+  }
+  checkAddTaskInputs();
+  document.getElementById("subtaskinput").value = "";
 }
 
 function showeditsubtasks(event, index) {
@@ -102,10 +119,14 @@ function showeditsubtasks(event, index) {
   }
 }
 
-function editsubtask(index) {
-  const subboxElement = document.getElementById(`sub${index}`);
+function earlyeditsubtask(index) {
   document.getElementById("dot").classList.add("d-none");
   document.getElementById(`editsub${index}`).classList.add("d-none");
+}
+
+function editsubtask(index) {
+  const subboxElement = document.getElementById(`sub${index}`);
+  earlyeditsubtask(index);
   setTimeout(() => {
     document
       .getElementById(`savesub${index}`)
@@ -118,6 +139,10 @@ function editsubtask(index) {
         deletesub(index);
       });
   }, 0);
+  inputfielddesign(index);
+}
+
+function inputfielddesign(index) {
   document.getElementById(`subboxinput_${index}`).style.background = "#dedede";
 
   document.getElementById(`subboxinput_${index}`).innerHTML =
@@ -137,6 +162,10 @@ function updateAssignedUserStyles() {
       assignedUsers1Children[i].style.marginLeft = "0";
     }
   }
+  updateAssignedUserStyles_2();
+}
+
+function updateAssignedUserStyles_2() {
   const assignedUsers = document.getElementById("assignedusers");
   if (assignedUsers) {
     const assignedUsersChildren = assignedUsers.children;
@@ -160,8 +189,15 @@ function loadsubtasks(task) {
       const subtaskIndex = subtasks.length; // To make sure it starts from sub1, sub2, etc.
 
       // Create HTML content for each subtask
-      subtasksHTML += `
-       <div class="subbox1 subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
+      subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
+    });
+  }
+  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
+}
+
+function subtaskitemtemplateload(subtaskIndex, subtask) {
+  return /*html*/ `
+    <div class="subbox1 subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
          <div class="subbox_11">
            <div id="dot">•</div>
            <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>
@@ -178,10 +214,7 @@ function loadsubtasks(task) {
            </button>
          </div>
        </div>
-     `;
-    });
-  }
-  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
+  `;
 }
 
 function subtaskedittemplate(index, result) {
