@@ -174,3 +174,14 @@ function reselectionofcontacts() {
               </div>
   `;
 }
+
+function generateContactBadgeHTML(contactColor, initials, name) {
+  return `
+    <div>
+      <div class="badge alignment" style="background-color:${contactColor}">
+        ${initials}
+      </div>
+      <span>${name}</span>
+    </div>
+  `;
+}

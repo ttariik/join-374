@@ -150,7 +150,7 @@ function getExtraCircleHTML(initials) {
     : "";
 }
 
-function getProgressBarHTML(subtasks) {
+function getProgressBarHTML(subtasks, task) {
   if (!subtasks) return "";
   const completedTasks = subtasks.filter((sub) => sub.completed).length;
   const totalSubtasks = subtasks.length;
@@ -165,7 +165,7 @@ async function Technicaltasktemplate(task, contacts) {
   const contactsArray = getContactsArray(contacts);
   const initialsHTML = getInitialsHTML(task.initials, contactsArray);
   const extraCircleHTML = getExtraCircleHTML(task.initials);
-  const progressBarHTML = getProgressBarHTML(task.subtask);
+  const progressBarHTML = getProgressBarHTML(task.subtask, task);
 
   return `
       <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
