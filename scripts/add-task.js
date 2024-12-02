@@ -18,7 +18,10 @@ function selectbutton_1() {
   urgentImg.src = urgentImg.src.includes("Urgent.png")
     ? "/img/urgent-white.png"
     : "/img/Urgent.png";
+  selectbutton_11();
+}
 
+function selectbutton_11() {
   const urgentText = document.getElementById("urgent");
   urgentText.style.color =
     urgentText.style.color === "white" ? "black" : "white";
@@ -33,12 +36,10 @@ function selectbutton_2() {
   document.querySelector("#button1").classList.remove("lightred");
   document.querySelector("#button2").classList.toggle("lightorange");
   document.querySelector("#button3").classList.remove("lightgreen");
-
   const mediumImg = document.getElementById("mediumImg");
   mediumImg.src = mediumImg.src.includes("Medium.png")
     ? "/img/medium-white.png"
     : "/img/Medium.png";
-
   const mediumText = document.getElementById("medium");
   mediumText.style.color =
     mediumText.style.color === "white" ? "black" : "white";
@@ -53,12 +54,10 @@ function selectbutton_3() {
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.toggle("lightgreen");
-
   const lowImg = document.getElementById("lowImg");
   lowImg.src = lowImg.src.includes("Low.png")
     ? "/img/low-white.png"
     : "/img/Low.png";
-
   const lowText = document.getElementById("low");
   lowText.style.color = lowText.style.color === "white" ? "black" : "white";
   document.getElementById("urgentImg").src = "/img/Urgent.png";
