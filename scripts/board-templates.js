@@ -255,40 +255,73 @@ function subtaskdesigntemplate(subtaskItem, index, task) {
 }
 
 async function assignedtotemplate(task, contacts) {
-  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-  const contactsArray = (
-    Array.isArray(contacts) ? contacts : Object.values(contacts)
-  ).filter((contact) => contact !== null && contact !== undefined);
-
+  const initialsArray = getInitialsArray(task);
+  const contactsArray = getFilteredContactsArray(contacts);
   const profileAssignedArea = document.getElementById("showassignedperson");
 
   let badgeHTML = "";
   const displayedInitials = new Set();
 
-  contactsArray.forEach((contact) => {
-    const matchingInitials = initialsArray.find(
-      (initialObj) => initialObj.initials === contact.initials
-    );
+  badgeHTML = generateBadgeHTML(
+    contactsArray,
+    initialsArray,
+    displayedInitials
+  );
 
-    if (matchingInitials && !displayedInitials.has(matchingInitials.initials)) {
-      const initials = matchingInitials.initials;
-      const name = matchingInitials.name || "Unknown";
-      const contactColor = contact.color || "#000";
-
-      badgeHTML += `<div id="assignedusers">
-        <div class="badge alignment" style="background-color:${contactColor}">
-          ${initials} 
-        </div>
-        <span class="badge-name">${name}</span>
-        </div>
-      `;
-
-      displayedInitials.add(matchingInitials.initials);
-    }
-  });
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
+}
+
+function getInitialsArray(task) {
+  return Array.isArray(task.initials) ? task.initials : [];
+}
+
+function getFilteredContactsArray(contacts) {
+  return (Array.isArray(contacts) ? contacts : Object.values(contacts)).filter(
+    (contact) => contact !== null && contact !== undefined
+  );
+}
+
+function generateBadgeHTML(contactsArray, initialsArray, displayedInitials) {
+  let badgeHTML = "";
+  contactsArray.forEach((contact) => {
+    badgeHTML = addContactBadge(
+      contact,
+      initialsArray,
+      displayedInitials,
+      badgeHTML
+    );
+  });
+  return badgeHTML;
+}
+
+function addContactBadge(contact, initialsArray, displayedInitials, badgeHTML) {
+  const matchingInitials = initialsArray.find(
+    (initialObj) => initialObj.initials === contact.initials
+  );
+
+  if (matchingInitials && !displayedInitials.has(matchingInitials.initials)) {
+    badgeHTML += createBadgeHTML(matchingInitials, contact);
+    displayedInitials.add(matchingInitials.initials);
+  }
+
+  return badgeHTML;
+}
+
+function createBadgeHTML(matchingInitials, contact) {
+  const initials = matchingInitials.initials;
+  const name = matchingInitials.name || "Unknown";
+  const contactColor = contact.color || "#000";
+
+  return `
+    <div id="assignedusers">
+      <div class="badge alignment" style="background-color:${contactColor}">
+        ${initials}
+      </div>
+      <span class="badge-name">${name}</span>
+    </div>
+  `;
 }
 
 function subtaskstemplate(subtaskinput1) {
