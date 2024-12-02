@@ -299,6 +299,12 @@ document
   .getElementById("add-tasktemplate")
   .addEventListener("click", function () {
     calladdtasktemplate();
+    document.getElementById("button1").style.maxWidth = "136px";
+    document.getElementById("button2").style.maxWidth = "136px";
+    document.getElementById("button3").style.maxWidth = "136px";
+    document.getElementById("button1").style.height = "56px";
+    document.getElementById("button2").style.height = "56px";
+    document.getElementById("button3").style.height = "56px";
   });
 
 function applyHoverEffect(buttonId, imageId, hoverSrc) {
