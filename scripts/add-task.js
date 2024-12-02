@@ -18,10 +18,10 @@ function selectbutton_1() {
   urgentImg.src = urgentImg.src.includes("Urgent.png")
     ? "/img/urgent-white.png"
     : "/img/Urgent.png";
-  selectbutton_11();
+  selectbutton_1_1();
 }
 
-function selectbutton_11() {
+function selectbutton_1_1() {
   const urgentText = document.getElementById("urgent");
   urgentText.style.color =
     urgentText.style.color === "white" ? "black" : "white";
