@@ -81,39 +81,64 @@ function handleButtonClick(priority) {
   selectedPriority = priority;
 }
 
+async function getFormData() {
+  const userResponse = await getAllUsers("users");
+  const title = document.getElementById("title").value;
+  const description = document.getElementById("description").value;
+  const duedate = document.getElementById("date").value;
+  const category = document.getElementById("Category").value;
+  const UserKeyArray = Object.keys(userResponse);
+
+  return { title, description, duedate, category, UserKeyArray, userResponse };
+}
+
+function createUsersArray(UserKeyArray, userResponse) {
+  const users = [];
+  for (let index = 0; index < UserKeyArray.length; index++) {
+    users.push({
+      id: UserKeyArray[index],
+      user: userResponse[UserKeyArray[index]],
+    });
+  }
+  return users;
+}
+
+function prepareTaskData(title, description, duedate, category, users) {
+  return {
+    title,
+    description,
+    asignedto: asignedtousers, // Ensure this variable is defined elsewhere
+    prio: selectedPriority, // Ensure this variable is defined elsewhere
+    duedate,
+    category,
+    subtask: subtasks.map((subtask) => ({
+      subtask,
+      completed: false,
+    })),
+    initials: initialsArray, // Ensure this variable is defined elsewhere
+  };
+}
+
+async function submitTask(taskData) {
+  await addEditSingleUser(1, taskData);
+}
+
 async function addtask(event) {
   event.preventDefault();
+  const { title, description, duedate, category, UserKeyArray, userResponse } =
+    await getFormData();
 
-  const form = document.querySelector("form");
   if (validateTaskForm()) {
-    let userResponse = await getAllUsers("users");
-    let title = document.getElementById("title").value;
-    let description = document.getElementById("description").value;
-    let duedate = document.getElementById("date").value;
-    let category = document.getElementById("Category").value;
-    let UserKeyArray = Object.keys(userResponse);
-
-    for (let index = 0; index < UserKeyArray.length; index++) {
-      users.push({
-        id: UserKeyArray[index],
-        user: userResponse[UserKeyArray[index]],
-      });
-    }
-    await addEditSingleUser((id = 1), {
-      title: title,
-      description: description,
-      asignedto: asignedtousers,
-      prio: selectedPriority,
-      duedate: duedate,
-      category: category,
-      subtask: subtasks.map((subtask) => ({
-        subtask: subtask,
-        completed: false,
-      })),
-      initials: initialsArray,
-    });
+    const users = createUsersArray(UserKeyArray, userResponse);
+    const taskData = prepareTaskData(
+      title,
+      description,
+      duedate,
+      category,
+      users
+    );
+    await submitTask(taskData);
     emptyinputs();
-  } else {
   }
   showsuccesstaskmessage();
 }
