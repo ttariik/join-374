@@ -3,22 +3,45 @@
  * @param {Object} task - The task object containing all task details.
  */
 async function savechanges(task) {
-  const parentElement = document.getElementById(`${task.id}`).parentElement.id;
-  // Extract current values from the UI
+  const parentElement = getParentElementId(task.id);
+  const { title, description, duedate } = extractCurrentValues();
+  const changes = prepareChanges(task, title, description, duedate);
+
+  const contacts = await fetchContacts();
+  await updateTask(parentElement, task.id, changes);
+
+  await finalizeChanges(task, contacts, changes);
+}
+
+function getParentElementId(taskId) {
+  return document.getElementById(`${taskId}`).parentElement.id;
+}
+
+function extractCurrentValues() {
   const title = document.querySelector(".titleinputdesign").value;
   const description =
     document.querySelector(".description")?.children[1]?.value ||
     document.getElementById("descriptioninput")?.children[1]?.value;
   const duedate = document.getElementById("date1").value;
-  // Create an object to store only the changed fields
+  return { title, description, duedate };
+}
+
+function prepareChanges(task, title, description, duedate) {
   const changes = {};
-  // Check for changes and add to the changes object
   templatemap(changes, task, title, description, duedate);
-  const response2 = await fetch(GLOBAL + "users/1/contacts.json");
-  const contacts = await response2.json();
-  // Include the category (if it must be sent unchanged)
-  await putData(`/users/1/tasks/${parentElement}/${task.id}`, changes);
-  // Reload the tasks and close the overlay
+  return changes;
+}
+
+async function fetchContacts() {
+  const response = await fetch(GLOBAL + "users/1/contacts.json");
+  return response.json();
+}
+
+async function updateTask(parentElement, taskId, changes) {
+  await putData(`/users/1/tasks/${parentElement}/${taskId}`, changes);
+}
+
+async function finalizeChanges(task, contacts, changes) {
   await loadtasks();
   updateOverlayTemplateBasedOnCategory(task, contacts, changes);
   subtasks = [];
