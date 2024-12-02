@@ -21,6 +21,7 @@ async function savechanges(task) {
   // Reload the tasks and close the overlay
   await loadtasks();
   updateOverlayTemplateBasedOnCategory(task, contacts, changes);
+  subtasks = [];
 }
 
 function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {

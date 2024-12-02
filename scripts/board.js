@@ -43,44 +43,76 @@ async function openprofiletemplate(task, contacts) {
   }, 0); // A slight delay for the transform effect
 }
 
-async function inputacessprofile(task, contacts) {
-  if (document.getElementById("subtaskarea")) {
-    document.getElementById("subtaskarea").style = "padding: 6px 0px 0px;";
+function styleSubtaskArea() {
+  const subtaskArea = document.getElementById("subtaskarea");
+  if (subtaskArea) {
+    subtaskArea.style = "padding: 6px 0px 0px;";
   }
+}
+
+function updateProfileTitle(task) {
   const profileTitleElement = document.getElementById("profiletitle");
   if (profileTitleElement) {
     profileTitleElement.innerHTML = task.title || "";
   }
+}
+
+function updateProfileDescription(task) {
   const profileDescriptionElement =
     document.getElementById("profiledescription");
   if (profileDescriptionElement) {
     profileDescriptionElement.innerHTML = task.description || "";
   }
+}
+
+function updateProfileDueDate(task) {
   const profileDueDateElement = document.getElementById("profileduedate");
   if (profileDueDateElement) {
     profileDueDateElement.innerHTML = task.duedate || "";
   }
+}
+
+function updateProfilePriority(task) {
   const profilePriorityElement = document.getElementById("profilepriority");
   if (profilePriorityElement) {
     profilePriorityElement.innerHTML = task.prio || "";
   }
+}
+
+function updateProfileIcon(task) {
   const profileIconElement = document.getElementById("profileicon");
   if (profileIconElement) {
     profileIconElement.src = `../img/${task.prio || "default"}.png`;
   }
+}
+
+function setupDeleteButton(task) {
   const btn1_10 = document.getElementById("btn1_10");
   if (btn1_10) {
     btn1_10.addEventListener("click", function () {
       deletetask(task);
     });
   }
+}
 
+function setupEditButton(task) {
   const btn2_11 = document.getElementById("btn2-11");
   if (btn2_11) {
     btn2_11.addEventListener("click", function () {
       editprofile(task);
     });
   }
+}
+
+async function inputacessprofile(task, contacts) {
+  styleSubtaskArea();
+  updateProfileTitle(task);
+  updateProfileDescription(task);
+  updateProfileDueDate(task);
+  updateProfilePriority(task);
+  updateProfileIcon(task);
+  setupDeleteButton(task);
+  setupEditButton(task);
 
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
   const contactsArray = (
@@ -88,59 +120,80 @@ async function inputacessprofile(task, contacts) {
   ).filter((contact) => contact !== null && contact !== undefined);
 
   const profileAssignedArea = document.getElementById("profileassingedarea");
-
   let badgeHTML = "";
+  renderAssignedContactsAndSubtasks(
+    initialsArray,
+    contactsArray,
+    profileAssignedArea,
+    badgeHTML,
+    task
+  );
+}
 
+async function renderAssignedContactsAndSubtasks(
+  initialsArray,
+  contactsArray,
+  profileAssignedArea,
+  badgeHTML,
+  task
+) {
   contactsArray.forEach((contact) => {
     const matchingInitials = initialsArray.find(
       (initialObj) => initialObj.initials === contact.initials
     );
-
-    if (matchingInitials) {
-      const initials = matchingInitials.initials;
-      const name = matchingInitials.name;
-      const contactColor = contact.color || "#000";
-
-      badgeHTML += `<div>
-      <div class="badge alignment" style="background-color:${contactColor}">
-        ${initials} 
-      </div>
-      <span>${name}</span>
-      </div>
-    `;
-    }
+    badgeHTML = generatecontactbadgehtml(matchingInitials, contact, badgeHTML);
   });
-
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
+  await renderSubtasks(task);
+}
 
+async function renderSubtasks(task) {
   const subtaskHTML = await showsubtaskstemplate(task);
-  if (document.getElementById("subtaskarea")) {
-    document.getElementById("subtaskarea").innerHTML = subtaskHTML;
+  const subtaskArea = document.getElementById("subtaskarea");
+
+  if (subtaskArea) {
+    subtaskArea.innerHTML = subtaskHTML;
   }
 }
 
-async function inputacesstechnicall(task, contacts) {
+function generatecontactbadgehtml(matchingInitials, contact, badgeHTML) {
+  if (matchingInitials) {
+    const initials = matchingInitials.initials;
+    const name = matchingInitials.name;
+    const contactColor = contact.color || "#000";
+
+    badgeHTML += `<div>
+      <div class="badge alignment" style="background-color:${contactColor}">
+        ${initials}
+      </div>
+      <span>${name}</span>
+    </div>`;
+  }
+  return badgeHTML;
+}
+
+function inputaccess(task) {
   document.getElementById("technicaltasktitle").innerHTML = task.title;
   document.getElementById("descriptioninput").innerHTML = task.description;
   document.getElementById("due-date-containerinput").innerHTML = task.duedate;
   document.getElementById("showprio").innerHTML = task.prio;
   document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+}
+
+async function inputacesstechnicall(task, contacts) {
+  inputaccess(task);
   const deleteButton = document.getElementById("btn1");
   const editButton = document.getElementById("btn2");
-
   const newDeleteButton = deleteButton.cloneNode(true);
   const newEditButton = editButton.cloneNode(true);
-
   deleteButton.replaceWith(newDeleteButton);
   editButton.replaceWith(newEditButton);
-
   newDeleteButton.addEventListener("click", () => deletetask(task));
   newEditButton.addEventListener("click", () => editinputs(task));
   // Render assigned persons and subtasks
   await assignedtotemplate(task, contacts);
-
   const subtaskHTML = await showsubtaskstemplate(task);
   document.getElementById("subtaskbox").innerHTML = subtaskHTML;
 }
@@ -148,47 +201,34 @@ async function inputacesstechnicall(task, contacts) {
 function deletetask(task) {
   const taskId = task.id;
   const taskElement = document.getElementById(taskId);
-
-  if (!taskElement) {
-    console.error("Task element not found in the DOM.");
-    return;
-  }
-
   const parentFolder = taskElement.parentElement;
   const parentFolderId = parentFolder.id;
-
   deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task)
     .then(() => {
       taskElement.remove();
-
-      if (parentFolder.children.length === 0) {
-        const noTasksMessage = document.createElement("div");
-        noTasksMessage.className = "nothing";
-
-        switch (parentFolderId) {
-          case "todo-folder":
-            noTasksMessage.textContent = "No tasks To do";
-            break;
-          case "inprogress-folder":
-            noTasksMessage.textContent = "No tasks in progress";
-            break;
-          case "awaiting-feedback-folder":
-            noTasksMessage.textContent = "No tasks awaiting feedback";
-            break;
-          case "done-folder":
-            noTasksMessage.textContent = "No tasks done";
-            break;
-          default:
-            noTasksMessage.textContent = "No tasks";
-        }
-
-        parentFolder.appendChild(noTasksMessage);
-      }
+      displaynotasksmessage(parentFolder, parentFolderId);
     })
     .catch((error) => {
       console.error("Error deleting task:", error);
     });
   closeoverlaytechnicaltemplate();
+}
+
+function displaynotasksmessage(parentFolder, parentFolderId) {
+  if (parentFolder.children.length > 0) return;
+
+  const noTasksMessage = document.createElement("div");
+  noTasksMessage.className = "nothing";
+
+  const messages = {
+    "todo-folder": "No tasks To do",
+    "inprogress-folder": "No tasks in progress",
+    "awaiting-feedback-folder": "No tasks awaiting feedback",
+    "done-folder": "No tasks done",
+  };
+
+  noTasksMessage.textContent = messages[parentFolderId] || "No tasks";
+  parentFolder.appendChild(noTasksMessage);
 }
 
 async function deleteData(path = "", data = {}) {
