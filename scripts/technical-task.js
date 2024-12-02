@@ -219,7 +219,7 @@ function selectbutton_22(task) {
     document.querySelector("#button11").classList.remove("lightred");
     document.querySelector("#button22").classList.toggle("lightorange");
     document.querySelector("#button33").classList.remove("lightgreen");
-
+    handleButtonClick();
     const mediumImg = document.getElementById("mediumImg22");
     mediumImg.src = mediumImg.src.includes("Medium.png")
       ? "/img/medium-white.png"

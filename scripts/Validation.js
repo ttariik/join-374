@@ -102,19 +102,9 @@ function validateTaskForm() {
 }
 
 function getSelectedPriority() {
-  return [...document.querySelectorAll(".buttons2 button")].some((button) =>
+  return [...document.querySelectorAll(".buttons2_2 button")].some((button) =>
     button.classList.contains("selected")
   );
-}
-
-function getSelectedPriority() {
-  const buttons = document.querySelectorAll(".buttons2 button");
-  for (let button of buttons) {
-    if (button.classList.contains("selected")) {
-      return true;
-    }
-  }
-  return false;
 }
 
 /**

@@ -29,7 +29,12 @@ function selectbutton_1_1() {
   document.getElementById("lowImg").src = "/img/Low.png";
   document.getElementById("medium").style.color = "black";
   document.getElementById("low").style.color = "black";
-  selectedPriority = "Urgent";
+  if (document.getElementById("button1").classList.contains("lightred")) {
+    selectedPriority = "Urgent";
+    document.getElementById("button1").classList.toggle("selected");
+  } else {
+    selectedPriority = "";
+  }
 }
 
 function selectbutton_2() {
@@ -47,7 +52,12 @@ function selectbutton_2() {
   document.getElementById("lowImg").src = "/img/Low.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("low").style.color = "black";
-  selectedPriority = "Medium";
+  if (document.getElementById("button2").classList.contains("lightorange")) {
+    selectedPriority = "Medium";
+    document.getElementById("button2").classList.toggle("selected");
+  } else {
+    selectedPriority = "";
+  }
 }
 
 function selectbutton_3() {
@@ -64,7 +74,12 @@ function selectbutton_3() {
   document.getElementById("mediumImg").src = "/img/Medium.png";
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
-  selectedPriority = "Low";
+  if (document.getElementById("button3").classList.contains("lightgreen")) {
+    selectedPriority = "Low";
+    document.getElementById("button3").classList.toggle("selected");
+  } else {
+    selectedPriority = "";
+  }
 }
 
 function clearinputs() {
@@ -381,7 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function handleButtonClick(priority) {
-  const buttons = document.querySelectorAll(".buttons2 button");
+  const buttons = document.querySelectorAll(".buttons2_2 button");
   buttons.forEach((button) => {
     if (button.querySelector("span").textContent === priority) {
       button.classList.add("selected");
