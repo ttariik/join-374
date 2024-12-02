@@ -180,27 +180,38 @@ function sucsessfullycreatedtasktemplate() {
 `;
 }
 
-function emptyinputs() {
+function resetForm() {
   let form = document.querySelector("form");
   form.reset();
   document.getElementById("assignedusers").innerHTML = "";
   document.getElementById("subtasksbox").innerHTML = "";
+}
 
+function resetButtons() {
   document.getElementById("button1").classList.remove("lightred");
   document.getElementById("button2").classList.remove("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
+}
 
+function resetPriorityImages() {
   document.getElementById("urgentImg").src = "/img/Urgent.png";
   document.getElementById("mediumImg").src = "/img/Medium.png";
   document.getElementById("lowImg").src = "/img/Low.png";
+}
 
+function resetPriorityColors() {
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
   document.getElementById("low").style.color = "black";
+}
 
+function clearAssignedUsersAndSubtasks() {
   asignedtousers = [];
   subtasks = [];
   initialsArray = [];
+}
+
+function clearContactsBox() {
   if (document.getElementById("contacts-box1")) {
     document.getElementById("contacts-box1").innerHTML = "";
     document.getElementById("selectbutton1").onclick = showcontacts;
@@ -208,6 +219,15 @@ function emptyinputs() {
     document.getElementById("contacts-box").innerHTML = "";
     document.getElementById("selectbutton").onclick = showcontacts;
   }
+}
+
+function emptyinputs() {
+  resetForm();
+  resetButtons();
+  resetPriorityImages();
+  resetPriorityColors();
+  clearAssignedUsersAndSubtasks();
+  clearContactsBox();
 }
 
 async function putData(path = "", data = {}) {
@@ -316,11 +336,8 @@ function deletesub(index) {
 
 function savesub(index) {
   const result = document.getElementById(`inputsub${index}`).value.trim();
-
   subtasks[index - 1] = result;
-
   const subboxElement = document.getElementById(`inputsub${index}`);
-
   document.getElementById(`subboxinput_${index}`).innerHTML =
     subtaskedittemplate(index, result);
   document
