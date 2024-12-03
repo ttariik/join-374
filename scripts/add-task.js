@@ -118,19 +118,26 @@ function createUsersArray(UserKeyArray, userResponse) {
 }
 
 function prepareTaskData(title, description, duedate, category, users) {
-  return {
+  // Prepare the task data object
+  const taskData = {
     title,
     description,
     asignedto: asignedtousers, // Ensure this variable is defined elsewhere
     prio: selectedPriority, // Ensure this variable is defined elsewhere
     duedate,
     category,
-    subtask: subtasks.map((subtask) => ({
-      subtask,
-      completed: false,
-    })),
     initials: initialsArray, // Ensure this variable is defined elsewhere
+    // Ensure subtasks are included, even if empty, as an empty array
+    subtask:
+      subtasks.length > 0
+        ? subtasks.map((subtask) => ({
+            subtask,
+            completed: false,
+          }))
+        : [], // Return an empty array if no subtasks
   };
+
+  return taskData;
 }
 
 async function submitTask(taskData) {

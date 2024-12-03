@@ -1,8 +1,8 @@
 function addsubtask() {
   if (document.getElementById("subtaskinput0")) {
-    subtasks.push(subtaskinput1);
     const subtaskinput1 = document.getElementById("subtaskinput0").value;
-    if (subtasks.length <= 1) {
+    subtasks.push(subtaskinput1);
+    if (subtasks.length <= 2) {
       firstpartsubtask(subtasks, subtaskinput1);
     } else {
       return displayError("spansubtask", "You can only add up to 2 subtasks.");
