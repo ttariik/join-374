@@ -113,14 +113,8 @@ async function inputacessprofile(task, contacts) {
   updateProfileIcon(task);
   setupDeleteButton(task);
   setupEditButton(task);
-
-  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-  const contactsArray = (
-    Array.isArray(contacts) ? contacts : Object.values(contacts)
-  ).filter((contact) => contact !== null && contact !== undefined);
-
-  const profileAssignedArea = document.getElementById("profileassingedarea");
-  let badgeHTML = "";
+  const { initialsArray, contactsArray, profileAssignedArea, badgeHTML } =
+    prepareprofileassignedarea(task, contacts);
   renderAssignedContactsAndSubtasks(
     initialsArray,
     contactsArray,
@@ -128,6 +122,17 @@ async function inputacessprofile(task, contacts) {
     badgeHTML,
     task
   );
+}
+
+function prepareprofileassignedarea(task, contacts) {
+  const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+  const contactsArray = (
+    Array.isArray(contacts) ? contacts : Object.values(contacts)
+  ).filter((contact) => contact !== null && contact !== undefined);
+
+  const profileAssignedArea = document.getElementById("profileassingedarea");
+  let badgeHTML = "";
+  return { initialsArray, contactsArray, profileAssignedArea, badgeHTML };
 }
 
 async function renderAssignedContactsAndSubtasks(
@@ -216,17 +221,14 @@ function deletetask(task) {
 
 function displaynotasksmessage(parentFolder, parentFolderId) {
   if (parentFolder.children.length > 0) return;
-
   const noTasksMessage = document.createElement("div");
   noTasksMessage.className = "nothing";
-
   const messages = {
     "todo-folder": "No tasks To do",
     "inprogress-folder": "No tasks in progress",
     "awaiting-feedback-folder": "No tasks awaiting feedback",
     "done-folder": "No tasks done",
   };
-
   noTasksMessage.textContent = messages[parentFolderId] || "No tasks";
   parentFolder.appendChild(noTasksMessage);
 }
