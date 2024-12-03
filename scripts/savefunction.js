@@ -2,8 +2,8 @@
  * Saves changes made to the task by sending an update request to the server.
  * @param {Object} task - The task object containing all task details.
  */
-async function savechanges(task) {
-  const parentElement = getParentElementId(task.id);
+async function savechanges(taskId, task) {
+  const parentElement = getParentElementId(taskId);
   const { title, description, duedate } = extractCurrentValues();
   const changes = prepareChanges(task, title, description, duedate);
 
@@ -14,7 +14,7 @@ async function savechanges(task) {
 }
 
 function getParentElementId(taskId) {
-  return document.getElementById(`${taskId}`).parentElement.id;
+  return document.getElementById(`${taskId}`).parentElement;
 }
 
 function extractCurrentValues() {
@@ -38,7 +38,7 @@ async function fetchContacts() {
 }
 
 async function updateTask(parentElement, taskId, changes) {
-  await putData(`/users/1/tasks/${parentElement}/${taskId}`, changes);
+  await putData(`/users/1/tasks/${parentElement.id}/${taskId}`, changes);
 }
 
 async function finalizeChanges(task, contacts, changes) {
@@ -99,11 +99,22 @@ function setInitials(changes, task, initialsArray) {
   changes.initials = initialsArray.length === 0 ? task.initials : initialsArray;
 }
 
-function setSubtasks(changes, task, subtasks) {
-  changes.subtask =
-    subtasks.length === 0
-      ? task.subtask
-      : subtasks.map((subtask) => ({ subtask, completed: false }));
+function setSubtasks(changes, task, subtasks, parentElement, taskId) {
+  // If the task does not have subtasks, initialize it with an empty object (if no subtasks are provided)
+  if (task.subtask === null || task.subtask === undefined) {
+    changes.subtask = {}; // Initialize it as an empty object
+  }
+
+  // If there are subtasks, map through the subtasks and add them to changes.subtask
+  if (subtasks.length > 0) {
+    changes.subtask = subtasks.map((subtask) => ({
+      subtask,
+      completed: false,
+    }));
+  } else {
+    // If no subtasks are provided, keep the existing subtasks or an empty object
+    changes.subtask = task.subtask || {};
+  }
 }
 
 function templatemap(changes, task, title, description, duedate) {

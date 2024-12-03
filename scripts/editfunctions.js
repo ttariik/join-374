@@ -3,18 +3,20 @@
  * @param {Object} task - The task object containing all task details.
  */
 
-function initializeButtonListeners(handleSaveChanges, handleResetTemplate) {
+function initializeButtonListeners(
+  savechanges,
+  updateOverlayTemplateBasedOnCategory,
+  task
+) {
   // Remove previous event listeners (if any) to avoid multiple triggers
   const okSaveButton = document.getElementById("oksavebutton");
   const closeBtn = document.getElementById("closebtn");
-  if (okSaveButton) {
-    okSaveButton.removeEventListener("click", handleSaveChanges); // Remove previous event listener
-    okSaveButton.addEventListener("click", handleSaveChanges); // Add new event listener
-  }
-  if (closeBtn) {
-    closeBtn.removeEventListener("click", handleResetTemplate); // Remove previous event listener
-    closeBtn.addEventListener("click", handleResetTemplate); // Add new event listener
-  }
+  okSaveButton.addEventListener("click", function () {
+    savechanges(task.id, task);
+  });
+  closeBtn.addEventListener("click", function () {
+    resettemplate(task);
+  });
 }
 
 function setupprofilelayoutpart1(task) {
@@ -58,7 +60,11 @@ function editprofile(task) {
   document.querySelector(".scrollbar").style =
     "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
   // Load additional task info and handle button selections
-  initializeButtonListeners();
+  initializeButtonListeners(
+    savechanges,
+    updateOverlayTemplateBasedOnCategory,
+    task
+  );
   loadinfos(task);
 }
 
