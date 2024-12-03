@@ -54,8 +54,9 @@ function selectbutton_2() {
   document.getElementById("low").style.color = "black";
   if (document.getElementById("button2").classList.contains("lightorange")) {
     selectedPriority = "Medium";
-    document.getElementById("button2").classList.toggle("selected");
+    document.getElementById("button2").classList.add("selected");
   } else {
+    document.getElementById("button2").classList.toggle("selected");
     selectedPriority = "";
   }
 }
