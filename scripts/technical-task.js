@@ -54,7 +54,6 @@ async function loadinfos(task) {
   asignedtousers = [];
   initialsArray = [];
   document.getElementById("assignedusers1").innerHTML = "";
-
   if (task.category === "Technical Task") {
     document.getElementById("technicaltasktitle").children[1].value =
       task.title;
@@ -191,7 +190,12 @@ function selectbutton_11(task) {
     document.getElementById("lowImg33").src = "/img/Low.png";
     document.getElementById("medium22").style.color = "black";
     document.getElementById("low33").style.color = "black";
-    selectedPriority = "Urgent";
+    if (document.getElementById("button11").classList.contains("lightred")) {
+      selectedPriority = "Urgent";
+      document.getElementById("button11").classList.toggle("selected");
+    } else {
+      selectedPriority = "";
+    }
   } else {
     document.getElementById("button1-1").classList.toggle("lightred");
     document.getElementById("button2-2").classList.remove("lightorange");
@@ -210,7 +214,12 @@ function selectbutton_11(task) {
     document.getElementById("lowImg3-3").src = "/img/Low.png";
     document.getElementById("medium2-2").style.color = "black";
     document.getElementById("low3-3").style.color = "black";
-    selectedPriority = "Urgent";
+    if (document.getElementById("button1-1").classList.contains("lightred")) {
+      selectedPriority = "Urgent";
+      document.getElementById("button1-1").classList.toggle("selected");
+    } else {
+      selectedPriority = "";
+    }
   }
 }
 
@@ -232,7 +241,12 @@ function selectbutton_22(task) {
     document.getElementById("lowImg33").src = "/img/Low.png";
     document.getElementById("urgent11").style.color = "black";
     document.getElementById("low33").style.color = "black";
-    selectedPriority = "Medium";
+    if (document.getElementById("button22").classList.contains("lightorange")) {
+      selectedPriority = "Medium";
+      document.getElementById("button22").classList.toggle("selected");
+    } else {
+      selectedPriority = "";
+    }
   } else {
     document.querySelector("#button1-1").classList.remove("lightred");
     document.querySelector("#button2-2").classList.toggle("lightorange");
@@ -251,7 +265,14 @@ function selectbutton_22(task) {
     document.getElementById("lowImg3-3").src = "/img/Low.png";
     document.getElementById("urgent1-1").style.color = "black";
     document.getElementById("low3-3").style.color = "black";
-    selectedPriority = "Medium";
+    if (
+      document.getElementById("button2-2").classList.contains("lightorange")
+    ) {
+      selectedPriority = "Medium";
+      document.getElementById("button2-2").classList.toggle("selected");
+    } else {
+      selectedPriority = "";
+    }
   }
 }
 
@@ -273,7 +294,12 @@ function selectbutton_33(task) {
     document.getElementById("mediumImg22").src = "/img/Medium.png";
     document.getElementById("urgent11").style.color = "black";
     document.getElementById("medium22").style.color = "black";
-    selectedPriority = "Low";
+    if (document.getElementById("button33").classList.contains("lightorange")) {
+      selectedPriority = "Low";
+      document.getElementById("button33").classList.toggle("selected");
+    } else {
+      selectedPriority = "";
+    }
   } else {
     document.getElementById("button1-1").classList.remove("lightred");
     document.getElementById("button2-2").classList.remove("lightorange");
@@ -291,7 +317,14 @@ function selectbutton_33(task) {
     document.getElementById("mediumImg2-2").src = "/img/Medium.png";
     document.getElementById("urgent1-1").style.color = "black";
     document.getElementById("medium2-2").style.color = "black";
-    selectedPriority = "Low";
+    if (
+      document.getElementById("button3-3").classList.contains("lightorange")
+    ) {
+      selectedPriority = "Low";
+      document.getElementById("button3-3").classList.toggle("selected");
+    } else {
+      selectedPriority = "";
+    }
   }
 }
 
@@ -300,25 +333,30 @@ function selectbutton_33(task) {
  * @param {Object} task - The task object containing all task details.
  */
 function editprofile(task) {
+  // Check if event listeners have already been attached to the buttons
+  const okSaveButton = document.getElementById("oksavebutton");
+  const closeBtn = document.getElementById("closebtn");
+
+  // Remove existing title box if it exists
   const titlebox = document.getElementById("userbox");
   if (titlebox) {
     titlebox.remove();
   }
-  document.querySelector(".headerprofile").style.justifyContent = "flex-end";
 
+  // Update layout
+  document.querySelector(".headerprofile").style.justifyContent = "flex-end";
   document.querySelector(".titlebox span").style = "line-height: unset";
   document.querySelector(".titlebox").innerHTML = titletemplate(task);
   document.querySelector(".description").innerHTML = descriptiontemplate();
-
   document.getElementById("due-date-container-edit").innerHTML =
     duedatetemplate();
   document
     .getElementById("due-date-container-edit")
     .classList.add("due-date-containerprofile");
   document.getElementById("prio").innerHTML = prioritytemplateprofile();
-  selectbutton_22(task);
-
   document.getElementById("prio").classList.add("buttonss");
+
+  // Update assigned area and other sections
   document.getElementById("profileassingedarea").innerHTML =
     reselectionofcontacts();
   document.getElementById("profileassingedarea").style.gap = "unset";
@@ -331,15 +369,28 @@ function editprofile(task) {
   document.querySelector(".scrollbar").style =
     "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
 
-  document
-    .getElementById("oksavebutton")
-    .addEventListener("click", function () {
-      savechanges(task);
-    });
-  document.getElementById("closebtn").addEventListener("click", function () {
-    resettemplate(task);
-  });
+  // Remove previous event listeners (if any) to avoid multiple triggers
+  if (okSaveButton) {
+    okSaveButton.removeEventListener("click", handleSaveChanges); // Remove previous event listener
+    okSaveButton.addEventListener("click", handleSaveChanges); // Add new event listener
+  }
+
+  if (closeBtn) {
+    closeBtn.removeEventListener("click", handleResetTemplate); // Remove previous event listener
+    closeBtn.addEventListener("click", handleResetTemplate); // Add new event listener
+  }
+
+  // Load additional task info and handle button selections
   loadinfos(task);
+
+  // Event handler functions for the buttons
+  function handleSaveChanges() {
+    savechanges(task);
+  }
+
+  function handleResetTemplate() {
+    resettemplate(task);
+  }
 }
 
 /**
