@@ -44,7 +44,12 @@ function editinputs(task) {
   document.getElementById("closebtn1").addEventListener("click", function () {
     resettemplate(task);
   });
-
+  document.getElementById("button1").style.maxWidth = "136px";
+  document.getElementById("button2").style.maxWidth = "136px";
+  document.getElementById("button3").style.maxWidth = "136px";
+  document.getElementById("button1").style.height = "56px";
+  document.getElementById("button2").style.height = "56px";
+  document.getElementById("button3").style.height = "56px";
   loadinfos(task);
 }
 
@@ -59,7 +64,12 @@ async function loadinfos(task) {
       task.title;
 
     document.getElementById("date1").value = task.duedate;
-
+    document.getElementById("button11").style.maxWidth = "136px";
+    document.getElementById("button22").style.maxWidth = "136px";
+    document.getElementById("button33").style.maxWidth = "136px";
+    document.getElementById("button11").style.height = "56px";
+    document.getElementById("button22").style.height = "56px";
+    document.getElementById("button33").style.height = "56px";
     showsavedinitials(task);
     loadsubtasks(task);
 
@@ -84,7 +94,12 @@ async function loadinfos(task) {
   } else {
     document.querySelector(".titleinputdesign").value = task.title;
     document.getElementById("date1").value = task.duedate;
-
+    document.getElementById("button1-1").style.maxWidth = "136px";
+    document.getElementById("button2-2").style.maxWidth = "136px";
+    document.getElementById("button3-3").style.maxWidth = "136px";
+    document.getElementById("button1-1").style.height = "56px";
+    document.getElementById("button2-2").style.height = "56px";
+    document.getElementById("button3-3").style.height = "56px";
     await showsavedinitials(task);
     loadsubtasks(task);
 
