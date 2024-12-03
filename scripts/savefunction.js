@@ -50,7 +50,6 @@ function templateid(task) {
     task.category === "User Story"
       ? "overlayprofile-template"
       : "overlaytechinical-task-template";
-
   const templateFile =
     task.category === "User Story"
       ? "profile-template.html"
