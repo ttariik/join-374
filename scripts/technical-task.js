@@ -1,77 +1,108 @@
+function loadinfosifpart1(task) {
+  document.getElementById("technicaltasktitle").children[1].value = task.title;
+  document.getElementById("date1").value = task.duedate;
+  document.getElementById("button11").style.maxWidth = "136px";
+  document.getElementById("button22").style.maxWidth = "136px";
+  document.getElementById("button33").style.maxWidth = "136px";
+  document.getElementById("button11").style.height = "56px";
+  document.getElementById("button22").style.height = "56px";
+  document.getElementById("button33").style.height = "56px";
+  showsavedinitials(task);
+  loadsubtasks(task);
+  document
+    .querySelectorAll(".text1")
+    .forEach((input) => (input.value = task.description));
+}
+
+function setButton11Listener(task) {
+  document.getElementById("button11").addEventListener("click", function () {
+    selectbutton_11(task);
+  });
+}
+
+function setButton22Listener(task) {
+  document.getElementById("button22").addEventListener("click", function () {
+    selectbutton_22(task);
+  });
+}
+
+function setButton33Listener(task) {
+  document.getElementById("button33").addEventListener("click", function () {
+    selectbutton_33(task);
+  });
+}
+
+function setButton1_1Listener(task) {
+  document.getElementById("button1-1").addEventListener("click", function () {
+    selectbutton_11(task);
+  });
+}
+
+function setButton2_2Listener(task) {
+  document.getElementById("button2-2").addEventListener("click", function () {
+    selectbutton_22(task);
+  });
+}
+
+function setButton3_3Listener(task) {
+  document.getElementById("button3-3").addEventListener("click", function () {
+    selectbutton_33(task);
+  });
+}
+
 async function loadinfos(task) {
-  // Resetting shared variables
   subtasks = [];
   asignedtousers = [];
   initialsArray = [];
   document.getElementById("assignedusers1").innerHTML = "";
   if (task.category === "Technical Task") {
-    document.getElementById("technicaltasktitle").children[1].value =
-      task.title;
-
-    document.getElementById("date1").value = task.duedate;
-    document.getElementById("button11").style.maxWidth = "136px";
-    document.getElementById("button22").style.maxWidth = "136px";
-    document.getElementById("button33").style.maxWidth = "136px";
-    document.getElementById("button11").style.height = "56px";
-    document.getElementById("button22").style.height = "56px";
-    document.getElementById("button33").style.height = "56px";
-    showsavedinitials(task);
-    loadsubtasks(task);
-
-    document.getElementById("button11").addEventListener("click", function () {
-      selectbutton_11(task);
-    });
-    document.getElementById("button22").addEventListener("click", function () {
-      selectbutton_22(task);
-    });
-    document.getElementById("button33").addEventListener("click", function () {
-      selectbutton_33(task);
-    });
-
-    // Set priority based on task.prio
-    if (task.prio === "Urgent") {
-      selectbutton_11(task);
-    } else if (task.prio === "Medium") {
-      selectbutton_22(task);
-    } else if (task.prio === "Low") {
-      selectbutton_33(task);
-    }
+    loadinfosifpart1(task);
+    setButton22Listener(task);
+    setButton33Listener(task);
+    setPriorityForTechnicalTask(task);
   } else {
-    document.querySelector(".titleinputdesign").value = task.title;
-    document.getElementById("date1").value = task.duedate;
-    document.getElementById("button1-1").style.maxWidth = "136px";
-    document.getElementById("button2-2").style.maxWidth = "136px";
-    document.getElementById("button3-3").style.maxWidth = "136px";
-    document.getElementById("button1-1").style.height = "56px";
-    document.getElementById("button2-2").style.height = "56px";
-    document.getElementById("button3-3").style.height = "56px";
+    setButton1_1Listener(task);
+    setButton2_2Listener(task);
+    setButton3_3Listener(task);
+    setNonTechnicalTaskValues(task);
     await showsavedinitials(task);
     loadsubtasks(task);
-
-    document.getElementById("button1-1").addEventListener("click", function () {
-      selectbutton_11(task);
-    });
-    document.getElementById("button2-2").addEventListener("click", function () {
-      selectbutton_22(task);
-    });
-    document.getElementById("button3-3").addEventListener("click", function () {
-      selectbutton_33(task);
-    });
-
-    // Set priority based on task.prio
-    if (task.prio === "Urgent") {
-      selectbutton_11(task);
-    } else if (task.prio === "Medium") {
-      selectbutton_22(task);
-    } else if (task.prio === "Low") {
-      selectbutton_33(task);
-    }
+    setPriorityButtonListeners(task);
   }
+}
 
-  // Update all inputs with task description
+function setPriorityForTechnicalTask(task) {
+  if (task.prio === "Urgent") {
+    selectbutton_11(task);
+  } else if (task.prio === "Medium") {
+    selectbutton_22(task);
+  } else if (task.prio === "Low") {
+    selectbutton_33(task);
+  }
+}
+
+function setNonTechnicalTaskValues(task) {
+  document.querySelector(".titleinputdesign").value = task.title;
+  document.getElementById("date1").value = task.duedate;
+  document.getElementById("button1-1").style.maxWidth = "136px";
+  document.getElementById("button2-2").style.maxWidth = "136px";
+  document.getElementById("button3-3").style.maxWidth = "136px";
+  document.getElementById("button1-1").style.height = "56px";
+  document.getElementById("button2-2").style.height = "56px";
+  document.getElementById("button3-3").style.height = "56px";
   document
     .querySelectorAll(".text1")
     .forEach((input) => (input.value = task.description));
+}
+
+function setPriorityButtonListeners(task) {
+  if (task.prio === "Urgent") {
+    selectbutton_11(task);
+  } else if (task.prio === "Medium") {
+    selectbutton_22(task);
+  } else if (task.prio === "Low") {
+    selectbutton_33(task);
+  }
 }
 
 async function showsavedinitials(task) {
@@ -321,26 +352,4 @@ async function resettemplate(task) {
     includeHTML();
     w3.includeHTML();
   }
-}
-
-async function getUserTaskss(id = 1) {
-  let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
-  let responsestoJson = await responses.json();
-  document.getElementById(
-    "typeoftask"
-  ).innerHTML = `${responsestoJson[0].category}`;
-  document.getElementById("title").innerHTML = `${responsestoJson[0].title}`;
-  document.getElementById(
-    "descriptioninput"
-  ).innerHTML = `${responsestoJson[0].description}`;
-  document.getElementById(
-    "due-date-containerinput"
-  ).innerHTML = `${responsestoJson[0].duedate}`;
-  document.getElementById("showprio").innerHTML = `${responsestoJson[0].prio}`;
-  document.getElementById(
-    "showassignedperson"
-  ).innerHTML = `${responsestoJson[0].asignedto}`;
-  document.getElementById(
-    "showsubtask"
-  ).innerHTML = `${responsestoJson[0].subtask}`;
 }

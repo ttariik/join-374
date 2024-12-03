@@ -86,7 +86,7 @@ function editinputs(task) {
   document
     .getElementById("oksavebutton")
     .addEventListener("click", function () {
-      savechanges(task);
+      savechanges(task.id, task);
     });
   setuptechnicallayoutpart2(task);
 }

@@ -6,10 +6,8 @@ async function savechanges(taskId, task) {
   const parentElement = getParentElementId(taskId);
   const { title, description, duedate } = extractCurrentValues();
   const changes = prepareChanges(task, title, description, duedate);
-
   const contacts = await fetchContacts();
   await updateTask(parentElement, task.id, changes);
-
   await finalizeChanges(task, contacts, changes);
 }
 
@@ -47,7 +45,7 @@ async function finalizeChanges(task, contacts, changes) {
   subtasks = [];
 }
 
-function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
+function templateid(task) {
   const templateId =
     task.category === "User Story"
       ? "overlayprofile-template"
@@ -57,10 +55,13 @@ function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
     task.category === "User Story"
       ? "profile-template.html"
       : "techinical-task-template.html";
+  return { templateId, templateFile };
+}
 
+function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
+  const { templateId, templateFile } = templateid(task);
   document.getElementById(templateId).innerHTML = "";
   resetOverlayTemplate(templateId, templateFile);
-
   setTimeout(() => {
     if (task.category === "User Story") {
       inputacessprofile(changes, contacts);
