@@ -168,7 +168,6 @@ function generatecontactbadgehtml(matchingInitials, contact, badgeHTML) {
     const initials = matchingInitials.initials;
     const name = matchingInitials.name;
     const contactColor = contact.color || "#000";
-
     badgeHTML += `<div>
       <div class="badge alignment" style="background-color:${contactColor}">
         ${initials}
@@ -255,6 +254,10 @@ async function opentechnicaltemplate(task, contacts) {
 
 function closeaddtasktemplate() {
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
+  emptyinputs();
+  selectbutton_2();
+  resetsearchbar();
+  document.getElementById("selectbutton").onclick = showcontacts;
   setTimeout(() => {
     document.getElementById("overlay-addtask").classList.add("d-none");
     document.getElementById("overlay-addtask").classList.remove("overlayss");
@@ -291,39 +294,47 @@ async function closeoverlaytechnicaltemplate() {
 async function calladdtasktemplate() {
   document.getElementById("overlay-addtask").classList.remove("d-none");
   document.getElementById("overlay-addtask").classList.add("overlayss");
+  styleofthebuttons();
   setTimeout(() => {
     document.getElementById("overlay-addtask").style.transform =
       "translateX(0%)";
   }, 0.9);
 }
 
+function styleofthebuttons() {
+  document.getElementById("button1").style.maxWidth = "136px";
+  document.getElementById("button2").style.maxWidth = "136px";
+  document.getElementById("button3").style.maxWidth = "136px";
+  document.getElementById("button1").style.height = "56px";
+  document.getElementById("button2").style.height = "56px";
+  document.getElementById("button3").style.height = "56px";
+}
+
 document
   .getElementById("add-tasktemplate")
   .addEventListener("click", function () {
     calladdtasktemplate();
-    document.getElementById("button1").style.maxWidth = "136px";
-    document.getElementById("button2").style.maxWidth = "136px";
-    document.getElementById("button3").style.maxWidth = "136px";
-    document.getElementById("button1").style.height = "56px";
-    document.getElementById("button2").style.height = "56px";
-    document.getElementById("button3").style.height = "56px";
   });
 
 function applyHoverEffect(buttonId, imageId, hoverSrc) {
   const buttonElement = document.getElementById(buttonId);
   const imageElement = document.getElementById(imageId);
 
+  // Mouseover event to change image source
   buttonElement.addEventListener("mouseover", function () {
     imageElement.src = hoverSrc;
   });
 
+  // Mouseout event to revert image source
   buttonElement.addEventListener("mouseout", function () {
-    imageElement.src = "/img/status-item.png";
+    imageElement.src = "/img/status-item.png"; // Default image
   });
 
+  // Click event to call template function and update selected button
   buttonElement.addEventListener("click", function (event) {
-    calladdtasktemplate();
-    selectedbutton = event.target.parentElement.id;
+    calladdtasktemplate(); // Assuming this is a function you want to call
+    // Update selected button using the button's ID, instead of relying on parent
+    selectedbutton = buttonElement.id; // Directly reference the button's ID
   });
 }
 
