@@ -136,6 +136,7 @@ async function showsavedinitials(task) {
     const selectedContact = contactMap.get(assignedInitial);
 
     if (selectedContact) {
+      document.getElementById("assignedusers1").style.width = "100%";
       const badge = document.createElement("div");
       badge.className = "badgeassigned badge";
       badge.style.width = "32px";
