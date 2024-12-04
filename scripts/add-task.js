@@ -5,87 +5,28 @@ const GLOBAL =
 let selectedPriority = null;
 let subtasks = [];
 let initialsarra = [];
+let selectedbutton = null;
+
 let asignedtousers = [];
 let usernamecolor = [];
 let initialsArray = [];
 let contacts = []; // Array to hold the contact data.
 
-function selectbutton_1() {
-  document.getElementById("button1").classList.toggle("lightred");
-  document.getElementById("button2").classList.remove("lightorange");
-  document.getElementById("button3").classList.remove("lightgreen");
-  const urgentImg = document.getElementById("urgentImg");
-  urgentImg.src = urgentImg.src.includes("Urgent.png")
-    ? "/img/urgent-white.png"
-    : "/img/Urgent.png";
-  selectbutton_1_1();
-}
-
-function selectbutton_1_1() {
-  const urgentText = document.getElementById("urgent");
-  urgentText.style.color =
-    urgentText.style.color === "white" ? "black" : "white";
-  document.getElementById("mediumImg").src = "/img/Medium.png";
-  document.getElementById("lowImg").src = "/img/Low.png";
-  document.getElementById("medium").style.color = "black";
-  document.getElementById("low").style.color = "black";
-  if (document.getElementById("button1").classList.contains("lightred")) {
-    selectedPriority = "Urgent";
-    document.getElementById("button1").classList.toggle("selected");
-  } else {
-    selectedPriority = "";
-  }
-}
-
-function selectbutton_2() {
-  document.querySelector("#button1").classList.remove("lightred");
-  document.querySelector("#button2").classList.toggle("lightorange");
-  document.querySelector("#button3").classList.remove("lightgreen");
-  const mediumImg = document.getElementById("mediumImg");
-  mediumImg.src = mediumImg.src.includes("Medium.png")
-    ? "/img/medium-white.png"
-    : "/img/Medium.png";
-  const mediumText = document.getElementById("medium");
-  mediumText.style.color =
-    mediumText.style.color === "white" ? "black" : "white";
-  document.getElementById("urgentImg").src = "/img/Urgent.png";
-  document.getElementById("lowImg").src = "/img/Low.png";
-  document.getElementById("urgent").style.color = "black";
-  document.getElementById("low").style.color = "black";
-  if (document.getElementById("button2").classList.contains("lightorange")) {
-    selectedPriority = "Medium";
-    document.getElementById("button2").classList.add("selected");
-  } else {
-    document.getElementById("button2").classList.toggle("selected");
-    selectedPriority = "";
-  }
-}
-
-function selectbutton_3() {
-  document.getElementById("button1").classList.remove("lightred");
-  document.getElementById("button2").classList.remove("lightorange");
-  document.getElementById("button3").classList.toggle("lightgreen");
-  const lowImg = document.getElementById("lowImg");
-  lowImg.src = lowImg.src.includes("Low.png")
-    ? "/img/low-white.png"
-    : "/img/Low.png";
-  const lowText = document.getElementById("low");
-  lowText.style.color = lowText.style.color === "white" ? "black" : "white";
-  document.getElementById("urgentImg").src = "/img/Urgent.png";
-  document.getElementById("mediumImg").src = "/img/Medium.png";
-  document.getElementById("urgent").style.color = "black";
-  document.getElementById("medium").style.color = "black";
-  if (document.getElementById("button3").classList.contains("lightgreen")) {
-    selectedPriority = "Low";
-    document.getElementById("button3").classList.toggle("selected");
-  } else {
-    selectedPriority = "";
-  }
-}
-
 function clearinputs() {
   document.getElementById("myform").reset();
   emptyinputs();
+}
+
+async function putData(path = "", data = {}) {
+  let response = await fetch(GLOBAL + path + ".json", {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  return await response.json();
 }
 
 function resetsubtaskinput() {
@@ -142,14 +83,21 @@ function prepareTaskData(title, description, duedate, category, users) {
 }
 
 async function submitTask(taskData) {
-  await addEditSingleUser(1, taskData);
+  if (selectedbutton === null) {
+    await addEditSingleUser("todo-folder", taskData);
+  } else if (selectedbutton === "buttonicon1") {
+    await addEditSingleUser("todo-folder", taskData);
+  } else if (selectedbutton === "buttonicon2") {
+    await addEditSingleUser("inprogress-folder", taskData);
+  } else if (selectedbutton === "buttonicon3") {
+    await addEditSingleUser("awaiting-feedback-folder", taskData);
+  }
 }
 
 async function addtask(event) {
   event.preventDefault();
   const { title, description, duedate, category, UserKeyArray, userResponse } =
     await getFormData();
-
   if (validateTaskForm()) {
     const users = createUsersArray(UserKeyArray, userResponse);
     const taskData = prepareTaskData(
@@ -161,8 +109,14 @@ async function addtask(event) {
     );
     await submitTask(taskData);
     emptyinputs();
+    showsuccesstaskmessage();
+    const currentPage = window.location.pathname; // Get current page path
+    setTimeout(() => {
+      if (currentPage.includes("add-task.html")) {
+        window.location.href = "board.html";
+      }
+    }, 1500);
   }
-  showsuccesstaskmessage();
 }
 
 function showsuccesstaskmessage() {
@@ -185,7 +139,6 @@ function part1successmessage() {
   document.getElementById("overlaysuccesstaskprofile").classList.add("overlay");
   document.getElementById("overlaysuccesstaskprofile").style.transform =
     "translateX(0)";
-
   document.getElementById("overlaysuccesstaskprofile").innerHTML =
     sucsessfullycreatedtasktemplate();
   setTimeout(() => {
@@ -225,9 +178,6 @@ function resetPriorityColors() {
   document.getElementById("urgent").style.color = "black";
   document.getElementById("medium").style.color = "black";
   document.getElementById("low").style.color = "black";
-}
-
-function clearAssignedUsersAndSubtasks() {
   asignedtousers = [];
   subtasks = [];
   initialsArray = [];
@@ -248,43 +198,54 @@ function emptyinputs() {
   resetButtons();
   resetPriorityImages();
   resetPriorityColors();
-  clearAssignedUsersAndSubtasks();
   clearContactsBox();
 }
 
-async function putData(path = "", data = {}) {
-  let response = await fetch(GLOBAL + path + ".json", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-  return (responsetoJson = await response.json());
+async function addEditSingleUser(folder, taskData) {
+  let usertasks = await getUserTasks(); // Fetch all tasks
+  let highestIndex = await calculateHighestIndex(usertasks, 0);
+  const nextIndex = highestIndex + 1;
+  await putData(`users/1/tasks/${folder}/${nextIndex}`, taskData);
 }
 
-async function addEditSingleUser(id = 1, tasks) {
-  let usertasks = await getUserTasks(id);
-  if (!usertasks) {
-    usertasks = {};
+async function calculateHighestIndex(folderTasks, highestIndex) {
+  // Loop over each folder
+  for (let folder in folderTasks) {
+    const tasks = folderTasks[folder];
+
+    // Check if the folder is an array or an object
+    if (Array.isArray(tasks)) {
+      highestIndex = await calculateArrayTasks(tasks, highestIndex);
+    } else {
+      highestIndex = await calculateObjectTasks(tasks, highestIndex);
+    }
   }
-  let existingIndexes = Object.keys(usertasks).map(Number);
-  let nextIndex =
-    existingIndexes.length > 0 ? Math.max(...existingIndexes) + 1 : 1;
-  await putData(`users/${id}/tasks/todo-folder/${nextIndex}`, tasks);
+  return highestIndex;
 }
 
-async function getUserTaskss(id = 1) {
-  let responses = await fetch(GLOBAL + `users/${id}/tasks.json`);
-  let responsestoJson = await responses.json();
+async function calculateArrayTasks(tasks, highestIndex) {
+  // If it's an array, filter out null values
+  tasks.forEach((task, index) => {
+    if (task !== null) {
+      highestIndex = Math.max(highestIndex, index);
+    }
+  });
+  return highestIndex;
 }
 
-async function getUserTasks(id) {
-  let response = await fetch(
-    GLOBAL +
-      `users/${id}/tasks/todo-folder
-.json`
-  );
+async function calculateObjectTasks(tasks, highestIndex) {
+  // If it's an object (as in "inprogress-folder" and "todofolder")
+  Object.keys(tasks).forEach((taskId) => {
+    const numId = parseInt(taskId, 10);
+    if (!isNaN(numId)) {
+      highestIndex = Math.max(highestIndex, numId);
+    }
+  });
+  return highestIndex;
+}
+
+async function getUserTasks() {
+  let response = await fetch(GLOBAL + `users/1/tasks.json`);
   return await response.json();
 }
 
@@ -402,14 +363,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
-function handleButtonClick(priority) {
-  const buttons = document.querySelectorAll(".buttons2_2 button");
-  buttons.forEach((button) => {
-    if (button.querySelector("span").textContent === priority) {
-      button.classList.add("selected");
-    } else {
-      button.classList.remove("selected");
-    }
-  });
-}

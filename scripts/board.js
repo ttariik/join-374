@@ -321,26 +321,15 @@ function applyHoverEffect(buttonId, imageId, hoverSrc) {
     imageElement.src = "/img/status-item.png";
   });
 
-  buttonElement.addEventListener("click", function () {
+  buttonElement.addEventListener("click", function (event) {
     calladdtasktemplate();
+    selectedbutton = event.target.parentElement.id;
   });
 }
 
 applyHoverEffect("buttonicon1", "pic1", "/img/pic1hovered.png");
 applyHoverEffect("buttonicon2", "pic2", "/img/pic1hovered.png");
 applyHoverEffect("buttonicon3", "pic3", "/img/pic1hovered.png");
-
-async function putData(path = "", data = {}) {
-  let response = await fetch(GLOBAL + path + ".json", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return await response.json();
-}
 
 document.getElementById("todo-folder").addEventListener("drop", drop);
 document.getElementById("inprogress-folder").addEventListener("drop", drop);
