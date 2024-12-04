@@ -22,11 +22,6 @@
   justify-content: space-between;
 }
 
-.subtasks-title {
-  font-size: 20px;
-  font-weight: 400;
-  font-family: PT-Sans;
-}
 .d-none {
   display: none;
 }
@@ -124,7 +119,7 @@
   max-height: 90px;
 }
 
-.subtask-title {
+.subtasks-title {
   font-size: 16px;
   font-weight: 400;
 }

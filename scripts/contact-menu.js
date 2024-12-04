@@ -114,10 +114,8 @@ async function edicontact(contactKey) {
   initializeFormValidation();
   document.getElementById("overlayaddcontact").classList.remove("d-none");
   document.getElementById("overlayaddcontact").classList.add("overlay2");
-
   document.getElementById("spantitle").innerHTML = "Edit contact";
   const contact = contactUsers.find((user) => user.key === contactKey);
-
   document.getElementById("name").value = contact.name;
   document.getElementById("emailarea").value = contact.email || "";
   document.getElementById("phone").value = contact.telefone || "";
@@ -200,9 +198,7 @@ function closecontacttemplate(contactKey) {
  */
 async function showcontacttemplate(contactKey) {
   document.getElementById("contacttemplate").classList.remove("d-none");
-
   const contact = contactUsers.find((user) => user.key === contactKey);
-
   document.getElementById("title").innerHTML = contact.name;
   document.getElementById("email").innerHTML = contact.email || "";
   document.getElementById("telefone").innerHTML = contact.telefone || "";
@@ -217,7 +213,6 @@ async function showcontacttemplate(contactKey) {
   document.getElementById("deletebutton-overlay").onclick = () =>
     deletecontact(contact.key);
   document.getElementById("formid").onsubmit = addcontact;
-
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";
   contactTemplate.style.transform = "translateX(0%)";
