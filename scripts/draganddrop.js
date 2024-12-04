@@ -2,97 +2,145 @@ function allowDrop(event) {
   event.preventDefault();
 }
 
+
 function drag(event) {
   const taskId = event.target.id;
-  const taskElement = document.getElementById(taskId);
-
-  const parentFolderId = taskElement.getAttribute("data-current-folder-id");
+  const parentFolderId = getParentFolderId(taskId);
 
   event.dataTransfer.setData("taskId", taskId);
   event.dataTransfer.setData("parentFolderId", parentFolderId);
 }
 
+
+function getParentFolderId(taskId) {
+  const taskElement = document.getElementById(taskId);
+  return taskElement.getAttribute("data-current-folder-id");
+}
+
+
 async function drop(event) {
   event.preventDefault();
-
   const taskId = event.dataTransfer.getData("taskId");
-  const taskElement = document.getElementById(taskId);
-  const parentFolderId = taskElement.parentElement.id;
+  const parentFolderId = event.dataTransfer.getData("parentFolderId");
   const targetFolder = event.currentTarget.id;
 
-  // If drop is canceled or not valid, revert to the initial folder (no changes)
-  if (targetFolder === parentFolderId) {
-    return;
-  }
+  if (targetFolder === parentFolderId) return;
+  await handleDrop(taskId, parentFolderId, targetFolder);
+}
+
+
+async function handleDrop(taskId, parentFolderId, targetFolder) {
+  const taskElement = document.getElementById(taskId);
+  disableDrag(taskElement);
 
   try {
-    // Disable dragging during the operation
-    taskElement.setAttribute("draggable", "false");
-
-    const response = await fetch(
-      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
-    );
-    const taskData = await response.json();
-
-    // Move task data to the new folder
-    await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
-
-    // Delete task from the old folder
-    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
-
-    // Check if the task is successfully deleted from the original folder
-    const deletionCheck = await fetch(
-      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
-    );
-    const deletedData = await deletionCheck.json();
-
-    if (deletedData === null) {
-      // If task is successfully deleted from the parent folder, update the task
-      const targetContainer = document.getElementById(targetFolder);
-
-      // Remove "No tasks" message from the target folder if it was there
-      const noTasksMessage = targetContainer.querySelector(".nothing");
-      if (noTasksMessage) {
-        noTasksMessage.remove();
-      }
-
-      // Move the task element to the new folder in the DOM
-      targetContainer.appendChild(taskElement);
-      taskElement.setAttribute("data-current-folder-id", targetFolder);
-    } else {
-      // If deletion failed, revert the task back to the original folder
-      const parentContainer = document.getElementById(parentFolderId);
-      parentContainer.appendChild(taskElement);
-      taskElement.setAttribute("data-current-folder-id", initialFolderId);
-
-      // Show a message or alert that the move failed
-      alert("Failed to move task. Reverting to original folder.");
-    }
-
-    // Update source folder (if empty, show 'No tasks' message)
-    const parentContainer = document.getElementById(parentFolderId);
-    if (parentContainer && parentContainer.children.length === 0) {
-      const noTasksMessageElement = document.createElement("div");
-      noTasksMessageElement.className = "nothing";
-      noTasksMessageElement.textContent = getNoTasksMessage(parentFolderId);
-      parentContainer.appendChild(noTasksMessageElement);
-    }
+    const taskData = await fetchTaskData(parentFolderId, taskId);
+    await moveTaskToNewFolder(targetFolder, taskId, taskData);
+    await deleteTaskFromFolder(parentFolderId, taskId);
+    await updateDOMAfterMove(taskElement, parentFolderId, targetFolder);
   } catch (error) {
-    console.error("Error during drop operation:", error);
-
-    // In case of an error, revert the task back to the original folder
-    const parentContainer = document.getElementById(parentFolderId);
-    parentContainer.appendChild(taskElement);
-    taskElement.setAttribute("data-current-folder-id", initialFolderId);
-
-    alert(
-      "An error occurred during the move. Task reverted to original folder."
-    );
+    handleErrorDuringDrop(taskElement, parentFolderId, error);
   } finally {
-    // Enable dragging again after operation completes (success or failure)
-    taskElement.setAttribute("draggable", "true");
+    enableDrag(taskElement);
   }
 }
+
+
+function disableDrag(taskElement) {
+  taskElement.setAttribute("draggable", "false");
+}
+
+
+function enableDrag(taskElement) {
+  taskElement.setAttribute("draggable", "true");
+}
+
+
+async function fetchTaskData(parentFolderId, taskId) {
+  const response = await fetch(
+    `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+  );
+  return response.json();
+}
+
+
+async function moveTaskToNewFolder(targetFolder, taskId, taskData) {
+  await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
+}
+
+
+async function deleteTaskFromFolder(parentFolderId, taskId) {
+  await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
+}
+
+
+async function updateDOMAfterMove(taskElement, parentFolderId, targetFolder) {
+  const isDeleted = await checkTaskDeletion(parentFolderId, taskElement.id);
+
+  if (isDeleted) {
+    moveTaskInDOM(taskElement, targetFolder);
+    updateSourceFolder(parentFolderId);
+  } else {
+    revertTaskToOriginalFolder(taskElement, parentFolderId);
+    alert("Failed to move task. Reverting to original folder.");
+  }
+}
+
+
+async function checkTaskDeletion(parentFolderId, taskId) {
+  const response = await fetch(
+    `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+  );
+  const data = await response.json();
+  return data === null;
+}
+
+
+function moveTaskInDOM(taskElement, targetFolder) {
+  const targetContainer = document.getElementById(targetFolder);
+  removeNoTasksMessage(targetContainer);
+
+  targetContainer.appendChild(taskElement);
+  taskElement.setAttribute("data-current-folder-id", targetFolder);
+}
+
+
+function removeNoTasksMessage(container) {
+  const noTasksMessage = container.querySelector(".nothing");
+  if (noTasksMessage) noTasksMessage.remove();
+}
+
+
+function updateSourceFolder(folderId) {
+  const parentContainer = document.getElementById(folderId);
+  if (parentContainer && parentContainer.children.length === 0) {
+    const noTasksMessageElement = createNoTasksMessage(folderId);
+    parentContainer.appendChild(noTasksMessageElement);
+  }
+}
+
+
+function createNoTasksMessage(folderId) {
+  const noTasksMessageElement = document.createElement("div");
+  noTasksMessageElement.className = "nothing";
+  noTasksMessageElement.textContent = getNoTasksMessage(folderId);
+  return noTasksMessageElement;
+}
+
+
+function revertTaskToOriginalFolder(taskElement, folderId) {
+  const parentContainer = document.getElementById(folderId);
+  parentContainer.appendChild(taskElement);
+  taskElement.setAttribute("data-current-folder-id", folderId);
+}
+
+
+function handleErrorDuringDrop(taskElement, parentFolderId, error) {
+  console.error("Error during drop operation:", error);
+  revertTaskToOriginalFolder(taskElement, parentFolderId);
+  alert("An error occurred during the move. Task reverted to original folder.");
+}
+
 
 function getNoTasksMessage(folderId) {
   switch (folderId) {
