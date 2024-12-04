@@ -4,8 +4,8 @@
  */
 async function savechanges(taskId, task) {
   const parentElement = getParentElementId(taskId);
-  const { title, description, duedate } = extractCurrentValues();
-  const changes = prepareChanges(task, title, description, duedate);
+  const { title, description, duedate } = extractCurrentValues(task);
+  const changes = prepareChanges(task, title, description, duedate, taskId);
   const contacts = await fetchContacts();
   await updateTask(parentElement, task.id, changes);
   await finalizeChanges(task, contacts, changes);
@@ -15,18 +15,19 @@ function getParentElementId(taskId) {
   return document.getElementById(`${taskId}`).parentElement;
 }
 
-function extractCurrentValues() {
+function extractCurrentValues(task) {
   const title = document.querySelector(".titleinputdesign").value;
   const description =
     document.querySelector(".description")?.children[1]?.value ||
     document.getElementById("descriptioninput")?.children[1]?.value;
   const duedate = document.getElementById("date1").value;
-  return { title, description, duedate };
+  const taskId = task.id;
+  return { title, description, duedate, taskId };
 }
 
-function prepareChanges(task, title, description, duedate) {
+function prepareChanges(task, title, description, duedate, id) {
   const changes = {};
-  templatemap(changes, task, title, description, duedate);
+  templatemap(changes, task, title, description, duedate, id);
   return changes;
 }
 
@@ -82,8 +83,12 @@ function setDueDate(changes, task, duedate) {
   changes.duedate = duedate === "" ? task.duedate : duedate;
 }
 
-function setPriority(changes, task, selectedPriority) {
+function setpriority(changes, task, selectedPriority) {
   changes.prio = selectedPriority === null ? task.prio : selectedPriority;
+}
+
+function getid(changes, task) {
+  changes.id = task.id;
 }
 
 function setCategory(changes, task) {
@@ -117,11 +122,12 @@ function setSubtasks(changes, task, subtasks, parentElement, taskId) {
   }
 }
 
-function templatemap(changes, task, title, description, duedate) {
+function templatemap(changes, task, title, description, duedate, id) {
   setTitle(changes, task, title);
+  getid(changes, task, id);
   setDescription(changes, task, description);
   setDueDate(changes, task, duedate);
-  setPriority(changes, task, selectedPriority);
+  setpriority(changes, task, selectedPriority);
   setCategory(changes, task);
   setAssignedTo(changes, task, asignedtousers);
   setInitials(changes, task, initialsArray);
