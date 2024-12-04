@@ -96,9 +96,16 @@ async function submitTask(taskData) {
 
 async function addtask(event) {
   event.preventDefault();
-  const { title, description, duedate, category, UserKeyArray, userResponse } =
-    await getFormData();
+
   if (validateTaskForm()) {
+    const {
+      title,
+      description,
+      duedate,
+      category,
+      UserKeyArray,
+      userResponse,
+    } = await getFormData();
     const users = createUsersArray(UserKeyArray, userResponse);
     const taskData = prepareTaskData(
       title,

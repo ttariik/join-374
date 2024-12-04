@@ -254,13 +254,13 @@ async function opentechnicaltemplate(task, contacts) {
 
 function closeaddtasktemplate() {
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
-  emptyinputs();
-  selectbutton_2();
-  resetsearchbar();
   document.getElementById("selectbutton").onclick = showcontacts;
   setTimeout(() => {
     document.getElementById("overlay-addtask").classList.add("d-none");
     document.getElementById("overlay-addtask").classList.remove("overlayss");
+    emptyinputs();
+    selectbutton_2();
+    resetsearchbar();
   }, 1000);
 }
 

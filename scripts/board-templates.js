@@ -205,12 +205,10 @@ function getExtraCircleHTML(initialsArray) {
 // Get the HTML for the progress bar and task completion info
 function getProgressBarHTML(subtasks, task) {
   if (!Array.isArray(subtasks)) return "";
-
   const totalSubtasks = subtasks.length;
   const completedTasks = subtasks.filter((subtask) => subtask.completed).length;
   const completionPercent =
     totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
-
   return totalSubtasks > 0
     ? `<div class="outsidebox" id="progress${task.id}">
             <div class="progressbar">
@@ -258,16 +256,13 @@ async function assignedtotemplate(task, contacts) {
   const initialsArray = getInitialsArray(task);
   const contactsArray = getFilteredContactsArray(contacts);
   const profileAssignedArea = document.getElementById("showassignedperson");
-
   let badgeHTML = "";
   const displayedInitials = new Set();
-
   badgeHTML = generateBadgeHTML(
     contactsArray,
     initialsArray,
     displayedInitials
   );
-
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
