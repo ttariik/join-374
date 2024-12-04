@@ -134,11 +134,15 @@ function setPriority(priority, buttonId) {
   const selectedButton = document.getElementById(buttonId);
 
   // Toggle the "selected" class based on the button's state
-  if (selectedButton.classList.contains(`light${priority}`)) {
+  if (
+    selectedButton.classList.contains("lightred") ||
+    selectedButton.classList.contains("lightorange") ||
+    selectedButton.classList.contains("lightgreen")
+  ) {
     selectedPriority = priority;
     selectedButton.classList.toggle("selected");
   } else {
-    selectedPriority = priority;
+    selectedPriority = "";
     selectedButton.classList.toggle("selected");
   }
 
