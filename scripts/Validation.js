@@ -209,10 +209,10 @@ function initializeFormValidation() {
   const emailError = document.getElementById("email-error-message");
   const phoneError = document.getElementById("phone-error-message");
 
-  const isNameValid = (name) => /^[a-zA-Z\s]{3,20}$/.test(name.trim());
+  const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim()); // Name allows letters, numbers, and spaces
   const isEmailValid = (email) =>
-    /^[^\s@]+@[^\s@0123456789]+\.[^\s@]+$/.test(email.trim());
-  const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
+    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email.trim()); // Email allows letters, numbers, and hyphens
+  const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim()); // Phone allows digits and optional '+'
 
   function performCustomValidation(input, validator, errorMessageElement) {
     if (validator(input.value)) {
