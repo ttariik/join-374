@@ -51,7 +51,6 @@ function setButton3_3Listener(task) {
 }
 
 async function loadinfos(task) {
-  subtasks = [];
   asignedtousers = [];
   initialsArray = [];
   document.getElementById("assignedusers1").innerHTML = "";

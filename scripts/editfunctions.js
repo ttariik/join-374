@@ -19,7 +19,7 @@ function initializeButtonListeners(
   });
 }
 
-function setupprofilelayoutpart1(task) {
+async function setupprofilelayoutpart1(task) {
   // Check if event listeners have already been attached to the buttons
 
   // Remove existing title box if it exists
@@ -51,8 +51,11 @@ function setupprofilelayoutpart2(task) {
   document.getElementById("subtaskbox").innerHTML = "";
 }
 
-function editprofile(task) {
-  setupprofilelayoutpart1(task);
+async function editprofile(task) {
+  task.subtask.forEach((subtaskObj) => {
+    subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
+  });
+  await setupprofilelayoutpart1(task);
   setupprofilelayoutpart2(task);
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
@@ -73,7 +76,10 @@ function editprofile(task) {
  * @param {Object} task - The task object containing task details.
  */
 
-function editinputs(task) {
+async function editinputs(task) {
+  task.subtask.forEach((subtaskObj) => {
+    subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
+  });
   setuptechnicallayoutpart1(task);
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
@@ -91,7 +97,7 @@ function editinputs(task) {
   setuptechnicallayoutpart2(task);
 }
 
-function setuptechnicallayoutpart1(task) {
+async function setuptechnicallayoutpart1(task) {
   const type = document.getElementById("type");
   if (type) {
     type.remove();
