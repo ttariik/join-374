@@ -721,6 +721,10 @@ select {
     width: 100%;
     justify-content: center;
   }
+
+  .buttonsalignment00 {
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 410px) {
