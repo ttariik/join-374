@@ -240,8 +240,17 @@ function updateSelectButton() {
   selectButton.innerHTML = searchbar();
 }
 
-// Function to render contacts
 function renderContacts(contactList) {
+  const contactHTML = generateContactHTML(contactList);
+  const contactsBox = getContactsBox();
+  contactsBox.innerHTML = contactHTML;
+
+  if (isAssignedUsersPopulated()) {
+    highlightAssignedUsers();
+  }
+}
+
+function generateContactHTML(contactList) {
   let contactHTML = "";
   contactList.forEach((contact) => {
     if (contact !== null) {
@@ -249,43 +258,47 @@ function renderContacts(contactList) {
       contactHTML += contactstemplate(contact, color);
     }
   });
+  return contactHTML;
+}
 
-  // Display the contacts inside the contact box
-  const contactsBox =
+function getContactsBox() {
+  return (
     document.getElementById("contacts-box1") ||
-    document.getElementById("contacts-box");
-  contactsBox.innerHTML = contactHTML;
-  if (
-    document.getElementById("assignedusers1") &&
-    document.getElementById("assignedusers1").innerHTML.trim() !== ""
-  ) {
-    initialsArray.forEach(function (initialsObj) {
-      // Find the contact in the 'contacts' array that matches the initials
-      const matchedContact = contacts.find(
-        (contact) => contact.initials === initialsObj.initials
+    document.getElementById("contacts-box")
+  );
+}
+
+function isAssignedUsersPopulated() {
+  const assignedUsers = document.getElementById("assignedusers1");
+  return assignedUsers && assignedUsers.innerHTML.trim() !== "";
+}
+
+function highlightAssignedUsers() {
+  initialsArray.forEach((initialsObj) => {
+    const matchedContact = findMatchedContact(initialsObj.initials);
+    if (matchedContact) {
+      highlightContact(matchedContact);
+    } else {
+      console.log(
+        `Contact with initials ${initialsObj.initials} not found in contacts.`
       );
+    }
+  });
+}
 
-      if (matchedContact) {
-        const contactElement = document.querySelector(
-          `#contacts-box1 #div${matchedContact.id}`
-        );
+function findMatchedContact(initials) {
+  return contacts.find((contact) => contact.initials === initials);
+}
 
-        if (contactElement) {
-          console.log("Found Contact Element:", contactElement);
-          // Additional logic for highlighting, checking, etc.
-          contactElement.classList.add("dark-blue");
-          document.getElementById(
-            `checkbox${matchedContact.id}`
-          ).checked = true;
-        } else {
-          console.log(`Element with id div${matchedContact.id} not found.`);
-        }
-      } else {
-        console.log(
-          `Contact with initials ${initialsObj.initials} not found in contacts.`
-        );
-      }
-    });
+function highlightContact(contact) {
+  const contactElement = document.querySelector(
+    `#contacts-box1 #div${contact.id}`
+  );
+
+  if (contactElement) {
+    contactElement.classList.add("dark-blue");
+    document.getElementById(`checkbox${contact.id}`).checked = true;
   } else {
+    console.log(`Element with id div${contact.id} not found.`);
   }
 }
