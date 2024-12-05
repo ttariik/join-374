@@ -157,7 +157,7 @@ function initializeContactsEvents() {
 
   // Close contacts box when clicking outside
   document.body.addEventListener("click", function (event) {
-    if (!contactsBox.contains(event.target) && event.target !== selectButton) {
+    if (!contactsBox.contains(event.target)) {
       closeContactsBox(contactsBox);
     }
   });
