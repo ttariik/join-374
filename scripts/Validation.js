@@ -190,24 +190,6 @@ function validatePhoneNumber(value) {
   return phonePattern.test(value);
 }
 
-function performCustomValidation(
-  input,
-  validator,
-  errorMessageElement,
-  errorMessage
-) {
-  if (validator(input.value)) {
-    input.classList.remove("invalid");
-    input.classList.add("valid");
-    errorMessageElement.textContent = ""; // Hide error message
-  } else {
-    input.classList.remove("valid");
-    input.classList.add("invalid");
-    errorMessageElement.textContent = errorMessage;
-    errorMessageElement.style.display = "flex"; // Show error message
-  }
-}
-
 /**
  * Validates an input field based on a pattern and shows error messages.
  *
@@ -222,7 +204,7 @@ function initializeFormValidation() {
   const emailInput = document.getElementById("emailarea");
   const phoneInput = document.getElementById("phone");
   const saveButton = document.getElementById("addbutton");
-
+  let isValid = true;
   const nameError = document.getElementById("name-error-message");
   const emailError = document.getElementById("email-error-message");
   const phoneError = document.getElementById("phone-error-message");
@@ -232,55 +214,30 @@ function initializeFormValidation() {
     /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email.trim());
   const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
 
-  function toggleSaveButton() {
-    saveButton.disabled = !(
-      isNameValid(nameInput.value) &&
-      isEmailValid(emailInput.value) &&
-      isPhoneValid(phoneInput.value)
-    );
+  // Function to perform custom validation for each input field
+  function performCustomValidation(
+    input,
+    validator,
+    errorMessageElement,
+    errorMessage
+  ) {
+    if (validator(input.value)) {
+      input.classList.remove("invalid");
+      input.classList.add("valid");
+      errorMessageElement.textContent = ""; // Hide error message if valid
+    } else {
+      input.classList.remove("valid");
+      input.classList.add("invalid");
+      errorMessageElement.textContent = errorMessage;
+      errorMessageElement.style.display = "flex"; // Show error message if invalid
+    }
   }
 
-  function toggleSaveButton() {
-    saveButton.disabled = !(
-      isNameValid(nameInput.value) &&
-      isEmailValid(emailInput.value) &&
-      isPhoneValid(phoneInput.value)
-    );
-  }
+  // Add event listener for the "Add Contact" button click
+  saveButton.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission
 
-  // Validate on input
-  nameInput.addEventListener("input", () => {
-    performCustomValidation(
-      nameInput,
-      isNameValid,
-      nameError,
-      "Name must be 3-20 alphanumeric characters."
-    );
-    toggleSaveButton();
-  });
-
-  emailInput.addEventListener("input", () => {
-    performCustomValidation(
-      emailInput,
-      isEmailValid,
-      emailError,
-      "Enter a valid email address."
-    );
-    toggleSaveButton();
-  });
-
-  phoneInput.addEventListener("input", () => {
-    performCustomValidation(
-      phoneInput,
-      isPhoneValid,
-      phoneError,
-      "Phone number must be 7-20 digits."
-    );
-    toggleSaveButton();
-  });
-
-  // Validate all fields on body click
-  document.body.addEventListener("click", () => {
+    // Perform validation when the button is clicked
     performCustomValidation(
       nameInput,
       isNameValid,
@@ -299,9 +256,16 @@ function initializeFormValidation() {
       phoneError,
       "Phone number must be 7-20 digits."
     );
-    toggleSaveButton();
-  });
 
-  // Initial button state
-  toggleSaveButton();
+    // Check if all fields are valid
+    if (
+      isNameValid(nameInput.value) &&
+      isEmailValid(emailInput.value) &&
+      isPhoneValid(phoneInput.value)
+    ) {
+      return addcontact(event);
+    } else {
+      console.log("Form has errors. Please correct them.");
+    }
+  });
 }

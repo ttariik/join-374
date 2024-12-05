@@ -32,7 +32,7 @@ function getContactData() {
 
 async function addcontact(event) {
   event.preventDefault();
-  if (!initializeFormValidation()) return;
+  if (initializeFormValidation()) return;
   const { telefonename, initials, email, phone, color } = getContactData();
   await addEditSingleUser(1, {
     name: telefonename,
