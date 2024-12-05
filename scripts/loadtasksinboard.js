@@ -16,23 +16,19 @@ async function loadtasks() {
         return;
       }
     }
-
     const folderNames = [
       "todo-folder",
       "inprogress-folder",
       "awaiting-feedback-folder",
       "done-folder",
     ];
-
     for (let folder of folderNames) {
       if (!userData[folder]) {
         await putData(`users/1/tasks/${folder}`, {});
       }
     }
-
     const updatedResponse = await fetch(GLOBAL + `users/1/tasks.json`);
     const updatedUserData = await updatedResponse.json();
-
     const pushTasksFromFolder = (folderData, taskArray) => {
       if (folderData && typeof folderData === "object") {
         Object.entries(folderData).forEach(([key, task]) => {
