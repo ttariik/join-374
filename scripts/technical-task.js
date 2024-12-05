@@ -64,7 +64,7 @@ async function loadinfos(task) {
     setButton2_2Listener(task);
     setButton3_3Listener(task);
     setNonTechnicalTaskValues(task);
-    await showsavedinitials(task);
+    showsavedinitials(task);
     loadsubtasks(task);
     setPriorityButtonListeners(task);
   }
