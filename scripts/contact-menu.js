@@ -184,6 +184,8 @@ async function deleteData(path = "") {
  * @param {string} contactKey - Key of the contact.
  */
 function closecontacttemplate(contactKey) {
+  document.getElementById(`${contactKey}`).classList.remove("dark-blue");
+  document.getElementById(`${contactKey}`).style.color = "";
   document.getElementById("addbutton").disabled = true;
   document.getElementById("contacttemplate").style.transform =
     "translateX(250%)";
@@ -197,6 +199,8 @@ function closecontacttemplate(contactKey) {
  * @returns {Promise<void>}
  */
 async function showcontacttemplate(contactKey) {
+  document.getElementById(`${contactKey}`).classList.add("dark-blue");
+  document.getElementById(`${contactKey}`).style.color = "white";
   document.getElementById("contacttemplate").classList.remove("d-none");
   const contact = contactUsers.find((user) => user.key === contactKey);
   document.getElementById("title").innerHTML = contact.name;
