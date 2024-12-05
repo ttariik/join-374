@@ -209,7 +209,7 @@ function initializeFormValidation() {
 
   const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim());
   const isEmailValid = (email) =>
-    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,6}(\.com)$/.test(email.trim());
+    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]*com$/.test(email.trim());
   const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
 
   // Function to perform custom validation for each input field
