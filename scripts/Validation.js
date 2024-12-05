@@ -190,6 +190,24 @@ function validatePhoneNumber(value) {
   return phonePattern.test(value);
 }
 
+function performCustomValidation(
+  input,
+  validator,
+  errorMessageElement,
+  errorMessage
+) {
+  if (validator(input.value)) {
+    input.classList.remove("invalid");
+    input.classList.add("valid");
+    errorMessageElement.textContent = ""; // Hide error message
+  } else {
+    input.classList.remove("valid");
+    input.classList.add("invalid");
+    errorMessageElement.textContent = errorMessage;
+    errorMessageElement.style.display = "flex"; // Show error message
+  }
+}
+
 /**
  * Validates an input field based on a pattern and shows error messages.
  *
@@ -209,55 +227,81 @@ function initializeFormValidation() {
   const emailError = document.getElementById("email-error-message");
   const phoneError = document.getElementById("phone-error-message");
 
-  const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim()); // Name allows letters, numbers, and spaces
+  const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim());
   const isEmailValid = (email) =>
-    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email.trim()); // Email allows letters, numbers, and hyphens
-  const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim()); // Phone allows digits and optional '+'
-
-  function performCustomValidation(input, validator, errorMessageElement) {
-    if (validator(input.value)) {
-      input.classList.remove("invalid");
-      input.classList.add("valid");
-    } else {
-      input.classList.remove("valid");
-      input.classList.add("invalid");
-      errorMessageElement.style.display = "flex"; // Show the error message
-    }
-    toggleSaveButton();
-  }
+    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email.trim());
+  const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
 
   function toggleSaveButton() {
-    if (
+    saveButton.disabled = !(
       isNameValid(nameInput.value) &&
       isEmailValid(emailInput.value) &&
       isPhoneValid(phoneInput.value)
-    ) {
-      saveButton.disabled = false;
-    } else {
-      saveButton.disabled = true;
-    }
+    );
   }
 
-  // Add event listeners after ensuring elements exist
-  nameInput.addEventListener("input", function () {
-    performCustomValidation(nameInput, isNameValid, nameError);
+  function toggleSaveButton() {
+    saveButton.disabled = !(
+      isNameValid(nameInput.value) &&
+      isEmailValid(emailInput.value) &&
+      isPhoneValid(phoneInput.value)
+    );
+  }
+
+  // Validate on input
+  nameInput.addEventListener("input", () => {
+    performCustomValidation(
+      nameInput,
+      isNameValid,
+      nameError,
+      "Name must be 3-20 alphanumeric characters."
+    );
+    toggleSaveButton();
   });
 
-  emailInput.addEventListener("input", function () {
-    performCustomValidation(emailInput, isEmailValid, emailError);
+  emailInput.addEventListener("input", () => {
+    performCustomValidation(
+      emailInput,
+      isEmailValid,
+      emailError,
+      "Enter a valid email address."
+    );
+    toggleSaveButton();
   });
 
-  phoneInput.addEventListener("input", function () {
-    performCustomValidation(phoneInput, isPhoneValid, phoneError);
+  phoneInput.addEventListener("input", () => {
+    performCustomValidation(
+      phoneInput,
+      isPhoneValid,
+      phoneError,
+      "Phone number must be 7-20 digits."
+    );
+    toggleSaveButton();
+  });
+
+  // Validate all fields on body click
+  document.body.addEventListener("click", () => {
+    performCustomValidation(
+      nameInput,
+      isNameValid,
+      nameError,
+      "Name must be 3-20 alphanumeric characters."
+    );
+    performCustomValidation(
+      emailInput,
+      isEmailValid,
+      emailError,
+      "Enter a valid email address."
+    );
+    performCustomValidation(
+      phoneInput,
+      isPhoneValid,
+      phoneError,
+      "Phone number must be 7-20 digits."
+    );
+    toggleSaveButton();
   });
 
   // Initial button state
-  saveButton.disabled = true;
-
-  // Return true if all fields are valid, else false
-  return (
-    isNameValid(nameInput.value) &&
-    isEmailValid(emailInput.value) &&
-    isPhoneValid(phoneInput.value)
-  );
+  toggleSaveButton();
 }
