@@ -52,9 +52,11 @@ function setupprofilelayoutpart2(task) {
 }
 
 async function editprofile(task) {
-  task.subtask.forEach((subtaskObj) => {
-    subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
-  });
+  if (!task.subtask === undefined) {
+    task.subtask.forEach((subtaskObj) => {
+      subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
+    });
+  }
   await setupprofilelayoutpart1(task);
   setupprofilelayoutpart2(task);
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
@@ -77,9 +79,12 @@ async function editprofile(task) {
  */
 
 async function editinputs(task) {
-  task.subtask.forEach((subtaskObj) => {
-    subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
-  });
+  if (!task.subtask === undefined) {
+    task.subtask.forEach((subtaskObj) => {
+      subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
+    });
+  }
+
   setuptechnicallayoutpart1(task);
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
