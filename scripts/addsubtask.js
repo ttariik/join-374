@@ -101,17 +101,17 @@ function addingeventlistener2() {
 function mouseroveroperations2(subtaskNumber, subtaskElement) {
   if (subtaskElement) {
     subtaskElement.addEventListener("mouseover", (event) =>
-      showeditsubtasks(event, subtaskNumber)
+      showeditsubtasks(subtaskNumber)
     );
     subtaskElement.addEventListener("mouseleave", (event) =>
-      hidesubeditbuttons(event, subtaskNumber)
+      hidesubeditbuttons(subtaskNumber)
     );
   }
   checkAddTaskInputs();
   document.getElementById("subtaskinput").value = "";
 }
 
-function showeditsubtasks(event, index) {
+function showeditsubtasks(index) {
   const subtaskBox = document.getElementById(`subboxinput_${index}`);
   if (subtaskBox) {
     const buttons = subtaskBox.querySelectorAll(".buttondesign");
@@ -155,24 +155,39 @@ function inputfielddesign(index) {
 function loadsubtasks(task) {
   // Prepare HTML for subtasks and inject them into the subtasksbox
   let subtasksHTML = "";
+  let subtasks = []; // Ensure this is reset or defined before populating
   if (task.subtask && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtask, index) => {
-      task.subtask.forEach((subtaskObj) => {
-        subtasks.push(subtaskObj.subtask);
-      });
-      // Generate a unique id based on index
-      const subtaskIndex = subtasks.length; // To make sure it starts from sub1, sub2, etc.
+      subtasks.push(subtask.subtask); // Push only the current subtask
 
-      // Create HTML content for each subtask
+      const subtaskIndex = index + 1; // Starts from 1 for unique ids like sub1, sub2, etc.
+
+      // Generate a unique id based on index and prepare the subtask HTML
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
     });
   }
+
+  // Inject the generated HTML into the DOM
   document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
+
+  // Now attach the event listeners after the subtasks are loaded into the DOM
+  const subtasksBox = document.getElementById("subtasksbox11");
+  const subtaskItems = subtasksBox.querySelectorAll(".data");
+  subtaskItems.forEach((item) => {
+    item.addEventListener("mouseover", (event) => {
+      const index = event.currentTarget.getAttribute("data-index");
+      showeditsubtasks(`${index}`);
+    });
+    item.addEventListener("mouseleave", function (event) {
+      const index = event.currentTarget.getAttribute("data-index");
+      hidesubeditbuttons(`${index}`);
+    });
+  });
 }
 
 function subtaskitemtemplateload(subtaskIndex, subtask) {
   return /*html*/ `
-    <div class="subbox1 subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
+    <div class="subbox1 data subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
          <div class="subbox_11">
            <div id="dot">•</div>
            <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>

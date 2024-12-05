@@ -295,7 +295,7 @@ function subtaskiconsreset() {
   }
 }
 
-function hidesubeditbuttons(event, index) {
+function hidesubeditbuttons(index) {
   const subtaskBox = document.getElementById(`subboxinput_${index}`);
   if (subtaskBox) {
     const buttons = subtaskBox.querySelectorAll(".buttondesign");

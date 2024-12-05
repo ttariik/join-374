@@ -288,6 +288,7 @@ async function closeoverlaytechnicaltemplate() {
     document
       .getElementById("overlaytechinical-task-template")
       .classList.remove("overlayss");
+    subtasks = [];
   }, 1000);
 }
 
