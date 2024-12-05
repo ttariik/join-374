@@ -325,15 +325,32 @@ function deletesub(index) {
 }
 
 function savesub(index) {
+  document.getElementById(`subboxinput_${index}`).style.background = "";
+  document.getElementById(`editsub${index}`).classList.add("d-none", "button");
+  document.getElementById(`deletesub${index}`).classList.add("d-none");
+  document.querySelector(`.subbox${index}`).style.width = "92%";
+  document.getElementById(`savesub${index}`).classList.add("d-none");
   const result = document.getElementById(`inputsub${index}`).value.trim();
   subtasks[index - 1] = result;
   const subboxElement = document.getElementById(`inputsub${index}`);
-  document.getElementById(`subboxinput_${index}`).innerHTML =
-    subtaskedittemplate(index, result);
+  document.getElementById(`subboxinput_${index}`).innerHTML = subtaskstemplAte(
+    index,
+    result
+  );
+  subtaskiconseventlisteners(index);
+  mouseroveroperations2(index);
+}
+
+function subtaskiconseventlisteners(index) {
   document
     .getElementById(`savesub${index}`)
     .addEventListener("click", function () {
       savesub(index);
+    });
+  document
+    .getElementById(`editsub${index}`)
+    .addEventListener("click", function () {
+      editsubtask(index);
     });
   document
     .getElementById(`deletesub${index}`)
