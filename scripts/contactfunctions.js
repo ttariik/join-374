@@ -112,7 +112,6 @@ function searchbar() {
 async function resetsearchbar() {
   const contactsBox = document.getElementById("contacts-box");
   const contactsBox1 = document.getElementById("contacts-box1");
-
   if (contactsBox1) {
     document.getElementById("selectbutton1").innerHTML = `
         <span>Select contacts to assign</span>
@@ -120,7 +119,6 @@ async function resetsearchbar() {
     contactsBox1.classList.add("d-none");
     document.getElementById("selectbutton1").onclick = showcontacts;
   }
-
   if (contactsBox) {
     document.getElementById("selectbutton").innerHTML = `
         <span>Select contacts to assign</span>
@@ -143,13 +141,37 @@ function smallerfunction() {
   }
 }
 
+function initializeContactsEvents() {
+  const contactsBox =
+    document.getElementById("contacts-box") ||
+    document.getElementById("contacts-box1");
+  const selectButton =
+    document.getElementById("selectbutton") ||
+    document.getElementById("selectbutton1");
+
+  // Avoid duplicate event listeners on button
+  selectButton.addEventListener("click", function (event) {
+    event.stopPropagation(); // Avoid triggering body listener
+    toggleContactsBox(contactsBox);
+  });
+
+  // Close contacts box when clicking outside
+  document.body.addEventListener("click", function (event) {
+    if (!contactsBox.contains(event.target) && event.target !== selectButton) {
+      closeContactsBox(contactsBox);
+    }
+  });
+
+  // Prevent contact box from closing on internal click
+  contactsBox.addEventListener("click", function (event) {
+    event.stopPropagation();
+  });
+}
+
 async function showcontacts(event) {
-  if (event) {
-    event.stopPropagation(); // Stop the event from propagating
-  }
+  if (event) event.stopPropagation();
 
   smallerfunction();
-
   const contactsBox =
     document.getElementById("contacts-box") ||
     document.getElementById("contacts-box1");
@@ -161,10 +183,17 @@ async function showcontacts(event) {
   }
 }
 
+function toggleContactsBox(contactsBox) {
+  if (contactsBox.classList.contains("d-none")) {
+    openContactsBox(contactsBox);
+  } else {
+    closeContactsBox(contactsBox);
+  }
+}
+
 async function fetchAndRenderContacts() {
   let response = await fetch(GLOBAL + `users/1/contacts.json`);
   let responsestoJson = await response.json();
-
   const contacts = processContacts(responsestoJson);
 
   initializeSearchBar();
@@ -173,47 +202,42 @@ async function fetchAndRenderContacts() {
 
 function processContacts(responsestoJson) {
   return Object.entries(responsestoJson)
-    .map(([firebaseId, contact]) => {
-      if (contact && contact.name) {
-        return {
-          firebaseId,
-          id: firebaseId,
-          initials: contact.initials,
-          name: contact.name,
-        };
-      }
-      return null;
-    })
-    .filter((contact) => contact !== null);
+    .map(([firebaseId, contact]) =>
+      contact?.name
+        ? {
+            firebaseId,
+            id: firebaseId,
+            initials: contact.initials,
+            name: contact.name,
+          }
+        : null
+    )
+    .filter(Boolean);
 }
 
 function initializeSearchBar() {
-  if (document.getElementById("selectbutton1")) {
-    document.body.onclick = resetsearchbar;
-    document.getElementById("selectbutton1").innerHTML = searchbar();
-  } else {
-    document.body.onclick = resetsearchbar;
-    document.getElementById("selectbutton").innerHTML = searchbar();
-  }
+  const selectButton =
+    document.getElementById("selectbutton1") ||
+    document.getElementById("selectbutton");
+  selectButton.innerHTML = searchbar();
+  document.body.onclick = resetsearchbar;
 }
 
 function openContactsBox(contactsBox) {
-  contactsBox.classList.remove("d-none"); // Or any logic to "open" the contactsbox
-
-  document.body.addEventListener("click", function (event) {
-    if (!contactsBox.contains(event.target)) {
-      resetsearchbar();
-    }
-  });
+  contactsBox.classList.remove("d-none");
   updateSelectButton();
 }
 
+function closeContactsBox(contactsBox) {
+  contactsBox.classList.add("d-none");
+  resetsearchbar(); // Reset search or related UI.
+}
+
 function updateSelectButton() {
-  if (document.getElementById("selectbutton1")) {
-    document.getElementById("selectbutton1").innerHTML = searchbar();
-  } else {
-    document.getElementById("selectbutton").innerHTML = searchbar();
-  }
+  const selectButton =
+    document.getElementById("selectbutton1") ||
+    document.getElementById("selectbutton");
+  selectButton.innerHTML = searchbar();
 }
 
 // Function to render contacts
