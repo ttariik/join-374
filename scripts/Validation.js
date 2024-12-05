@@ -19,8 +19,6 @@ function checkAddTaskInputs() {
     dueDate &&
     category !== "Select Task Category" &&
     subtasks <= 2;
-  createTaskButton.disabled = !isFormValid;
-  createTaskButton.style.backgroundColor = isFormValid ? "#2a3647" : "#d3d3d3";
   createTaskButton.classList.toggle("enabled-hover", isFormValid);
 }
 
