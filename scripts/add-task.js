@@ -123,6 +123,9 @@ async function addtask(event) {
         window.location.href = "board.html";
       }
     }, 1500);
+    if (currentPage.includes("board.html")) {
+      closeaddtasktemplate();
+    }
   }
 }
 
