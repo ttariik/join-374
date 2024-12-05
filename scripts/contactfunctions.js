@@ -1,23 +1,3 @@
-// Function to display the contact box
-function showcontactbox() {
-  const contactsBox = document.getElementById("contacts-box");
-  const contactsBox1 = document.getElementById("contacts-box1");
-
-  if (contactsBox) {
-    contactsBox.classList.remove("d-none");
-    contactsBox.style.display = "flex";
-    document.getElementById("selectbutton").innerHTML = searchbar();
-    document.getElementById("selectbutton").onclick = resetsearchbar;
-  }
-
-  if (contactsBox1) {
-    contactsBox1.classList.remove("d-none");
-    contactsBox1.style.display = "flex";
-    document.getElementById("selectbutton1").innerHTML = searchbar();
-    document.getElementById("selectbutton1").onclick = resetsearchbar;
-  }
-}
-
 function contactstemplate(contact, color) {
   return /*html*/ `
       <li class="contact-menudesign" id="div${contact.id}" onclick="selectcontact(${contact.id})">
@@ -129,7 +109,7 @@ function searchbar() {
     `;
 }
 
-function resetsearchbar() {
+async function resetsearchbar() {
   const contactsBox = document.getElementById("contacts-box");
   const contactsBox1 = document.getElementById("contacts-box1");
 
@@ -138,8 +118,7 @@ function resetsearchbar() {
         <span>Select contacts to assign</span>
         <img src="/img/arrow_drop_down.png" alt="" />`;
     contactsBox1.classList.add("d-none");
-    contactsBox1.style.display = "none";
-    document.getElementById("selectbutton1").onclick = showcontactbox;
+    document.getElementById("selectbutton1").onclick = showcontacts;
   }
 
   if (contactsBox) {
@@ -147,8 +126,7 @@ function resetsearchbar() {
         <span>Select contacts to assign</span>
         <img src="/img/arrow_drop_down.png" alt="" />`;
     contactsBox.classList.add("d-none");
-    contactsBox.style.display = "none";
-    document.getElementById("selectbutton").onclick = showcontactbox;
+    document.getElementById("selectbutton").onclick = showcontacts;
   }
 }
 
@@ -165,13 +143,36 @@ function smallerfunction() {
   }
 }
 
-async function showcontacts() {
+async function showcontacts(event) {
+  if (event) {
+    event.stopPropagation(); // Stop the event from propagating
+  }
+
   smallerfunction();
+
+  const contactsBox =
+    document.getElementById("contacts-box") ||
+    document.getElementById("contacts-box1");
+
+  if (contactsBox && contactsBox.innerHTML.trim() === "") {
+    await fetchAndRenderContacts();
+  } else {
+    openContactsBox(contactsBox);
+  }
+}
+
+async function fetchAndRenderContacts() {
   let response = await fetch(GLOBAL + `users/1/contacts.json`);
   let responsestoJson = await response.json();
 
-  // Process the response to create a list of contact objects
-  contacts = Object.entries(responsestoJson)
+  const contacts = processContacts(responsestoJson);
+
+  initializeSearchBar();
+  renderContacts(contacts);
+}
+
+function processContacts(responsestoJson) {
+  return Object.entries(responsestoJson)
     .map(([firebaseId, contact]) => {
       if (contact && contact.name) {
         return {
@@ -184,19 +185,35 @@ async function showcontacts() {
       return null;
     })
     .filter((contact) => contact !== null);
-  // Check if assignedusers1 is not empty and find corresponding contacts
+}
 
-  // Initialize the search bar
+function initializeSearchBar() {
   if (document.getElementById("selectbutton1")) {
-    document.getElementById("selectbutton1").onclick = resetsearchbar;
+    document.body.onclick = resetsearchbar;
     document.getElementById("selectbutton1").innerHTML = searchbar();
   } else {
-    document.getElementById("selectbutton").onclick = resetsearchbar;
+    document.body.onclick = resetsearchbar;
     document.getElementById("selectbutton").innerHTML = searchbar();
   }
+}
 
-  // Render the contact list
-  renderContacts(contacts);
+function openContactsBox(contactsBox) {
+  contactsBox.classList.remove("d-none"); // Or any logic to "open" the contactsbox
+
+  document.body.addEventListener("click", function (event) {
+    if (!contactsBox.contains(event.target)) {
+      resetsearchbar();
+    }
+  });
+  updateSelectButton();
+}
+
+function updateSelectButton() {
+  if (document.getElementById("selectbutton1")) {
+    document.getElementById("selectbutton1").innerHTML = searchbar();
+  } else {
+    document.getElementById("selectbutton").innerHTML = searchbar();
+  }
 }
 
 // Function to render contacts
