@@ -6,18 +6,19 @@ let displayedLetters = new Set();
 async function showcontacts(id = 1) {
   const response = await fetch(GLOBAL + `users/${id}/contacts.json`);
   const responsestoJson = await response.json();
-
   contactUsers = Object.entries(responsestoJson || {})
     .map(([key, contact]) => ({ key, ...contact }))
     .filter((contact) => contact && contact.name)
     .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+  lastpart();
+}
 
+function lastpart() {
   displayedLetters.clear();
   const contactMenu =
     document.getElementById("contactmenu") ||
     document.getElementById("contacts-box");
   contactMenu.innerHTML = "";
-
   contactUsers.forEach((contact) => {
     contactMenu.innerHTML += contactsmenutemplate(contact);
   });
@@ -119,6 +120,10 @@ async function edicontact(contactKey) {
   document.getElementById("name").value = contact.name;
   document.getElementById("emailarea").value = contact.email || "";
   document.getElementById("phone").value = contact.telefone || "";
+  lastpartofeditcontact(contactKey);
+}
+
+function lastpartofeditcontact(contactKey) {
   document.getElementById("spandescription").innerHTML = "";
   document.getElementById("formid").onsubmit = function (event) {
     event.preventDefault();
@@ -198,13 +203,13 @@ function closecontacttemplate(contactKey) {
  * @param {string} contactKey - Key of the contact to display.
  * @returns {Promise<void>}
  */
-async function showcontacttemplate(contactKey) {
+
+function deselectingcontactclass(contactKey) {
   // Remove "dark-blue" class and reset color from all contacts
   document.querySelectorAll(".align").forEach((contact) => {
     contact.classList.remove("dark-blue");
     contact.style.color = ""; // Reset color
   });
-
   // Highlight the clicked contact
   const currentContact = document.getElementById(`${contactKey}`);
   if (currentContact) {
@@ -212,6 +217,9 @@ async function showcontacttemplate(contactKey) {
     currentContact.style.color = "white"; // Highlight with white text
   }
   document.getElementById("contacttemplate").classList.remove("d-none");
+}
+async function showcontacttemplate(contactKey) {
+  deselectingcontactclass(contactKey);
   const contact = contactUsers.find((user) => user.key === contactKey);
   document.getElementById("title").innerHTML = contact.name;
   document.getElementById("email").innerHTML = contact.email || "";
@@ -221,6 +229,10 @@ async function showcontacttemplate(contactKey) {
   document.getElementById("editbutton").onclick = () => edicontact(contact.key);
   document.getElementById("deletebutton").onclick = () =>
     deletecontact(contact.key);
+  lastpartofcontacttemplate(contact);
+}
+
+function lastpartofcontacttemplate(contact) {
   document.getElementById("editbutton-overlay").onclick = () =>
     edicontact(contact.key);
   closeaddcontacttemplate();
