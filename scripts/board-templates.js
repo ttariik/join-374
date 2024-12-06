@@ -43,18 +43,20 @@ function getProgressBarHTML(subtasks, task) {
 // Template function
 async function userstorytemplate(task, contacts) {
   const contactsArray = getValidContactsArray(contacts);
-  const initialsHTML = getInitialsHTML(task.initials, contactsArray);
-  const extraCircleHTML = getExtraCircleHTML(task.initials);
-  const progressBarHTML = getProgressBarHTML(task.subtask, task);
+  const initialsHTML = getInitialsHTML(task.initials || [], contactsArray);
+  const extraCircleHTML = getExtraCircleHTML(task.initials || []);
+  const progressBarHTML = getProgressBarHTML(task.subtask || [], task);
 
   return /*html*/ `
-        <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
+        <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
+          task.id
+        }">
           <div class="task-detailss">
-            <span>${task.category}</span>
+            <span>${task.category || "Uncategorized"}</span>
           </div>
           <div class="titlecontainer">
-            <div class="section-one">${task.title}</div>
-            <div class="section-two">${task.description}</div>
+            <div class="section-one">${task.title || "Untitled Task"}</div>
+            <div class="section-two">${task.description || ""}</div>
           </div>
           ${progressBarHTML}
           <div class="asignbox">
@@ -62,7 +64,7 @@ async function userstorytemplate(task, contacts) {
               ${initialsHTML}
               ${extraCircleHTML}
             </div>
-            <img src="/img/${task.prio}.png" alt="">
+            <img src="/img/${task.prio || ""}.png" alt="">
           </div>
         </div>
       `;
@@ -163,16 +165,28 @@ function getProgressBarHTML(subtasks, task) {
 // Template function
 async function Technicaltasktemplate(task, contacts) {
   const contactsArray = getContactsArray(contacts);
-  const initialsHTML = getInitialsHTML(task.initials, contactsArray);
-  const extraCircleHTML = getExtraCircleHTML(task.initials);
-  const progressBarHTML = getProgressBarHTML(task.subtask, task);
+  const initialsHTML = getInitialsHTML(task.initials || [], contactsArray);
+  const extraCircleHTML = getExtraCircleHTML(task.initials || []);
+  const progressBarHTML = getProgressBarHTML(task.subtask || [], task);
 
-  return `
-      <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${task.id}">
-        <div class="task-category"><span class="task-category-name">${task.category}</span></div>
-        <div class="task-details"><div class="task-title">${task.title}</div><div class="task-description">${task.description}</div></div>
+  return /*html*/ `
+      <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${
+        task.id
+      }">
+        <div class="task-category">
+          <span class="task-category-name">${
+            task.category || "Uncategorized"
+          }</span>
+        </div>
+        <div class="task-details">
+          <div class="task-title">${task.title || "Untitled Task"}</div>
+          <div class="task-description">${task.description || ""}</div>
+        </div>
         ${progressBarHTML}
-        <div class="task-statuss"><div class="initialsboxdesign">${initialsHTML}${extraCircleHTML}</div><img src="/img/${task.prio}.png" alt="Priority" /></div>
+        <div class="task-statuss">
+          <div class="initialsboxdesign">${initialsHTML}${extraCircleHTML}</div>
+          <img src="/img/${task.prio || ""}.png" alt="">
+        </div>
       </div>`;
 }
 
@@ -221,14 +235,13 @@ function getProgressBarHTML(subtasks, task) {
 
 // Main function to show the subtask template
 async function showsubtaskstemplate(task) {
-  if (!Array.isArray(task.subtask)) return "";
+  if (!Array.isArray(task.subtask) || task.subtask.length === 0) return "";
 
-  // Map through each subtask and generate HTML for each
   const subtasksHTML = task.subtask
     .map((subtaskItem, index) =>
       subtaskdesigntemplate(subtaskItem, index, task)
     )
-    .join(""); // Join all the individual subtask HTML
+    .join("");
 
   return /*html*/ `
         <div class="subtasks-container">
@@ -247,7 +260,9 @@ function subtaskdesigntemplate(subtaskItem, index, task) {
   } class="checkboxdesign" />
                 <span class="checkmark"></span>
               </label>
-              <span class="subtask-title">${subtaskItem.subtask}</span>
+              <span class="subtask-title">${
+                subtaskItem.subtask || "Unnamed Subtask"
+              }</span>
             </div>
       `;
 }
@@ -256,13 +271,13 @@ async function assignedtotemplate(task, contacts) {
   const initialsArray = getInitialsArray(task);
   const contactsArray = getFilteredContactsArray(contacts);
   const profileAssignedArea = document.getElementById("showassignedperson");
-  let badgeHTML = "";
-  const displayedInitials = new Set();
-  badgeHTML = generateBadgeHTML(
+
+  const badgeHTML = generateBadgeHTML(
     contactsArray,
-    initialsArray,
-    displayedInitials
+    initialsArray || [],
+    new Set()
   );
+
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
