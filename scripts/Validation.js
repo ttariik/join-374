@@ -1,51 +1,66 @@
 /**
- * Validates the task input fields and enables or disables the "Create Task" button accordingly.
+ * Validates the task input fields and provides visual feedback for the "Create Task" button.
  */
 function checkAddTaskInputs() {
   const title = document.getElementById("title").value.trim();
-  const description = document.getElementById("description").value.trim();
   const dueDate = document.getElementById("date").value.trim();
   const category = document.getElementById("Category").value;
-  const assignedUsers =
-    document.getElementById("assignedusers").children.length;
-  const subtasks = document.querySelectorAll(".subbox1 ").length;
   const createTaskButton = document.querySelector(".bt2");
 
-  const isFormValid =
-    title &&
-    description &&
-    assignedUsers > 0 &&
-    selectedPriority &&
-    dueDate &&
-    category !== "Select Task Category" &&
-    subtasks <= 2;
+  // Check if the required fields are valid
+  const isFormValid = title && dueDate && category !== "Select Task Category";
+
+  // Toggle visual feedback for the button
   createTaskButton.classList.toggle("enabled-hover", isFormValid);
+
+  if (isFormValid) {
+    createTaskButton.classList.remove("invalid"); // Optional: remove invalid class when valid
+  } else {
+    createTaskButton.classList.add("invalid"); // Optional: add invalid class if invalid
+  }
+}
+
+/**
+ * Triggers live validation for required fields.
+ */
+function handleLiveValidation(event) {
+  const inputId = event.target.id;
+  clearValidationMessages();
+
+  if (inputId === "title") {
+    validateTitle();
+  } else if (inputId === "date") {
+    validateDateField();
+  } else if (inputId === "Category") {
+    validateCategory();
+  }
 }
 
 /**
  * Initializes event listeners for the task input form and triggers validation on changes.
  */
 function initializeFormCheck() {
-  const inputs = document.querySelectorAll(
-    "#title, #description, #date, #Category"
-  );
-  const priorityButtons = document.querySelectorAll(
-    "#button1, #button2, #button3"
-  );
-  const subtaskInput = document.getElementById("subtaskinput");
+  const inputs = document.querySelectorAll("#title, #date, #Category");
+  const createTaskButton = document.querySelector(".bt2");
 
-  inputs.forEach((input) =>
-    input.addEventListener("input", checkAddTaskInputs)
-  );
-  priorityButtons.forEach((button) =>
-    button.addEventListener("click", () => {
-      getSelectedPriority(button);
+  inputs.forEach((input) => {
+    input.addEventListener("input", (event) => {
+      handleLiveValidation(event);
       checkAddTaskInputs();
-    })
-  );
-  subtaskInput.addEventListener("input", checkAddTaskInputs);
+    });
+  });
 
-  checkAddTaskInputs();
+  createTaskButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    if (validateTaskForm()) {
+      return addtask(event);
+      // Proceed with task creation logic
+    } else {
+      console.log("Form has errors. Please correct them.");
+    }
+  });
+
+  checkAddTaskInputs(); // Initial validation check
 }
 
 /**
@@ -55,54 +70,52 @@ function initializeFormCheck() {
 function validateTaskForm() {
   let isValid = true;
   clearValidationMessages();
-  const title = document.getElementById("title").value.trim();
-  if (!title) {
-    isValid = false;
-    displayError("spantitle", "Please select a title.");
-  }
 
-  const description = document.getElementById("description").value.trim();
-  if (!description) {
-    isValid = false;
-    displayError("spandescription", "Please enter a description.");
-  }
-
-  const assignedUsers =
-    document.getElementById("assignedusers").children.length;
-  if (!assignedUsers) {
-    isValid = false;
-    displayError("spantasignedbox", "Please select a contact.");
-  }
-
-  const dateInput = document.getElementById("date").value.trim();
-  if (!dateInput || !validateDate(dateInput)) {
-    isValid = false;
-    displayError("spandate", "Please enter a valid date.");
-  }
-
-  if (!getSelectedPriority()) {
-    isValid = false;
-    displayError("spanprio", "Please select a priority.");
-  }
-  const category = document.getElementById("Category").value;
-  if (!category || category === "Select Task Category") {
-    isValid = false;
-    displayError("spancategory", "Please select a category.");
-  }
-
-  const subtasks = document.querySelectorAll(".subbox1 ").length;
-  if (subtasks > 2) {
-    isValid = false;
-    displayError("spansubtask", "You can only add up to 2 subtasks.");
-  }
+  if (!validateTitle()) isValid = false;
+  if (!validateDateField()) isValid = false;
+  if (!validateCategory()) isValid = false;
 
   return isValid;
 }
 
-function getSelectedPriority() {
-  return [...document.querySelectorAll(".buttons2_2 button")].some((button) =>
-    button.classList.contains("selected")
-  );
+/**
+ * Individual validation functions for required fields.
+ */
+function validateTitle() {
+  const title = document.getElementById("title").value.trim();
+  if (!title) {
+    displayError("spantitle", "Title is required.");
+    return false;
+  }
+  return true;
+}
+
+function validateDateField() {
+  const dateInput = document.getElementById("date").value.trim();
+  if (!dateInput || !validateDate(dateInput)) {
+    displayError("spandate", "Due date is required and must be valid.");
+    return false;
+  }
+  return true;
+}
+
+function validateCategory() {
+  const category = document.getElementById("Category").value;
+  if (!category || category === "Select Task Category") {
+    displayError("spancategory", "Category is required.");
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Clears all validation messages from the form.
+ */
+function clearValidationMessages() {
+  document.querySelectorAll(".error-message").forEach((message) => {
+    message.textContent = "";
+    message.classList.remove("error-message");
+  });
 }
 
 /**
@@ -114,6 +127,16 @@ function displayError(elementId, message) {
   const element = document.getElementById(elementId);
   element.textContent = message;
   element.classList.add("error-message");
+}
+
+/**
+ * Validates the date format.
+ * @param {string} dateString - The date string to validate.
+ * @returns {boolean} True if the date is valid, false otherwise.
+ */
+function validateDate(dateString) {
+  const date = new Date(dateString);
+  return date.toString() !== "Invalid Date";
 }
 
 /**
