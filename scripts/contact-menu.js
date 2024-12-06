@@ -199,8 +199,18 @@ function closecontacttemplate(contactKey) {
  * @returns {Promise<void>}
  */
 async function showcontacttemplate(contactKey) {
-  document.getElementById(`${contactKey}`).classList.add("dark-blue");
-  document.getElementById(`${contactKey}`).style.color = "white";
+  // Remove "dark-blue" class and reset color from all contacts
+  document.querySelectorAll(".align").forEach((contact) => {
+    contact.classList.remove("dark-blue");
+    contact.style.color = ""; // Reset color
+  });
+
+  // Highlight the clicked contact
+  const currentContact = document.getElementById(`${contactKey}`);
+  if (currentContact) {
+    currentContact.classList.add("dark-blue");
+    currentContact.style.color = "white"; // Highlight with white text
+  }
   document.getElementById("contacttemplate").classList.remove("d-none");
   const contact = contactUsers.find((user) => user.key === contactKey);
   document.getElementById("title").innerHTML = contact.name;

@@ -197,71 +197,111 @@ function validatePhoneNumber(value) {
  * @returns {boolean} - True if the input is valid, false otherwise.
  */
 
+// Function to initialize validation
 function initializeFormValidation() {
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("emailarea");
   const phoneInput = document.getElementById("phone");
   const saveButton = document.getElementById("addbutton");
-  let isValid = true;
   const nameError = document.getElementById("name-error-message");
   const emailError = document.getElementById("email-error-message");
   const phoneError = document.getElementById("phone-error-message");
 
   const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim());
   const isEmailValid = (email) =>
-    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]*com$/.test(email.trim());
+    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,63}$/.test(email.trim());
   const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
+
+  // Function to determine specific email error
+  function getEmailError(email) {
+    if (email.trim() === "") return "Email cannot be empty.";
+    if (!email.includes("@")) return "Email must include '@'.";
+    if (email.split("@")[1] && !email.split("@")[1].includes("."))
+      return "Email must include a domain (e.g., '.com').";
+    if (!isEmailValid(email)) return "Enter a valid email address.";
+    return ""; // No error
+  }
 
   // Function to perform custom validation for each input field
   function performCustomValidation(
     input,
     validator,
     errorMessageElement,
-    errorMessage
+    errorMessageFunc
   ) {
+    const errorMessage = errorMessageFunc(input.value);
     if (validator(input.value)) {
       input.classList.remove("invalid");
       input.classList.add("valid");
-      errorMessageElement.textContent = ""; // Hide error message if valid
+      errorMessageElement.textContent = ""; // Clear error message if valid
+      return true;
     } else {
       input.classList.remove("valid");
       input.classList.add("invalid");
-      errorMessageElement.textContent = errorMessage;
+      errorMessageElement.textContent = errorMessage; // Show specific error
       errorMessageElement.style.display = "flex"; // Show error message if invalid
+      return false;
     }
   }
 
-  // Add event listener for the "Add Contact" button click
-  saveButton.addEventListener("click", function (event) {
-    event.preventDefault(); // Prevent form submission
-
-    // Perform validation when the button is clicked
+  // Add event listeners for dynamic validation
+  nameInput.addEventListener("input", function () {
     performCustomValidation(
       nameInput,
       isNameValid,
       nameError,
-      "Name must be 3-20 alphanumeric characters."
+      () => "Name must be 3-20 alphanumeric characters."
     );
+  });
+
+  emailInput.addEventListener("input", function () {
     performCustomValidation(
       emailInput,
       isEmailValid,
       emailError,
-      "Enter a valid email address."
+      getEmailError // Dynamic error message for email
     );
+  });
+
+  phoneInput.addEventListener("input", function () {
     performCustomValidation(
       phoneInput,
       isPhoneValid,
       phoneError,
-      "Phone number must be 7-20 digits."
+      () => "Phone number must be 7-20 digits."
+    );
+  });
+
+  // Add click event listener for "Save" button
+  saveButton.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    // Validate all fields when button is clicked
+    const isNameFieldValid = performCustomValidation(
+      nameInput,
+      isNameValid,
+      nameError,
+      () => "Name must be 3-20 alphanumeric characters."
+    );
+
+    const isEmailFieldValid = performCustomValidation(
+      emailInput,
+      isEmailValid,
+      emailError,
+      getEmailError
+    );
+
+    const isPhoneFieldValid = performCustomValidation(
+      phoneInput,
+      isPhoneValid,
+      phoneError,
+      () => "Phone number must be 7-20 digits."
     );
 
     // Check if all fields are valid
-    if (
-      isNameValid(nameInput.value) &&
-      isEmailValid(emailInput.value) &&
-      isPhoneValid(phoneInput.value)
-    ) {
-      return addcontact(event);
+    if (isNameFieldValid && isEmailFieldValid && isPhoneFieldValid) {
+      console.log("Form is valid. Proceeding with submission...");
+      addcontact(event); // Call your `addcontact` function if the form is valid
     } else {
       console.log("Form has errors. Please correct them.");
     }
