@@ -141,7 +141,7 @@ function smallerfunction() {
   }
 }
 
-function initializeContactsEvents() {
+function initializeContactsEvents(event) {
   const contactsBox =
     document.getElementById("contacts-box") ||
     document.getElementById("contacts-box1");
@@ -149,20 +149,23 @@ function initializeContactsEvents() {
     document.getElementById("selectbutton") ||
     document.getElementById("selectbutton1");
 
-  // Avoid duplicate event listeners on button
+  // Toggle the visibility of the contacts box when clicking the select button
   selectButton.addEventListener("click", function (event) {
-    event.stopPropagation(); // Avoid triggering body listener
-    toggleContactsBox(contactsBox);
+    event.stopPropagation(); // Prevent event from reaching body listener
+    toggleContactsBox(contactsBox); // Toggle visibility of the contacts box
   });
 
-  // Close contacts box when clicking outside
+  // Close the contacts box when clicking outside of it
   document.body.addEventListener("click", function (event) {
-    if (!contactsBox.contains(event.target)) {
+    if (
+      contactsBox.contains(event.target) &&
+      !selectButton.contains(event.target)
+    ) {
       closeContactsBox(contactsBox);
     }
   });
 
-  // Prevent contact box from closing on internal click
+  // Prevent closing when clicking inside the contacts box
   contactsBox.addEventListener("click", function (event) {
     event.stopPropagation();
   });
@@ -220,7 +223,8 @@ function initializeSearchBar() {
     document.getElementById("selectbutton1") ||
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
-  document.body.onclick = resetsearchbar;
+  selectButton.onclick = resetsearchbar;
+  document.body.onclick = initializeContactsEvents;
 }
 
 function openContactsBox(contactsBox) {
