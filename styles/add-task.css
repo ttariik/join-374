@@ -347,6 +347,34 @@ select {
   top: 6px;
 }
 
+.d-none {
+  display: none;
+}
+
+.emaildesign {
+  border: none;
+  font-size: 20px;
+  font-weight: 400;
+  color: black;
+}
+
+.emaildesign2 {
+  position: absolute;
+  width: 15%;
+  border: none;
+  height: 18px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.emaildesign2:focus {
+  outline: none;
+}
+
+.emaildesign:focus {
+  outline: none;
+}
+
 .emailinput2 {
   border-radius: 10px;
   border: 1px solid #ccc;
@@ -354,12 +382,64 @@ select {
   max-width: calc(100% - 33px);
   padding: 12px 16px 12px 16px;
   width: 100%;
-  background-image: url(/img/event.png);
-  background-repeat: no-repeat;
-  background-position: 97% 51%;
-  font-size: 20px;
-  font-weight: 400;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+.calendardesign {
+  border: none;
+  background-color: white;
+  display: flex;
+}
+
+table {
+  border-collapse: collapse;
+  background: white;
   color: black;
+}
+th,
+td {
+  font-weight: bold;
+}
+
+.calendar-popup {
+  position: absolute;
+  top: 276px;
+  right: 83px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: grid;
+  gap: 5px;
+  max-width: 211px;
+  width: 100%;
+}
+
+.calendar-popup div {
+  text-align: center;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.calendar-popup .disabled {
+  color: #aaa;
+  pointer-events: none;
+}
+
+.calendar-popup .selected {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
 }
 
 .subtaskcontainer {
