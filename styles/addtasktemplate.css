@@ -331,9 +331,6 @@ select {
   max-width: calc(100% - 33px);
   padding: 12px 16px 12px 16px;
   width: 100%;
-  background-image: url(/img/event.png);
-  background-repeat: no-repeat;
-  background-position: 97% 51%;
   font-size: 20px;
   font-weight: 400;
   color: black;
