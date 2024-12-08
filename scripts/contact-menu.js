@@ -191,7 +191,6 @@ async function deleteData(path = "") {
 function closecontacttemplate(contactKey) {
   document.getElementById(`${contactKey}`).classList.remove("dark-blue");
   document.getElementById(`${contactKey}`).style.color = "";
-  document.getElementById("addbutton").disabled = true;
   document.getElementById("contacttemplate").style.transform =
     "translateX(250%)";
   document.getElementById(`${contactKey}`).onclick = () =>

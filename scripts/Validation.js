@@ -1,11 +1,44 @@
 /**
+ * Validates the entire form.
+ * @returns {boolean} True if the form is valid, false otherwise.
+ */
+function validateTaskForm() {
+  const title = document.getElementById("title").value.trim();
+  const date = document.getElementById("date2").value.trim();
+  const category = document.getElementById("Category").value;
+
+  let isValid = true;
+
+  // Validate each field
+  if (title === "") {
+    displayError("spantitle", "Title is required.");
+    isValid = false;
+  } else {
+    clearError("spantitle");
+  }
+
+  if (!validateDatefield(document.getElementById("date2"))) {
+    isValid = false;
+  }
+
+  if (category === "Select Category") {
+    displayError("spancategory", "Please select a category.");
+    isValid = false;
+  } else {
+    clearError("spancategory");
+  }
+
+  return isValid;
+}
+
+/**
  * Handles live validation for input fields.
  */
 function handleLiveValidation(event) {
   const input = event.target;
 
   if (input.id === "date2") {
-    validateDateField(input); // Specific validation for date2 field
+    validateDatefield(input); // Specific validation for date2 field
   } else {
     // Generic validation for other inputs
     if (input.value.trim() === "") {
@@ -20,21 +53,32 @@ function handleLiveValidation(event) {
  * Initializes the form validation by setting up event listeners.
  */
 function initializeFormCheck() {
-  const inputs = document.querySelectorAll("#title, #date2, #Category");
+  // Input elements
+  const titleInput = document.getElementById("title");
+  const dateInput = document.getElementById("date2");
+  const categoryInput = document.getElementById("Category");
   const createTaskButton = document.querySelector(".bt2");
 
-  inputs.forEach((input) => {
-    input.addEventListener("input", (event) => {
-      handleLiveValidation(event);
-      validateTaskForm();
-    });
+  // Add individual input event listeners
+  titleInput.addEventListener("input", (event) => {
+    validateTitle(event.target); // Validate the title
   });
 
+  dateInput.addEventListener("input", (event) => {
+    validateDatefield(event.target); // Validate the date
+  });
+
+  categoryInput.addEventListener("change", (event) => {
+    validateCategory(event.target); // Validate the category
+  });
+
+  // Add event listener for button click
   createTaskButton.addEventListener("click", (event) => {
     event.preventDefault();
+
+    // Run all validations on form submission
     if (validateTaskForm()) {
-      addtask(event);
-      // Proceed with task creation logic
+      addtask(event); // Form is valid, proceed with task creation
     } else {
       console.log("Form has errors. Please correct them.");
     }
@@ -42,44 +86,81 @@ function initializeFormCheck() {
 }
 
 /**
- * Validates the task form and displays error messages for invalid inputs.
+ * Validates the title field.
  */
-function validateTaskForm() {
-  let isValid = true;
-
-  const title = document.getElementById("title");
-  const date2 = document.getElementById("date2");
-  const category = document.getElementById("Category");
-
-  // Validate title
-  if (title.value.trim() === "") {
+function validateTitle(input) {
+  if (input.value.trim() === "") {
     displayError("spantitle", "Title is required.");
-    isValid = false;
   } else {
     clearError("spantitle");
   }
+}
 
-  // Validate date
-  if (!validateDateField(date2)) {
-    isValid = false;
+/**
+ * Validates the date field.
+ */
+function validateDateField(input) {
+  const dateValue = input.value.trim();
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+
+  if (!regex.test(dateValue)) {
+    displayError("spandate", "Invalid date format. Please use dd/mm/yyyy.");
+    return false;
   }
 
-  // Validate category
-  if (category.value === "Select Task Category") {
+  const [day, month, year] = dateValue.split("/").map(Number);
+  const inputDate = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (inputDate < today) {
+    displayError("spandate", "The date cannot be in the past.");
+    return false;
+  }
+
+  clearError("spandate");
+  return true;
+}
+
+/**
+ * Validates the category field.
+ */
+function validateCategory(input) {
+  if (input.value === "Select Category") {
     displayError("spancategory", "Please select a category.");
-    isValid = false;
   } else {
     clearError("spancategory");
   }
-
-  return isValid;
 }
 
 /**
  * Validates the date field and ensures it follows the format dd/mm/yyyy.
  */
 function validateDateField(input) {
-  const dateValue = input.value.trim();
+  const dateValue = input;
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+
+  if (!regex.test(dateValue)) {
+    displayError("spandate", "Invalid date format. Please use dd/mm/yyyy.");
+    return false;
+  }
+
+  const [day, month, year] = dateValue.split("/").map(Number);
+  const inputDate = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (inputDate < today) {
+    displayError("spandate", "The date cannot be in the past.");
+    return false;
+  }
+
+  clearError("spandate");
+  return true;
+}
+
+function validateDatefield(input) {
+  const dateValue = input.value;
   const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
   if (!regex.test(dateValue)) {
@@ -110,6 +191,7 @@ function formatDateToDDMMYYYY(input) {
     const [year, month, day] = dateValue.split("-"); // Split the input value into year, month, and day
     const formattedDate = `${day}/${month}/${year}`; // Convert to dd/mm/yyyy format
     document.getElementById("date2").value = formattedDate; // Set it to the manual input (date2)
+    validateDateField(formattedDate);
   }
 }
 
