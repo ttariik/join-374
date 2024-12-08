@@ -61,7 +61,6 @@ function mouseroveroperations(subtaskNumber) {
       hidesubeditbuttons(event, subtaskNumber)
     );
   }
-  checkAddTaskInputs();
   document.getElementById("subtaskinput0").value = "";
 }
 
@@ -107,7 +106,6 @@ function mouseroveroperations2(subtaskNumber, subtaskElement) {
       hidesubeditbuttons(subtaskNumber)
     );
   }
-  checkAddTaskInputs();
   document.getElementById("subtaskinput").value = "";
 }
 
