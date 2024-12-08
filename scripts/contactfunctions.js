@@ -198,8 +198,15 @@ function initializeSearchBar(contactsBox) {
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
   selectButton.onclick = resetsearchbar;
-  document.body.addEventListener("click", function () {
-    resetsearchbar(event);
+  document.body.addEventListener("click", function (event) {
+    if (
+      event.target.parentElement.id === "contacts-box" &&
+      !document.getElementById("contacts-box").classList.contains("d-none")
+    ) {
+      return;
+    } else {
+      resetsearchbar(event);
+    }
   });
 }
 
