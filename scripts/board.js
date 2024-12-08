@@ -90,7 +90,7 @@ function setupDeleteButton(task) {
   const btn1_10 = document.getElementById("btn1_10");
   if (btn1_10) {
     btn1_10.addEventListener("click", function () {
-      deletetask(task);
+      deletetask(task.id, task);
     });
   }
 }
@@ -202,8 +202,8 @@ async function inputacesstechnicall(task, contacts) {
   document.getElementById("subtaskbox").innerHTML = subtaskHTML;
 }
 
-function deletetask(task) {
-  const taskId = task.id;
+function deletetask(id, task) {
+  const taskId = id;
   const taskElement = document.getElementById(taskId);
   const parentFolder = taskElement.parentElement;
   const parentFolderId = parentFolder.id;
@@ -216,6 +216,7 @@ function deletetask(task) {
       console.error("Error deleting task:", error);
     });
   closeoverlaytechnicaltemplate();
+  loadtasks();
 }
 
 function displaynotasksmessage(parentFolder, parentFolderId) {

@@ -68,7 +68,6 @@ async function selectcontact(id) {
   contactDiv.onclick = function () {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
   };
-  checkAddTaskInputs();
 }
 
 function resetcontact(contactDiv, checkbox, id, initials) {
@@ -109,9 +108,10 @@ function searchbar() {
     `;
 }
 
-async function resetsearchbar() {
+async function resetsearchbar(event) {
   const contactsBox = document.getElementById("contacts-box");
   const contactsBox1 = document.getElementById("contacts-box1");
+
   if (contactsBox1) {
     document.getElementById("selectbutton1").innerHTML = `
         <span>Select contacts to assign</span>
@@ -141,39 +141,8 @@ function smallerfunction() {
   }
 }
 
-function initializeContactsEvents(event) {
-  const contactsBox =
-    document.getElementById("contacts-box") ||
-    document.getElementById("contacts-box1");
-  const selectButton =
-    document.getElementById("selectbutton") ||
-    document.getElementById("selectbutton1");
-
-  // Toggle the visibility of the contacts box when clicking the select button
-  selectButton.addEventListener("click", function (event) {
-    event.stopPropagation(); // Prevent event from reaching body listener
-    toggleContactsBox(contactsBox); // Toggle visibility of the contacts box
-  });
-
-  // Close the contacts box when clicking outside of it
-  document.body.addEventListener("click", function (event) {
-    if (
-      contactsBox.contains(event.target) &&
-      !selectButton.contains(event.target)
-    ) {
-      closeContactsBox(contactsBox);
-    }
-  });
-
-  // Prevent closing when clicking inside the contacts box
-  contactsBox.addEventListener("click", function (event) {
-    event.stopPropagation();
-  });
-}
-
 async function showcontacts(event) {
   if (event) event.stopPropagation();
-
   smallerfunction();
   const contactsBox =
     document.getElementById("contacts-box") ||
@@ -181,13 +150,18 @@ async function showcontacts(event) {
 
   if (contactsBox && contactsBox.innerHTML.trim() === "") {
     await fetchAndRenderContacts();
+    initializeSearchBar(contactsBox);
   } else {
     openContactsBox(contactsBox);
+    initializeSearchBar(contactsBox);
   }
 }
 
 function toggleContactsBox(contactsBox) {
-  if (contactsBox.classList.contains("d-none")) {
+  if (
+    contactsBox.classList.contains("d-none") ||
+    contactsBox.innerHTML.trim() === ""
+  ) {
     openContactsBox(contactsBox);
   } else {
     closeContactsBox(contactsBox);
@@ -197,8 +171,8 @@ function toggleContactsBox(contactsBox) {
 async function fetchAndRenderContacts() {
   let response = await fetch(GLOBAL + `users/1/contacts.json`);
   let responsestoJson = await response.json();
-  const contacts = processContacts(responsestoJson);
-
+  const contactss = processContacts(responsestoJson);
+  contacts = contactss;
   initializeSearchBar();
   renderContacts(contacts);
 }
@@ -218,13 +192,15 @@ function processContacts(responsestoJson) {
     .filter(Boolean);
 }
 
-function initializeSearchBar() {
+function initializeSearchBar(contactsBox) {
   const selectButton =
     document.getElementById("selectbutton1") ||
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
   selectButton.onclick = resetsearchbar;
-  document.body.onclick = initializeContactsEvents;
+  document.body.addEventListener("click", function () {
+    resetsearchbar(event);
+  });
 }
 
 function openContactsBox(contactsBox) {

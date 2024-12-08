@@ -96,7 +96,6 @@ async function submitTask(taskData) {
 
 async function addtask(event) {
   event.preventDefault();
-
   if (validateTaskForm()) {
     const {
       title,
@@ -125,6 +124,7 @@ async function addtask(event) {
     }, 1500);
     if (currentPage.includes("board.html")) {
       closeaddtasktemplate();
+      loadtasks();
     }
   }
 }

@@ -1,203 +1,139 @@
 /**
- * Validates the task input fields and provides visual feedback for the "Create Task" button.
- */
-function checkAddTaskInputs() {
-  const title = document.getElementById("title").value.trim();
-  const dueDate = document.getElementById("date").value.trim();
-  const category = document.getElementById("Category").value;
-  const createTaskButton = document.querySelector(".bt2");
-
-  // Check if the required fields are valid
-  const isFormValid = title && dueDate && category !== "Select Task Category";
-
-  // Toggle visual feedback for the button
-  createTaskButton.classList.toggle("enabled-hover", isFormValid);
-
-  if (isFormValid) {
-    createTaskButton.classList.remove("invalid"); // Optional: remove invalid class when valid
-  } else {
-    createTaskButton.classList.add("invalid"); // Optional: add invalid class if invalid
-  }
-}
-
-/**
- * Triggers live validation for required fields.
+ * Handles live validation for input fields.
  */
 function handleLiveValidation(event) {
-  const inputId = event.target.id;
-  clearValidationMessages();
+  const input = event.target;
 
-  if (inputId === "title") {
-    validateTitle();
-  } else if (inputId === "date") {
-    validateDateField();
-  } else if (inputId === "Category") {
-    validateCategory();
+  if (input.id === "date2") {
+    validateDateField(input); // Specific validation for date2 field
+  } else {
+    // Generic validation for other inputs
+    if (input.value.trim() === "") {
+      displayError("spantitle", "This field is required.");
+    } else {
+      clearError(input.id + "-error");
+    }
   }
 }
 
 /**
- * Initializes event listeners for the task input form and triggers validation on changes.
+ * Initializes the form validation by setting up event listeners.
  */
 function initializeFormCheck() {
-  const inputs = document.querySelectorAll("#title, #date, #Category");
+  const inputs = document.querySelectorAll("#title, #date2, #Category");
   const createTaskButton = document.querySelector(".bt2");
 
   inputs.forEach((input) => {
     input.addEventListener("input", (event) => {
       handleLiveValidation(event);
-      checkAddTaskInputs();
+      validateTaskForm();
     });
   });
 
   createTaskButton.addEventListener("click", (event) => {
     event.preventDefault();
     if (validateTaskForm()) {
-      return addtask(event);
+      addtask(event);
       // Proceed with task creation logic
     } else {
       console.log("Form has errors. Please correct them.");
     }
   });
-
-  checkAddTaskInputs(); // Initial validation check
 }
 
 /**
  * Validates the task form and displays error messages for invalid inputs.
- * @returns {boolean} True if the form is valid, false otherwise.
  */
 function validateTaskForm() {
   let isValid = true;
-  clearValidationMessages();
 
-  if (!validateTitle()) isValid = false;
-  if (!validateDateField()) isValid = false;
-  if (!validateCategory()) isValid = false;
+  const title = document.getElementById("title");
+  const date2 = document.getElementById("date2");
+  const category = document.getElementById("Category");
+
+  // Validate title
+  if (title.value.trim() === "") {
+    displayError("spantitle", "Title is required.");
+    isValid = false;
+  } else {
+    clearError("spantitle");
+  }
+
+  // Validate date
+  if (!validateDateField(date2)) {
+    isValid = false;
+  }
+
+  // Validate category
+  if (category.value === "Select Task Category") {
+    displayError("spancategory", "Please select a category.");
+    isValid = false;
+  } else {
+    clearError("spancategory");
+  }
 
   return isValid;
 }
 
 /**
- * Individual validation functions for required fields.
+ * Validates the date field and ensures it follows the format dd/mm/yyyy.
  */
-function validateTitle() {
-  const title = document.getElementById("title").value.trim();
-  if (!title) {
-    displayError("spantitle", "Title is required.");
-    return false;
-  }
-  return true;
-}
+function validateDateField(input) {
+  const dateValue = input.value.trim();
+  const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
 
-function validateDateField() {
-  const dateInput = document.getElementById("date").value.trim();
-  if (!dateInput || !validateDate(dateInput)) {
-    displayError("spandate", "Due date is required and must be valid.");
-    return false;
-  }
-  return true;
-}
-
-function validateCategory() {
-  const category = document.getElementById("Category").value;
-  if (!category || category === "Select Task Category") {
-    displayError("spancategory", "Category is required.");
-    return false;
-  }
-  return true;
-}
-
-/**
- * Clears all validation messages from the form.
- */
-function clearValidationMessages() {
-  document.querySelectorAll(".error-message").forEach((message) => {
-    message.textContent = "";
-    message.classList.remove("error-message");
-  });
-}
-
-/**
- * Displays an error message for a specific element.
- * @param {string} elementId - The ID of the element where the error should be displayed.
- * @param {string} message - The error message to display.
- */
-function displayError(elementId, message) {
-  const element = document.getElementById(elementId);
-  element.textContent = message;
-  element.classList.add("error-message");
-}
-
-/**
- * Validates the date format.
- * @param {string} dateString - The date string to validate.
- * @returns {boolean} True if the date is valid, false otherwise.
- */
-function validateDate(dateString) {
-  const date = new Date(dateString);
-  return date.toString() !== "Invalid Date";
-}
-
-/**
- * Retrieves the selected priority from the task form.
- * @returns {boolean} True if a priority is selected, false otherwise.
- */
-function getSelectedPriority() {
-  const buttons = document.querySelectorAll(".buttons2 button");
-  for (let button of buttons) {
-    if (button.classList.contains("selected")) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Validates whether a given date in DD/MM/YYYY format is valid and not in the past.
- * @param {string} dateInput - The date string to validate in DD/MM/YYYY format.
- * @returns {boolean} True if the date is valid and not in the past, false otherwise.
- */
-function validateDate(dateInput) {
-  const [day, month, year] = dateInput.split("/").map(Number);
-
-  // Check if the parsed values are valid
-  if (
-    !day ||
-    !month ||
-    !year ||
-    month < 1 ||
-    month > 12 ||
-    day < 1 ||
-    day > 31
-  ) {
+  if (!regex.test(dateValue)) {
+    displayError("spandate", "Invalid date format. Please use dd/mm/yyyy.");
     return false;
   }
 
-  // Create a date object with the parsed values
-  const inputDate = new Date(year, month - 1, day); // Month is 0-indexed in Date
-
-  // Check if the date object is valid
-  if (
-    inputDate.getDate() !== day ||
-    inputDate.getMonth() !== month - 1 ||
-    inputDate.getFullYear() !== year
-  ) {
-    return false;
-  }
-
-  // Compare with today's date
+  const [day, month, year] = dateValue.split("/").map(Number);
+  const inputDate = new Date(year, month - 1, day);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  return inputDate >= today;
+  if (inputDate < today) {
+    displayError("spandate", "The date cannot be in the past.");
+    return false;
+  }
+
+  clearError("spandate");
+  return true;
 }
 
-function clearValidationMessages() {
-  document.querySelectorAll(".error-message").forEach((element) => {
-    element.textContent = "";
-    element.classList.remove("error-message");
-  });
+/**
+ * Formats a selected date to dd/mm/yyyy and sets it to the manual input field.
+ */
+function formatDateToDDMMYYYY(input) {
+  const dateValue = input.value; // This value will be in yyyy-mm-dd format
+  if (dateValue) {
+    const [year, month, day] = dateValue.split("-"); // Split the input value into year, month, and day
+    const formattedDate = `${day}/${month}/${year}`; // Convert to dd/mm/yyyy format
+    document.getElementById("date2").value = formattedDate; // Set it to the manual input (date2)
+  }
+}
+
+/**
+ * Displays an error message for a specific field.
+ */
+function displayError(elementId, message) {
+  const errorElement = document.getElementById(elementId);
+  if (errorElement) {
+    errorElement.textContent = message;
+    errorElement.classList.add("error-message");
+    errorElement.style.display = "flex";
+  }
+}
+
+/**
+ * Clears an error message for a specific field.
+ */
+function clearError(elementId) {
+  const errorElement = document.getElementById(elementId);
+  if (errorElement) {
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+  }
 }
 
 /**

@@ -1,29 +1,44 @@
 function filternumbers(input) {
-  let value = input.value.replace(/[^0-9]/g, "");
+  let value = input.value.replace(/[^0-9\/]/g, ""); // Remove invalid characters
 
-  if (value.length > 2) value = value.slice(0, 2) + "/" + value.slice(2);
-  if (value.length > 5) value = value.slice(0, 5) + "/" + value.slice(5, 10);
-  if (value.length > 0) {
-    const day = value.slice(0, 2);
-    if (day[0] > "3") value = "3" + value.slice(1);
-    if (day[0] === "3" && day[1] > "1") value = "31" + value.slice(2);
+  // Automatically insert "/" separators
+  if (value.length > 2 && value[2] !== "/") {
+    value = value.slice(0, 2) + "/" + value.slice(2);
   }
-  if (value.length > 3) {
-    const month = value.slice(3, 5);
-    if (month[0] > "1") value = value.slice(0, 3) + "1";
-    if (month[0] === "1" && month[1] > "2") value = value.slice(0, 4) + "2";
+  if (value.length > 5 && value[5] !== "/") {
+    value = value.slice(0, 5) + "/" + value.slice(5);
   }
-  if (value.length > 6) {
-    const year = value.slice(6, 10);
-    if (year[0] !== "2") value = value.slice(0, 6) + "2";
-    if (year[1] !== "0") value = value.slice(0, 7) + "0";
-    if (year[2] !== "2") value = value.slice(0, 8) + "2";
-    if (year[3] && (year[3] < "4" || year[3] > "9")) {
-      value = value.slice(0, 8) + "2";
-    }
+
+  // Split into parts and validate
+  const parts = value.split("/");
+  const day = parseInt(parts[0], 10);
+  const month = parseInt(parts[1], 10);
+  const year = parseInt(parts[2], 10);
+
+  if (
+    day < 1 ||
+    day > 31 ||
+    month < 1 ||
+    month > 12 ||
+    year < 1000 ||
+    year > 9999
+  ) {
+    displayError("spandate", "Invalid date format.");
+    return;
   }
-  input.value = value;
+
+  // Check if the date is valid and not in the past
+  const inputDate = new Date(year, month - 1, day);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (inputDate < today) {
+    displayError("spandate", "The date cannot be in the past.");
+    return;
+  }
+  input.value = value.slice(0, 10); // Enforce max length
 }
+
 function getColorFromString(str) {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
