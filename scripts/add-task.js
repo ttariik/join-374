@@ -174,19 +174,19 @@ function resetForm() {
 
 function resetButtons() {
   document.getElementById("button1").classList.remove("lightred");
-  document.getElementById("button2").classList.remove("lightorange");
+  document.getElementById("button2").classList.toggle("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
 }
 
 function resetPriorityImages() {
   document.getElementById("urgentImg").src = "/img/Urgent.png";
-  document.getElementById("mediumImg").src = "/img/Medium.png";
+  document.getElementById("mediumImg").src = "/img/medium-white.png";
   document.getElementById("lowImg").src = "/img/Low.png";
 }
 
 function resetPriorityColors() {
   document.getElementById("urgent").style.color = "black";
-  document.getElementById("medium").style.color = "black";
+  document.getElementById("medium").style.color = "white";
   document.getElementById("low").style.color = "black";
   asignedtousers = [];
   subtasks = [];
