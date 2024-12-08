@@ -80,7 +80,6 @@ function initializeFormCheck() {
     if (validateTaskForm()) {
       addtask(event); // Form is valid, proceed with task creation
     } else {
-      console.log("Form has errors. Please correct them.");
     }
   });
 }
@@ -341,10 +340,8 @@ function initializeFormValidation() {
 
     // Check if all fields are valid
     if (isNameFieldValid && isEmailFieldValid && isPhoneFieldValid) {
-      console.log("Form is valid. Proceeding with submission...");
       addcontact(event); // Call your `addcontact` function if the form is valid
     } else {
-      console.log("Form has errors. Please correct them.");
     }
   });
 }
