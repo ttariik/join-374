@@ -21,7 +21,7 @@ function validateTaskForm() {
     isValid = false;
   }
 
-  if (category === "Select Category") {
+  if (category === "Select Task Category") {
     displayError("spancategory", "Please select a category.");
     isValid = false;
   } else {
@@ -126,6 +126,7 @@ function validateDateField(input) {
  */
 function validateCategory(input) {
   if (input.value === "Select Category") {
+    document.getElementById("spancategory").classList.remove;
     displayError("spancategory", "Please select a category.");
   } else {
     clearError("spancategory");

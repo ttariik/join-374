@@ -363,7 +363,7 @@ select {
   position: absolute;
   width: calc(100% - 58px);
   border: none;
-  height: 18px;
+  height: 19px;
   font-size: 20px;
   font-weight: 400;
 }
