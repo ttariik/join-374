@@ -38,3 +38,40 @@ function subtaskstemplAte(index, result) {
         </div>
     `;
 }
+
+function subtaskitemtemplateload(subtaskIndex, subtask) {
+  return /*html*/ `
+    <div class="subbox1 data subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
+         <div class="subbox_11">
+           <div id="dot">•</div>
+           <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>
+         </div>
+         <div class="subbox_22">
+           <button type="button" id="editsub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})" class="buttondesign d-none">
+             <img src="/img/edit.png" alt="Edit">
+           </button>
+           <button id="deletesub${subtaskIndex}" type="button" class="buttondesign d-none">
+             <img src="/img/delete1 (2).png" alt="Delete">
+           </button>
+           <button id="savesub${subtaskIndex}" type="button" class="buttondesign1 d-none">
+             <img src="/img/check1 (1).png" alt="Check">
+           </button>
+         </div>
+       </div>
+  `;
+}
+
+function subtaskedittemplate(index, result) {
+  return /*html*/ `
+    <div class="subbox_11" >
+      <div id="dot">•</div>
+      <div id="sub${index}" onclick="editsubtask(${index})">${result}</div>
+      </div>
+      <div class="subbox_22">
+      <button type="button" id="editsub${index}" class="buttondesign0 d-none"><img src="/img/edit.png" alt=""></button>
+      <button id="deletesub${index}" type="button" class="buttondesign0 d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
+      <button id="savesub${index}" type="button" class="buttondesign1 d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
+      </div>
+      </div>
+  `;
+}

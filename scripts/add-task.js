@@ -174,7 +174,7 @@ function resetForm() {
 
 function resetButtons() {
   document.getElementById("button1").classList.remove("lightred");
-  document.getElementById("button2").classList.toggle("lightorange");
+  document.getElementById("button2").classList.add("lightorange");
   document.getElementById("button3").classList.remove("lightgreen");
 }
 
