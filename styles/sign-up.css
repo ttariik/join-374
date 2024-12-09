@@ -183,7 +183,13 @@ input[type="email"] {
   transform: translateY(50%);
 }
 
-/*  */
+.error-message {
+  color: red;
+  margin-top: -18px;
+  font-size: 0.875rem;
+  display: none; /* Hidden by default */
+}
+
 
 input[type="password"] {
   width: 420px;

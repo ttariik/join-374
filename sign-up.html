@@ -32,21 +32,24 @@
           <div class="email">
             <input id="rName" type="text" placeholder="Name" required />
             <img class="person-icon" src="./img/person.png" alt="person-logo" />
+            <span id="nameError" class="error-message"></span> <!-- New error span -->
           </div>
           <div class="email">
             <input id="rEmail" type="email" placeholder="Email" required />
             <img class="email-icon" src="./img/email.png" alt="email-logo" />
           </div>
+          <span id="emailError" class="error-message">Invalid email address!</span>
           <div>
             <input class="password-media" id="rPassword" type="password" placeholder="Password" required />
             <img class="password-icon" src="./img/password.png" alt="password-logo" />
           </div>
+          <span id="passwordError" class="error-message">Password must be at least 6 characters!</span>
           <div>
-            <input class="password-confirm-media" type="password" id="rConfirmPassword" placeholder="Confirm Password"
-              required />
-            <img class="confrim-password-logo" src="./img/password.png" alt="confrim-password-logo" />
+            <input class="password-confirm-media" type="password" id="rConfirmPassword" placeholder="Confirm Password" required />
+            <img class="confrim-password-logo" src="./img/password.png" alt="confirm-password-logo" />
           </div>
-        </div>
+          <span id="confirmPasswordError" class="error-message">Passwords do not match!</span>
+        </div>    
         <div class="checkbox-wrapper-29">
           <label class="checkbox">
             <input type="checkbox" id="checkPrivacy" class="checkbox__input" required />

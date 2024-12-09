@@ -1,4 +1,3 @@
-// Firebase Core Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
@@ -17,12 +16,10 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-// Initialize Firebase App
+// Firebase initializations
 const app = initializeApp(firebaseConfig);
-
-// Firebase services
-const auth = getAuth(app);
-const db = getFirestore(app);
+const auth = getAuth();
+const db = getFirestore();
 
 /**
  * Displays a message in a specified HTML element for a limited time.
@@ -67,14 +64,20 @@ function validatePrivacyCheckbox() {
  * @returns {boolean} - True if the password is valid, false otherwise.
  */
 function validatePassword(password, confirmPassword) {
+    const passwordError = document.getElementById('passwordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
     if (password !== confirmPassword) {
-        showMessage('Passwords do not match', 'signUpMessage');
+        confirmPasswordError.style.display = 'inline';
+        setTimeout(() => confirmPasswordError.style.display = 'none', 2000);
         return false;
     }
     if (password.length < 6) {
-        showMessage('Password must be at least 6 characters', 'signUpMessage');
+        passwordError.style.display = 'inline';
+        setTimeout(() => passwordError.style.display = 'none', 2000);
         return false;
     }
+    passwordError.style.display = 'none';
+    confirmPasswordError.style.display = 'none';
     return true;
 }
 
@@ -85,8 +88,15 @@ function validatePassword(password, confirmPassword) {
  * @returns {boolean} - True if the email is valid, false otherwise.
  */
 function isValidEmail(email) {
+    const emailError = document.getElementById('emailError');
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
+    if (!re.test(String(email).toLowerCase())) {
+        emailError.style.display = 'inline';
+        setTimeout(() => emailError.style.display = 'none', 2000);
+        return false;
+    }
+    emailError.style.display = 'none';
+    return true;
 }
 
 /**
@@ -101,12 +111,8 @@ function handleSignUp(event) {
     const password = document.getElementById('rPassword').value;
     const confirmPassword = document.getElementById('rConfirmPassword').value;
     const name = document.getElementById('rName').value;
-    if (!isValidEmail(email)) {
-        showMessage('Invalid email address', 'signUpMessage');
-        return;
-    }
-
-    if (!validatePassword(password, confirmPassword)) return;
+    if (!isValidEmail(email)) return;
+    if (!validatePassword(password, confirmPassword)) return;  
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => createUserDocument(userCredential.user, email, name))
         .catch((error) => handleSignUpError(error));
