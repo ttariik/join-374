@@ -1,3 +1,8 @@
+// Firebase Core Imports
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
 /**
  * Firebase configuration object for initializing the Firebase app.
  */
@@ -12,10 +17,12 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-// Firebase initializations
+// Initialize Firebase App
 const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const db = getFirestore();
+
+// Firebase services
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 /**
  * Displays a message in a specified HTML element for a limited time.
