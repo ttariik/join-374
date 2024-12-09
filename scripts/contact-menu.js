@@ -162,7 +162,6 @@ async function deletecontact(contactKey) {
     (contact) => contact.key === contactKey
   );
   if (contactIndex === -1) {
-    console.error("Contact not found");
     return;
   }
   await deleteData(`/users/1/contacts/${contactKey}`);
@@ -261,7 +260,6 @@ function returntomenu() {
 async function savedata(contactKey) {
   const contact = contactUsers.find((user) => user.key === contactKey);
   if (!contact) {
-    console.error("Contact not found");
     return;
   }
 

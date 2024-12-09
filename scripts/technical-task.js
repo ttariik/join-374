@@ -157,7 +157,6 @@ async function showsavedinitials(task) {
         name: selectedContact.name,
       });
     } else {
-      console.error(`No contact found for initials: ${assignedInitial}`);
     }
   }
 }

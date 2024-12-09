@@ -328,20 +328,42 @@ function deletesub(index) {
 }
 
 function savesub(index) {
-  document.getElementById(`subboxinput_${index}`).style.background = "";
-  document.getElementById(`editsub${index}`).classList.add("d-none", "button");
-  document.getElementById(`deletesub${index}`).classList.add("d-none");
-  document.querySelector(`.subbox${index}`).style.width = "92%";
-  document.getElementById(`savesub${index}`).classList.add("d-none");
-  const result = document.getElementById(`inputsub${index}`).value.trim();
-  subtasks[index - 1] = result;
-  const subboxElement = document.getElementById(`inputsub${index}`);
-  document.getElementById(`subboxinput_${index}`).innerHTML = subtaskstemplAte(
-    index,
-    result
-  );
-  subtaskiconseventlisteners(index);
-  mouseroveroperations2(index);
+  // Get references to relevant elements
+  const subboxInput = document.getElementById(`subboxinput_${index}`);
+  const inputField = document.getElementById(`inputsub${index}`);
+  const editButton = document.getElementById(`editsub${index}`);
+  const deleteButton = document.getElementById(`deletesub${index}`);
+  const saveButton = document.getElementById(`savesub${index}`);
+
+  // Reset the background style of the subtask container
+  subboxInput.style.background = "";
+
+  // Hide buttons for editing, deleting, and saving
+  if (editButton) editButton.classList.add("d-none");
+  if (deleteButton) deleteButton.classList.add("d-none");
+  if (saveButton) saveButton.classList.add("d-none");
+  if (!inputField) {
+    return;
+  }
+  // Validate and retrieve input value
+  const result = inputField?.value.trim();
+  if (result) {
+    // Update the subtasks array with the new value
+    subtasks[index - 1] = result;
+
+    // Replace the input field with a subtask template
+    subboxInput.innerHTML = subtaskstemplAte(index, result);
+
+    // Reapply event listeners for hover effects and button operations
+    subtaskiconseventlisteners(index);
+    mouseroveroperations2(index);
+    inputField.focus(); // Refocus the input field for correction
+
+    return result; // Return the updated value
+  } else {
+    // Handle empty input (optional, based on requirements)
+    alert("Subtask cannot be empty.");
+  }
 }
 
 function subtaskiconseventlisteners(index) {

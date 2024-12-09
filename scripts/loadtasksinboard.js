@@ -132,7 +132,5 @@ async function loadtasks() {
       "No tasks awaiting feedback"
     );
     displayNoTasksMessage("done-folder", "No tasks done");
-  } catch (error) {
-    console.error("Error loading tasks:", error);
-  }
+  } catch (error) {}
 }

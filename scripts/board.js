@@ -212,9 +212,7 @@ function deletetask(id, task) {
       taskElement.remove();
       displaynotasksmessage(parentFolder, parentFolderId);
     })
-    .catch((error) => {
-      console.error("Error deleting task:", error);
-    });
+    .catch((error) => {});
   closeoverlaytechnicaltemplate();
   loadtasks();
 }

@@ -266,9 +266,6 @@ function highlightAssignedUsers() {
     if (matchedContact) {
       highlightContact(matchedContact);
     } else {
-      console.log(
-        `Contact with initials ${initialsObj.initials} not found in contacts.`
-      );
     }
   });
 }
@@ -286,6 +283,5 @@ function highlightContact(contact) {
     contactElement.classList.add("dark-blue");
     document.getElementById(`checkbox${contact.id}`).checked = true;
   } else {
-    console.log(`Element with id div${contact.id} not found.`);
   }
 }

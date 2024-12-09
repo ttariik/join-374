@@ -118,8 +118,13 @@ function showeditsubtasks(index) {
 }
 
 function earlyeditsubtask(index) {
-  document.getElementById("dot").classList.add("d-none");
-  document.getElementById(`editsub${index}`).classList.add("d-none");
+  if (
+    document.getElementById("dot") &&
+    document.getElementById(`editsub${index}`)
+  ) {
+    document.getElementById("dot").classList.add("d-none");
+    document.getElementById(`editsub${index}`).classList.add("d-none");
+  }
 }
 
 function editsubtask(index) {
@@ -138,16 +143,33 @@ function editsubtask(index) {
       });
   }, 0);
   inputfielddesign(index);
+  changeclasses(index);
+}
+
+function changeclasses(index) {
+  document.getElementById(`savesub${index}`).classList.remove("buttondesign");
+  document.getElementById(`deletesub${index}`).classList.remove("buttondesign");
+  document.getElementById(`savesub${index}`).classList.add("buttondesign0");
+  document.getElementById(`deletesub${index}`).classList.add("buttondesign0");
 }
 
 function inputfielddesign(index) {
-  document.getElementById(`subboxinput_${index}`).style.background = "#dedede";
+  // Get the subtask value
+  const result = subtasks[index - 1];
 
-  document.getElementById(`subboxinput_${index}`).innerHTML =
-    subtaskdesign(index);
+  // Apply background styling to the container
+  const subboxInput = document.getElementById(`subboxinput_${index}`);
+  subboxInput.style.background = "#dedede";
 
+  // Replace the content with an input field using subtaskdesign
+  subboxInput.innerHTML = subtaskdesign(index);
+
+  // Set the input field value and focus on it
   const inputField = document.getElementById(`inputsub${index}`);
-  inputField.focus();
+  if (inputField) {
+    inputField.value = result;
+    inputField.focus();
+  }
 }
 
 function loadsubtasks(task) {
@@ -181,41 +203,4 @@ function loadsubtasks(task) {
       hidesubeditbuttons(`${index}`);
     });
   });
-}
-
-function subtaskitemtemplateload(subtaskIndex, subtask) {
-  return /*html*/ `
-    <div class="subbox1 data subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
-         <div class="subbox_11">
-           <div id="dot">•</div>
-           <div id="sub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})">${subtask.subtask}</div>
-         </div>
-         <div class="subbox_22">
-           <button type="button" id="editsub${subtaskIndex}" onclick="editsubtask(${subtaskIndex})" class="buttondesign d-none">
-             <img src="/img/edit.png" alt="Edit">
-           </button>
-           <button id="deletesub${subtaskIndex}" type="button" class="buttondesign d-none">
-             <img src="/img/delete1 (2).png" alt="Delete">
-           </button>
-           <button id="savesub${subtaskIndex}" type="button" class="buttondesign1 d-none">
-             <img src="/img/check1 (1).png" alt="Check">
-           </button>
-         </div>
-       </div>
-  `;
-}
-
-function subtaskedittemplate(index, result) {
-  return /*html*/ `
-    <div class="subbox_11" >
-      <div id="dot">•</div>
-      <div id="sub${index}" onclick="editsubtask(${index})">${result}</div>
-      </div>
-      <div class="subbox_22">
-      <button type="button" id="editsub${index}" class="buttondesign0 d-none"><img src="/img/edit.png" alt=""></button>
-      <button id="deletesub${index}" type="button" class="buttondesign0 d-none"><img src="/img/delete1 (2).png" alt="Delete" /></button>
-      <button id="savesub${index}" type="button" class="buttondesign1 d-none"><img src="/img/check1 (1).png" alt="Check" /></button>
-      </div>
-      </div>
-  `;
 }

@@ -2,7 +2,6 @@ function allowDrop(event) {
   event.preventDefault();
 }
 
-
 function drag(event) {
   const taskId = event.target.id;
   const parentFolderId = getParentFolderId(taskId);
@@ -11,12 +10,10 @@ function drag(event) {
   event.dataTransfer.setData("parentFolderId", parentFolderId);
 }
 
-
 function getParentFolderId(taskId) {
   const taskElement = document.getElementById(taskId);
   return taskElement.getAttribute("data-current-folder-id");
 }
-
 
 async function drop(event) {
   event.preventDefault();
@@ -27,7 +24,6 @@ async function drop(event) {
   if (targetFolder === parentFolderId) return;
   await handleDrop(taskId, parentFolderId, targetFolder);
 }
-
 
 async function handleDrop(taskId, parentFolderId, targetFolder) {
   const taskElement = document.getElementById(taskId);
@@ -45,16 +41,13 @@ async function handleDrop(taskId, parentFolderId, targetFolder) {
   }
 }
 
-
 function disableDrag(taskElement) {
   taskElement.setAttribute("draggable", "false");
 }
 
-
 function enableDrag(taskElement) {
   taskElement.setAttribute("draggable", "true");
 }
-
 
 async function fetchTaskData(parentFolderId, taskId) {
   const response = await fetch(
@@ -63,16 +56,13 @@ async function fetchTaskData(parentFolderId, taskId) {
   return response.json();
 }
 
-
 async function moveTaskToNewFolder(targetFolder, taskId, taskData) {
   await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
 }
 
-
 async function deleteTaskFromFolder(parentFolderId, taskId) {
   await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 }
-
 
 async function updateDOMAfterMove(taskElement, parentFolderId, targetFolder) {
   const isDeleted = await checkTaskDeletion(parentFolderId, taskElement.id);
@@ -86,7 +76,6 @@ async function updateDOMAfterMove(taskElement, parentFolderId, targetFolder) {
   }
 }
 
-
 async function checkTaskDeletion(parentFolderId, taskId) {
   const response = await fetch(
     `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
@@ -94,7 +83,6 @@ async function checkTaskDeletion(parentFolderId, taskId) {
   const data = await response.json();
   return data === null;
 }
-
 
 function moveTaskInDOM(taskElement, targetFolder) {
   const targetContainer = document.getElementById(targetFolder);
@@ -104,12 +92,10 @@ function moveTaskInDOM(taskElement, targetFolder) {
   taskElement.setAttribute("data-current-folder-id", targetFolder);
 }
 
-
 function removeNoTasksMessage(container) {
   const noTasksMessage = container.querySelector(".nothing");
   if (noTasksMessage) noTasksMessage.remove();
 }
-
 
 function updateSourceFolder(folderId) {
   const parentContainer = document.getElementById(folderId);
@@ -119,7 +105,6 @@ function updateSourceFolder(folderId) {
   }
 }
 
-
 function createNoTasksMessage(folderId) {
   const noTasksMessageElement = document.createElement("div");
   noTasksMessageElement.className = "nothing";
@@ -127,20 +112,16 @@ function createNoTasksMessage(folderId) {
   return noTasksMessageElement;
 }
 
-
 function revertTaskToOriginalFolder(taskElement, folderId) {
   const parentContainer = document.getElementById(folderId);
   parentContainer.appendChild(taskElement);
   taskElement.setAttribute("data-current-folder-id", folderId);
 }
 
-
 function handleErrorDuringDrop(taskElement, parentFolderId, error) {
-  console.error("Error during drop operation:", error);
   revertTaskToOriginalFolder(taskElement, parentFolderId);
   alert("An error occurred during the move. Task reverted to original folder.");
 }
-
 
 function getNoTasksMessage(folderId) {
   switch (folderId) {
