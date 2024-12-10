@@ -194,7 +194,7 @@ async function inputacesstechnicall(task, contacts) {
   const newEditButton = editButton.cloneNode(true);
   deleteButton.replaceWith(newDeleteButton);
   editButton.replaceWith(newEditButton);
-  newDeleteButton.addEventListener("click", () => deletetask(task));
+  newDeleteButton.addEventListener("click", () => deletetask(task.id, task));
   newEditButton.addEventListener("click", () => editinputs(task));
   // Render assigned persons and subtasks
   await assignedtotemplate(task, contacts);
