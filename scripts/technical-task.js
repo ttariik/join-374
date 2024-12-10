@@ -128,7 +128,9 @@ async function showsavedinitials(id, task) {
       .filter((contact) => contact)
       .map((contact) => [contact.initials, contact])
   );
-
+  if (task.asignedto === undefined) {
+    return;
+  }
   // Process assigned users
   for (let index = 0; index < task.asignedto.length; index++) {
     const assignedInitial = task.asignedto[index];

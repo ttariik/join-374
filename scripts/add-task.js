@@ -6,7 +6,6 @@ let selectedPriority = null;
 let subtasks = [];
 let initialsarra = [];
 let selectedbutton = null;
-
 let asignedtousers = [];
 let usernamecolor = [];
 let initialsArray = [];

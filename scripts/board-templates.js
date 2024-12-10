@@ -393,7 +393,7 @@ function subtaskboxemplate() {
                       <div class="seperateline d-none" id="seperate1"></div>
                       <button
                         type="button"
-                        onclick="addsubtask()"
+                        onclick="addsubtask(event)"
                         class="subtaskbutton3 d-none"
                         id="inputsubtask33"
                       >

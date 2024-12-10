@@ -1,6 +1,6 @@
 function subtaskstemplate(subtaskinput1) {
   return /*html*/ `
-      <div class="subbox1 subs${subtasks.length}" id="subboxinput_${subtasks.length}"  data-index="${subtasks.length}" >
+      <div class="subbox1 data subs${subtasks.length}" id="subboxinput_${subtasks.length}"  data-index="${subtasks.length}" >
         <div class="subbox_11">
         <div id="dot">•</div>
         <div id="sub${subtasks.length}" onclick="editsubtask(${subtasks.length})">${subtaskinput1}</div>
