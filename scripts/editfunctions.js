@@ -43,10 +43,10 @@ function setupprofilelayoutpart2(task) {
   document.getElementById("prio").innerHTML = prioritytemplateprofile();
   document.getElementById("prio").classList.add("buttonss");
   // Update assigned area and other sections
-  document.getElementById("profileassingedarea").innerHTML =
+  document.querySelector(".assigned-container").innerHTML =
     reselectionofcontacts();
-  document.getElementById("profileassingedarea").style.gap = "unset";
-  document.getElementById("profileassingedarea").style.padding = "unset";
+  document.querySelector(".assigned-container").style.gap = "unset";
+  document.querySelector(".assigned-container").style.padding = "unset";
   document.querySelector(".button-containers").innerHTML = buttontemplate(task);
   document.getElementById("subtaskbox").innerHTML = "";
 }
