@@ -7,7 +7,7 @@ function loadinfosifpart1(task) {
   document.getElementById("button11").style.height = "56px";
   document.getElementById("button22").style.height = "56px";
   document.getElementById("button33").style.height = "56px";
-  showsavedinitials(task);
+  showsavedinitials(task.id, task);
   loadsubtasks(task);
   document
     .querySelectorAll(".text1")
@@ -64,7 +64,7 @@ async function loadinfos(task) {
     setButton2_2Listener(task);
     setButton3_3Listener(task);
     setNonTechnicalTaskValues(task);
-    showsavedinitials(task);
+    showsavedinitials(task.id, task);
     loadsubtasks(task);
     setPriorityButtonListeners(task);
   }
@@ -104,7 +104,7 @@ function setPriorityButtonListeners(task) {
   }
 }
 
-async function showsavedinitials(task) {
+async function showsavedinitials(id, task) {
   // Clear previous badges to avoid duplicates
   document.getElementById("assignedusers1").innerHTML = "";
   // Fetch all contacts once
@@ -133,7 +133,7 @@ async function showsavedinitials(task) {
   for (let index = 0; index < task.asignedto.length; index++) {
     const assignedInitial = task.asignedto[index];
     const selectedContact = contactMap.get(assignedInitial);
-
+    asignedtousers.push(assignedInitial);
     if (selectedContact) {
       document.getElementById("assignedusers1").style.width = "100%";
       const badge = document.createElement("div");
@@ -143,6 +143,7 @@ async function showsavedinitials(task) {
       badge.id = `${selectedContact.id}_${index}`;
       badge.style.backgroundColor = selectedContact.color;
       badge.textContent = selectedContact.initials;
+      badge.setAttribute("data-initials", selectedContact.initials);
 
       // Avoid duplicate badges
       if (!document.getElementById(badge.id)) {

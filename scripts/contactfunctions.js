@@ -40,21 +40,35 @@ async function selectcontact(id) {
         }
       : null
   );
+
   const selectedContact = entries.find(
     (contact) => contact && contact.id === String(id)
   );
 
+  const existingContact = initialsArray.find(
+    (contact) => contact.id === selectedContact.id
+  );
+
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
-  asignedtousers.push(initials);
 
+  // Check if the contact is already assigned
+  if (existingContact && existingContact.id == id) {
+    resetcontact(contactDiv, checkbox, selectedContact.id, initials);
+    return; // If already assigned, exit the function
+  }
+
+  // If not assigned, add the contact to the assigned list
+  asignedtousers.push(initials);
   initialsArray.push({
-    id: selectedContact.id, // Use selectedContact's ID
+    id: selectedContact.id,
     initials: initials,
-    name: selectedContact.name, // Correctly reference the name
+    name: selectedContact.name,
   });
 
   checkbox.checked = !checkbox.checked;
+
+  // Create and append a new badge for the contact
   const badge = document.createElement("div");
   badge.className = "badgeassigned badge";
   badge.style.backgroundColor = color;
@@ -64,6 +78,8 @@ async function selectcontact(id) {
   badge.style.height = "32px";
   badge.style.marginLeft = "0";
   assignedUsersDiv.appendChild(badge);
+
+  // Mark the contact as selected
   contactDiv.classList.add("dark-blue");
   contactDiv.onclick = function () {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
@@ -73,15 +89,20 @@ async function selectcontact(id) {
 function resetcontact(contactDiv, checkbox, id, initials) {
   checkbox.checked = false;
   contactDiv.classList.remove("dark-blue");
-  asignedtousers = asignedtousers.filter((item) => item !== initials);
-  initialsArray = initialsArray.filter((item) => item.id !== id); // Corrected from firebaseId to id
 
+  // Remove the contact from assigned lists
+  asignedtousers = asignedtousers.filter((item) => item !== initials);
+  initialsArray = initialsArray.filter((item) => item.id !== id);
+
+  // Remove the associated badge
   const badge = document.querySelector(
     `.badgeassigned[data-initials="${initials}"]`
   );
   if (badge) {
     badge.remove();
   }
+
+  // Reset the click event to allow re-selecting
   contactDiv.onclick = function () {
     selectcontact(id);
   };
@@ -142,11 +163,14 @@ function smallerfunction() {
 }
 
 async function showcontacts(event) {
+  let contactsBox;
   if (event) event.stopPropagation();
   smallerfunction();
-  const contactsBox =
-    document.getElementById("contacts-box") ||
-    document.getElementById("contacts-box1");
+  if (event.target.parentElement.children[2].id === "contacts-box") {
+    contactsBox = event.target.parentElement.children[2];
+  } else {
+    contactsBox = event.target.parentElement.children[1];
+  }
 
   if (contactsBox && contactsBox.innerHTML.trim() === "") {
     await fetchAndRenderContacts();
@@ -202,6 +226,11 @@ function initializeSearchBar(contactsBox) {
     if (
       event.target.parentElement.id === "contacts-box" &&
       !document.getElementById("contacts-box").classList.contains("d-none")
+    ) {
+      return;
+    } else if (
+      event.target.parentElement.id === "contacts-box1" &&
+      !document.getElementById("contacts-box1").classList.contains("d-none")
     ) {
       return;
     } else {

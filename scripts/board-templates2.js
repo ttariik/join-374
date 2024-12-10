@@ -158,13 +158,13 @@ function prioritytemplatetechnicaltask() {
 }
 
 function reselectionofcontacts() {
-  return /*html*/ `
+  return /*html*/ `<div><label>Assigned to</label></div>
     <div class="selectbox">
                     <button
                       id="selectbutton1"
                       type="button"
                       class="selectbutton"
-                      onclick="showcontacts()"
+                      onclick="showcontacts(event)"
                     >
                       <span>Select contacts to assign</span
                       ><img src="/img/arrow_drop_down.png" alt="" />
