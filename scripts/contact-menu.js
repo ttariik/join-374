@@ -125,15 +125,15 @@ async function edicontact(contactKey) {
 
 function lastpartofeditcontact(contactKey) {
   document.getElementById("spandescription").innerHTML = "";
-  document.getElementById("formid").onsubmit = function (event) {
-    event.preventDefault();
-    savedata(contactKey);
-  };
   document.getElementById("overlayaddcontact").style.display = "flex";
   setTimeout(() => {
     document.getElementById("overlayaddcontact").style.transform =
       "translateX(0%)";
   }, 0.5);
+  document.getElementById("addbutton").addEventListener("click", (event) => {
+    event.preventDefault();
+    savedata(contactKey);
+  });
 }
 
 /**
@@ -167,7 +167,6 @@ async function deletecontact(contactKey) {
   await deleteData(`/users/1/contacts/${contactKey}`);
   contactUsers.splice(contactIndex, 1);
   document.getElementById("contacttemplate").style = "display: none";
-
   showcontacts((id = 1));
 }
 
@@ -236,7 +235,6 @@ function lastpartofcontacttemplate(contact) {
   closeaddcontacttemplate();
   document.getElementById("deletebutton-overlay").onclick = () =>
     deletecontact(contact.key);
-  document.getElementById("formid").onsubmit = addcontact;
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";
   contactTemplate.style.transform = "translateX(0%)";
@@ -273,7 +271,6 @@ async function savedata(contactKey) {
   let phone = document.getElementById("phone").value;
 
   if (!telefonename || !email || !phone) {
-    alert("All fields must be filled out.");
     return;
   }
 

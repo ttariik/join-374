@@ -388,7 +388,11 @@ function initializeFormValidation() {
 
     // Check if all fields are valid
     if (isNameFieldValid && isEmailFieldValid && isPhoneFieldValid) {
-      addcontact(event); // Call your `addcontact` function if the form is valid
+      if (document.getElementById("spantitle").innerText === "Edit contact") {
+        savedata(event); // Call your `addcontact` function if the form is valid
+      } else {
+        addcontact(event);
+      }
     } else {
     }
   });
