@@ -247,10 +247,57 @@ function initializeFormValidation() {
   const nameError = document.getElementById("name-error-message");
   const emailError = document.getElementById("email-error-message");
   const phoneError = document.getElementById("phone-error-message");
+  const tlds = [
+    "com",
+    "org",
+    "net",
+    "gov",
+    "edu",
+    "mil",
+    "io",
+    "ai",
+    "tv",
+    "xyz",
+    "club", // Add all TLDs here
+    "uk",
+    "us",
+    "de",
+    "fr",
+    "cn",
+    "jp",
+    "in",
+    "ru",
+    "it",
+    "nl",
+    "es",
+    "se",
+    "ch",
+    "ca",
+    "au",
+    "dk",
+    "fi",
+    "pl",
+    "tr",
+    "be",
+    "at",
+    "gr",
+    "pt",
+    "no",
+    "il",
+    "kr",
+    "za",
+    "nz",
+    "sg",
+  ];
 
   const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim());
-  const isEmailValid = (email) =>
-    /^[^\s@]+@[a-zA-Z0-9-]+\.[a-zA-Z]{2,63}$/.test(email.trim());
+  const isEmailValid = (email) => {
+    const regex = new RegExp(
+      `^[^\\s@]+@[a-zA-Z0-9-]+\\.(${tlds.join("|")})$`,
+      "i"
+    );
+    return regex.test(email.trim());
+  };
   const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
 
   // Function to determine specific email error
