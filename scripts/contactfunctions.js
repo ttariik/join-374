@@ -51,7 +51,11 @@ async function selectcontact(id) {
 
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
-
+  // Prevent checkbox clicks from closing the parent div
+  checkbox.addEventListener("click", function (event) {
+    event.stopPropagation(); // Prevent the event from bubbling up to the parent
+    checkbox.checked = true;
+  });
   // Check if the contact is already assigned
   if (existingContact && existingContact.id == id) {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
@@ -66,7 +70,8 @@ async function selectcontact(id) {
     name: selectedContact.name,
   });
 
-  checkbox.checked = !checkbox.checked;
+  // Ensure the checkbox state is preserved
+  checkbox.checked = true;
 
   // Create and append a new badge for the contact
   const badge = document.createElement("div");
@@ -78,7 +83,9 @@ async function selectcontact(id) {
   badge.style.height = "32px";
   badge.style.marginLeft = "0";
   assignedUsersDiv.appendChild(badge);
-
+  checkbox.onclick = function () {
+    selectcontact(id);
+  };
   // Mark the contact as selected
   contactDiv.classList.add("dark-blue");
   contactDiv.onclick = function () {
@@ -87,7 +94,7 @@ async function selectcontact(id) {
 }
 
 function resetcontact(contactDiv, checkbox, id, initials) {
-  checkbox.checked = false;
+  checkbox.checked = false; // Ensure checkbox is unchecked
   contactDiv.classList.remove("dark-blue");
 
   // Remove the contact from assigned lists
