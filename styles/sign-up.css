@@ -190,7 +190,6 @@ input[type="email"] {
   display: none; /* Hidden by default */
 }
 
-
 input[type="password"] {
   width: 420px;
   height: 50px;
@@ -311,19 +310,27 @@ input[type="password"] {
   font-weight: 700;
   border: 1px solid #2a3647;
   border-radius: 8px;
-  background-color: #2a3647;
+  background-color: #2a3647; 
   line-height: 19px;
   color: #ffffff;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.sign-up-button-footer:hover{
+.sign-up-button-footer:hover {
   background-color: #29ABE2; 
   border-color: #29ABE2; 
   box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
+
+.sign-up-button-footer:disabled {
+  background-color: #2a3647; 
+  border-color: #ffffff; 
+  color: #B0BEC5; 
+  cursor: not-allowed; 
+}
+
 
 footer {
   display: flex;

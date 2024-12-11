@@ -303,6 +303,13 @@ input[type="password"] {
   cursor: pointer;
 }
 
+.login-button:disabled {
+  background-color: #2a3647; 
+  border-color: #ffffff; 
+  color: #B0BEC5; 
+  cursor: not-allowed; 
+}
+
 .guest-button {
   height: 50px;
   width: 177px;

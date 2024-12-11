@@ -153,3 +153,27 @@ function handleSignUpError(error) {
 
 // Event listener for the sign-up button
 document.getElementById('submitSignUp').addEventListener('click', handleSignUp);
+
+// Funktion zur Validierung des Sign-Up-Formulars
+function validateSignUpForm() {
+    const email = document.getElementById('rEmail').value;
+    const password = document.getElementById('rPassword').value;
+    const confirmPassword = document.getElementById('rConfirmPassword').value;
+    const name = document.getElementById('rName').value;
+    const checkPrivacy = document.getElementById('checkPrivacy').checked;
+    const submitButton = document.getElementById('submitSignUp');
+    
+    // Validierung: Felder müssen ausgefüllt und korrekt sein
+    const validEmail = email && isValidEmail(email);
+    const validPassword = password && confirmPassword && validatePassword(password, confirmPassword);
+    const formValid = validEmail && validPassword && name && checkPrivacy;
+    
+    submitButton.disabled = !formValid;  // Button aktivieren/deaktivieren
+}
+
+// Event Listener für Eingabefelder
+document.querySelectorAll('#rEmail, #rPassword, #rConfirmPassword, #rName, #checkPrivacy')
+    .forEach(el => el.addEventListener('input', validateSignUpForm));
+
+validateSignUpForm(); // Initiale Überprüfung
+

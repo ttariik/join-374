@@ -116,3 +116,31 @@ document.getElementById('guestLogin').addEventListener('click', handleGuestLogin
 
 // Funktion für "Angemeldet bleiben" aufrufen
 handleRememberMe();
+
+// Funktion zur Überprüfung der Eingabefelder
+function validateForm() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const submitButton = document.getElementById('submitSignIn');
+
+    // Überprüfen, ob die Felder nicht leer sind
+    if (email && password) {
+        submitButton.disabled = false;  // Button aktivieren
+    } else {
+        submitButton.disabled = true;  // Button deaktivieren
+    }
+}
+
+// Event Listener für die Eingabefelder (um die Validierung bei jeder Eingabe zu überprüfen)
+document.getElementById('email').addEventListener('input', validateForm);
+document.getElementById('password').addEventListener('input', validateForm);
+
+// Initialisieren der Validierung, um sicherzustellen, dass der Button beim Laden der Seite korrekt gesetzt ist
+validateForm();
+
+// Event Listener für den Anmelde-Button
+document.getElementById('submitSignIn').addEventListener('click', handleSignIn);
+document.getElementById('guestLogin').addEventListener('click', handleGuestLogin);
+
+// Funktion für "Angemeldet bleiben" aufrufen
+handleRememberMe();
