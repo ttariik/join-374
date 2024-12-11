@@ -281,7 +281,6 @@ input[type="password"] {
   gap: 35px;
 }
 
-
 .login-button {
   height: 50px;
   width: 90px;
@@ -307,7 +306,6 @@ input[type="password"] {
   background-color: #2a3647; 
   border-color: #ffffff; 
   color: #B0BEC5; 
-  cursor: not-allowed; 
 }
 
 .guest-button {
