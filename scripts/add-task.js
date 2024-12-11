@@ -360,8 +360,6 @@ function savesub(index) {
 
     return result; // Return the updated value
   } else {
-    // Handle empty input (optional, based on requirements)
-    alert("Subtask cannot be empty.");
   }
 }
 

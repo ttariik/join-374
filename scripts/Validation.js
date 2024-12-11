@@ -203,7 +203,7 @@ function displayError(elementId, message) {
   if (errorElement) {
     errorElement.textContent = message;
     errorElement.classList.add("error-message");
-    errorElement.style.display = "flex";
+    errorElement.style.display = "block";
   }
 }
 
@@ -327,7 +327,7 @@ function initializeFormValidation() {
       input.classList.remove("valid");
       input.classList.add("invalid");
       errorMessageElement.textContent = errorMessage; // Show specific error
-      errorMessageElement.style.display = "flex"; // Show error message if invalid
+      errorMessageElement.style.display = "block"; // Show error message if invalid
       return false;
     }
   }
