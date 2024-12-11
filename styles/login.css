@@ -15,11 +15,7 @@ body {
   overflow-x: hidden;
 }
 
-.content-limitation {
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-}
+
 
 .content-wrapper {
   height: 100vh;
@@ -43,6 +39,58 @@ header {
   margin-right: 20px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+/* .container {
+  height: 490px;
+  width: 650px;
+  background-color: #ffffff;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 2px solid #ffffff;
+  border-radius: 30px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+
+.content-limitation {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 180px;
+  height: auto;
+  z-index: 10;
+  transition: transform 2s ease-in-out;
+  margin-top: 50px;
+  margin-left: 20px;
+} */
+
+
+
+
+
 .container {
   height: 490px;
   width: 650px;
@@ -58,11 +106,54 @@ header {
   position: relative;
 }
 
-.logo {
-  width: 120px;
-  margin-top: 50px;
-  margin-left: 20px;
+.content-limitation {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  position: relative; 
+  overflow: hidden; 
+  height: 100%;
 }
+
+.container-logo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0); 
+  width: 180px;
+  height: auto;
+  z-index: 10;
+  transition: transform 2s ease-in-out; 
+}
+
+
+.logo.fly-in {
+  transform: translate(-50%, -50%) scale(1); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .sign-up-header {
   display: flex;
@@ -375,16 +466,7 @@ input[type="password"] {
   pointer-events: none;
 }
 
-.logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 180px;
-  height: auto;
-  z-index: 10;
-  transition: transform 2s ease-in-out;
-}
+
 
 .fly-in {
   animation: pauseInMiddle 2s ease, flyInToHeader 0.9s ease 0.5s forwards;
@@ -426,6 +508,9 @@ input[type="password"] {
     width: 80px;
   }
 }
+
+
+
 
 @media (max-width:699px) {
 
