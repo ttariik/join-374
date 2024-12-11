@@ -208,6 +208,17 @@ function emptyinputs() {
   resetPriorityImages();
   resetPriorityColors();
   clearContactsBox();
+  clearerrorspans();
+}
+
+function clearerrorspans() {
+  document
+    .querySelectorAll(
+      "#spantitle, #spandescription, #spantasignedbox, #spandate, #spanprio, #spancategory, #spansubtask"
+    )
+    .forEach((element) => {
+      element.innerHTML = ""; // Clear the content of each element
+    });
 }
 
 async function addEditSingleUser(folder, taskData) {
