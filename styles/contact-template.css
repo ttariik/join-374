@@ -114,19 +114,20 @@ button {
 .dropup-menu {
   display: none;
   position: absolute;
-  bottom: 40px;
-  right: 50px;
-  background-color: rgb(42,54,71);
-  padding: 16px;
-  border-radius: 8px;
+  bottom: 5px;
+  right: 0px;
+  background-color: white;
+  padding: 24px;
+  border-radius: 20px 20px 0px 20px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   z-index: 1;
   flex-direction: column;
   gap: 16px;
 }
 
-.dropup-menu span {
-  color: white;
+#editbutton-overlay, #deletebutton-overlay  {
+  display: flex;
+  gap: 8px;
 }
 
 .dropup-menu a:hover {
