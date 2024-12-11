@@ -246,5 +246,7 @@
   .scrollbar {
     height: unset;
     max-height: 400px;
+    overflow: scroll;
+    scrollbar-width: none;
   }
 }
