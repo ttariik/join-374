@@ -163,15 +163,13 @@ function validateSignUpForm() {
     const checkPrivacy = document.getElementById('checkPrivacy').checked;
     const submitButton = document.getElementById('submitSignUp');
     
-    // Validierung: Felder müssen ausgefüllt und korrekt sein
     const validEmail = email && isValidEmail(email);
     const validPassword = password && confirmPassword && validatePassword(password, confirmPassword);
     const formValid = validEmail && validPassword && name && checkPrivacy;
     
-    submitButton.disabled = !formValid;  // Button aktivieren/deaktivieren
+    submitButton.disabled = !formValid; 
 }
 
-// Event Listener für Eingabefelder
 document.querySelectorAll('#rEmail, #rPassword, #rConfirmPassword, #rName, #checkPrivacy')
     .forEach(el => el.addEventListener('input', validateSignUpForm));
 
