@@ -501,6 +501,10 @@ input[type="password"] {
   .logo {
     width: 140px;
   }
+
+  .guest-button {
+    left: 120px;
+  }
   
   @keyframes flyInToHeader {
     0% {
