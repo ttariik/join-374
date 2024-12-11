@@ -171,31 +171,33 @@ function smallerfunction() {
 
 async function showcontacts(event) {
   let contactsBox;
+
+  // Stop event propagation to prevent any outer handlers from being triggered
   if (event) event.stopPropagation();
+
+  // Call smaller function
   smallerfunction();
-  if (event.target.parentElement.children[2].id === "contacts-box") {
-    contactsBox = event.target.parentElement.children[2];
-  } else {
-    contactsBox = event.target.parentElement.children[1];
-  }
 
-  if (contactsBox && contactsBox.innerHTML.trim() === "") {
-    await fetchAndRenderContacts();
-    initializeSearchBar(contactsBox);
-  } else {
-    openContactsBox(contactsBox);
-    initializeSearchBar(contactsBox);
-  }
-}
+  // Get the button or span target correctly
+  const target = event.target.closest("button"); // Get the closest button to target (handles both button and span)
 
-function toggleContactsBox(contactsBox) {
-  if (
-    contactsBox.classList.contains("d-none") ||
-    contactsBox.innerHTML.trim() === ""
-  ) {
-    openContactsBox(contactsBox);
-  } else {
-    closeContactsBox(contactsBox);
+  // Check if target is inside the button
+  if (target) {
+    const parent = target.parentElement;
+    if (parent.children[2].id === "contacts-box") {
+      contactsBox = parent.children[2];
+    } else {
+      contactsBox = parent.children[1];
+    }
+
+    // If contactsBox is empty, fetch and render contacts, else open contacts box
+    if (contactsBox && contactsBox.innerHTML.trim() === "") {
+      await fetchAndRenderContacts();
+      initializeSearchBar(contactsBox);
+    } else {
+      openContactsBox(contactsBox);
+      initializeSearchBar(contactsBox);
+    }
   }
 }
 
