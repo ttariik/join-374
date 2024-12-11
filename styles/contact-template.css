@@ -134,6 +134,15 @@ button {
 }
 
 
+
+@media (max-width: 849px) {
+
+  .contact-box__actions{
+    display: none;
+  }
+}
+
+
 @media (max-width: 990px) {
 
   .wordstyle {
