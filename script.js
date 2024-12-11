@@ -79,7 +79,10 @@ window.onclick = function (event) {
 window.onload = function () {
   const logo = document.querySelector(".logo");
   const overlay = document.querySelector(".overlay");
+
   logo.classList.add("fly-in");
+
+
   setTimeout(() => {
     overlay.classList.add("fade-out");
   }, 500);
