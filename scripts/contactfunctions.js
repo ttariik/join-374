@@ -5,7 +5,7 @@ function contactstemplate(contact, color) {
           <div class="contactbox-badge" style="background-color:${color}">${contact.initials}</div>
           <div>${contact.name}</div>
         </div>
-        <label class="custom-checkbox" >
+        <label class="custom-checkbox" onclick="selectcontact(${contact.id})">
           <input type="checkbox" id="checkbox${contact.id}" class="checkboxdesign" />
           <span class="checkmark" ></span>
         </label>
@@ -222,20 +222,39 @@ function initializeSearchBar(contactsBox) {
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
   selectButton.onclick = resetsearchbar;
+
+  // Prevent body click listener from closing the dropdown
+  document.getElementById("contacts-box").addEventListener("click", (event) => {
+    event.stopPropagation(); // Stops the event from propagating to the body listener
+  });
+
+  if (document.getElementById("contacts-box1")) {
+    document
+      .getElementById("contacts-box1")
+      .addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevents the event from bubbling up
+      });
+  }
+
+  // Global click handler to close dropdown when clicking outside
   document.body.addEventListener("click", function (event) {
+    const contactsBox1 = document.getElementById("contacts-box1");
+    const contactsBox = document.getElementById("contacts-box");
+
+    // Allow clicks inside open dropdowns
     if (
-      event.target.parentElement.id === "contacts-box" &&
-      !document.getElementById("contacts-box").classList.contains("d-none")
+      (contactsBox &&
+        event.target.parentElement.id === "contacts-box" &&
+        !contactsBox.classList.contains("d-none")) ||
+      (contactsBox1 &&
+        event.target.parentElement.id === "contacts-box1" &&
+        !contactsBox1.classList.contains("d-none"))
     ) {
       return;
-    } else if (
-      event.target.parentElement.id === "contacts-box1" &&
-      !document.getElementById("contacts-box1").classList.contains("d-none")
-    ) {
-      return;
-    } else {
-      resetsearchbar(event);
     }
+
+    // If clicked outside, reset the search bar
+    resetsearchbar(event);
   });
 }
 
