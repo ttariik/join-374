@@ -10,11 +10,11 @@ function addsubtask(event) {
     document.getElementById("subtaskinput0").value = "";
   }
   subtasks.push(subtaskinput1);
-  if (subtasks.length <= 2) {
-    firstpartsubtask(subtasks, subtaskinput1);
-  } else {
-    return displayError("spansubtask", "You can only add up to 2 subtasks.");
+  if (subtasks.length > 2) {
+    document.querySelector(".subtasksbox1").style =
+      "height: 72px;overflow: hidden;overflow-y: scroll; scrollbar-width: none;";
   }
+  firstpartsubtask(subtasks, subtaskinput1);
 }
 
 function firstpartsubtask(subtasks, subtaskinput1) {
