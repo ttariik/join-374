@@ -14,6 +14,60 @@ function subtaskstemplate(subtaskinput1) {
     `;
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const customSelect = document.querySelector(".custom-select");
+  const selected = customSelect.querySelector(".custom-select-selected");
+  const options = customSelect.querySelector(".custom-select-options");
+
+  // Toggle dropdown on click
+  selected.addEventListener("click", () => {
+    customSelect.classList.toggle("open");
+  });
+
+  // Select an option
+  options.addEventListener("click", (e) => {
+    if (e.target.classList.contains("custom-option")) {
+      selected.textContent = e.target.textContent; // Update selected text
+      selected.dataset.value = e.target.dataset.value; // Store value
+      customSelect.classList.remove("open");
+    }
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!customSelect.contains(e.target)) {
+      customSelect.classList.remove("open");
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const categoryDropdown = document.getElementById("Category");
+  const selectedElement = categoryDropdown.querySelector(
+    ".custom-select-selected"
+  );
+  const options = categoryDropdown.querySelectorAll(".custom-option");
+
+  // Add click event listeners to options
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      const value = option.dataset.value;
+      const text = option.textContent;
+
+      // Update selected display and data-value
+      selectedElement.textContent = text;
+      selectedElement.dataset.value = value;
+    });
+  });
+
+  // Mimic .value on the custom dropdown container
+  Object.defineProperty(categoryDropdown, "value", {
+    get() {
+      return selectedElement.dataset.value;
+    },
+  });
+});
+
 function subtaskdesign(index) {
   return /*html*/ `
       <input id="inputsub${index}" class="editinput" type="text" placeholder="Edit subtask" />
