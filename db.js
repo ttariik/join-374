@@ -9,7 +9,7 @@ let users = [];
  * @constant {string}
  */
 const GLOBAL =
-  "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
+  "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
  * Sends data to a specified path in the database using the PUT method.
