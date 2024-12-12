@@ -212,18 +212,26 @@ async function Technicaltasktemplate(task, contacts) {
       </div>`;
 }
 
-// Get the HTML for initials badges (first 5 initials)
 function getInitialsHTML(initialsArray, contactsArray) {
-  const displayedInitials = initialsArray.slice(0, 5);
+  const displayedInitials = initialsArray.slice(0, 5); // Show only up to 5 initials
 
   return displayedInitials
     .map((initialObj) => {
-      const initial = initialObj.initials;
+      // Extract the initials from the object
+      const initial =
+        typeof initialObj === "object" && initialObj.initials
+          ? initialObj.initials
+          : initialObj;
+
+      // Find the contact that matches the initials
       const contact = contactsArray.find(
-        (contact) => contact.initials === initial
+        (contact) => contact && contact.initials === initial
       );
+
+      // If the contact is found, use its color, otherwise fallback to #ccc
       const color = contact ? contact.color : "#ccc";
 
+      // Return the HTML for the badge
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
