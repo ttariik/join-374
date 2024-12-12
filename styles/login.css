@@ -111,7 +111,6 @@ header {
   max-width: 1440px;
   margin: 0 auto;
   position: relative; 
-  height: 100%;
 }
 
 .container-logo {
@@ -163,6 +162,7 @@ header {
   width: 100%;
   max-width: 280px;
   gap: 35px;
+  z-index: 99;
 }
 
 .sign-up-p {
