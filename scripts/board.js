@@ -125,13 +125,19 @@ async function inputacessprofile(task, contacts) {
 }
 
 function prepareprofileassignedarea(task, contacts) {
+  // Ensure task.initials is an array or an empty array
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
+
+  // Check if contacts is valid (not null or undefined)
   const contactsArray = (
-    Array.isArray(contacts) ? contacts : Object.values(contacts)
+    Array.isArray(contacts) ? contacts : contacts ? Object.values(contacts) : []
   ).filter((contact) => contact !== null && contact !== undefined);
 
   const profileAssignedArea = document.getElementById("profileassingedarea");
+
+  // Initialize badgeHTML
   let badgeHTML = "";
+
   return { initialsArray, contactsArray, profileAssignedArea, badgeHTML };
 }
 

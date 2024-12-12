@@ -42,32 +42,49 @@ function getProgressBarHTML(subtasks, task) {
 
 // Template function
 async function userstorytemplate(task, contacts) {
-  const contactsArray = getValidContactsArray(contacts);
-  const initialsHTML = getInitialsHTML(task.initials || [], contactsArray);
-  const extraCircleHTML = getExtraCircleHTML(task.initials || []);
-  const progressBarHTML = getProgressBarHTML(task.subtask || [], task);
+  // Ensure contacts is valid and get valid contacts array
+  const contactsArray = Array.isArray(contacts)
+    ? getValidContactsArray(contacts)
+    : [];
+
+  // Handle empty or undefined task properties
+  const taskCategory = task?.category || "Uncategorized";
+  const taskTitle = task?.title || "Untitled Task";
+  const taskDescription = task?.description || "";
+  const taskPrio = task?.prio || "";
+
+  // Generate initials and extra circle HTML only if contacts exist
+  const initialsHTML =
+    contactsArray.length > 0
+      ? getInitialsHTML(task?.initials || [], contactsArray)
+      : "";
+  const extraCircleHTML =
+    contactsArray.length > 0 ? getExtraCircleHTML(task?.initials || []) : "";
+
+  // Generate the progress bar HTML
+  const progressBarHTML = getProgressBarHTML(task?.subtask || [], task);
 
   return /*html*/ `
-        <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
-          task.id
-        }">
-          <div class="task-detailss">
-            <span>${task.category || "Uncategorized"}</span>
-          </div>
-          <div class="titlecontainer">
-            <div class="section-one">${task.title || "Untitled Task"}</div>
-            <div class="section-two">${task.description || ""}</div>
-          </div>
-          ${progressBarHTML}
-          <div class="asignbox">
-            <div class="initialsbox" id="initialbox">
-              ${initialsHTML}
-              ${extraCircleHTML}
-            </div>
-            <img src="/img/${task.prio || ""}.png" alt="">
-          </div>
+    <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
+      task?.id || ""
+    }">
+      <div class="task-detailss">
+        <span>${taskCategory}</span>
+      </div>
+      <div class="titlecontainer">
+        <div class="section-one">${taskTitle}</div>
+        <div class="section-two">${taskDescription}</div>
+      </div>
+      ${progressBarHTML}
+      <div class="asignbox">
+        <div class="initialsbox" id="initialbox">
+          ${initialsHTML}  <!-- Show initials if contacts exist, otherwise leave empty -->
+          ${extraCircleHTML} <!-- Show extra circle if contacts exist, otherwise leave empty -->
         </div>
-      `;
+        <img src="/img/${taskPrio}.png" alt="">
+      </div>
+    </div>
+  `;
 }
 
 // Helper function to get an array of valid contacts
@@ -120,9 +137,14 @@ function getProgressBarHTML(subtasks, task) {
     : ""; // Empty string if no subtasks
 }
 
-// Main function for generating the technical task template
-// Logic functions
 function getContactsArray(contacts) {
+  if (
+    contacts === null ||
+    contacts === undefined ||
+    typeof contacts !== "object"
+  ) {
+    return []; // Return an empty array if contacts is not a valid object
+  }
   return Array.isArray(contacts)
     ? contacts
     : Object.values(contacts).filter(
