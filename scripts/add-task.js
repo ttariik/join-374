@@ -37,10 +37,15 @@ function handleButtonClick(priority) {
 }
 
 async function getFormData() {
+  let duedate;
   const userResponse = await getAllUsers("users");
   const title = document.getElementById("title").value;
   const description = document.getElementById("description").value;
-  const duedate = document.getElementById("date").value;
+  if (document.getElementById("date").value === "") {
+    duedate = document.getElementById("date2").value;
+  } else {
+    duedate = document.getElementById("date").value;
+  }
   const category = document.getElementById("Category").value;
   const UserKeyArray = Object.keys(userResponse);
 
