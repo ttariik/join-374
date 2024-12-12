@@ -73,6 +73,7 @@
                   placeholder="+49 123 456 7890"
                   class="telefoneinput"
                   maxlength="20"
+                  oninput="this.value = this.value.replace(/[^+\d]/g, '')"
                 />
                 <img src="/img/call.png" alt="" />
                 <span id="phone-error-message" class="spandesignphone"></span>
