@@ -361,7 +361,7 @@ function initializeFormValidation() {
   });
 
   // Add click event listener for "Save" button
-  saveButton.addEventListener("click", function (event) {
+  saveButton.addEventListener("submit", function (event) {
     event.preventDefault(); // Prevent form submission
 
     // Validate all fields when button is clicked
