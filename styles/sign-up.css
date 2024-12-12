@@ -325,9 +325,9 @@ input[type="password"] {
 }
 
 .sign-up-button-footer:disabled {
-  background-color: #2a3647; 
-  border-color: #ffffff; 
-  color: #B0BEC5; 
+    background-color: #2a3647b2; 
+    border-color: #ffffff; 
+    pointer-events: none;
 }
 
 

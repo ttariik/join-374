@@ -32,8 +32,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (userDoc.exists()) {
                 initials = userDoc.data().name ? getInitials(userDoc.data().name) : initials;
-            } else {
-                console.log('Benutzerdokument nicht gefunden.');
             }
         }
         displayUserInitials(initials);
@@ -65,8 +63,6 @@ function displayUserInitials(initials) {
         if (initialsElement) {
             initialsElement.textContent = initials;
             clearInterval(checkExist); 
-        } else {
-            console.error('Element mit ID "user-initials" nicht gefunden!');
         }
     }, 100); 
 }
@@ -81,11 +77,10 @@ function setupLogout() {
             event.preventDefault(); 
             signOut(auth)
             .then(() => {
-                console.log('Erfolgreich abgemeldet.');
                 window.location.href = '../index.html'; 
             })
             .catch((error) => {
-                console.error('Fehler beim Abmelden:', error);
+                // Handle sign-out error
             });
         });
     } 

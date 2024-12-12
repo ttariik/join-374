@@ -137,24 +137,6 @@ header {
   transform: translate(-50%, -50%) scale(1); 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .sign-up-header {
   display: flex;
   align-items: center;
@@ -396,9 +378,9 @@ input[type="password"] {
 }
 
 .login-button:disabled {
-  background-color: #2a3647; 
-  border-color: #ffffff; 
-  color: #B0BEC5; 
+  background-color: #2a3647b2; 
+  border-color: #2a3647c5; 
+  pointer-events: none;
 }
 
 .guest-button {
