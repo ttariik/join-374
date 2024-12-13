@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const options = customSelect.querySelector(".custom-select-options");
 
   // Toggle dropdown on click
-  selected.addEventListener("click", () => {
+  selected.addEventListener("click", (e) => {
     customSelect.classList.toggle("open");
+    e.stopPropagation(); // Prevent document click listener from closing the dropdown immediately
   });
 
   // Select an option
@@ -41,22 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// This function retrieves the selected category from the custom select dropdown
 function getCategory() {
   const selected = document.querySelector(".custom-select-selected");
 
-  // If the selected text is "Select Task Category", it means no valid option has been selected.
-  if (!selected || selected.textContent === "Select Task Category") {
-    return "Select Task Category"; // Default value when nothing is selected
+  if (selected.textContent.trim() === "Select Task Category") {
+    return "Select Task Category"; // No valid selection
+  } else {
+    return selected.textContent.trim(); // Valid selection
   }
-
-  // Return the value stored in the data-value attribute of the selected option
-  return selected.dataset.value;
 }
-
-// Example of how to use the function (should be triggered when you need to retrieve the category)
-const category = getCategory();
-console.log(category); // This will output the selected category or the default value
 
 document.addEventListener("DOMContentLoaded", () => {
   const categoryDropdown = document.getElementById("Category");
@@ -81,6 +75,14 @@ document.addEventListener("DOMContentLoaded", () => {
   Object.defineProperty(categoryDropdown, "value", {
     get() {
       return selectedElement.dataset.value;
+    },
+    set(value) {
+      // Optionally, set the value programmatically if needed
+      const option = categoryDropdown.querySelector(`[data-value="${value}"]`);
+      if (option) {
+        selectedElement.textContent = option.textContent;
+        selectedElement.dataset.value = value;
+      }
     },
   });
 });

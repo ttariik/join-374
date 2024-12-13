@@ -5,6 +5,7 @@
 function validateTaskForm() {
   const title = document.getElementById("title").value.trim();
   const date = document.getElementById("date2").value.trim();
+  const category = getCategory();
 
   let isValid = true;
 
