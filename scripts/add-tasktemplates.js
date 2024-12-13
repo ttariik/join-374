@@ -16,30 +16,27 @@ function subtaskstemplate(subtaskinput1) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const customSelect = document.querySelector(".custom-select");
-  const selected = customSelect.querySelector(".custom-select-selected");
-  const options = customSelect.querySelector(".custom-select-options");
 
-  // Toggle dropdown on click
-  selected.addEventListener("click", (e) => {
-    customSelect.classList.toggle("open");
-    e.stopPropagation(); // Prevent document click listener from closing the dropdown immediately
-  });
+  if (customSelect) {
+    const selected = customSelect.querySelector(".custom-select-selected");
+    const options = customSelect.querySelector(".custom-select-options");
 
-  // Select an option
-  options.addEventListener("click", (e) => {
-    if (e.target.classList.contains("custom-option")) {
-      selected.textContent = e.target.textContent; // Update selected text
-      selected.dataset.value = e.target.dataset.value; // Store value
-      customSelect.classList.remove("open");
+    if (selected && options) {
+      selected.addEventListener("click", (e) => {
+        customSelect.classList.toggle("open");
+        e.stopPropagation();
+      });
+
+      options.addEventListener("click", (e) => {
+        if (e.target.classList.contains("custom-option")) {
+          selected.textContent = e.target.textContent;
+          selected.dataset.value = e.target.dataset.value;
+          customSelect.classList.remove("open");
+        }
+      });
     }
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!customSelect.contains(e.target)) {
-      customSelect.classList.remove("open");
-    }
-  });
+  } else {
+  }
 });
 
 function getCategory() {
