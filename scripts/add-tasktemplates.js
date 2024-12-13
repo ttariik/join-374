@@ -16,39 +16,47 @@ function subtaskstemplate(subtaskinput1) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const customSelect = document.querySelector(".custom-select");
+  const selected = customSelect.querySelector(".custom-select-selected");
+  const options = customSelect.querySelector(".custom-select-options");
 
-  if (customSelect) {
-    const selected = customSelect.querySelector(".custom-select-selected");
-    const options = customSelect.querySelector(".custom-select-options");
+  // Toggle dropdown on click
+  selected.addEventListener("click", () => {
+    customSelect.classList.toggle("open");
+  });
 
-    if (selected && options) {
-      // Toggle dropdown on click
-      selected.addEventListener("click", (e) => {
-        // Prevent the click event from propagating to document (so it won't immediately close the dropdown)
-        e.stopPropagation();
-        customSelect.classList.toggle("open");
-      });
-
-      // Select an option (delegation to handle clicks on individual options)
-      options.addEventListener("click", (e) => {
-        if (e.target.classList.contains("custom-option")) {
-          selected.textContent = e.target.textContent; // Update selected text
-          selected.dataset.value = e.target.dataset.value; // Store value
-          customSelect.classList.remove("open"); // Close dropdown
-        }
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener("click", (e) => {
-        if (!customSelect.contains(e.target)) {
-          customSelect.classList.remove("open");
-        }
-      });
-    } else {
+  // Select an option
+  options.addEventListener("click", (e) => {
+    if (e.target.classList.contains("custom-option")) {
+      selected.textContent = e.target.textContent; // Update selected text
+      selected.dataset.value = e.target.dataset.value; // Store value
+      customSelect.classList.remove("open");
     }
-  } else {
-  }
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!customSelect.contains(e.target)) {
+      customSelect.classList.remove("open");
+    }
+  });
 });
+
+// This function retrieves the selected category from the custom select dropdown
+function getCategory() {
+  const selected = document.querySelector(".custom-select-selected");
+
+  // If the selected text is "Select Task Category", it means no valid option has been selected.
+  if (!selected || selected.textContent === "Select Task Category") {
+    return "Select Task Category"; // Default value when nothing is selected
+  }
+
+  // Return the value stored in the data-value attribute of the selected option
+  return selected.dataset.value;
+}
+
+// Example of how to use the function (should be triggered when you need to retrieve the category)
+const category = getCategory();
+console.log(category); // This will output the selected category or the default value
 
 document.addEventListener("DOMContentLoaded", () => {
   const categoryDropdown = document.getElementById("Category");
