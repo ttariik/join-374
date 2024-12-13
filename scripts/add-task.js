@@ -174,6 +174,9 @@ function resetForm() {
   form.reset();
   document.getElementById("assignedusers").innerHTML = "";
   document.getElementById("subtasksbox").innerHTML = "";
+  document.getElementById("selectedcategory").removeAttribute("data-value");
+  document.getElementById("selectedcategory").innerHTML =
+    "Select Task Category";
 }
 
 function resetButtons() {
