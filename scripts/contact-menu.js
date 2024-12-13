@@ -215,7 +215,18 @@ function deselectingcontactclass(contactKey) {
   }
   document.getElementById("contacttemplate").classList.remove("d-none");
 }
+
+let lastSelectedContactKey = null; // To track the last selected contact key
+
 async function showcontacttemplate(contactKey) {
+  if (lastSelectedContactKey === contactKey) {
+    // If the same contact is clicked twice, close the template
+    closecontacttemplate(contactKey);
+    lastSelectedContactKey = null; // Reset the last selected key
+    return; // Exit the function
+  }
+  lastSelectedContactKey = contactKey;
+
   deselectingcontactclass(contactKey);
   const contact = contactUsers.find((user) => user.key === contactKey);
   document.getElementById("title").innerHTML = contact.name;
@@ -238,8 +249,6 @@ function lastpartofcontacttemplate(contact) {
   const contactTemplate = document.getElementById("contacttemplate");
   contactTemplate.style.display = "flex";
   contactTemplate.style.transform = "translateX(0%)";
-  document.getElementById(`${contact.key}`).onclick = () =>
-    closecontacttemplate(contact.key);
 }
 
 /**
