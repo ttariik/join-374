@@ -195,6 +195,7 @@ function resetPriorityColors() {
   asignedtousers = [];
   subtasks = [];
   initialsArray = [];
+  document.querySelector(".subtasksbox1").style = "";
 }
 
 function clearContactsBox() {

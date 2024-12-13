@@ -12,7 +12,7 @@ function addsubtask(event) {
   subtasks.push(subtaskinput1);
   if (subtasks.length > 2) {
     document.querySelector(".subtasksbox1").style =
-      "overflow: hidden;overflow-y: scroll; scrollbar-width: none;";
+      "overflow: hidden;overflow-y: scroll; scrollbar-width: thin;";
   }
   firstpartsubtask(subtasks, subtaskinput1);
 }

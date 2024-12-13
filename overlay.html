@@ -151,18 +151,21 @@
                 <div class="secondhalfbox">
                   <div>
                     <label>Category*</label>
-                    <select name="" id="Category">
-                      <option
-                        disabled
-                        selected
-                        hidden
-                        value="Select Task Category"
-                      >
-                        Select Task Category
-                      </option>
-                      <option value="Technical Task">Technical Task</option>
-                      <option value="User Story">User Story</option>
-                    </select>
+                    <div class="custom-select-container" id="Category">
+                      <div class="custom-select">
+                        <div class="custom-select-selected">
+                          Select Task Category
+                        </div>
+                        <ul class="custom-select-options">
+                          <li class="custom-option" data-value="Technical Task">
+                            Technical Task
+                          </li>
+                          <li class="custom-option" data-value="User Story">
+                            User Story
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                     <span class="spansubtaskdesign" id="spancategory"></span>
                   </div>
                   <div>

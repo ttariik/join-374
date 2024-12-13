@@ -16,29 +16,38 @@ function subtaskstemplate(subtaskinput1) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const customSelect = document.querySelector(".custom-select");
-  const selected = customSelect.querySelector(".custom-select-selected");
-  const options = customSelect.querySelector(".custom-select-options");
 
-  // Toggle dropdown on click
-  selected.addEventListener("click", () => {
-    customSelect.classList.toggle("open");
-  });
+  if (customSelect) {
+    const selected = customSelect.querySelector(".custom-select-selected");
+    const options = customSelect.querySelector(".custom-select-options");
 
-  // Select an option
-  options.addEventListener("click", (e) => {
-    if (e.target.classList.contains("custom-option")) {
-      selected.textContent = e.target.textContent; // Update selected text
-      selected.dataset.value = e.target.dataset.value; // Store value
-      customSelect.classList.remove("open");
+    if (selected && options) {
+      // Toggle dropdown on click
+      selected.addEventListener("click", (e) => {
+        // Prevent the click event from propagating to document (so it won't immediately close the dropdown)
+        e.stopPropagation();
+        customSelect.classList.toggle("open");
+      });
+
+      // Select an option (delegation to handle clicks on individual options)
+      options.addEventListener("click", (e) => {
+        if (e.target.classList.contains("custom-option")) {
+          selected.textContent = e.target.textContent; // Update selected text
+          selected.dataset.value = e.target.dataset.value; // Store value
+          customSelect.classList.remove("open"); // Close dropdown
+        }
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", (e) => {
+        if (!customSelect.contains(e.target)) {
+          customSelect.classList.remove("open");
+        }
+      });
+    } else {
     }
-  });
-
-  // Close dropdown when clicking outside
-  document.addEventListener("click", (e) => {
-    if (!customSelect.contains(e.target)) {
-      customSelect.classList.remove("open");
-    }
-  });
+  } else {
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
