@@ -56,7 +56,7 @@ function initializeFormCheck() {
   // Input elements
   const titleInput = document.getElementById("title");
   const dateInput = document.getElementById("date2");
-  const categoryInput = document.getElementById("Category");
+  const categoryInput = document.getElementById("selectedcategory"); // Updated for custom dropdown
   const createTaskButton = document.querySelector(".bt2");
 
   // Add individual input event listeners
@@ -68,8 +68,12 @@ function initializeFormCheck() {
     validateDatefield(event.target); // Validate the date
   });
 
-  categoryInput.addEventListener("change", (event) => {
-    validateCategory(event.target); // Validate the category
+  // Custom logic for category validation
+  const customSelect = document.querySelector(".custom-select");
+  customSelect.addEventListener("click", (event) => {
+    if (event.target.classList.contains("custom-option")) {
+      validateCategory(categoryInput); // Trigger category validation after selection
+    }
   });
 
   // Add event listener for button click
@@ -80,6 +84,7 @@ function initializeFormCheck() {
     if (validateTaskForm()) {
       addtask(event); // Form is valid, proceed with task creation
     } else {
+      // Handle form errors if needed
     }
   });
 }
