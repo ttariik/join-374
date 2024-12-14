@@ -1,66 +1,83 @@
+/**
+ * Allows an element to act as a drop target by preventing the default drag behavior.
+ * @param {DragEvent} event - The drag event object.
+ */
 function allowDrop(event) {
   event.preventDefault();
 }
 
+/**
+ * Handles the drag start event, sets up the drag data, and adds drag-related event listeners to folders.
+ * @param {DragEvent} event - The drag event object.
+ */
 function drag(event) {
   const taskId = event.target.id;
   const taskElement = document.getElementById(taskId);
   const parentFolderId = taskElement.getAttribute("data-current-folder-id");
+
   document.querySelectorAll(".folder").forEach((folder) => {
     folder.addEventListener("dragenter", dragenter);
     folder.addEventListener("dragleave", dragleave);
   });
+
   event.dataTransfer.setData("taskId", taskId);
   event.dataTransfer.setData("parentFolderId", parentFolderId);
-  // Add a placeholder to the folder you are dragging over
 }
 
+/**
+ * Handles the drag enter event, displays a visual indicator (e.g., "nothing2" div) when dragging over a folder.
+ * @param {DragEvent} event - The drag event object.
+ */
 function dragenter(event) {
   const targetFolder = event.currentTarget;
 
-  // Check if the "nothing2" div already exists (but we're not adding it to the DOM)
+  // Check if the visual indicator already exists
   let nothingDiv = targetFolder.querySelector(".nothing2");
-
   if (!nothingDiv) {
-    // If it doesn't exist, we add a temporary "nothing2" class for visual effect
     nothingDiv = document.createElement("div");
     nothingDiv.className = "nothing2";
-    nothingDiv.style.position = "absolute"; // Position it on top of the folder
-    nothingDiv.style.zIndex = "-99999"; // Ensure it's visible on top of other content
-    nothingDiv.style.padding = "10px"; // Optional: Style the message
-    nothingDiv.style.display = "block"; // Ensure it's visible
-    targetFolder.appendChild(nothingDiv); // Show it visually but not in the DOM
+    nothingDiv.style.position = "absolute";
+    nothingDiv.style.zIndex = "-99999";
+    nothingDiv.style.padding = "10px";
+    nothingDiv.style.display = "block";
+    targetFolder.appendChild(nothingDiv);
   }
 
-  let messagediv = targetFolder.querySelector(".nothing");
+  // Remove the "nothing" message if present
+  const messagediv = targetFolder.querySelector(".nothing");
   if (messagediv) {
     messagediv.remove();
   }
-
-  // Optionally, you could change the style to indicate a valid drop area (like changing color)
-  nothingDiv.style.display = "block"; // Show the div when dragging over
 }
 
+/**
+ * Handles the drag leave event, removes the visual indicator from the folder.
+ * @param {DragEvent} event - The drag event object.
+ */
 function dragleave(event) {
   const targetFolder = event.currentTarget;
 
-  // Remove the "nothing2" div if it exists
+  // Remove the "nothing2" visual indicator
   const nothingDiv = targetFolder.querySelector(".nothing2");
   if (nothingDiv) {
     nothingDiv.remove();
   }
 
-  // Check if the folder is empty and if the "nothing" message isn't already displayed
-  let messagediv = targetFolder.querySelector(".nothing");
+  // Show "No tasks" message if folder is empty
+  const messagediv = targetFolder.querySelector(".nothing");
   if (!messagediv && targetFolder.children.length === 0) {
-    // Create and display the "nothing" message
     messagediv = document.createElement("div");
     messagediv.className = "nothing";
-    messagediv.textContent = getNoTasksMessage(targetFolder.id); // Call your function to get the message
+    messagediv.textContent = getNoTasksMessage(targetFolder.id);
     targetFolder.appendChild(messagediv);
   }
 }
 
+/**
+ * Handles the drop event to move tasks between folders.
+ * Fetches, updates, and reorganizes the DOM and backend data.
+ * @param {DragEvent} event - The drag event object.
+ */
 async function drop(event) {
   event.preventDefault();
 
@@ -69,63 +86,55 @@ async function drop(event) {
   const parentFolderId = taskElement.parentElement.id;
   const targetFolder = event.currentTarget.id;
 
-  // Ensure we don't try to drop in the same folder
   if (parentFolderId === targetFolder) {
-    return;
+    return; // Prevent moving to the same folder
   }
-  const removedmessage = event.currentTarget;
-  const removedmessagediv = removedmessage.querySelector(".nothing2");
+
+  const removedmessagediv = event.currentTarget.querySelector(".nothing2");
   if (removedmessagediv) {
     removedmessagediv.remove();
   }
+
   try {
     // Disable dragging during the operation
     taskElement.setAttribute("draggable", "false");
 
-    // Get the target container to append the task to
-    const targetContainer = document.getElementById(targetFolder);
-
-    // Fetch the task data
+    // Fetch task data
     const response = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
     const taskData = await response.json();
 
-    // Move the task data to the new folder
+    // Move the task to the new folder in the backend
     await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
     await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
 
-    // Check if the task was successfully deleted from the original folder
+    // Verify task deletion from the source folder
     const deletionCheck = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
     const deletedData = await deletionCheck.json();
 
     if (deletedData === null) {
-      // If task is deleted, update the target folder DOM
-      // Remove "No tasks" message from the target folder if it exists
+      // Update the DOM to reflect the move
+      const targetContainer = document.getElementById(targetFolder);
       const noTasksMessage = targetContainer.querySelector(".nothing");
       if (noTasksMessage) {
         noTasksMessage.remove();
       }
-
-      // Move the task element to the target folder
       targetContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", targetFolder);
     } else {
-      // If deletion failed, revert the task back to the original folder
+      // Revert changes if the task deletion failed
       const parentContainer = document.getElementById(parentFolderId);
       parentContainer.appendChild(taskElement);
       taskElement.setAttribute("data-current-folder-id", parentFolderId);
-
-      // Show a message or alert that the move failed
       alert("Failed to move task. Reverting to original folder.");
     }
 
-    // Handle source folder to show "No tasks" if it's empty
+    // Handle "No tasks" message for the source folder
     const parentContainer = document.getElementById(parentFolderId);
     if (parentContainer && parentContainer.children.length === 0) {
-      // Add "No tasks" message to source folder if it becomes empty
       const noTasksMessageElement = document.createElement("div");
       noTasksMessageElement.className = "nothing";
       noTasksMessageElement.textContent = getNoTasksMessage(parentFolderId);
@@ -138,6 +147,11 @@ async function drop(event) {
   }
 }
 
+/**
+ * Returns a message indicating no tasks are available in a folder.
+ * @param {string} folderId - The ID of the folder.
+ * @returns {string} The message for the folder.
+ */
 function getNoTasksMessage(folderId) {
   switch (folderId) {
     case "todo-folder":

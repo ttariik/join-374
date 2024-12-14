@@ -1,3 +1,8 @@
+/**
+ * Generates the HTML template for a subtask.
+ * @param {string} subtaskinput1 - The input for the subtask.
+ * @returns {string} The HTML template string for the subtask.
+ */
 function subtaskstemplate(subtaskinput1) {
   return /*html*/ `
       <div class="subbox1 data subs${subtasks.length}" id="subboxinput_${subtasks.length}"  data-index="${subtasks.length}" >
@@ -14,6 +19,9 @@ function subtaskstemplate(subtaskinput1) {
     `;
 }
 
+/**
+ * Initializes custom select elements on DOM content loaded.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const customSelect = document.querySelector(".custom-select");
 
@@ -35,10 +43,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     }
-  } else {
   }
 });
 
+/**
+ * Gets the selected category from a custom dropdown.
+ * @returns {string} The selected category, or a default string if none is selected.
+ */
 function getCategory() {
   const selected = document.querySelector(".custom-select-selected");
 
@@ -49,6 +60,9 @@ function getCategory() {
   }
 }
 
+/**
+ * Sets up event listeners for a custom category dropdown on DOM content loaded.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const categoryDropdown = document.getElementById("Category");
   const selectedElement = categoryDropdown.querySelector(
@@ -84,6 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+/**
+ * Generates the HTML template for editing a subtask.
+ * @param {number} index - The index of the subtask.
+ * @returns {string} The HTML template string for editing the subtask.
+ */
 function subtaskdesign(index) {
   return /*html*/ `
       <input id="inputsub${index}" class="editinput" type="text" placeholder="Edit subtask" />
@@ -95,6 +114,12 @@ function subtaskdesign(index) {
     `;
 }
 
+/**
+ * Generates the HTML template for a subtask with a result.
+ * @param {number} index - The index of the subtask.
+ * @param {string} result - The content of the subtask.
+ * @returns {string} The HTML template string for the subtask.
+ */
 function subtaskstemplAte(index, result) {
   return /*html*/ `
         <div class="subbox_11">
@@ -109,6 +134,12 @@ function subtaskstemplAte(index, result) {
     `;
 }
 
+/**
+ * Generates the HTML template for loading a subtask item.
+ * @param {number} subtaskIndex - The index of the subtask.
+ * @param {Object} subtask - The subtask object containing its content.
+ * @returns {string} The HTML template string for the subtask item.
+ */
 function subtaskitemtemplateload(subtaskIndex, subtask) {
   return /*html*/ `
     <div class="subbox1 data subs1" id="subboxinput_${subtaskIndex}" data-index="${subtaskIndex}">
@@ -131,6 +162,12 @@ function subtaskitemtemplateload(subtaskIndex, subtask) {
   `;
 }
 
+/**
+ * Generates the HTML template for editing a subtask with a result.
+ * @param {number} index - The index of the subtask.
+ * @param {string} result - The content of the subtask.
+ * @returns {string} The HTML template string for the subtask edit.
+ */
 function subtaskedittemplate(index, result) {
   return /*html*/ `
     <div class="subbox_11" >
