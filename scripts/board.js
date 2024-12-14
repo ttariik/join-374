@@ -43,13 +43,6 @@ async function openprofiletemplate(task, contacts) {
   }, 0); // A slight delay for the transform effect
 }
 
-function styleSubtaskArea() {
-  const subtaskArea = document.getElementById("subtaskarea");
-  if (subtaskArea) {
-    subtaskArea.style = "padding: 6px 0px 16px;";
-  }
-}
-
 function updateProfileTitle(task) {
   const profileTitleElement = document.getElementById("profiletitle");
   if (profileTitleElement) {
@@ -105,7 +98,6 @@ function setupEditButton(task) {
 }
 
 async function inputacessprofile(task, contacts) {
-  styleSubtaskArea();
   updateProfileTitle(task);
   updateProfileDescription(task);
   updateProfileDueDate(task);

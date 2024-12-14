@@ -124,6 +124,7 @@
   overflow: hidden;
   overflow-y: scroll;
   scrollbar-width: thin;
+  margin-bottom: 20px;
 }
 
 .subtasks-container {

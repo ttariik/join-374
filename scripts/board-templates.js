@@ -272,7 +272,9 @@ async function showsubtaskstemplate(task) {
       subtaskdesigntemplate(subtaskItem, index, task)
     )
     .join("");
+
   const containerclass = task.subtask.length > 3 ? "subtasks-container3" : "";
+
   return /*html*/ `
         <div class="${containerclass}">
           ${subtasksHTML}

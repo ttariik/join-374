@@ -1,11 +1,11 @@
 function contactstemplate(contact, color) {
   return /*html*/ `
-      <li class="contact-menudesign" id="div${contact.id}" onclick="selectcontact(${contact.id})">
+      <li class="contact-menudesign" id="div${contact.id}" onclick="selectcontact(${contact.id},event)">
         <div class="splitdivs">
           <div class="contactbox-badge" style="background-color:${color}">${contact.initials}</div>
           <div>${contact.name}</div>
         </div>
-        <label class="custom-checkbox" onclick="selectcontact(${contact.id})">
+        <label class="custom-checkbox">
           <input type="checkbox" id="checkbox${contact.id}" class="checkboxdesign" />
           <span class="checkmark" ></span>
         </label>
@@ -16,7 +16,10 @@ function contactstemplate(contact, color) {
 async function variables(contact) {
   const contactDiv = document.getElementById(`div${contact.id}`);
   const checkbox = document.getElementById(`checkbox${contact.id}`);
-
+  checkbox.onclick = function (event) {
+    console.log(event.currentTarget.id);
+    checkbox.checked = true;
+  };
   const initials = contact.initials;
   const color = contact.color;
   const assignedUsersDiv =
@@ -25,7 +28,7 @@ async function variables(contact) {
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
-async function selectcontact(id) {
+async function selectcontact(id, event) {
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
@@ -52,10 +55,7 @@ async function selectcontact(id) {
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
   // Prevent checkbox clicks from closing the parent div
-  checkbox.addEventListener("click", function (event) {
-    event.stopPropagation(); // Prevent the event from bubbling up to the parent
-    checkbox.checked = true;
-  });
+
   // Check if the contact is already assigned
   if (existingContact && existingContact.id == id) {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
@@ -69,9 +69,7 @@ async function selectcontact(id) {
     initials: initials,
     name: selectedContact.name,
   });
-
   // Ensure the checkbox state is preserved
-  checkbox.checked = true;
 
   // Create and append a new badge for the contact
   const badge = document.createElement("div");
@@ -83,9 +81,7 @@ async function selectcontact(id) {
   badge.style.height = "32px";
   badge.style.marginLeft = "0";
   assignedUsersDiv.appendChild(badge);
-  checkbox.onclick = function () {
-    selectcontact(id);
-  };
+
   // Mark the contact as selected
   contactDiv.classList.add("dark-blue");
   contactDiv.onclick = function () {
