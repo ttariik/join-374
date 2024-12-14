@@ -5,7 +5,7 @@ function contactstemplate(contact, color) {
           <div class="contactbox-badge" style="background-color:${color}">${contact.initials}</div>
           <div>${contact.name}</div>
         </div>
-        <label class="custom-checkbox">
+        <label class="custom-checkbox" onclick="event.preventDefault()">
           <input type="checkbox" id="checkbox${contact.id}" class="checkboxdesign" />
           <span class="checkmark" ></span>
         </label>
@@ -65,9 +65,8 @@ async function selectcontact(id, event) {
 
   // If click originated from the checkbox, stop propagation and handle the checkbox state
   if (event.target.parentElement.classList.contains("custom-checkbox")) {
-    event.stopPropagation(); // Prevent the click event from bubbling up
-    checkbox.checked = !checkbox.checked; // Toggle the checkbox state
-    contactDiv.classList.toggle("dark-blue");
+    event.stopPropagation(); // Stop event propagation
+    contactDiv.click(); // Trigger the div's onclick behavior
     return; // Exit as checkbox-specific logic is complete
   } else {
     // Mark the contact as selected
