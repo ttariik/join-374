@@ -1,3 +1,7 @@
+/**
+ * Adds a new subtask to the list and updates the UI.
+ * @param {Event} event - The event triggered by the subtask input field.
+ */
 function addsubtask(event) {
   let subtaskinput1;
   if (
@@ -17,6 +21,11 @@ function addsubtask(event) {
   firstpartsubtask(subtasks, subtaskinput1);
 }
 
+/**
+ * Updates the UI with the new subtask.
+ * @param {Array} subtasks - The list of all subtasks.
+ * @param {string} subtaskinput1 - The input value of the newly added subtask.
+ */
 function firstpartsubtask(subtasks, subtaskinput1) {
   const subtaskNumber = subtasks.length;
   if (document.getElementById("subtasksbox11")) {
@@ -32,6 +41,10 @@ function firstpartsubtask(subtasks, subtaskinput1) {
   addingeventlisteners();
 }
 
+/**
+ * Attaches event listeners to the save and delete buttons for the new subtask.
+ * @param {Array} subtasks - The list of all subtasks.
+ */
 function addingeventlistener(subtasks) {
   if (subtasks.length === 0) {
     return;
@@ -50,6 +63,10 @@ function addingeventlistener(subtasks) {
   }, 0);
 }
 
+/**
+ * Shows edit buttons for a specific subtask.
+ * @param {number} index - The index of the subtask.
+ */
 function showeditsubtasks(index) {
   const subtaskBox = document.getElementById(`subboxinput_${index}`);
   if (subtaskBox) {
@@ -58,6 +75,10 @@ function showeditsubtasks(index) {
   }
 }
 
+/**
+ * Hides the default edit button and dot element for a specific subtask.
+ * @param {number} index - The index of the subtask.
+ */
 function earlyeditsubtask(index) {
   if (
     document.getElementById("dot") &&
@@ -68,6 +89,10 @@ function earlyeditsubtask(index) {
   }
 }
 
+/**
+ * Prepares a specific subtask for editing.
+ * @param {number} index - The index of the subtask.
+ */
 function editsubtask(index) {
   const subboxElement = document.getElementById(`sub${index}`);
   earlyeditsubtask(index);
@@ -87,6 +112,10 @@ function editsubtask(index) {
   changeclasses(index);
 }
 
+/**
+ * Updates the button classes for the save and delete buttons of a specific subtask.
+ * @param {number} index - The index of the subtask.
+ */
 function changeclasses(index) {
   document.getElementById(`savesub${index}`).classList.remove("buttondesign");
   document.getElementById(`deletesub${index}`).classList.remove("buttondesign");
@@ -94,18 +123,18 @@ function changeclasses(index) {
   document.getElementById(`deletesub${index}`).classList.add("buttondesign0");
 }
 
+/**
+ * Replaces a subtask's content with an input field for editing.
+ * @param {number} index - The index of the subtask.
+ */
 function inputfielddesign(index) {
-  // Get the subtask value
   const result = subtasks[index - 1];
 
-  // Apply background styling to the container
   const subboxInput = document.getElementById(`subboxinput_${index}`);
   subboxInput.style.background = "#dedede";
 
-  // Replace the content with an input field using subtaskdesign
   subboxInput.innerHTML = subtaskdesign(index);
 
-  // Set the input field value and focus on it
   const inputField = document.getElementById(`inputsub${index}`);
   if (inputField) {
     inputField.value = result;
@@ -113,28 +142,29 @@ function inputfielddesign(index) {
   }
 }
 
+/**
+ * Loads subtasks for a given task and updates the UI.
+ * @param {Object} task - The task object containing subtasks.
+ */
 function loadsubtasks(task) {
-  // Prepare HTML for subtasks and inject them into the subtasksbox
   let subtasksHTML = "";
   if (task.subtask && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtask, index) => {
-      subtasks.push(subtask.subtask); // Push only the current subtask
-      const subtaskNumber = subtasks.length;
+      subtasks.push(subtask.subtask);
+      const subtaskIndex = index + 1;
 
-      const subtaskIndex = index + 1; // Starts from 1 for unique ids like sub1, sub2, etc.
-
-      // Generate a unique id based on index and prepare the subtask HTML
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
     });
   }
 
-  // Inject the generated HTML into the DOM
   document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
   addingeventlisteners();
 }
 
+/**
+ * Attaches hover event listeners to show or hide buttons for all subtasks.
+ */
 function addingeventlisteners() {
-  // Now attach the event listeners after the subtasks are loaded into the DOM
   const subtasksBox =
     document.getElementById("subtasksbox11") ||
     document.getElementById("subtasksbox");
