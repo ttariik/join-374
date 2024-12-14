@@ -5,9 +5,6 @@ function allowDrop(event) {
 function drag(event) {
   const taskId = event.target.id;
   const taskElement = document.getElementById(taskId);
-  const current = event.currentTarget;
-  console.log(current);
-
   const parentFolderId = taskElement.getAttribute("data-current-folder-id");
   document.querySelectorAll(".folder").forEach((folder) => {
     folder.addEventListener("dragenter", dragenter);

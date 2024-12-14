@@ -11,9 +11,11 @@ function addsubtask(event) {
   }
   subtasks.push(subtaskinput1);
   if (subtasks.length > 2) {
-    document.querySelector(".subtasksbox1").style =
-      "overflow: hidden;overflow-y: scroll; scrollbar-width: thin;";
+    event.currentTarget.parentElement.children[6].style =
+      "overflow-y: scroll; scrollbar-width: thin;";
+    document.querySelector(".subtask").style.maxHeight = "130px";
   }
+
   firstpartsubtask(subtasks, subtaskinput1);
 }
 
