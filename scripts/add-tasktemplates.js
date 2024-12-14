@@ -186,3 +186,18 @@ function subtaskedittemplate(index, result) {
       </div>
   `;
 }
+
+function contactstemplate(contact, color) {
+  return /*html*/ `
+      <li class="contact-menudesign" id="div${contact.id}" onclick="selectcontact(${contact.id},event)">
+        <div class="splitdivs">
+          <div class="contactbox-badge" style="background-color:${color}">${contact.initials}</div>
+          <div>${contact.name}</div>
+        </div>
+        <label class="custom-checkbox" onclick="event.preventDefault()">
+          <input type="checkbox" id="checkbox${contact.id}" class="checkboxdesign" />
+          <span class="checkmark" ></span>
+        </label>
+      </li>
+    `;
+}
