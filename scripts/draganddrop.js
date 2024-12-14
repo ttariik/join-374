@@ -20,6 +20,10 @@ async function drop(event) {
   const parentFolderId = taskElement.parentElement.id;
   const targetFolder = event.currentTarget.id;
 
+  if (parentFolderId === targetFolder) {
+    return;
+  }
+
   try {
     taskElement.setAttribute("draggable", "false");
 
