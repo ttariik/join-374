@@ -13,22 +13,22 @@ function contactstemplate(contact, color) {
     `;
 }
 
-async function variables(contact) {
+async function variables(contact, event) {
   const contactDiv = document.getElementById(`div${contact.id}`);
   const checkbox = document.getElementById(`checkbox${contact.id}`);
-  checkbox.onclick = function (event) {
-    console.log(event.currentTarget.id);
-    checkbox.checked = true;
-  };
   const initials = contact.initials;
   const color = contact.color;
   const assignedUsersDiv =
     document.getElementById("assignedusers1") ||
     document.getElementById("assignedusers");
+
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
 async function selectcontact(id, event) {
+  console.log("ID:", id);
+  console.log("Event:", event);
+  // Fetch all contacts
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
@@ -44,32 +44,50 @@ async function selectcontact(id, event) {
       : null
   );
 
+  // Find the selected contact
   const selectedContact = entries.find(
     (contact) => contact && contact.id === String(id)
   );
 
+  if (!selectedContact) {
+    console.error("Contact not found!");
+    return;
+  }
+
+  // Check if the contact is already assigned
   const existingContact = initialsArray.find(
     (contact) => contact.id === selectedContact.id
   );
 
+  // Get DOM elements and properties of the contact
   const { contactDiv, checkbox, initials, color, assignedUsersDiv } =
     await variables(selectedContact);
-  // Prevent checkbox clicks from closing the parent div
 
-  // Check if the contact is already assigned
-  if (existingContact && existingContact.id == id) {
+  // If click originated from the checkbox, stop propagation and handle the checkbox state
+  if (event.target.parentElement.classList.contains("custom-checkbox")) {
+    event.stopPropagation(); // Prevent the click event from bubbling up
+    checkbox.checked = !checkbox.checked; // Toggle the checkbox state
+    contactDiv.classList.toggle("dark-blue");
+    return; // Exit as checkbox-specific logic is complete
+  } else {
+    // Mark the contact as selected
+    checkbox.checked = true;
+    contactDiv.classList.add("dark-blue");
+  }
+
+  // Handle click on the parent `li`
+  if (existingContact) {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
     return; // If already assigned, exit the function
   }
 
-  // If not assigned, add the contact to the assigned list
+  // Add the contact to the assigned users list
   asignedtousers.push(initials);
   initialsArray.push({
     id: selectedContact.id,
     initials: initials,
     name: selectedContact.name,
   });
-  // Ensure the checkbox state is preserved
 
   // Create and append a new badge for the contact
   const badge = document.createElement("div");
@@ -80,16 +98,21 @@ async function selectcontact(id, event) {
   badge.style.width = "32px";
   badge.style.height = "32px";
   badge.style.marginLeft = "0";
-  assignedUsersDiv.appendChild(badge);
 
-  // Mark the contact as selected
-  contactDiv.classList.add("dark-blue");
-  contactDiv.onclick = function () {
-    resetcontact(contactDiv, checkbox, selectedContact.id, initials);
+  // Append badge to the assigned users div
+  if (
+    !assignedUsersDiv.querySelector(`[data-initials="${initials}"]`) // Avoid duplicate badges
+  ) {
+    assignedUsersDiv.appendChild(badge);
+  }
+
+  // Add reset functionality for the contact
+  contactDiv.onclick = (event) => {
+    resetcontact(contactDiv, checkbox, selectedContact.id, initials, event);
   };
 }
 
-function resetcontact(contactDiv, checkbox, id, initials) {
+function resetcontact(contactDiv, checkbox, id, initials, event) {
   checkbox.checked = false; // Ensure checkbox is unchecked
   contactDiv.classList.remove("dark-blue");
 
@@ -106,8 +129,8 @@ function resetcontact(contactDiv, checkbox, id, initials) {
   }
 
   // Reset the click event to allow re-selecting
-  contactDiv.onclick = function () {
-    selectcontact(id);
+  contactDiv.onclick = (event) => {
+    selectcontact(id, event);
   };
 }
 
