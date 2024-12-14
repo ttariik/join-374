@@ -126,7 +126,6 @@ body {
   gap: 35px;
   align-items: center;
   padding: 15px 24px 15px 24px;
-  width: 86%;
   margin-top: 10px;
   border-radius: 20px;
   background-color: rgb(246, 247, 248);
@@ -345,5 +344,13 @@ body {
 
   .add-contact-button-mobile {
     display: flex;
+  }
+}
+
+@media (max-width: 375px) {
+  
+  .align {
+    gap: 20px;
+    padding: 15px 24px 15px 0px;
   }
 }
