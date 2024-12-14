@@ -33,7 +33,7 @@ async function setupprofilelayoutpart1(task) {
   document.querySelector(".titlebox").innerHTML = titletemplate(task);
 }
 
-function setupprofilelayoutpart2(task) {
+async function setupprofilelayoutpart2(task) {
   document.querySelector(".description").innerHTML = descriptiontemplate();
   document.getElementById("due-date-container-edit").innerHTML =
     duedatetemplate();
@@ -58,7 +58,7 @@ async function editprofile(task) {
     });
   }
   await setupprofilelayoutpart1(task);
-  setupprofilelayoutpart2(task);
+  await setupprofilelayoutpart2(task);
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
   document.getElementById("selectbutton1").parentElement.style = "gap: unset";
@@ -72,8 +72,6 @@ async function editprofile(task) {
   );
   loadinfos(task);
 }
-
-
 
 /**
  * Edits input fields and updates the UI for a specific task.

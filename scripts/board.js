@@ -46,7 +46,7 @@ async function openprofiletemplate(task, contacts) {
 function styleSubtaskArea() {
   const subtaskArea = document.getElementById("subtaskarea");
   if (subtaskArea) {
-    subtaskArea.style = "padding: 6px 0px 0px;";
+    subtaskArea.style = "padding: 6px 0px 16px;";
   }
 }
 
