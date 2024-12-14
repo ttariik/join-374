@@ -47,20 +47,20 @@ function firstpartsubtask(subtasks, subtaskinput1) {
  * Attaches event listeners to the save and delete buttons for the new subtask.
  * @param {Array} subtasks - The list of all subtasks.
  */
-function addingeventlistener(subtasks) {
+function addingeventlistener(subtaskIndex) {
   if (subtasks.length === 0) {
     return;
   }
   setTimeout(() => {
     document
-      .getElementById(`savesub${subtasks.length}`)
+      .getElementById(`savesub${subtaskIndex}`)
       .addEventListener("click", function () {
-        savesub(subtasks.length);
+        savesub(subtaskIndex);
       });
     document
-      .getElementById(`deletesub${subtasks.length}`)
+      .getElementById(`deletesub${subtaskIndex}`)
       .addEventListener("click", function () {
-        deletesub(subtasks.length);
+        deletesub(subtaskIndex);
       });
   }, 0);
 }
@@ -154,6 +154,7 @@ function loadsubtasks(task) {
     task.subtask.forEach((subtask, index) => {
       subtasks.push(subtask.subtask);
       const subtaskIndex = index + 1;
+      addingeventlistener(subtaskIndex);
 
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
     });
@@ -181,6 +182,4 @@ function addingeventlisteners() {
       hidesubeditbuttons(`${index}`);
     });
   });
-
-  addingeventlistener(subtasks);
 }

@@ -106,11 +106,16 @@
   gap: 8px;
 }
 
+.subtasks-container1 {
+  overflow-y: scroll;
+  scrollbar-width: thin;
+}
+
 .subtasks-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  max-height: 90px;
+  max-height: 124px;
 }
 
 .subtask {

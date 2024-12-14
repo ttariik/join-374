@@ -205,11 +205,13 @@ function setInitials(changes, task, initialsArray) {
  * @param {HTMLElement} parentElement - The parent element of the task.
  * @param {string} taskId - The unique ID of the task.
  */
-function setSubtasks(changes, task, subtasks, parentElement, taskId) {
+function setSubtasks(changes, task, subtasks) {
   if (!task.subtask) {
     changes.subtask = {}; // Initialize as empty object if subtasks are not defined.
   }
-  if (subtasks.length > 0) {
+  if (changes.subtask === 0 || !changes.subtask) {
+    changes.subtask = {}; // Initialize as empty object if subtasks are not defined.
+  } else if (subtasks.length > 0) {
     changes.subtask = subtasks.map((subtask) => ({
       subtask,
       completed: false,

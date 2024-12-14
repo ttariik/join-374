@@ -186,15 +186,21 @@ function generatecontactbadgehtml(matchingInitials, contact, badgeHTML) {
 
 async function inputaccess(task) {
   setupEditButton();
-  document.getElementById("technicaltasktitle").innerHTML = task.title;
-  document.getElementById("descriptioninput").innerHTML = task.description;
-  document.getElementById("due-date-containerinput").innerHTML = task.duedate;
-  document.getElementById("showprio").innerHTML = task.prio;
-  document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+  if (document.getElementById("technicaltasktitle")) {
+    document.getElementById("technicaltasktitle").innerHTML = task.title;
+    document.getElementById("descriptioninput").innerHTML = task.description;
+    document.getElementById("due-date-containerinput").innerHTML = task.duedate;
+    document.getElementById("showprio").innerHTML = task.prio;
+    document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+  }
 }
 
 async function inputacesstechnicall(task, contacts) {
   await inputaccess(task);
+  // Render assigned persons and subtasks
+  await assignedtotemplate(task, contacts);
+  const subtaskHTML = await showsubtaskstemplate(task);
+  document.getElementById("subtaskbox").innerHTML = subtaskHTML;
   const deleteButton = document.getElementById("btn1");
   const editButton = document.getElementById("btn2");
   const newDeleteButton = deleteButton.cloneNode(true);
@@ -203,10 +209,6 @@ async function inputacesstechnicall(task, contacts) {
   editButton.replaceWith(newEditButton);
   newDeleteButton.addEventListener("click", () => deletetask(task.id, task));
   newEditButton.addEventListener("click", () => editinputs(task));
-  // Render assigned persons and subtasks
-  await assignedtotemplate(task, contacts);
-  const subtaskHTML = await showsubtaskstemplate(task);
-  document.getElementById("subtaskbox").innerHTML = subtaskHTML;
 }
 
 function deletetask(id, task) {
