@@ -284,7 +284,9 @@ async function showsubtaskstemplate(task) {
 function subtaskdesigntemplate(subtaskItem, index, task) {
   return /*html*/ `
           <div class="designlayout">
-              <label class="custom-checkbox">
+              <label class="custom-checkbox" onclick="changestatus(${
+                task.id
+              },${index},${subtaskItem.completed},event)">
                 <input type="checkbox" id="${task.id}-${index}" ${
     subtaskItem.completed ? "checked" : ""
   } class="checkboxdesign" />

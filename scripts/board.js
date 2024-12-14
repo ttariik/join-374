@@ -344,6 +344,36 @@ function applyHoverEffect(buttonId, imageId, hoverSrc) {
   });
 }
 
+async function changestatus(taskId, subtaskIndex, status, event) {
+  try {
+    const taskElement = document.getElementById(taskId);
+    const parentFolderId = taskElement.parentElement.id;
+
+    // Fetch the task data by taskId
+    const response = await fetch(
+      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+    );
+    const taskData = await response.json();
+
+    // Get the subtask from the task
+    const subtask = taskData.subtask[subtaskIndex];
+
+    if (subtask) {
+      // Toggle the completed status (if status is true, set it to false, and vice versa)
+      subtask.completed = !subtask.completed;
+
+      // Save the updated task data back to the server
+      await putData(`users/1/tasks/${parentFolderId}/${taskId}`, taskData);
+    } else {
+    }
+
+    // Reload the tasks if necessary (this step may vary depending on how you want to update the UI)
+    loadtasks(taskId, parentFolderId);
+  } catch (error) {
+    console.error("Error updating subtask status:", error);
+  }
+}
+
 applyHoverEffect("buttonicon1", "pic1", "/img/pic1hovered.png");
 applyHoverEffect("buttonicon2", "pic2", "/img/pic1hovered.png");
 applyHoverEffect("buttonicon3", "pic3", "/img/pic1hovered.png");

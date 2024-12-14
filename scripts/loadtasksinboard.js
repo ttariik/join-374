@@ -1,9 +1,12 @@
-async function loadtasks() {
+async function loadtasks(specificTaskId = null, specificFolderId = null) {
   const todos = [];
   const inprogress = [];
   const awaitingfeedback = [];
   const donetasks = [];
-
+  if (specificTaskId && specificFolderId) {
+    await reloadTask(specificTaskId, specificFolderId);
+    return;
+  }
   try {
     const response = await fetch(GLOBAL + `users/1/tasks.json`);
     const userData = await response.json();
@@ -133,4 +136,62 @@ async function loadtasks() {
     );
     displayNoTasksMessage("done-folder", "No tasks done");
   } catch (error) {}
+}
+
+async function reloadTask(taskId, parentFolderId) {
+  try {
+    // Fetch the specific task data
+    const response = await fetch(
+      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+    );
+    const task = await response.json();
+
+    if (!task) {
+      return;
+    }
+
+    // Fetch contacts data (if required)
+    const response2 = await fetch(`${GLOBAL}users/1/contacts.json`);
+    const contacts = await response2.json();
+
+    // Render the task with the appropriate template
+    let taskHTML;
+    if (task.category === "Technical Task") {
+      taskHTML = await Technicaltasktemplate({ ...task, id: taskId }, contacts);
+    } else {
+      taskHTML = await userstorytemplate({ ...task, id: taskId }, contacts);
+    }
+
+    // Locate the existing task element in the DOM
+    const taskElement = document.getElementById(taskId);
+
+    if (taskElement) {
+      // Replace the task's content
+      taskElement.outerHTML = taskHTML;
+
+      // Reattach event listeners
+      const updatedTaskElement = document.getElementById(taskId);
+      updatedTaskElement.setAttribute("draggable", "true");
+      updatedTaskElement.addEventListener("dragstart", (event) => {
+        event.dataTransfer.setData("taskId", taskId);
+        event.dataTransfer.setData("parentFolderId", parentFolderId);
+      });
+
+      updatedTaskElement.addEventListener("click", () => {
+        if (task.category === "Technical Task") {
+          opentechnicaltemplate(task, contacts);
+        } else {
+          openprofiletemplate(task, contacts);
+        }
+      });
+    } else {
+      // If the task is not already present, append it
+      const folderElement = document.getElementById(parentFolderId);
+      if (folderElement) {
+        folderElement.insertAdjacentHTML("beforeend", taskHTML);
+      }
+    }
+  } catch (error) {
+    console.error(`Error reloading task ${taskId}:`, error);
+  }
 }
