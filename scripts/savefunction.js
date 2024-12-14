@@ -9,7 +9,7 @@ async function savechanges(taskId, task) {
   const changes = prepareChanges(task, title, description, duedate, taskId);
   const contacts = await fetchContacts();
   await updateTask(parentElement, task.id, changes);
-  await finalizeChanges(task, contacts, changes);
+  await finalizeChanges(task, contacts, changes, parentElement);
 }
 
 /**
@@ -76,9 +76,9 @@ async function updateTask(parentElement, taskId, changes) {
  * @param {Object} contacts - The fetched contacts.
  * @param {Object} changes - The applied changes.
  */
-async function finalizeChanges(task, contacts, changes) {
-  await loadtasks();
-  updateOverlayTemplateBasedOnCategory(task, contacts, changes);
+async function finalizeChanges(task, contacts, changes, parentElement) {
+  loadtasks(task.id, parentElement.id);
+  await updateOverlayTemplateBasedOnCategory(task, contacts, changes);
   subtasks = [];
 }
 
@@ -105,7 +105,7 @@ function templateid(task) {
  * @param {Object} contacts - The fetched contacts.
  * @param {Object} changes - The applied changes.
  */
-function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
+async function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
   const { templateId, templateFile } = templateid(task);
   document.getElementById(templateId).innerHTML = "";
   resetOverlayTemplate(templateId, templateFile);

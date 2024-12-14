@@ -7,6 +7,7 @@ function loadinfosifpart1(task) {
   document.getElementById("button11").style.height = "56px";
   document.getElementById("button22").style.height = "56px";
   document.getElementById("button33").style.height = "56px";
+  setButton11Listener(task);
   showsavedinitials(task.id, task);
   loadsubtasks(task);
   document
@@ -287,7 +288,7 @@ function selectbutton_33(task) {
     document.getElementById("mediumImg22").src = "/img/Medium.png";
     document.getElementById("urgent11").style.color = "black";
     document.getElementById("medium22").style.color = "black";
-    if (document.getElementById("button33").classList.contains("lightorange")) {
+    if (document.getElementById("button33").classList.contains("lightgreen")) {
       selectedPriority = "Low";
       document.getElementById("button33").classList.toggle("selected");
     } else {
@@ -310,9 +311,7 @@ function selectbutton_33(task) {
     document.getElementById("mediumImg2-2").src = "/img/Medium.png";
     document.getElementById("urgent1-1").style.color = "black";
     document.getElementById("medium2-2").style.color = "black";
-    if (
-      document.getElementById("button3-3").classList.contains("lightorange")
-    ) {
+    if (document.getElementById("button3-3").classList.contains("lightgreen")) {
       selectedPriority = "Low";
       document.getElementById("button3-3").classList.toggle("selected");
     } else {

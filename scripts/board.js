@@ -184,7 +184,8 @@ function generatecontactbadgehtml(matchingInitials, contact, badgeHTML) {
   return badgeHTML;
 }
 
-function inputaccess(task) {
+async function inputaccess(task) {
+  setupEditButton();
   document.getElementById("technicaltasktitle").innerHTML = task.title;
   document.getElementById("descriptioninput").innerHTML = task.description;
   document.getElementById("due-date-containerinput").innerHTML = task.duedate;
@@ -193,7 +194,7 @@ function inputaccess(task) {
 }
 
 async function inputacesstechnicall(task, contacts) {
-  inputaccess(task);
+  await inputaccess(task);
   const deleteButton = document.getElementById("btn1");
   const editButton = document.getElementById("btn2");
   const newDeleteButton = deleteButton.cloneNode(true);
