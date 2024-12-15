@@ -349,6 +349,7 @@ function deletesub(index) {
 function savesub(index) {
   // Get references to relevant elements
   const subboxInput = document.getElementById(`subboxinput_${index}`);
+
   const inputField = document.getElementById(`inputsub${index}`);
   const editButton = document.getElementById(`editsub${index}`);
   const deleteButton = document.getElementById(`deletesub${index}`);
@@ -375,7 +376,6 @@ function savesub(index) {
 
     // Reapply event listeners for hover effects and button operations
     subtaskiconseventlisteners(index);
-    mouseroveroperations2(index);
     inputField.focus(); // Refocus the input field for correction
 
     return result; // Return the updated value
@@ -387,7 +387,12 @@ function subtaskiconseventlisteners(index) {
   document
     .getElementById(`savesub${index}`)
     .addEventListener("click", function () {
-      savesub(index);
+      const inputElement = document.getElementById(`inputsub${index}`);
+      if (inputElement.value === "") {
+        return;
+      } else {
+        savesub(index);
+      }
     });
   document
     .getElementById(`editsub${index}`)

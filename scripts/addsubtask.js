@@ -53,9 +53,14 @@ function addingeventlistener(subtaskIndex) {
   }
   setTimeout(() => {
     document
-      .getElementById(`savesub${subtaskIndex}`)
+      .getElementById(`savesub${index}`)
       .addEventListener("click", function () {
-        savesub(subtaskIndex);
+        const inputElement = document.getElementById(`inputsub${index}`);
+        if (inputElement.value === "") {
+          return;
+        } else {
+          savesub(index);
+        }
       });
     document
       .getElementById(`deletesub${subtaskIndex}`)
@@ -102,7 +107,17 @@ function editsubtask(index) {
     document
       .getElementById(`savesub${index}`)
       .addEventListener("click", function () {
-        savesub(index);
+        const inputElement = document.getElementById(`inputsub${index}`);
+        if (inputElement.value === "") {
+          displayError(
+            "spansubtask",
+            "you must write something in order to save"
+          );
+          return;
+        } else {
+          clearError("spansubtask");
+          savesub(index);
+        }
       });
     document
       .getElementById(`deletesub${index}`)
