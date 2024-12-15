@@ -6,9 +6,7 @@ function validateTaskForm() {
   const title = document.getElementById("title").value.trim();
   const date = document.getElementById("date2").value.trim();
   const category = getCategory();
-
   let isValid = true;
-
   // Validate each field
   if (title === "") {
     displayError("spantitle", "Title is required.");
@@ -16,18 +14,15 @@ function validateTaskForm() {
   } else {
     clearError("spantitle");
   }
-
   if (!validateDatefield(document.getElementById("date2"))) {
     isValid = false;
   }
-
   if (category === "Select Task Category") {
     displayError("spancategory", "Please select a category.");
     isValid = false;
   } else {
     clearError("spancategory");
   }
-
   return isValid;
 }
 
@@ -263,7 +258,7 @@ function initializeFormValidation() {
     "ai",
     "tv",
     "xyz",
-    "club", // Add all TLDs here
+    "club",
     "uk",
     "us",
     "de",
