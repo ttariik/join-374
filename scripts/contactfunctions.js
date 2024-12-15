@@ -10,7 +10,7 @@ async function variables(contact, event) {
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
-async function selectcontact(id, event) {
+async function fetchcontacts() {
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
@@ -25,10 +25,14 @@ async function selectcontact(id, event) {
         }
       : null
   );
+  return { entries };
+}
+
+async function selectcontact(id, event) {
+  const { entries } = await fetchcontacts();
   const selectedContact = entries.find(
     (contact) => contact && contact.id === String(id)
   );
-
   if (!selectedContact) {
     return;
   }
@@ -46,6 +50,34 @@ async function selectcontact(id, event) {
     checkbox.checked = true;
     contactDiv.classList.add("dark-blue");
   }
+  addcontactbadge(
+    existingContact,
+    initials,
+    selectedContact,
+    color,
+    assignedUsersDiv,
+    checkbox,
+    contactDiv
+  );
+  bodylistener(event, contactDiv, checkbox, selectedContact, initials);
+}
+
+function bodylistener(event, contactDiv, checkbox, selectedContact, initials) {
+  contactDiv.onclick = (event) => {
+    resetcontact(contactDiv, checkbox, selectedContact.id, initials, event);
+  };
+}
+
+function addcontactbadge(
+  existingContact,
+  initials,
+  selectedContact,
+  color,
+  assignedUsersDiv,
+  checkbox,
+  contactDiv
+) {
+  // If the contact already exists, reset it
   if (existingContact) {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
     return;
@@ -57,16 +89,9 @@ async function selectcontact(id, event) {
     name: selectedContact.name,
   });
   const badge = badgecreation(color, initials);
-  if (
-    !assignedUsersDiv.querySelector(`[data-initials="${initials}"]`) // Avoid duplicate badges
-  ) {
+  if (!assignedUsersDiv.querySelector(`[data-initials="${initials}"]`)) {
     assignedUsersDiv.appendChild(badge);
   }
-
-  // Add reset functionality for the contact
-  contactDiv.onclick = (event) => {
-    resetcontact(contactDiv, checkbox, selectedContact.id, initials, event);
-  };
 }
 
 function badgecreation(color, initials) {
