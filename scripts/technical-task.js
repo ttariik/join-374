@@ -106,9 +106,22 @@ function setPriorityButtonListeners(task) {
 }
 
 async function showsavedinitials(id, task) {
-  // Clear previous badges to avoid duplicates
   document.getElementById("assignedusers1").innerHTML = "";
-  // Fetch all contacts once
+  const { entries, contactMap } = await fetchsavedinitials();
+  if (task.asignedto === undefined) {
+    return;
+  }
+  for (let index = 0; index < task.asignedto.length; index++) {
+    const assignedInitial = task.asignedto[index];
+    const selectedContact = contactMap.get(assignedInitial);
+    asignedtousers.push(assignedInitial);
+    if (selectedContact) {
+      forasignedto(selectedContact, index);
+    }
+  }
+}
+
+async function fetchsavedinitials() {
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
   const entries = Object.entries(responsestoJson).map(([firebaseId, contact]) =>
@@ -123,46 +136,33 @@ async function showsavedinitials(id, task) {
         }
       : null
   );
-  // Create a Map for quick lookup by initials
   const contactMap = new Map(
     entries
       .filter((contact) => contact)
       .map((contact) => [contact.initials, contact])
   );
-  if (task.asignedto === undefined) {
-    return;
-  }
-  // Process assigned users
-  for (let index = 0; index < task.asignedto.length; index++) {
-    const assignedInitial = task.asignedto[index];
-    const selectedContact = contactMap.get(assignedInitial);
-    asignedtousers.push(assignedInitial);
-    if (selectedContact) {
-      document.getElementById("assignedusers1").style.width = "100%";
-      const badge = document.createElement("div");
-      badge.className = "badgeassigned badge";
-      badge.style.width = "32px";
-      badge.style.height = "32px";
-      badge.id = `${selectedContact.id}_${index}`;
-      badge.style.backgroundColor = selectedContact.color;
-      badge.textContent = selectedContact.initials;
-      badge.setAttribute("data-initials", selectedContact.initials);
+  return { entries, contactMap };
+}
 
-      // Avoid duplicate badges
-      if (!document.getElementById(badge.id)) {
-        document.getElementById("assignedusers1").appendChild(badge);
-        badge.style.marginLeft = "0";
-      }
-
-      // Push to initialsArray
-      initialsArray.push({
-        id: selectedContact.id,
-        initials: selectedContact.initials,
-        name: selectedContact.name,
-      });
-    } else {
-    }
+function forasignedto(selectedContact, index) {
+  document.getElementById("assignedusers1").style.width = "100%";
+  const badge = document.createElement("div");
+  badge.className = "badgeassigned badge";
+  badge.style.width = "32px";
+  badge.style.height = "32px";
+  badge.id = `${selectedContact.id}_${index}`;
+  badge.style.backgroundColor = selectedContact.color;
+  badge.textContent = selectedContact.initials;
+  badge.setAttribute("data-initials", selectedContact.initials);
+  if (!document.getElementById(badge.id)) {
+    document.getElementById("assignedusers1").appendChild(badge);
+    badge.style.marginLeft = "0";
   }
+  initialsArray.push({
+    id: selectedContact.id,
+    initials: selectedContact.initials,
+    name: selectedContact.name,
+  });
 }
 
 /**
