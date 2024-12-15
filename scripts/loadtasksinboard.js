@@ -3,15 +3,12 @@ async function loadtasks(specificTaskId = null, specificFolderId = null) {
     await reloadTask(specificTaskId, specificFolderId);
     return;
   }
-
   try {
     const userData = await fetchTaskData();
     await ensureFolderStructure(userData);
-
     const updatedUserData = await fetchUpdatedTaskData();
     const { todos, inprogress, awaitingfeedback, donetasks } =
       classifyTasks(updatedUserData);
-
     clearFolders();
     await renderAllFolders({
       todos,
@@ -19,7 +16,6 @@ async function loadtasks(specificTaskId = null, specificFolderId = null) {
       awaitingfeedback,
       donetasks,
     });
-
     displayAllNoTasksMessages();
   } catch (error) {
     console.error("Error loading tasks:", error);
@@ -36,7 +32,6 @@ async function ensureFolderStructure(userData) {
     await putData("users/1/tasks/todofolder", { todofolder: "" });
     return;
   }
-
   const folderNames = [
     "todo-folder",
     "inprogress-folder",
@@ -60,7 +55,6 @@ function classifyTasks(updatedUserData) {
   const inprogress = [];
   const awaitingfeedback = [];
   const donetasks = [];
-
   const pushTasksFromFolder = (folderData, taskArray) => {
     if (folderData && typeof folderData === "object") {
       Object.entries(folderData).forEach(([key, task]) => {
@@ -71,7 +65,6 @@ function classifyTasks(updatedUserData) {
       });
     }
   };
-
   if (updatedUserData["todo-folder"]) {
     pushTasksFromFolder(updatedUserData["todo-folder"], todos);
   }
@@ -87,7 +80,6 @@ function classifyTasks(updatedUserData) {
   if (updatedUserData["done-folder"]) {
     pushTasksFromFolder(updatedUserData["done-folder"], donetasks);
   }
-
   return { todos, inprogress, awaitingfeedback, donetasks };
 }
 
