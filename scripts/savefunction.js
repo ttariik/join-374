@@ -205,19 +205,30 @@ function setInitials(changes, task, initialsArray) {
  * @param {HTMLElement} parentElement - The parent element of the task.
  * @param {string} taskId - The unique ID of the task.
  */
-function setSubtasks(changes, task, subtasks) {
+function initializeSubtasks(changes, task) {
   if (!task.subtask && !changes.subtask) {
-    changes.subtask = {}; // Initialize as empty object if subtasks are not defined.
-    changes.subtask = subtasks.map((subtask) => ({
-      subtask,
-      completed: false,
-    }));
+    changes.subtask = [];
   } else {
-    changes.subtask = subtasks.map((subtask) => ({
-      subtask,
-      completed: false,
-    }));
+    changes.subtask = [...(task.subtask || []), ...(changes.subtask || [])];
   }
+}
+
+function mergeSubtasks(changes, subtasks) {
+  const existingSubtaskMap = new Map(
+    changes.subtask.map((existing) => [existing.subtask, existing.completed])
+  );
+
+  changes.subtask = subtasks.map((subtask) => ({
+    subtask,
+    completed: existingSubtaskMap.has(subtask)
+      ? existingSubtaskMap.get(subtask)
+      : false,
+  }));
+}
+
+function setSubtasks(changes, task, subtasks) {
+  initializeSubtasks(changes, task); // Step 1: Ensure subtasks array exists
+  mergeSubtasks(changes, subtasks); // Step 2: Merge and update subtasks
 }
 
 /**

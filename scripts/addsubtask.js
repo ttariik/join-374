@@ -17,7 +17,6 @@ function addsubtask(event) {
   if (subtasks.length > 2) {
     event.currentTarget.parentElement.children[6].style =
       "overflow-y: scroll; scrollbar-width: thin;";
-    document.querySelector(".subtask").style.maxHeight = "130px";
   }
 
   firstpartsubtask(subtasks, subtaskinput1);
@@ -53,13 +52,14 @@ function addingeventlistener(subtaskIndex) {
   }
   setTimeout(() => {
     document
-      .getElementById(`savesub${index}`)
+      .getElementById(`savesub${subtaskIndex}`)
       .addEventListener("click", function () {
-        const inputElement = document.getElementById(`inputsub${index}`);
+        const inputElement = document.getElementById(`inputsub${subtaskIndex}`);
         if (inputElement.value === "") {
+          displayError("spanplace", "hi");
           return;
         } else {
-          savesub(index);
+          savesub(subtaskIndex);
         }
       });
     document
@@ -110,12 +110,12 @@ function editsubtask(index) {
         const inputElement = document.getElementById(`inputsub${index}`);
         if (inputElement.value === "") {
           displayError(
-            "spansubtask",
-            "you must write something in order to save"
+            "spansubtask1",
+            "you must write something in order to be able to save"
           );
           return;
         } else {
-          clearError("spansubtask");
+          clearError("spansubtask1");
           savesub(index);
         }
       });
@@ -169,9 +169,9 @@ function loadsubtasks(task) {
     task.subtask.forEach((subtask, index) => {
       subtasks.push(subtask.subtask);
       const subtaskIndex = index + 1;
-      addingeventlistener(subtaskIndex);
 
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
+      addingeventlistener(subtaskIndex);
     });
   }
 

@@ -389,6 +389,7 @@ function subtaskiconseventlisteners(index) {
     .addEventListener("click", function () {
       const inputElement = document.getElementById(`inputsub${index}`);
       if (inputElement.value === "") {
+        displayError("spanplace", "you must write something in order to save");
         return;
       } else {
         savesub(index);

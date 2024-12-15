@@ -433,9 +433,9 @@ function subtaskboxemplate() {
                       >
                         <img src="/img/checkmark.png" alt="" />
                       </button>
-                      <span class="spansubtaskdesign" id="spansubtask"></span>
+                      <span class="spansubtaskdesign" id="spansubtask1"></span>
                       <div id="subtasksbox11" class="subtasksbox1"></div>
-                      <div id="spanplace"></div>
+                      <div id="spanplace1"></div>
                     </div>
   `;
 }
