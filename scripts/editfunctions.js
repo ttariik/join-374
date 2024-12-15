@@ -47,7 +47,7 @@ async function setupprofilelayoutpart2(task) {
 }
 
 async function editprofile(task) {
-  if (!task.subtask === undefined) {
+  if (task.subtask && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtaskObj) => {
       subtasks.push(subtaskObj.subtask);
     });
@@ -58,7 +58,7 @@ async function editprofile(task) {
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
   document.getElementById("selectbutton1").parentElement.style = "gap: unset";
   document.querySelector(".scrollbar").style =
-    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
+    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;"; // Adjust scrollbar style
   initializeButtonListeners(
     savechanges,
     updateOverlayTemplateBasedOnCategory,
@@ -78,26 +78,20 @@ async function editinputs(task) {
    */
   if (!task.subtask === undefined) {
     task.subtask.forEach((subtaskObj) => {
-      subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
+      subtasks.push(subtaskObj.subtask);
     });
   }
-  /** Sets up the first part of the technical layout for the task. */
   setuptechnicallayoutpart1(task);
-  /** Updates the assigned contacts section with the task's assigned contacts. */
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
-  /** Adjusts the style of the assigned contacts container. */
   document.getElementById("assigned-containercontent").children[0].style.gap =
     "unset";
-  /** Replaces the button section with a custom save button. */
   document.getElementById(
     "buttonss"
   ).innerHTML = `<button id="oksavebutton" class="savecontact" type="button" >
                     <span>OK</span>
                     <div><img src="/img/checkwhite.png" alt="" /></div>
                  </button>`;
-
-  /** Adds an event listener to the save button to handle saving changes. */
   document
     .getElementById("oksavebutton")
     .addEventListener("click", function () {
@@ -118,7 +112,6 @@ async function setuptechnicallayoutpart1(task) {
   if (type) {
     type.remove();
   }
-  /** Adjusts layout styles and populates UI elements with task data. */
   document.getElementById("layoutid").style.gap = "10px";
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.getElementById("technicaltasktitle").innerHTML = titletemplate(task);
@@ -147,14 +140,11 @@ function setuptechnicallayoutpart2(task) {
   document.getElementById("closebtn").addEventListener("click", function () {
     resettemplate(task);
   });
-  /** Configures the layout styles for the main container. */
   document.getElementById("layoutid").children[1].style =
     "overflow-x: hidden; overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0; padding-right: 8px;";
-  /** Adds an event listener to another close button to reset the template. */
   document.getElementById("closebtn1").addEventListener("click", function () {
     resettemplate(task);
   });
-  /** Sets button dimensions for consistency. */
   document.getElementById("button1").style.maxWidth = "136px";
   document.getElementById("button2").style.maxWidth = "136px";
   document.getElementById("button3").style.maxWidth = "136px";
