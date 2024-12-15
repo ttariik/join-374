@@ -3,26 +3,51 @@
  * @returns {boolean} True if the form is valid, false otherwise.
  */
 function validateTaskForm() {
-  const title = document.getElementById("title").value.trim();
-  const date = document.getElementById("date2").value.trim();
+  const titleInput = document.getElementById("title");
+  const dateInput = document.getElementById("date2");
   const category = getCategory();
+
+  // Safely retrieve title value
+  const title = titleInput ? titleInput.value.trim() : "";
+
+  // Validate fields and return result
+  return validateTaskFields(title, dateInput, category);
+}
+
+function validateTaskFields(title, dateInput, category) {
   let isValid = true;
-  if (title === "") {
+
+  isValid = validatetitle(title) && isValid;
+  isValid = validateDate(dateInput) && isValid;
+  isValid = validatecategory(category) && isValid;
+
+  return isValid;
+}
+
+function validatetitle(input) {
+  if (input === "") {
     displayError("spantitle", "Title is required.");
-    isValid = false;
   } else {
     clearError("spantitle");
+    return true;
   }
-  if (!validateDatefield(document.getElementById("date2"))) {
-    isValid = false;
+}
+
+function validateDate(dateInput) {
+  if (!validateDatefield(dateInput)) {
+    return false;
   }
+  return true;
+}
+
+function validatecategory(category) {
   if (category === "Select Task Category") {
     displayError("spancategory", "Please select a category.");
-    isValid = false;
+    return false;
   } else {
     clearError("spancategory");
+    return true;
   }
-  return isValid;
 }
 
 /**
