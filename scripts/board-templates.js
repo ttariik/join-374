@@ -1,5 +1,3 @@
-// Main function for generating the user story template
-// Logic functions
 function getValidContactsArray(contacts) {
   return Array.isArray(contacts)
     ? contacts
@@ -40,29 +38,51 @@ function getProgressBarHTML(subtasks, task) {
   return `<div class="outsidebox"><div class="progressbar"><div class="progressbar-inside" style="width:${completionPercent}%"></div></div><div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div></div>`;
 }
 
-// Template function
-async function userstorytemplate(task, contacts) {
-  // Ensure contacts is valid and get valid contacts array
+// Logic Handling Function
+function generateTaskDetails(task, contacts) {
   const contactsArray = Array.isArray(contacts)
     ? getValidContactsArray(contacts)
     : [];
 
-  // Handle empty or undefined task properties
   const taskCategory = task?.category || "Uncategorized";
   const taskTitle = task?.title || "Untitled Task";
   const taskDescription = task?.description || "";
   const taskPrio = task?.prio || "";
 
-  // Generate initials and extra circle HTML only if contacts exist
   const initialsHTML =
     contactsArray.length > 0
       ? getInitialsHTML(task?.initials || [], contactsArray)
       : "";
+
   const extraCircleHTML =
     contactsArray.length > 0 ? getExtraCircleHTML(task?.initials || []) : "";
 
-  // Generate the progress bar HTML
   const progressBarHTML = getProgressBarHTML(task?.subtask || [], task);
+
+  return {
+    contactsArray,
+    taskCategory,
+    taskTitle,
+    taskDescription,
+    taskPrio,
+    initialsHTML,
+    extraCircleHTML,
+    progressBarHTML,
+  };
+}
+
+// Template Function
+async function userstorytemplate(task, contacts) {
+  // Get all necessary details by calling the helper function
+  const {
+    taskCategory,
+    taskTitle,
+    taskDescription,
+    taskPrio,
+    initialsHTML,
+    extraCircleHTML,
+    progressBarHTML,
+  } = generateTaskDetails(task, contacts);
 
   return /*html*/ `
     <div class="user-container task" draggable="true" ondragstart="drag(event)" id="${
@@ -78,8 +98,8 @@ async function userstorytemplate(task, contacts) {
       ${progressBarHTML}
       <div class="asignbox">
         <div class="initialsbox" id="initialbox">
-          ${initialsHTML}  <!-- Show initials if contacts exist, otherwise leave empty -->
-          ${extraCircleHTML} <!-- Show extra circle if contacts exist, otherwise leave empty -->
+          ${initialsHTML}
+          ${extraCircleHTML}
         </div>
         <img src="/img/${taskPrio}.png" alt="">
       </div>
@@ -87,14 +107,12 @@ async function userstorytemplate(task, contacts) {
   `;
 }
 
-// Helper function to get an array of valid contacts
 function getValidContactsArray(contacts) {
   return (Array.isArray(contacts) ? contacts : Object.values(contacts)).filter(
     (contact) => contact !== null && contact !== undefined
   );
 }
 
-// Helper function to generate initials HTML
 function getInitialsHTML(initialsArray, contactsArray) {
   const displayedInitials = initialsArray.slice(0, 5);
   return displayedInitials
@@ -109,7 +127,6 @@ function getInitialsHTML(initialsArray, contactsArray) {
     .join("");
 }
 
-// Helper function to generate extra circle HTML if more than 5 initials
 function getExtraCircleHTML(initialsArray) {
   const remainingCount =
     initialsArray.length > 5 ? initialsArray.length - 5 : 0;
@@ -118,7 +135,6 @@ function getExtraCircleHTML(initialsArray) {
     : "";
 }
 
-// Helper function to generate progress bar HTML
 function getProgressBarHTML(subtasks, task) {
   if (!Array.isArray(subtasks)) return "";
 
@@ -128,13 +144,27 @@ function getProgressBarHTML(subtasks, task) {
     totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
 
   return totalSubtasks > 0
-    ? `<div class="outsidebox" id="progress${task.id}">
+    ? extraCircleHTMLtemplate(
+        task,
+        completionPercent,
+        completedTasks,
+        totalSubtasks
+      )
+    : "";
+}
+
+function extraCircleHTMLtemplate(
+  task,
+  completionPercent,
+  completedTasks,
+  totalSubtasks
+) {
+  return `<div class="outsidebox" id="progress${task.id}">
             <div class="progressbar">
               <div class="progressbar-inside" style="width:${completionPercent}%"></div>
             </div>
             <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
-          </div>`
-    : ""; // Empty string if no subtasks
+          </div>`;
 }
 
 function getContactsArray(contacts) {
@@ -143,7 +173,7 @@ function getContactsArray(contacts) {
     contacts === undefined ||
     typeof contacts !== "object"
   ) {
-    return []; // Return an empty array if contacts is not a valid object
+    return [];
   }
   return Array.isArray(contacts)
     ? contacts
@@ -184,17 +214,31 @@ function getProgressBarHTML(subtasks, task) {
   return `<div class="outsidebox"><div class="progressbar"><div class="progressbar-inside" style="width:${completionPercent}%"></div></div><div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div></div>`;
 }
 
-// Template function
 async function Technicaltasktemplate(task, contacts) {
   const contactsArray = getContactsArray(contacts);
   const initialsHTML = getInitialsHTML(task.initials || [], contactsArray);
   const extraCircleHTML = getExtraCircleHTML(task.initials || []);
   const progressBarHTML = getProgressBarHTML(task.subtask || [], task);
 
-  return /*html*/ `
-      <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${
-        task.id
-      }">
+  return Technicaltasktemplatetemplate(
+    task,
+    contactsArray,
+    initialsHTML,
+    extraCircleHTML,
+    progressBarHTML
+  );
+}
+
+function Technicaltasktemplatetemplate(
+  task,
+  contactsArray,
+  initialsHTML,
+  extraCircleHTML,
+  progressBarHTML
+) {
+  return ` <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${
+    task.id
+  }">
         <div class="task-category">
           <span class="task-category-name">${
             task.category || "Uncategorized"
@@ -214,30 +258,21 @@ async function Technicaltasktemplate(task, contacts) {
 
 function getInitialsHTML(initialsArray, contactsArray) {
   const displayedInitials = initialsArray.slice(0, 5); // Show only up to 5 initials
-
   return displayedInitials
     .map((initialObj) => {
-      // Extract the initials from the object
       const initial =
         typeof initialObj === "object" && initialObj.initials
           ? initialObj.initials
           : initialObj;
-
-      // Find the contact that matches the initials
       const contact = contactsArray.find(
         (contact) => contact && contact.initials === initial
       );
-
-      // If the contact is found, use its color, otherwise fallback to #ccc
       const color = contact ? contact.color : "#ccc";
-
-      // Return the HTML for the badge
       return `<div class="badgestyle badge" style="background-color:${color}">${initial}</div>`;
     })
     .join("");
 }
 
-// Get the HTML for the extra badge showing how many initials are left
 function getExtraCircleHTML(initialsArray) {
   const remainingCount =
     initialsArray.length > 5 ? initialsArray.length - 5 : 0;
@@ -246,7 +281,6 @@ function getExtraCircleHTML(initialsArray) {
     : "";
 }
 
-// Get the HTML for the progress bar and task completion info
 function getProgressBarHTML(subtasks, task) {
   if (!Array.isArray(subtasks)) return "";
   const totalSubtasks = subtasks.length;
@@ -254,16 +288,29 @@ function getProgressBarHTML(subtasks, task) {
   const completionPercent =
     totalSubtasks > 0 ? (completedTasks / totalSubtasks) * 100 : 0;
   return totalSubtasks > 0
-    ? `<div class="outsidebox" id="progress${task.id}">
+    ? getProgressBarHTMLtemplate(
+        task,
+        completionPercent,
+        completedTasks,
+        totalSubtasks
+      )
+    : "";
+}
+
+function getProgressBarHTMLtemplate(
+  task,
+  completionPercent,
+  completedTasks,
+  totalSubtasks
+) {
+  return `<div class="outsidebox" id="progress${task.id}">
             <div class="progressbar">
               <div class="progressbar-inside" style="width:${completionPercent}%"></div>
             </div>
             <div class="subtask-info"><span>${completedTasks}/${totalSubtasks} Subtasks</span></div>
-          </div>`
-    : ""; // If no subtasks, return empty string
+          </div>`;
 }
 
-// Main function to show the subtask template
 async function showsubtaskstemplate(task) {
   if (!Array.isArray(task.subtask) || task.subtask.length === 0) return "";
 
@@ -282,7 +329,6 @@ async function showsubtaskstemplate(task) {
       `;
 }
 
-// Function to generate the subtask design template for each subtask
 function subtaskdesigntemplate(subtaskItem, index, task) {
   return /*html*/ `
           <div class="designlayout">
@@ -305,13 +351,11 @@ async function assignedtotemplate(task, contacts) {
   const initialsArray = getInitialsArray(task);
   const contactsArray = getFilteredContactsArray(contacts);
   const profileAssignedArea = document.getElementById("showassignedperson");
-
   const badgeHTML = generateBadgeHTML(
     contactsArray,
     initialsArray || [],
     new Set()
   );
-
   if (profileAssignedArea) {
     profileAssignedArea.innerHTML = badgeHTML;
   }
@@ -344,12 +388,10 @@ function addContactBadge(contact, initialsArray, displayedInitials, badgeHTML) {
   const matchingInitials = initialsArray.find(
     (initialObj) => initialObj.initials === contact.initials
   );
-
   if (matchingInitials && !displayedInitials.has(matchingInitials.initials)) {
     badgeHTML += createBadgeHTML(matchingInitials, contact);
     displayedInitials.add(matchingInitials.initials);
   }
-
   return badgeHTML;
 }
 
@@ -394,48 +436,54 @@ async function resetOverlayTemplate(elementId, templatePath) {
   const element = document.getElementById(elementId);
   if (element) {
     element.setAttribute("w3-include-html", templatePath);
-    includeHTML(); // Re-run the includeHTML function to load the content
+    includeHTML();
   }
 }
 
 function subtaskboxemplate() {
   return /*html*/ `
     <div class="subtaskcontainer">
-                      <input
-                        onclick="subtaskchangeicons()"
-                        type="text"
-                        id="subtaskinput0"
-                        placeholder="Add New Subtask"
-                        class="inputsubtask"
-                      />
-                      <button
-                        type="button"
-                        onclick="subtaskchangeicons()"
-                        class="subtaskbutton"
-                        id="inputsubtask11"
-                      >
-                        <img src="/img/plusblack.png" alt="" />
-                      </button>
-                      <button
-                        class="subtaskbutton2 d-none"
-                        onclick="resetsubtaskinput()"
-                        type="button"
-                        id="inputsubtask22"
-                      >
-                        <img src="/img/vector.png" alt="" />
-                      </button>
-                      <div class="seperateline d-none" id="seperate1"></div>
-                      <button
-                        type="button"
-                        onclick="addsubtask(event)"
-                        class="subtaskbutton3 d-none"
-                        id="inputsubtask33"
-                      >
-                        <img src="/img/checkmark.png" alt="" />
-                      </button>
-                      <span class="spansubtaskdesign" id="spansubtask1"></span>
-                      <div id="subtasksbox11" class="subtasksbox1"></div>
-                      <div id="spanplace1"></div>
-                    </div>
+      <input
+        onclick="subtaskchangeicons()"
+        type="text"
+        id="subtaskinput0"
+        placeholder="Add New Subtask"
+        class="inputsubtask"
+      />
+      <button
+        type="button"
+        onclick="subtaskchangeicons()"
+        class="subtaskbutton"
+        id="inputsubtask11"
+      >
+        <img src="/img/plusblack.png" alt="" />
+      </button>
+      ${subtaskboxemplate1()} <!-- Correct way to embed the result of subtaskboxemplate1 -->
+    </div>
+  `;
+}
+
+function subtaskboxemplate1() {
+  return /*html*/ `
+    <button
+      class="subtaskbutton2 d-none"
+      onclick="resetsubtaskinput()"
+      type="button"
+      id="inputsubtask22"
+    >
+      <img src="/img/vector.png" alt="" />
+    </button>
+    <div class="seperateline d-none" id="seperate1"></div>
+    <button
+      type="button"
+      onclick="addsubtask(event)"
+      class="subtaskbutton3 d-none"
+      id="inputsubtask33"
+    >
+      <img src="/img/checkmark.png" alt="" />
+    </button>
+    <span class="spansubtaskdesign" id="spansubtask1"></span>
+    <div id="subtasksbox11" class="subtasksbox1"></div>
+    <div id="spanplace1"></div>
   `;
 }

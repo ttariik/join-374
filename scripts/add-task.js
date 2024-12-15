@@ -117,19 +117,23 @@ async function addtask(event) {
       category,
       users
     );
-    await submitTask(taskData);
-    emptyinputs();
-    showsuccesstaskmessage();
-    const currentPage = window.location.pathname; // Get current page path
-    setTimeout(() => {
-      if (currentPage.includes("add-task.html")) {
-        window.location.href = "board.html";
-      }
-    }, 1500);
-    if (currentPage.includes("board.html")) {
-      closeaddtasktemplate();
-      loadtasks();
+    closing(taskData);
+  }
+}
+
+async function closing(taskData) {
+  await submitTask(taskData);
+  emptyinputs();
+  showsuccesstaskmessage();
+  const currentPage = window.location.pathname; // Get current page path
+  setTimeout(() => {
+    if (currentPage.includes("add-task.html")) {
+      window.location.href = "board.html";
     }
+  }, 1500);
+  if (currentPage.includes("board.html")) {
+    closeaddtasktemplate();
+    loadtasks();
   }
 }
 
@@ -346,40 +350,36 @@ function deletesub(index) {
   }
 }
 
-function savesub(index) {
-  // Get references to relevant elements
+async function savesubinputs(index) {
   const subboxInput = document.getElementById(`subboxinput_${index}`);
-
   const inputField = document.getElementById(`inputsub${index}`);
   const editButton = document.getElementById(`editsub${index}`);
   const deleteButton = document.getElementById(`deletesub${index}`);
   const saveButton = document.getElementById(`savesub${index}`);
-
-  // Reset the background style of the subtask container
   subboxInput.style.background = "";
+  return { subboxInput, inputField, editButton, deleteButton, saveButton };
+}
 
-  // Hide buttons for editing, deleting, and saving
+async function savesub(index) {
+  const { subboxInput, inputField, editButton, deleteButton, saveButton } =
+    await savesubinputs(index);
   if (editButton) editButton.classList.add("d-none");
   if (deleteButton) deleteButton.classList.add("d-none");
   if (saveButton) saveButton.classList.add("d-none");
   if (!inputField) {
     return;
   }
-  // Validate and retrieve input value
+  savedinput(inputField, index, subboxInput);
+}
+
+function savedinput(inputField, index, subboxInput) {
   const result = inputField?.value.trim();
   if (result) {
-    // Update the subtasks array with the new value
     subtasks[index - 1] = result;
-
-    // Replace the input field with a subtask template
     subboxInput.innerHTML = subtaskstemplAte(index, result);
-
-    // Reapply event listeners for hover effects and button operations
     subtaskiconseventlisteners(index);
-    inputField.focus(); // Refocus the input field for correction
-
-    return result; // Return the updated value
-  } else {
+    inputField.focus();
+    return result;
   }
 }
 

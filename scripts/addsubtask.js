@@ -55,19 +55,23 @@ function addingeventlistener(subtaskIndex) {
       .getElementById(`savesub${subtaskIndex}`)
       .addEventListener("click", function () {
         const inputElement = document.getElementById(`inputsub${subtaskIndex}`);
-        if (inputElement.value === "") {
+        if (inputElement && inputElement.value === "") {
           displayError("spanplace", "hi");
           return;
         } else {
           savesub(subtaskIndex);
         }
       });
-    document
-      .getElementById(`deletesub${subtaskIndex}`)
-      .addEventListener("click", function () {
-        deletesub(subtaskIndex);
-      });
+    addingeventlistenerdeletebutton(subtaskIndex);
   }, 0);
+}
+
+function addingeventlistenerdeletebutton(subtaskIndex) {
+  document
+    .getElementById(`deletesub${subtaskIndex}`)
+    .addEventListener("click", function () {
+      deletesub(subtaskIndex);
+    });
 }
 
 /**
@@ -103,20 +107,21 @@ function earlyeditsubtask(index) {
 function editsubtask(index) {
   const subboxElement = document.getElementById(`sub${index}`);
   earlyeditsubtask(index);
+  editsubtasklisteners(index);
+  inputfielddesign(index);
+  changeclasses(index);
+}
+
+function editsubtasklisteners(index) {
   setTimeout(() => {
     document
       .getElementById(`savesub${index}`)
       .addEventListener("click", function () {
         const inputElement = document.getElementById(`inputsub${index}`);
         if (inputElement.value === "") {
-          displayError(
-            "spansubtask1",
-            "you must write something in order to be able to save"
-          );
-          return;
+          ifresult();
         } else {
-          clearError("spansubtask1");
-          savesub(index);
+          clearerrors(index);
         }
       });
     document
@@ -125,8 +130,24 @@ function editsubtask(index) {
         deletesub(index);
       });
   }, 0);
-  inputfielddesign(index);
-  changeclasses(index);
+}
+
+function ifresult() {
+  displayError(
+    "spansubtask1",
+    "you must write something in order to be able to save."
+  );
+  displayError(
+    "spansubtask",
+    "you must write something in order to be able to save."
+  );
+  return;
+}
+
+function clearerrors(index) {
+  clearError("spansubtask1");
+  clearError("spansubtask");
+  savesub(index);
 }
 
 /**
@@ -174,7 +195,6 @@ function loadsubtasks(task) {
       addingeventlistener(subtaskIndex);
     });
   }
-
   document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
   addingeventlisteners();
 }
