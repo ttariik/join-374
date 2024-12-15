@@ -202,28 +202,25 @@ function closecontacttemplate(contactKey) {
  */
 
 function deselectingcontactclass(contactKey) {
-  // Remove "dark-blue" class and reset color from all contacts
   document.querySelectorAll(".align").forEach((contact) => {
     contact.classList.remove("dark-blue");
-    contact.style.color = ""; // Reset color
+    contact.style.color = "";
   });
-  // Highlight the clicked contact
   const currentContact = document.getElementById(`${contactKey}`);
   if (currentContact) {
     currentContact.classList.add("dark-blue");
-    currentContact.style.color = "white"; // Highlight with white text
+    currentContact.style.color = "white";
   }
   document.getElementById("contacttemplate").classList.remove("d-none");
 }
 
-let lastSelectedContactKey = null; // To track the last selected contact key
+let lastSelectedContactKey = null;
 
 async function showcontacttemplate(contactKey) {
   if (lastSelectedContactKey === contactKey) {
-    // If the same contact is clicked twice, close the template
     closecontacttemplate(contactKey);
-    lastSelectedContactKey = null; // Reset the last selected key
-    return; // Exit the function
+    lastSelectedContactKey = null;
+    return;
   }
   lastSelectedContactKey = contactKey;
 
@@ -264,12 +261,7 @@ function returntomenu() {
  * @param {string} contactKey - Key of the contact to save.
  * @returns {Promise<void>}
  */
-async function savedata(contactKey) {
-  const contact = contactUsers.find((user) => user.key === contactKey);
-  if (!contact) {
-    return;
-  }
-
+function savedatainputs() {
   let telefonename = document.getElementById("name").value;
   let nameParts = telefonename.trim().split(" ");
   let firstname = nameParts[0].charAt(0).toUpperCase();
@@ -278,11 +270,19 @@ async function savedata(contactKey) {
   let color = getColorFromString(telefonename);
   let email = document.getElementById("emailarea").value;
   let phone = document.getElementById("phone").value;
+  return { telefonename, initials, color, email, phone };
+}
 
+async function savedata(contactKey) {
+  const contact = contactUsers.find((user) => user.key === contactKey);
+  if (!contact) {
+    return;
+  }
+  const { telefonename, initials, color, email, phone } =
+    await savedatainputs();
   if (!telefonename || !email || !phone) {
     return;
   }
-
   const response = await putData(`/users/1/contacts/${contactKey}`, {
     color: color,
     initials: initials,
@@ -290,7 +290,10 @@ async function savedata(contactKey) {
     email: email,
     telefone: phone,
   });
+  resultssaveddata(contactKey);
+}
 
+async function resultssaveddata(contactKey) {
   await showcontacts(1);
   closecontactstemplate();
   setTimeout(() => {
