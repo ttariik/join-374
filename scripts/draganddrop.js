@@ -56,15 +56,11 @@ function dragenter(event) {
  */
 function dragleave(event) {
   const targetFolder = event.currentTarget;
-
-  // Remove the "nothing2" visual indicator
   const nothingDiv = targetFolder.querySelector(".nothing2");
   if (nothingDiv) {
     nothingDiv.remove();
   }
-
-  // Show "No tasks" message if folder is empty
-  const messagediv = targetFolder.querySelector(".nothing");
+  let messagediv = targetFolder.querySelector(".nothing"); // Change to let
   if (!messagediv && targetFolder.children.length === 0) {
     messagediv = document.createElement("div");
     messagediv.className = "nothing";
@@ -78,72 +74,95 @@ function dragleave(event) {
  * Fetches, updates, and reorganizes the DOM and backend data.
  * @param {DragEvent} event - The drag event object.
  */
-async function drop(event) {
-  event.preventDefault();
 
+async function dropinputs(event) {
   const taskId = event.dataTransfer.getData("taskId");
   const taskElement = document.getElementById(taskId);
+
+  if (!taskId || !taskElement) {
+    console.error("Task ID or task element not found.");
+    return null;
+  }
   const parentFolderId = taskElement.parentElement.id;
   const targetFolder = event.currentTarget.id;
-
   if (parentFolderId === targetFolder) {
-    return; // Prevent moving to the same folder
+    return null;
   }
-
-  const removedmessagediv = event.currentTarget.querySelector(".nothing2");
-  if (removedmessagediv) {
-    removedmessagediv.remove();
+  const removedMessageDiv = event.currentTarget.querySelector(".nothing2");
+  if (removedMessageDiv) {
+    removedMessageDiv.remove();
   }
+  return { taskId, taskElement, parentFolderId, targetFolder };
+}
 
+async function drop(event) {
+  event.preventDefault();
+  const taskDetails = await dropinputs(event);
+  if (!taskDetails) {
+    return;
+  }
+  const { taskId, taskElement, parentFolderId, targetFolder } = taskDetails;
   try {
-    // Disable dragging during the operation
     taskElement.setAttribute("draggable", "false");
-
-    // Fetch task data
     const response = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
     const taskData = await response.json();
-
-    // Move the task to the new folder in the backend
-    await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
-    await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
-
-    // Verify task deletion from the source folder
-    const deletionCheck = await fetch(
-      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+    lastpartdropfunction(
+      targetFolder,
+      taskId,
+      taskData,
+      parentFolderId,
+      taskElement
     );
-    const deletedData = await deletionCheck.json();
-
-    if (deletedData === null) {
-      // Update the DOM to reflect the move
-      const targetContainer = document.getElementById(targetFolder);
-      const noTasksMessage = targetContainer.querySelector(".nothing");
-      if (noTasksMessage) {
-        noTasksMessage.remove();
-      }
-      targetContainer.appendChild(taskElement);
-      taskElement.setAttribute("data-current-folder-id", targetFolder);
-    } else {
-      // Revert changes if the task deletion failed
-      const parentContainer = document.getElementById(parentFolderId);
-      parentContainer.appendChild(taskElement);
-      taskElement.setAttribute("data-current-folder-id", parentFolderId);
-      alert("Failed to move task. Reverting to original folder.");
-    }
-
-    // Handle "No tasks" message for the source folder
-    const parentContainer = document.getElementById(parentFolderId);
-    if (parentContainer && parentContainer.children.length === 0) {
-      const noTasksMessageElement = document.createElement("div");
-      noTasksMessageElement.className = "nothing";
-      noTasksMessageElement.textContent = getNoTasksMessage(parentFolderId);
-      parentContainer.appendChild(noTasksMessageElement);
-    }
   } catch (error) {
     console.error("Error during drop operation:", error);
   } finally {
     taskElement.setAttribute("draggable", "true");
+  }
+}
+
+async function lastpartdropfunction(
+  targetFolder,
+  taskId,
+  taskData,
+  parentFolderId,
+  taskElement
+) {
+  await putData(`users/1/tasks/${targetFolder}/${taskId}`, taskData);
+  await deleteData(`users/1/tasks/${parentFolderId}/${taskId}`);
+  const deletionCheck = await fetch(
+    `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+  );
+  const deletedData = await deletionCheck.json();
+  deleteDatapart(deletedData, targetFolder, taskElement, parentFolderId);
+  const parentContainer = document.getElementById(parentFolderId);
+  if (parentContainer && parentContainer.children.length === 0) {
+    const noTasksMessageElement = document.createElement("div");
+    noTasksMessageElement.className = "nothing";
+    noTasksMessageElement.textContent = getNoTasksMessage(parentFolderId);
+    parentContainer.appendChild(noTasksMessageElement);
+  }
+}
+
+function deleteDatapart(
+  deletedData,
+  targetFolder,
+  taskElement,
+  parentFolderId
+) {
+  if (deletedData === null) {
+    const targetContainer = document.getElementById(targetFolder);
+    const noTasksMessage = targetContainer.querySelector(".nothing");
+    if (noTasksMessage) {
+      noTasksMessage.remove();
+    }
+    targetContainer.appendChild(taskElement);
+    taskElement.setAttribute("data-current-folder-id", targetFolder);
+  } else {
+    const parentContainer = document.getElementById(parentFolderId);
+    parentContainer.appendChild(taskElement);
+    taskElement.setAttribute("data-current-folder-id", parentFolderId);
   }
 }
 
