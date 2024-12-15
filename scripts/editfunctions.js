@@ -20,14 +20,10 @@ function initializeButtonListeners(
 }
 
 async function setupprofilelayoutpart1(task) {
-  // Check if event listeners have already been attached to the buttons
-
-  // Remove existing title box if it exists
   const titlebox = document.getElementById("userbox");
   if (titlebox) {
     titlebox.remove();
   }
-  // Update layout
   document.querySelector(".headerprofile").style.justifyContent = "flex-end";
   document.querySelector(".titlebox span").style = "line-height: unset";
   document.querySelector(".titlebox").innerHTML = titletemplate(task);
@@ -42,7 +38,6 @@ async function setupprofilelayoutpart2(task) {
     .classList.add("due-date-containerprofile");
   document.getElementById("prio").innerHTML = prioritytemplateprofile();
   document.getElementById("prio").classList.add("buttonss");
-  // Update assigned area and other sections
   document.querySelector(".assigned-container").innerHTML =
     reselectionofcontacts();
   document.querySelector(".assigned-container").style.gap = "unset";
@@ -54,7 +49,7 @@ async function setupprofilelayoutpart2(task) {
 async function editprofile(task) {
   if (!task.subtask === undefined) {
     task.subtask.forEach((subtaskObj) => {
-      subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
+      subtasks.push(subtaskObj.subtask);
     });
   }
   await setupprofilelayoutpart1(task);
@@ -64,7 +59,6 @@ async function editprofile(task) {
   document.getElementById("selectbutton1").parentElement.style = "gap: unset";
   document.querySelector(".scrollbar").style =
     "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
-  // Load additional task info and handle button selections
   initializeButtonListeners(
     savechanges,
     updateOverlayTemplateBasedOnCategory,
@@ -87,18 +81,14 @@ async function editinputs(task) {
       subtasks.push(subtaskObj.subtask); // Push the value of the 'subtask' property
     });
   }
-
   /** Sets up the first part of the technical layout for the task. */
   setuptechnicallayoutpart1(task);
-
   /** Updates the assigned contacts section with the task's assigned contacts. */
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
-
   /** Adjusts the style of the assigned contacts container. */
   document.getElementById("assigned-containercontent").children[0].style.gap =
     "unset";
-
   /** Replaces the button section with a custom save button. */
   document.getElementById(
     "buttonss"
@@ -113,7 +103,6 @@ async function editinputs(task) {
     .addEventListener("click", function () {
       savechanges(task.id, task);
     });
-
   /** Sets up the second part of the technical layout for the task. */
   setuptechnicallayoutpart2(task);
 }
@@ -129,7 +118,6 @@ async function setuptechnicallayoutpart1(task) {
   if (type) {
     type.remove();
   }
-
   /** Adjusts layout styles and populates UI elements with task data. */
   document.getElementById("layoutid").style.gap = "10px";
   document.querySelector(".header").style.justifyContent = "flex-end";
@@ -155,21 +143,17 @@ function setuptechnicallayoutpart2(task) {
   /** Clears and populates the subtask box template. */
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
-
   /** Adds an event listener to the close button to reset the template. */
   document.getElementById("closebtn").addEventListener("click", function () {
     resettemplate(task);
   });
-
   /** Configures the layout styles for the main container. */
   document.getElementById("layoutid").children[1].style =
     "overflow-x: hidden; overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0; padding-right: 8px;";
-
   /** Adds an event listener to another close button to reset the template. */
   document.getElementById("closebtn1").addEventListener("click", function () {
     resettemplate(task);
   });
-
   /** Sets button dimensions for consistency. */
   document.getElementById("button1").style.maxWidth = "136px";
   document.getElementById("button2").style.maxWidth = "136px";
@@ -177,7 +161,6 @@ function setuptechnicallayoutpart2(task) {
   document.getElementById("button1").style.height = "56px";
   document.getElementById("button2").style.height = "56px";
   document.getElementById("button3").style.height = "56px";
-
   /** Loads additional information related to the task. */
   loadinfos(task);
 }
