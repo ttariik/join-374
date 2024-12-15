@@ -18,6 +18,7 @@
   z-index: 3; /* Stack order */
   cursor: pointer; /* Pointer cursor for better UX */
   background-color: white;
+  margin-bottom: 15px;
 }
 .selectbutton:hover {
   border-color: #a8a8a8;
@@ -229,6 +230,7 @@ label {
   font-weight: 400;
   background-color: #ffffff;
   color: black;
+  margin-bottom: 5px;
 }
 
 .overlay {
@@ -356,7 +358,6 @@ select {
   padding: 12px 16px 12px 16px;
   width: 100%;
   border-radius: 10px;
-  -webkit-appearance: none;
   background-image: url(/img/arrow_drop_down.png);
   background-repeat: no-repeat;
   background-position: 96% 50%;
@@ -382,7 +383,7 @@ select {
 .buttons2 {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 
 .buttons2 span {
@@ -915,7 +916,6 @@ select {
     height: unset;
     display: flex;
     flex-direction: column;
-    gap: 16px;
   }
 
   .firsthalfbox {
@@ -937,6 +937,7 @@ select {
 
   .text {
     height: 88px;
+    margin-bottom: 5px;
   }
 
   form {
@@ -947,6 +948,9 @@ select {
   .buttonsalignment_1 {
     margin-top: unset;
     display: flex;
+    position: absolute;
+    bottom: 588px;
+    left: 430px;
   }
 
   .buttonsalignment_2 {
@@ -964,7 +968,6 @@ select {
     justify-content: center;
     margin: 0;
     flex-direction: column;
-    gap: 16px;
   }
 
   .subtasksbox1 {
@@ -974,6 +977,16 @@ select {
   #contacts-box {
     top: 76%;
     max-width: 550px;
+  }
+
+  .bt1{
+    width: 150px;
+    height: 40px;
+  }
+
+  .bt2{
+    width: 150px;
+    height: 40px;
   }
 }
 
