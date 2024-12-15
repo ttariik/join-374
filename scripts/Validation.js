@@ -306,45 +306,6 @@ function isEmailValidWithTLDs(email, tlds) {
   return regex.test(email.trim());
 }
 
-function setupValidationListeners(
-  nameInput,
-  emailInput,
-  phoneInput,
-  nameError,
-  emailError,
-  phoneError,
-  isNameValid,
-  isEmailValid,
-  isPhoneValid
-) {
-  nameInput.addEventListener("input", function () {
-    performCustomValidation(
-      nameInput,
-      isNameValid,
-      nameError,
-      () => "Name must be 3-20 alphanumeric characters."
-    );
-  });
-
-  emailInput.addEventListener("input", function () {
-    performCustomValidation(
-      emailInput,
-      isEmailValid,
-      emailError,
-      getEmailError
-    );
-  });
-
-  phoneInput.addEventListener("input", function () {
-    performCustomValidation(
-      phoneInput,
-      isPhoneValid,
-      phoneError,
-      () => "Phone number must be 7-20 digits."
-    );
-  });
-}
-
 function setupSaveButton(
   saveButton,
   nameInput,
