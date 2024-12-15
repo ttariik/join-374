@@ -16,17 +16,9 @@ body {
   width: 100%;
 }
 
-
-
-
-
 .dark-blue {
   background-color: #2a3647 !important;
 }
-
-
-
-
 
 .logooverlay {
   font-size: 20px;
@@ -129,6 +121,7 @@ body {
   margin-top: 10px;
   border-radius: 20px;
   background-color: rgb(246, 247, 248);
+  width: 86%;
 }
 
 .align:hover {
@@ -348,7 +341,6 @@ body {
 }
 
 @media (max-width: 375px) {
-  
   .align {
     gap: 20px;
     padding: 15px 24px 15px 0px;

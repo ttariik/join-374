@@ -13,6 +13,7 @@
   font-weight: bold;
   font-size: 47px;
   padding-bottom: 16px;
+  overflow-wrap: anywhere;
 }
 
 .contact-box__info-title {
@@ -45,7 +46,6 @@
   flex-direction: column;
   gap: 22px;
 }
-
 
 .weight {
   font-weight: bold;
@@ -90,7 +90,6 @@ button {
   cursor: pointer;
 }
 
-
 .arrow-left-overlay:hover {
   transform: scale(1.1);
   background-color: white;
@@ -125,7 +124,8 @@ button {
   gap: 16px;
 }
 
-#editbutton-overlay, #deletebutton-overlay  {
+#editbutton-overlay,
+#deletebutton-overlay {
   display: flex;
   gap: 8px;
 }
@@ -134,25 +134,19 @@ button {
   background-color: #555;
 }
 
-
-
 @media (max-width: 849px) {
-
-  .contact-box__actions{
+  .contact-box__actions {
     display: none;
   }
 }
 
-
 @media (max-width: 990px) {
-
   .wordstyle {
     font-size: 32px;
   }
 }
 
 @media (max-width: 849px) {
-
   .contact_box {
     background-color: rgb(246, 247, 248);
     height: fit-content;
@@ -198,7 +192,6 @@ button {
 }
 
 @media (max-width: 474px) {
-
   .overlay-options {
     display: flex;
     right: 10px;
@@ -226,9 +219,7 @@ button {
   }
 }
 
-
 @media (max-width: 369px) {
-
   .overlay-headline {
     gap: 72px;
   }
@@ -237,11 +228,9 @@ button {
     font-size: 24px;
   }
 
-  
   .contact-box__badge {
     width: 60px;
     height: 60px;
     font-size: 24px;
   }
-
 }
