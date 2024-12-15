@@ -31,11 +31,8 @@ function duedatetemplate() {
                       </div>`;
 }
 
-function prioritytemplateprofile() {
-  return /*html*/ `
-                  <label>Prio</label>
-                      <div class="buttons2">
-                        <div class="button-containerss">
+function prioritytemplateprofile2_1() {
+  return `<div class="button-containerss">
                           <button
                             type="button"
                             id="button1-1"
@@ -51,8 +48,11 @@ function prioritytemplateprofile() {
                               class="hidden"
                             />
                           </button>
-                        </div>
-                        <div class="button-containerss">
+                        </div>`;
+}
+
+function prioritytemplateprofile2_2() {
+  return `<div class="button-containerss">
                           <button
                             type="button"
                             onclick="handleButtonClick('Medium')"
@@ -72,8 +72,11 @@ function prioritytemplateprofile() {
                               class="hidden"
                             />
                           </button>
-                        </div>
-                        <div class="button-containerss">
+                        </div>`;
+}
+
+function prioritytemplateprofile2_3() {
+  return `<div class="button-containerss">
                           <button
                             type="button"
                             onclick="handleButtonClick('Low')"
@@ -89,16 +92,22 @@ function prioritytemplateprofile() {
                               class="hidden"
                             />
                           </button>
-                        </div>
+                        </div>`;
+}
+
+function prioritytemplateprofile() {
+  return /*html*/ `
+                  <label>Prio</label>
+                      <div class="buttons2">
+                        ${prioritytemplateprofile2_1()}
+                        ${prioritytemplateprofile2_2()}
+                        ${prioritytemplateprofile2_3()}
                       </div>
               `;
 }
 
-function prioritytemplatetechnicaltask() {
-  return /*html*/ `
-                  <label>Prio</label>
-                      <div class="buttons2">
-                        <div class="button-containerss">
+function prioritytemplatetechnicaltask2_1() {
+  return ` <div class="button-containerss">
                           <button
                             type="button"
                             id="button11"
@@ -114,8 +123,11 @@ function prioritytemplatetechnicaltask() {
                               class="hidden"
                             />
                           </button>
-                        </div>
-                        <div class="button-containerss">
+                        </div>`;
+}
+
+function prioritytemplatetechnicaltask2_2() {
+  return `<div class="button-containerss">
                           <button
                             type="button"
                             onclick="handleButtonClick('Medium')"
@@ -135,8 +147,11 @@ function prioritytemplatetechnicaltask() {
                               class="hidden"
                             />
                           </button>
-                        </div>
-                        <div class="button-containerss">
+                        </div>`;
+}
+
+function prioritytemplatetechnicaltask2_3() {
+  return `<div class="button-containerss">
                           <button
                             type="button"
                             onclick="handleButtonClick('Low')"
@@ -152,7 +167,16 @@ function prioritytemplatetechnicaltask() {
                               class="hidden"
                             />
                           </button>
-                        </div>
+                        </div>`;
+}
+
+function prioritytemplatetechnicaltask() {
+  return /*html*/ `
+                  <label>Prio</label>
+                      <div class="buttons2">
+                       ${prioritytemplatetechnicaltask2_1()}
+                       ${prioritytemplatetechnicaltask2_2()}
+                      ${prioritytemplatetechnicaltask2_3()}
                       </div>
               `;
 }
