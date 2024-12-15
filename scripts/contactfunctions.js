@@ -77,7 +77,6 @@ function addcontactbadge(
   checkbox,
   contactDiv
 ) {
-  // If the contact already exists, reset it
   if (existingContact) {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials);
     return;
@@ -109,39 +108,28 @@ function badgecreation(color, initials) {
 function resetcontact(contactDiv, checkbox, id, initials, event) {
   checkbox.checked = false; // Ensure checkbox is unchecked
   contactDiv.classList.remove("dark-blue");
-
-  // Remove the contact from assigned lists
   asignedtousers = asignedtousers.filter((item) => item !== initials);
   initialsArray = initialsArray.filter((item) => item.id !== id);
 
-  // Remove the associated badge
   const badge = document.querySelector(
     `.badgeassigned[data-initials="${initials}"]`
   );
   if (badge) {
     badge.remove();
   }
-
-  // Reset the click event to allow re-selecting
   contactDiv.onclick = (event) => {
     selectcontact(id, event);
   };
 }
 
-// Function to filter contacts based on search input
 function filterContacts(event) {
   const filter = event.target.value.toLowerCase();
-
-  // Filter contacts based on the search input
   const filteredContacts = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter)
   );
-
-  // Re-render the filtered contacts
   renderContacts(filteredContacts);
 }
 
-// Function to generate the search bar HTML and add event listener for filtering
 function searchbar() {
   return /*html*/ `
       <input id="search" type="text" class="searchbar" onclick="event.stopPropagation()" oninput="filterContacts(event)">
@@ -184,17 +172,9 @@ function smallerfunction() {
 
 async function showcontacts(event) {
   let contactsBox;
-
-  // Stop event propagation to prevent any outer handlers from being triggered
   if (event) event.stopPropagation();
-
-  // Call smaller function
   smallerfunction();
-
-  // Get the button or span target correctly
-  const target = event.target.closest("button"); // Get the closest button to target (handles both button and span)
-
-  // Check if target is inside the button
+  const target = event.target.closest("button");
   if (target) {
     const parent = target.parentElement;
     if (parent.children[2].id === "contacts-box") {
@@ -202,15 +182,17 @@ async function showcontacts(event) {
     } else {
       contactsBox = parent.children[1];
     }
+    ifshowcontactspart(contactsBox);
+  }
+}
 
-    // If contactsBox is empty, fetch and render contacts, else open contacts box
-    if (contactsBox && contactsBox.innerHTML.trim() === "") {
-      await fetchAndRenderContacts();
-      initializeSearchBar(contactsBox);
-    } else {
-      openContactsBox(contactsBox);
-      initializeSearchBar(contactsBox);
-    }
+async function ifshowcontactspart(contactsBox) {
+  if (contactsBox && contactsBox.innerHTML.trim() === "") {
+    await fetchAndRenderContacts();
+    initializeSearchBar(contactsBox);
+  } else {
+    openContactsBox(contactsBox);
+    initializeSearchBar(contactsBox);
   }
 }
 
@@ -244,26 +226,24 @@ function initializeSearchBar(contactsBox) {
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
   selectButton.onclick = resetsearchbar;
-
-  // Prevent body click listener from closing the dropdown
   document.getElementById("contacts-box").addEventListener("click", (event) => {
-    event.stopPropagation(); // Stops the event from propagating to the body listener
+    event.stopPropagation();
   });
 
   if (document.getElementById("contacts-box1")) {
     document
       .getElementById("contacts-box1")
       .addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevents the event from bubbling up
+        event.stopPropagation();
       });
   }
+  clickbodylistener();
+}
 
-  // Global click handler to close dropdown when clicking outside
+function clickbodylistener() {
   document.body.addEventListener("click", function (event) {
     const contactsBox1 = document.getElementById("contacts-box1");
     const contactsBox = document.getElementById("contacts-box");
-
-    // Allow clicks inside open dropdowns
     if (
       (contactsBox &&
         event.target.parentElement.id === "contacts-box" &&
@@ -274,8 +254,6 @@ function initializeSearchBar(contactsBox) {
     ) {
       return;
     }
-
-    // If clicked outside, reset the search bar
     resetsearchbar(event);
   });
 }
