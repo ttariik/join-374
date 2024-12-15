@@ -1,14 +1,14 @@
 function titletemplate(task) {
   return /*html*/ `
       <label>Title</label>
-      <input type="text" maxlength="15" placeholder="Enter a title" class="titleinputdesign">
+      <input type="text"  placeholder="Enter a title" class="titleinputdesign">
       `;
 }
 
 function descriptiontemplate() {
   return /*html*/ `
       <label>Description</label>
-      <textarea  class="text1" maxlength="15" placeholder="Enter a Description"></textarea>
+      <textarea  class="text1"  placeholder="Enter a Description"></textarea>
       `;
 }
 
