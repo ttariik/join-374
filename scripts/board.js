@@ -184,15 +184,30 @@ async function inputacesstechnicall(task, contacts) {
   // Render assigned persons and subtasks
   await assignedtotemplate(task, contacts);
   const subtaskHTML = await showsubtaskstemplate(task);
-  document.getElementById("subtaskbox").innerHTML = subtaskHTML;
+
+  // Check if 'subtaskbox' exists before modifying its content
+  const subtaskBox = document.getElementById("subtaskbox");
+  if (subtaskBox) {
+    subtaskBox.innerHTML = subtaskHTML;
+  }
+
+  // Check if the buttons exist before cloning and replacing them
   const deleteButton = document.getElementById("btn1");
   const editButton = document.getElementById("btn2");
-  const newDeleteButton = deleteButton.cloneNode(true);
-  const newEditButton = editButton.cloneNode(true);
-  deleteButton.replaceWith(newDeleteButton);
-  editButton.replaceWith(newEditButton);
-  newDeleteButton.addEventListener("click", () => deletetask(task.id, task));
-  newEditButton.addEventListener("click", () => editinputs(task));
+
+  if (deleteButton && editButton) {
+    const newDeleteButton = deleteButton.cloneNode(true);
+    const newEditButton = editButton.cloneNode(true);
+
+    deleteButton.replaceWith(newDeleteButton);
+    editButton.replaceWith(newEditButton);
+
+    // Add event listeners after replacing the buttons
+    newDeleteButton.addEventListener("click", () => deletetask(task.id, task));
+    newEditButton.addEventListener("click", () => editinputs(task));
+  } else {
+    console.warn("Buttons btn1 or btn2 not found in the DOM.");
+  }
 }
 
 function deletetask(id, task) {

@@ -15,6 +15,7 @@ function addsubtask(event) {
   }
   subtasks.push(subtaskinput1);
   if (subtasks.length > 2) {
+    event.currentTarget.parentElement.style.height = "150px";
     event.currentTarget.parentElement.children[6].style =
       "overflow-y: scroll; scrollbar-width: thin;";
   }
