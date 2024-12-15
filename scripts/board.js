@@ -117,19 +117,12 @@ async function inputacessprofile(task, contacts) {
 }
 
 function prepareprofileassignedarea(task, contacts) {
-  // Ensure task.initials is an array or an empty array
   const initialsArray = Array.isArray(task.initials) ? task.initials : [];
-
-  // Check if contacts is valid (not null or undefined)
   const contactsArray = (
     Array.isArray(contacts) ? contacts : contacts ? Object.values(contacts) : []
   ).filter((contact) => contact !== null && contact !== undefined);
-
   const profileAssignedArea = document.getElementById("profileassingedarea");
-
-  // Initialize badgeHTML
   let badgeHTML = "";
-
   return { initialsArray, contactsArray, profileAssignedArea, badgeHTML };
 }
 
@@ -155,7 +148,6 @@ async function renderAssignedContactsAndSubtasks(
 async function renderSubtasks(task) {
   const subtaskHTML = await showsubtaskstemplate(task);
   const subtaskArea = document.getElementById("subtaskarea");
-
   if (subtaskArea) {
     subtaskArea.innerHTML = subtaskHTML;
   }
@@ -320,22 +312,15 @@ document
 function applyHoverEffect(buttonId, imageId, hoverSrc) {
   const buttonElement = document.getElementById(buttonId);
   const imageElement = document.getElementById(imageId);
-
-  // Mouseover event to change image source
   buttonElement.addEventListener("mouseover", function () {
     imageElement.src = hoverSrc;
   });
-
-  // Mouseout event to revert image source
   buttonElement.addEventListener("mouseout", function () {
-    imageElement.src = "/img/status-item.png"; // Default image
+    imageElement.src = "/img/status-item.png";
   });
-
-  // Click event to call template function and update selected button
   buttonElement.addEventListener("click", function (event) {
-    calladdtasktemplate(); // Assuming this is a function you want to call
-    // Update selected button using the button's ID, instead of relying on parent
-    selectedbutton = buttonElement.id; // Directly reference the button's ID
+    calladdtasktemplate();
+    selectedbutton = buttonElement.id;
   });
 }
 
@@ -343,30 +328,17 @@ async function changestatus(taskId, subtaskIndex, status, event) {
   try {
     const taskElement = document.getElementById(taskId);
     const parentFolderId = taskElement.parentElement.id;
-
-    // Fetch the task data by taskId
     const response = await fetch(
       `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
     );
     const taskData = await response.json();
-
-    // Get the subtask from the task
     const subtask = taskData.subtask[subtaskIndex];
-
     if (subtask) {
-      // Toggle the completed status (if status is true, set it to false, and vice versa)
       subtask.completed = !subtask.completed;
-
-      // Save the updated task data back to the server
       await putData(`users/1/tasks/${parentFolderId}/${taskId}`, taskData);
-    } else {
     }
-
-    // Reload the tasks if necessary (this step may vary depending on how you want to update the UI)
     loadtasks(taskId, parentFolderId);
-  } catch (error) {
-    console.error("Error updating subtask status:", error);
-  }
+  } catch (error) {}
 }
 
 applyHoverEffect("buttonicon1", "pic1", "/img/pic1hovered.png");
