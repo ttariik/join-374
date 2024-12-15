@@ -7,7 +7,6 @@ function validateTaskForm() {
   const date = document.getElementById("date2").value.trim();
   const category = getCategory();
   let isValid = true;
-  // Validate each field
   if (title === "") {
     displayError("spantitle", "Title is required.");
     isValid = false;
@@ -162,22 +161,18 @@ function validateDateField(input) {
 function validateDatefield(input) {
   const dateValue = input.value;
   const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-
   if (!regex.test(dateValue)) {
     displayError("spandate", "Invalid date format. Please use dd/mm/yyyy.");
     return false;
   }
-
   const [day, month, year] = dateValue.split("/").map(Number);
   const inputDate = new Date(year, month - 1, day);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
   if (inputDate < today) {
     displayError("spandate", "The date cannot be in the past.");
     return false;
   }
-
   clearError("spandate");
   return true;
 }
@@ -238,101 +233,65 @@ function validatePhoneNumber(value) {
  * @returns {boolean} - True if the input is valid, false otherwise.
  */
 
-// Function to initialize validation
 function initializeFormValidation() {
-  const nameInput = document.getElementById("name");
-  const emailInput = document.getElementById("emailarea");
-  const phoneInput = document.getElementById("phone");
-  const saveButton = document.getElementById("addbutton");
-  const nameError = document.getElementById("name-error-message");
-  const emailError = document.getElementById("email-error-message");
-  const phoneError = document.getElementById("phone-error-message");
-  const tlds = [
-    "com",
-    "org",
-    "net",
-    "gov",
-    "edu",
-    "mil",
-    "io",
-    "ai",
-    "tv",
-    "xyz",
-    "club",
-    "uk",
-    "us",
-    "de",
-    "fr",
-    "cn",
-    "jp",
-    "in",
-    "ru",
-    "it",
-    "nl",
-    "es",
-    "se",
-    "ch",
-    "ca",
-    "au",
-    "dk",
-    "fi",
-    "pl",
-    "tr",
-    "be",
-    "at",
-    "gr",
-    "pt",
-    "no",
-    "il",
-    "kr",
-    "za",
-    "nz",
-    "sg",
-  ];
-
+  const {
+    nameInput,
+    emailInput,
+    phoneInput,
+    saveButton,
+    nameError,
+    emailError,
+    phoneError,
+  } = inputs();
+  const tlds = getTopLevelDomains();
   const isNameValid = (name) => /^[a-zA-Z0-9\s]{3,20}$/.test(name.trim());
-  const isEmailValid = (email) => {
-    const regex = new RegExp(
-      `^[^\\s@]+@[a-zA-Z0-9-]+\\.(${tlds.join("|")})$`,
-      "i"
-    );
-    return regex.test(email.trim());
-  };
+  const isEmailValid = (email) => isEmailValidWithTLDs(email, tlds);
   const isPhoneValid = (phone) => /^\+?\d{7,20}$/.test(phone.trim());
 
-  // Function to determine specific email error
-  function getEmailError(email) {
-    if (email.trim() === "") return "Email cannot be empty.";
-    if (!email.includes("@")) return "Email must include '@'.";
-    if (email.split("@")[1] && !email.split("@")[1].includes("."))
-      return "Email must include a domain (e.g., '.com').";
-    if (!isEmailValid(email)) return "Enter a valid email address.";
-    return ""; // No error
-  }
+  setupValidationListeners(
+    nameInput,
+    emailInput,
+    phoneInput,
+    nameError,
+    emailError,
+    phoneError,
+    isNameValid,
+    isEmailValid,
+    isPhoneValid
+  );
+  setupSaveButton(
+    saveButton,
+    nameInput,
+    emailInput,
+    phoneInput,
+    nameError,
+    emailError,
+    phoneError,
+    isNameValid,
+    isEmailValid,
+    isPhoneValid
+  );
+}
 
-  // Function to perform custom validation for each input field
-  function performCustomValidation(
-    input,
-    validator,
-    errorMessageElement,
-    errorMessageFunc
-  ) {
-    const errorMessage = errorMessageFunc(input.value);
-    if (validator(input.value)) {
-      input.classList.remove("invalid");
-      input.classList.add("valid");
-      errorMessageElement.textContent = ""; // Clear error message if valid
-      return true;
-    } else {
-      input.classList.remove("valid");
-      input.classList.add("invalid");
-      errorMessageElement.textContent = errorMessage; // Show specific error
-      errorMessageElement.style.display = "block"; // Show error message if invalid
-      return false;
-    }
-  }
+function isEmailValidWithTLDs(email, tlds) {
+  const regex = new RegExp(
+    `^[^\\s@]+@[a-zA-Z0-9-]+\\.(${tlds.join("|")})$`,
+    "i"
+  );
+  return regex.test(email.trim());
+}
 
-  // Add event listeners for dynamic validation
+function setupValidationListeners(
+  nameInput,
+  emailInput,
+  phoneInput,
+  nameError,
+  emailError,
+  phoneError,
+  isNameValid,
+  isEmailValid,
+  isPhoneValid
+) {
   nameInput.addEventListener("input", function () {
     performCustomValidation(
       nameInput,
@@ -347,7 +306,7 @@ function initializeFormValidation() {
       emailInput,
       isEmailValid,
       emailError,
-      getEmailError // Dynamic error message for email
+      getEmailError
     );
   });
 
@@ -359,12 +318,23 @@ function initializeFormValidation() {
       () => "Phone number must be 7-20 digits."
     );
   });
+}
 
-  // Add click event listener for "Save" button
+function setupSaveButton(
+  saveButton,
+  nameInput,
+  emailInput,
+  phoneInput,
+  nameError,
+  emailError,
+  phoneError,
+  isNameValid,
+  isEmailValid,
+  isPhoneValid
+) {
   saveButton.addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault();
 
-    // Validate all fields when button is clicked
     const isNameFieldValid = performCustomValidation(
       nameInput,
       isNameValid,
@@ -386,14 +356,41 @@ function initializeFormValidation() {
       () => "Phone number must be 7-20 digits."
     );
 
-    // Check if all fields are valid
     if (isNameFieldValid && isEmailFieldValid && isPhoneFieldValid) {
-      if (document.getElementById("spantitle").innerText === "Edit contact") {
-        savedata(event); // Call your `addcontact` function if the form is valid
-      } else {
-        addcontact(event);
-      }
-    } else {
+      handleFormSave(event);
     }
   });
+}
+
+function getEmailError(email) {
+  if (email.trim() === "") return "Email cannot be empty.";
+  if (!email.includes("@")) return "Email must include '@'.";
+  if (email.split("@")[1] && !email.split("@")[1].includes(".")) {
+    return "Email must include a domain (e.g., '.com').";
+  }
+  if (!isEmailValidWithTLDs(email, getTopLevelDomains())) {
+    return "Enter a valid email address.";
+  }
+  return ""; // No error
+}
+
+function performCustomValidation(
+  input,
+  validator,
+  errorMessageElement,
+  errorMessageFunc
+) {
+  const errorMessage = errorMessageFunc(input.value);
+  if (validator(input.value)) {
+    input.classList.remove("invalid");
+    input.classList.add("valid");
+    errorMessageElement.textContent = "";
+    return true;
+  } else {
+    input.classList.remove("valid");
+    input.classList.add("invalid");
+    errorMessageElement.textContent = errorMessage;
+    errorMessageElement.style.display = "block";
+    return false;
+  }
 }
