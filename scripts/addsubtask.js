@@ -222,17 +222,17 @@ function loadsubtasks(task) {
       console.log(subtasks);
 
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
-      addingeventlistener(subtaskIndex);
+      addingeventlisteners(subtaskIndex);
     });
   }
   document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
-  addingeventlisteners();
+  addingeventListeners();
 }
 
 /**
  * Attaches hover event listeners to show or hide buttons for all subtasks.
  */
-function addingeventlisteners() {
+function addingeventListeners() {
   const subtasksBox =
     document.getElementById("subtasksbox11") ||
     document.getElementById("subtasksbox");
