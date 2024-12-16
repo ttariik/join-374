@@ -86,11 +86,6 @@ function setButton3_3Listener(task) {
  * @param {Object} task - The task object containing task details.
  */
 async function loadinfos(task) {
-  if (!task || typeof task !== "object") {
-    console.error("Invalid or undefined task:", task); // Debug log
-    return; // Exit early if task is undefined or invalid
-  }
-
   asignedtousers = [];
   initialsArray = [];
 
@@ -118,6 +113,10 @@ async function loadinfos(task) {
     }
   } else {
     console.warn("Task has no category property:", task);
+  }
+  if (!task || typeof task !== "object") {
+    console.error("Invalid or undefined task:", task); // Debug log
+    return; // Exit early if task is undefined or invalid
   }
 }
 
