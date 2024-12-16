@@ -276,8 +276,14 @@ async function inputaccess(task) {
     document.getElementById("technicaltasktitle").innerHTML = task.title;
     document.getElementById("descriptioninput").innerHTML = task.description;
     document.getElementById("due-date-containerinput").innerHTML = task.duedate;
-    document.getElementById("showprio").innerHTML = task.prio;
-    document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+    if (task.prio === "") {
+      if (document.getElementById("prioiconid")) {
+        document.getElementById("prioiconid").innerHTML = "";
+      }
+    } else {
+      document.getElementById("showprio").innerHTML = task.prio;
+      document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+    }
   }
 }
 
