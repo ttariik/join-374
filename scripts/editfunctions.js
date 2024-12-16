@@ -69,7 +69,7 @@ async function editprofile(task) {
     updateOverlayTemplateBasedOnCategory,
     task
   );
-  loadinfos(task);
+  await loadinfos(task);
 }
 
 async function renderSubtasks(task) {
@@ -145,7 +145,7 @@ async function setuptechnicallayoutpart1(task) {
  * Sets up subtasks, button styles, and event listeners for reset actions.
  * @param {Object} task - The task object to use for layout configuration.
  */
-function setuptechnicallayoutpart2(task) {
+async function setuptechnicallayoutpart2(task) {
   /** Clears and populates the subtask box template. */
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
@@ -165,5 +165,5 @@ function setuptechnicallayoutpart2(task) {
   document.getElementById("button2").style.height = "56px";
   document.getElementById("button3").style.height = "56px";
   /** Loads additional information related to the task. */
-  loadinfos(task);
+  await loadinfos(task);
 }
