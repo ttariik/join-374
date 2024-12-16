@@ -1,3 +1,8 @@
+/**
+ * Loads the task information for a technical task (part 1), including task title, due date, and priority buttons.
+ * Sets listeners for priority buttons and loads assigned users and subtasks.
+ * @param {Object} task - The task object containing task details.
+ */
 function loadinfosifpart1(task) {
   document.getElementById("technicaltasktitle").children[1].value = task.title;
   document.getElementById("date1").value = task.duedate;
@@ -15,42 +20,71 @@ function loadinfosifpart1(task) {
     .forEach((input) => (input.value = task.description));
 }
 
+/**
+ * Sets the event listener for the "Urgent" priority button (button 11) to trigger the selectbutton_11 function.
+ * @param {Object} task - The task object containing task details.
+ */
 function setButton11Listener(task) {
   document.getElementById("button11").addEventListener("click", function () {
     selectbutton_11(task);
   });
 }
 
+/**
+ * Sets the event listener for the "Medium" priority button (button 22) to trigger the selectbutton_22 function.
+ * @param {Object} task - The task object containing task details.
+ */
 function setButton22Listener(task) {
   document.getElementById("button22").addEventListener("click", function () {
     selectbutton_22(task);
   });
 }
 
+/**
+ * Sets the event listener for the "Low" priority button (button 33) to trigger the selectbutton_33 function.
+ * @param {Object} task - The task object containing task details.
+ */
 function setButton33Listener(task) {
   document.getElementById("button33").addEventListener("click", function () {
     selectbutton_33(task);
   });
 }
 
+/**
+ * Sets the event listener for the "Urgent" priority button (button 1-1) to trigger the selectbutton_11 function for non-technical tasks.
+ * @param {Object} task - The task object containing task details.
+ */
 function setButton1_1Listener(task) {
   document.getElementById("button1-1").addEventListener("click", function () {
     selectbutton_11(task);
   });
 }
 
+/**
+ * Sets the event listener for the "Medium" priority button (button 2-2) to trigger the selectbutton_22 function for non-technical tasks.
+ * @param {Object} task - The task object containing task details.
+ */
 function setButton2_2Listener(task) {
   document.getElementById("button2-2").addEventListener("click", function () {
     selectbutton_22(task);
   });
 }
 
+/**
+ * Sets the event listener for the "Low" priority button (button 3-3) to trigger the selectbutton_33 function for non-technical tasks.
+ * @param {Object} task - The task object containing task details.
+ */
 function setButton3_3Listener(task) {
   document.getElementById("button3-3").addEventListener("click", function () {
     selectbutton_33(task);
   });
 }
 
+/**
+ * Loads task information, including priority button listeners, assigned users, and subtasks.
+ * Based on the task category (Technical Task or Non-Technical Task), it loads different sets of information.
+ * @param {Object} task - The task object containing task details.
+ */
 async function loadinfos(task) {
   asignedtousers = [];
   initialsArray = [];
@@ -71,6 +105,10 @@ async function loadinfos(task) {
   }
 }
 
+/**
+ * Sets the selected priority for a technical task based on its priority value.
+ * @param {Object} task - The task object containing its priority.
+ */
 function setPriorityForTechnicalTask(task) {
   if (task.prio === "Urgent") {
     selectbutton_11(task);
@@ -81,6 +119,10 @@ function setPriorityForTechnicalTask(task) {
   }
 }
 
+/**
+ * Sets the task values for non-technical tasks, including title, due date, priority buttons, and description.
+ * @param {Object} task - The task object containing task details.
+ */
 function setNonTechnicalTaskValues(task) {
   document.querySelector(".titleinputdesign").value = task.title;
   document.getElementById("date1").value = task.duedate;
@@ -95,6 +137,10 @@ function setNonTechnicalTaskValues(task) {
     .forEach((input) => (input.value = task.description));
 }
 
+/**
+ * Sets priority button listeners for non-technical tasks based on the task's priority value.
+ * @param {Object} task - The task object containing task details.
+ */
 function setPriorityButtonListeners(task) {
   if (task.prio === "Urgent") {
     selectbutton_11(task);
@@ -105,6 +151,12 @@ function setPriorityButtonListeners(task) {
   }
 }
 
+/**
+ * Displays the saved initials for assigned users on the task. 
+ * Fetches the contacts and displays them as badges.
+ * @param {string} id - The task ID.
+ * @param {Object} task - The task object containing assigned users.
+ */
 async function showsavedinitials(id, task) {
   document.getElementById("assignedusers1").innerHTML = "";
   const { entries, contactMap } = await fetchsavedinitials();
@@ -121,6 +173,10 @@ async function showsavedinitials(id, task) {
   }
 }
 
+/**
+ * Fetches saved initials from a remote source and maps them to contacts.
+ * @returns {Promise<Object>} - The entries and contact map.
+ */
 async function fetchsavedinitials() {
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
@@ -144,6 +200,11 @@ async function fetchsavedinitials() {
   return { entries, contactMap };
 }
 
+/**
+ * Creates a badge for a contact assigned to the task and displays it in the UI.
+ * @param {Object} selectedContact - The contact object containing user details.
+ * @param {number} index - The index of the contact in the assigned users list.
+ */
 function forasignedto(selectedContact, index) {
   document.getElementById("assignedusers1").style.width = "100%";
   const badge = document.createElement("div");
@@ -166,8 +227,7 @@ function forasignedto(selectedContact, index) {
 }
 
 /**
- * Resets the template to its initial state based on the task type.
- * @param {Object} task - The task object containing all task details.
+ * Resets the profile template and includes the HTML content based on the task type.
  */
 async function firstcondition() {
   closeoverlayprofiletemplate();
@@ -180,6 +240,10 @@ async function firstcondition() {
   w3.includeHTML();
 }
 
+/**
+ * Resets the task template based on the task type (User Story or Technical Task).
+ * @param {Object} task - The task object containing task details.
+ */
 async function resettemplate(task) {
   if (task.category === "User Story") {
     firstcondition();

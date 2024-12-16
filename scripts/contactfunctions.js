@@ -1,3 +1,9 @@
+/**
+ * Retrieves the elements related to a contact and prepares the variables for processing.
+ * @param {Object} contact - The contact object containing contact details.
+ * @param {Event} event - The event triggering the function call.
+ * @returns {Object} - The contact-related elements and properties.
+ */
 async function variables(contact, event) {
   const contactDiv = document.getElementById(`div${contact.id}`);
   const checkbox = document.getElementById(`checkbox${contact.id}`);
@@ -10,6 +16,10 @@ async function variables(contact, event) {
   return { contactDiv, checkbox, initials, color, assignedUsersDiv };
 }
 
+/**
+ * Fetches all contacts from the server.
+ * @returns {Object} - An object containing the entries of all contacts.
+ */
 async function fetchcontacts() {
   const response = await fetch(GLOBAL + `users/1/contacts.json`);
   const responsestoJson = await response.json();
@@ -28,6 +38,11 @@ async function fetchcontacts() {
   return { entries };
 }
 
+/**
+ * Handles the contact selection process.
+ * @param {string} id - The id of the selected contact.
+ * @param {Event} event - The event triggering the contact selection.
+ */
 async function selectcontact(id, event) {
   const { entries } = await fetchcontacts();
   const selectedContact = entries.find(
@@ -62,12 +77,30 @@ async function selectcontact(id, event) {
   bodylistener(event, contactDiv, checkbox, selectedContact, initials);
 }
 
+/**
+ * Attaches a listener to reset contact when clicked.
+ * @param {Event} event - The event triggering the reset.
+ * @param {Element} contactDiv - The contact's div element.
+ * @param {Element} checkbox - The checkbox associated with the contact.
+ * @param {Object} selectedContact - The contact object.
+ * @param {string} initials - The initials of the contact.
+ */
 function bodylistener(event, contactDiv, checkbox, selectedContact, initials) {
   contactDiv.onclick = (event) => {
     resetcontact(contactDiv, checkbox, selectedContact.id, initials, event);
   };
 }
 
+/**
+ * Adds a badge to the list of assigned users when a contact is selected.
+ * @param {Object} existingContact - The previously selected contact (if any).
+ * @param {string} initials - The initials of the selected contact.
+ * @param {Object} selectedContact - The selected contact object.
+ * @param {string} color - The color associated with the contact.
+ * @param {Element} assignedUsersDiv - The div to append the badge to.
+ * @param {Element} checkbox - The checkbox associated with the contact.
+ * @param {Element} contactDiv - The contact's div element.
+ */
 function addcontactbadge(
   existingContact,
   initials,
@@ -93,6 +126,12 @@ function addcontactbadge(
   }
 }
 
+/**
+ * Creates a badge element for the assigned user.
+ * @param {string} color - The color for the badge background.
+ * @param {string} initials - The initials displayed on the badge.
+ * @returns {Element} - The badge DOM element.
+ */
 function badgecreation(color, initials) {
   const badge = document.createElement("div");
   badge.className = "badgeassigned badge";
@@ -105,6 +144,14 @@ function badgecreation(color, initials) {
   return badge;
 }
 
+/**
+ * Resets the contact selection, removing the contact badge and resetting states.
+ * @param {Element} contactDiv - The contact's div element.
+ * @param {Element} checkbox - The checkbox associated with the contact.
+ * @param {string} id - The id of the contact.
+ * @param {string} initials - The initials of the contact.
+ * @param {Event} event - The event triggering the reset.
+ */
 function resetcontact(contactDiv, checkbox, id, initials, event) {
   checkbox.checked = false; // Ensure checkbox is unchecked
   contactDiv.classList.remove("dark-blue");
@@ -122,6 +169,10 @@ function resetcontact(contactDiv, checkbox, id, initials, event) {
   };
 }
 
+/**
+ * Filters the contacts based on the input value.
+ * @param {Event} event - The input event triggered by the user.
+ */
 function filterContacts(event) {
   const filter = event.target.value.toLowerCase();
   const filteredContacts = contacts.filter((contact) =>
@@ -130,6 +181,10 @@ function filterContacts(event) {
   renderContacts(filteredContacts);
 }
 
+/**
+ * Renders the search bar for filtering contacts.
+ * @returns {string} - The HTML string for the search bar.
+ */
 function searchbar() {
   return /*html*/ `
       <input id="search" type="text" class="searchbar" onclick="event.stopPropagation()" oninput="filterContacts(event)">
@@ -137,6 +192,10 @@ function searchbar() {
     `;
 }
 
+/**
+ * Resets the search bar and hides the contacts dropdown.
+ * @param {Event} event - The event triggered by the user.
+ */
 async function resetsearchbar(event) {
   const contactsBox = document.getElementById("contacts-box");
   const contactsBox1 = document.getElementById("contacts-box1");
@@ -157,6 +216,11 @@ async function resetsearchbar(event) {
   }
 }
 
+
+
+/**
+ * Handles the display of the contact box.
+ */
 function smallerfunction() {
   const contactsBox1 = document.getElementById("contacts-box1");
   const contactsBox = document.getElementById("contacts-box");
@@ -170,6 +234,10 @@ function smallerfunction() {
   }
 }
 
+/**
+ * Displays the contacts when the user interacts with the button.
+ * @param {Event} event - The event triggering the function.
+ */
 async function showcontacts(event) {
   let contactsBox;
   if (event) event.stopPropagation();
@@ -186,6 +254,10 @@ async function showcontacts(event) {
   }
 }
 
+/**
+ * Checks if the contact box is empty, fetches contacts if necessary, and opens the box.
+ * @param {HTMLElement} contactsBox - The element representing the contacts box.
+ */
 async function ifshowcontactspart(contactsBox) {
   if (contactsBox && contactsBox.innerHTML.trim() === "") {
     await fetchAndRenderContacts();
@@ -196,6 +268,9 @@ async function ifshowcontactspart(contactsBox) {
   }
 }
 
+/**
+ * Fetches and renders contacts, initializing the search bar.
+ */
 async function fetchAndRenderContacts() {
   let response = await fetch(GLOBAL + `users/1/contacts.json`);
   let responsestoJson = await response.json();
@@ -205,6 +280,11 @@ async function fetchAndRenderContacts() {
   renderContacts(contacts);
 }
 
+/**
+ * Processes the raw contact data into a structured format.
+ * @param {Object} responsestoJson - The raw contact data.
+ * @returns {Array} - A list of processed contacts.
+ */
 function processContacts(responsestoJson) {
   return Object.entries(responsestoJson)
     .map(([firebaseId, contact]) =>
@@ -220,6 +300,10 @@ function processContacts(responsestoJson) {
     .filter(Boolean);
 }
 
+/**
+ * Initializes the search bar in the contact selection box.
+ * @param {HTMLElement} contactsBox - The contacts box element.
+ */
 function initializeSearchBar(contactsBox) {
   const selectButton =
     document.getElementById("selectbutton1") ||
@@ -240,6 +324,9 @@ function initializeSearchBar(contactsBox) {
   clickbodylistener();
 }
 
+/**
+ * Adds a listener to the body to handle clicks outside the contacts box.
+ */
 function clickbodylistener() {
   document.body.addEventListener("click", function (event) {
     const contactsBox1 = document.getElementById("contacts-box1");
@@ -258,16 +345,27 @@ function clickbodylistener() {
   });
 }
 
+/**
+ * Opens the contacts box and updates the select button.
+ * @param {HTMLElement} contactsBox - The element representing the contacts box.
+ */
 function openContactsBox(contactsBox) {
   contactsBox.classList.remove("d-none");
   updateSelectButton();
 }
 
+/**
+ * Closes the contacts box and resets the search bar.
+ * @param {HTMLElement} contactsBox - The element representing the contacts box.
+ */
 function closeContactsBox(contactsBox) {
   contactsBox.classList.add("d-none");
   resetsearchbar(); // Reset search or related UI.
 }
 
+/**
+ * Updates the select button to show the search bar.
+ */
 function updateSelectButton() {
   const selectButton =
     document.getElementById("selectbutton1") ||
@@ -275,6 +373,10 @@ function updateSelectButton() {
   selectButton.innerHTML = searchbar();
 }
 
+/**
+ * Renders the contacts into the contacts box.
+ * @param {Array} contactList - A list of contacts to be rendered.
+ */
 function renderContacts(contactList) {
   const contactHTML = generateContactHTML(contactList);
   const contactsBox = getContactsBox();
@@ -285,6 +387,11 @@ function renderContacts(contactList) {
   }
 }
 
+/**
+ * Generates the HTML content for a list of contacts.
+ * @param {Array} contactList - The list of contacts.
+ * @returns {string} - The HTML string for the contacts.
+ */
 function generateContactHTML(contactList) {
   let contactHTML = "";
   contactList.forEach((contact) => {
@@ -296,6 +403,10 @@ function generateContactHTML(contactList) {
   return contactHTML;
 }
 
+/**
+ * Retrieves the contacts box element.
+ * @returns {HTMLElement} - The contacts box element.
+ */
 function getContactsBox() {
   return (
     document.getElementById("contacts-box1") ||
@@ -303,25 +414,40 @@ function getContactsBox() {
   );
 }
 
+/**
+ * Checks if the assigned users list is populated.
+ * @returns {boolean} - True if the assigned users list has content, otherwise false.
+ */
 function isAssignedUsersPopulated() {
   const assignedUsers = document.getElementById("assignedusers1");
   return assignedUsers && assignedUsers.innerHTML.trim() !== "";
 }
 
+/**
+ * Highlights the assigned users in the contact list.
+ */
 function highlightAssignedUsers() {
   initialsArray.forEach((initialsObj) => {
     const matchedContact = findMatchedContact(initialsObj.initials);
     if (matchedContact) {
       highlightContact(matchedContact);
-    } else {
     }
   });
 }
 
+/**
+ * Finds a contact that matches the given initials.
+ * @param {string} initials - The initials to match.
+ * @returns {Object|null} - The matched contact or null if not found.
+ */
 function findMatchedContact(initials) {
   return contacts.find((contact) => contact.initials === initials);
 }
 
+/**
+ * Highlights a contact in the contacts box.
+ * @param {Object} contact - The contact to highlight.
+ */
 function highlightContact(contact) {
   const contactElement = document.querySelector(
     `#contacts-box1 #div${contact.id}`
@@ -330,6 +456,5 @@ function highlightContact(contact) {
   if (contactElement) {
     contactElement.classList.add("dark-blue");
     document.getElementById(`checkbox${contact.id}`).checked = true;
-  } else {
   }
 }

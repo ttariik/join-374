@@ -1,3 +1,8 @@
+/**
+ * Generates HTML for a title input field.
+ * @param {Object} task - The task object, though it is not used in this function.
+ * @returns {string} - The HTML string for the title input field.
+ */
 function titletemplate(task) {
   return /*html*/ `
       <label>Title</label>
@@ -5,6 +10,10 @@ function titletemplate(task) {
       `;
 }
 
+/**
+ * Generates HTML for a description input field.
+ * @returns {string} - The HTML string for the description textarea.
+ */
 function descriptiontemplate() {
   return /*html*/ `
       <label>Description</label>
@@ -12,6 +21,10 @@ function descriptiontemplate() {
       `;
 }
 
+/**
+ * Generates HTML for a due date input field.
+ * @returns {string} - The HTML string for the due date input field.
+ */
 function duedatetemplate() {
   return /*html*/ `
   <div class="buttonsalignment_1-2">
@@ -31,6 +44,10 @@ function duedatetemplate() {
                       </div>`;
 }
 
+/**
+ * Generates HTML for a priority selection button (Urgent).
+ * @returns {string} - The HTML string for the "Urgent" priority button.
+ */
 function prioritytemplateprofile2_1() {
   return `<div class="button-containerss">
                           <button
@@ -51,6 +68,10 @@ function prioritytemplateprofile2_1() {
                         </div>`;
 }
 
+/**
+ * Generates HTML for a priority selection button (Medium).
+ * @returns {string} - The HTML string for the "Medium" priority button.
+ */
 function prioritytemplateprofile2_2() {
   return `<div class="button-containerss">
                           <button
@@ -75,6 +96,10 @@ function prioritytemplateprofile2_2() {
                         </div>`;
 }
 
+/**
+ * Generates HTML for a priority selection button (Low).
+ * @returns {string} - The HTML string for the "Low" priority button.
+ */
 function prioritytemplateprofile2_3() {
   return `<div class="button-containerss">
                           <button
@@ -95,6 +120,10 @@ function prioritytemplateprofile2_3() {
                         </div>`;
 }
 
+/**
+ * Generates HTML for the priority section, combining all priority buttons.
+ * @returns {string} - The HTML string for the priority section.
+ */
 function prioritytemplateprofile() {
   return /*html*/ `
                   <label>Prio</label>
@@ -106,6 +135,10 @@ function prioritytemplateprofile() {
               `;
 }
 
+/**
+ * Generates HTML for a priority selection button (Urgent) for technical tasks.
+ * @returns {string} - The HTML string for the "Urgent" priority button (technical task).
+ */
 function prioritytemplatetechnicaltask2_1() {
   return ` <div class="button-containerss">
                           <button
@@ -126,6 +159,10 @@ function prioritytemplatetechnicaltask2_1() {
                         </div>`;
 }
 
+/**
+ * Generates HTML for a priority selection button (Medium) for technical tasks.
+ * @returns {string} - The HTML string for the "Medium" priority button (technical task).
+ */
 function prioritytemplatetechnicaltask2_2() {
   return `<div class="button-containerss">
                           <button
@@ -150,6 +187,10 @@ function prioritytemplatetechnicaltask2_2() {
                         </div>`;
 }
 
+/**
+ * Generates HTML for a priority selection button (Low) for technical tasks.
+ * @returns {string} - The HTML string for the "Low" priority button (technical task).
+ */
 function prioritytemplatetechnicaltask2_3() {
   return `<div class="button-containerss">
                           <button
@@ -170,6 +211,10 @@ function prioritytemplatetechnicaltask2_3() {
                         </div>`;
 }
 
+/**
+ * Generates HTML for the priority section for technical tasks, combining all priority buttons.
+ * @returns {string} - The HTML string for the technical task priority section.
+ */
 function prioritytemplatetechnicaltask() {
   return /*html*/ `
                   <label>Prio</label>
@@ -181,6 +226,10 @@ function prioritytemplatetechnicaltask() {
               `;
 }
 
+/**
+ * Generates HTML for the contact assignment section, with a button to select contacts.
+ * @returns {string} - The HTML string for the contact assignment section.
+ */
 function reselectionofcontacts() {
   return /*html*/ `<div><label>Assigned to</label></div>
     <div class="selectbox">
@@ -199,6 +248,13 @@ function reselectionofcontacts() {
   `;
 }
 
+/**
+ * Generates HTML for a contact badge displaying initials and name.
+ * @param {string} contactColor - The background color for the badge.
+ * @param {string} initials - The initials to display on the badge.
+ * @param {string} name - The name to display next to the initials.
+ * @returns {string} - The HTML string for the contact badge.
+ */
 function generateContactBadgeHTML(contactColor, initials, name) {
   return `
     <div>
