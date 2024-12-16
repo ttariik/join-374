@@ -49,14 +49,6 @@ async function setupprofilelayoutpart2(task) {
 }
 
 async function editprofile(task) {
-  if (task && Array.isArray(task.subtask)) {
-    task.subtask.forEach((subtaskObj) => {
-      subtasks.push(subtaskObj.subtask); // Add subtasks to the subtasks array
-    });
-  } else {
-    // If task or task.subtask is not defined, handle accordingly
-    console.warn("No subtasks found for this task or task is undefined.");
-  }
   await setupprofilelayoutpart1(task);
   await setupprofilelayoutpart2(task);
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
@@ -70,6 +62,14 @@ async function editprofile(task) {
     task
   );
   await loadinfos(task);
+  if (task && Array.isArray(task.subtask)) {
+    task.subtask.forEach((subtaskObj) => {
+      subtasks.push(subtaskObj.subtask); // Add subtasks to the subtasks array
+    });
+  } else {
+    // If task or task.subtask is not defined, handle accordingly
+    console.warn("No subtasks found for this task or task is undefined.");
+  }
 }
 
 async function renderSubtasks(task) {
