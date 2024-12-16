@@ -205,49 +205,33 @@ function setInitials(changes, task, initialsArray) {
  * @param {HTMLElement} parentElement - The parent element of the task.
  * @param {string} taskId - The unique ID of the task.
  */
-// Initialize subtasks if they are not present in changes or task
-// Initialize subtasks if they are not present in changes or task
 function setSubtasks(changes, task, subtasks) {
-  // Initialize changes.subtask and task.subtask as arrays if undefined
   if (!Array.isArray(changes.subtask)) {
     changes.subtask = [];
   }
-
   if (!Array.isArray(task.subtask)) {
     task.subtask = [];
   }
-
-  // Create a map of existing subtasks with their completion status
   const existingSubtaskMap = new Map(
     task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
-
-  // Step 1: Add subtasks from the UI (preserve existing ones or add new ones as incomplete)
   subtasks.forEach((subtaskText) => {
     if (existingSubtaskMap.has(subtaskText)) {
-      // Preserve the existing completion status for subtasks that exist in the UI
       changes.subtask.push({
         subtask: subtaskText,
         completed: existingSubtaskMap.get(subtaskText),
       });
     } else {
-      // Add new subtasks as incomplete
       changes.subtask.push({ subtask: subtaskText, completed: false });
     }
   });
-
-  // Step 2: Remove subtasks from `task.subtask` that are not present in the UI
   task.subtask.forEach((sub) => {
     if (!subtasks.includes(sub.subtask)) {
-      // If a subtask is not in the UI, exclude it from the `changes.subtask`
       changes.subtask = changes.subtask.filter(
         (change) => change.subtask !== sub.subtask
       );
     }
   });
-
-  // Optional Debugging
-  console.log("Updated Subtasks:", changes.subtask);
 }
 
 /**
