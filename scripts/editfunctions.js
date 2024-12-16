@@ -24,9 +24,11 @@ async function setupprofilelayoutpart1(task) {
   if (titlebox) {
     titlebox.remove();
   }
-  document.querySelector(".headerprofile").style.justifyContent = "flex-end";
-  document.querySelector(".titlebox span").style = "line-height: unset";
-  document.querySelector(".titlebox").innerHTML = titletemplate(task);
+  if (document.querySelector(".titlebox span")) {
+    document.querySelector(".headerprofile").style.justifyContent = "flex-end";
+    document.querySelector(".titlebox span").style = "line-height: unset";
+    document.querySelector(".titlebox").innerHTML = titletemplate(task);
+  }
 }
 
 async function setupprofilelayoutpart2(task) {
