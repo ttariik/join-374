@@ -76,7 +76,7 @@ function generateTaskDetails(task, contacts) {
   const taskCategory = task?.category || "Uncategorized";
   const taskTitle = task?.title || "Untitled Task";
   const taskDescription = task?.description || "";
-  const taskPrio = task?.prio || "";
+  const taskPrio = task?.prio.png || "";
 
   const initialsHTML =
     contactsArray.length > 0
@@ -135,8 +135,7 @@ async function userstorytemplate(task, contacts) {
           ${initialsHTML}
           ${extraCircleHTML}
         </div>
-        <img src="/img/${taskPrio}.png" alt="">
-      </div>
+        ${taskPrio ? `<img src="/img/${taskPrio}.png" alt="">` : ""}      </div>
     </div>
   `;
 }
@@ -354,8 +353,11 @@ function Technicaltasktemplatetemplate(
         ${progressBarHTML}
         <div class="task-statuss">
           <div class="initialsboxdesign">${initialsHTML}${extraCircleHTML}</div>
-          <img src="/img/${task.prio || ""}.png" alt="">
-        </div>
+          ${
+            task.prio
+              ? `<img src="/img/${task.prio}.png" alt="Priority ${task.prio}">`
+              : ""
+          }        </div>
       </div>`;
 }
 

@@ -115,8 +115,7 @@ async function loadinfos(task) {
     console.warn("Task has no category property:", task);
   }
   if (!task || typeof task !== "object") {
-    console.error("Invalid or undefined task:", task); // Debug log
-    return; // Exit early if task is undefined or invalid
+    return;
   }
 }
 
