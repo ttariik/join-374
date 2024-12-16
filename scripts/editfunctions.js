@@ -89,11 +89,7 @@ async function editinputs(task) {
    * Checks for subtasks in the provided task and pushes them to the subtasks array.
    * @property {Array} task.subtask - An array of subtask objects.
    */
-  if (!task.subtask === undefined) {
-    task.subtask.forEach((subtaskObj) => {
-      subtasks.push(subtaskObj.subtask);
-    });
-  }
+
   setuptechnicallayoutpart1(task);
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
@@ -112,6 +108,11 @@ async function editinputs(task) {
     });
   /** Sets up the second part of the technical layout for the task. */
   setuptechnicallayoutpart2(task);
+  if (!task.subtask === undefined) {
+    task.subtask.forEach((subtaskObj) => {
+      subtasks.push(subtaskObj.subtask);
+    });
+  }
 }
 
 /**
@@ -120,7 +121,6 @@ async function editinputs(task) {
  * @param {Object} task - The task object to use for layout configuration.
  */
 async function setuptechnicallayoutpart1(task) {
-  /** Removes the "type" element if it exists. */
   const type = document.getElementById("type");
   if (type) {
     type.remove();
