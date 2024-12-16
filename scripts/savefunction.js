@@ -31,7 +31,7 @@ function extractCurrentValues(task) {
   const description =
     document.querySelector(".description")?.children[1]?.value ||
     document.getElementById("descriptioninput")?.children[1]?.value;
-  const duedate = document.getElementById("date1").value;
+  const duedate = document.getElementById("date23").value;
   const taskId = task.id;
   return { title, description, duedate, taskId };
 }
@@ -212,19 +212,32 @@ function setSubtasks(changes, task, subtasks) {
   if (!Array.isArray(task.subtask)) {
     task.subtask = [];
   }
+
+  // Create a map from task's existing subtasks for fast lookup
   const existingSubtaskMap = new Map(
     task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
+
+  // Avoid duplicates by using a Set to track added subtasks
+  const addedSubtasks = new Set();
+
+  // Add or update subtasks from the provided subtasks array
   subtasks.forEach((subtaskText) => {
-    if (existingSubtaskMap.has(subtaskText)) {
-      changes.subtask.push({
-        subtask: subtaskText,
-        completed: existingSubtaskMap.get(subtaskText),
-      });
-    } else {
-      changes.subtask.push({ subtask: subtaskText, completed: false });
+    if (!addedSubtasks.has(subtaskText)) {
+      // Only add if not already added
+      if (existingSubtaskMap.has(subtaskText)) {
+        changes.subtask.push({
+          subtask: subtaskText,
+          completed: existingSubtaskMap.get(subtaskText),
+        });
+      } else {
+        changes.subtask.push({ subtask: subtaskText, completed: false });
+      }
+      addedSubtasks.add(subtaskText);
     }
   });
+
+  // Remove subtasks from changes that are no longer in the subtasks array
   task.subtask.forEach((sub) => {
     if (!subtasks.includes(sub.subtask)) {
       changes.subtask = changes.subtask.filter(

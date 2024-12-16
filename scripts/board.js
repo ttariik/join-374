@@ -160,7 +160,9 @@ function setupDeleteButton(task) {
   const btn1_10 = document.getElementById("btn1_10");
   if (btn1_10) {
     btn1_10.addEventListener("click", function () {
-      deletetask(task.id, task);
+      setTimeout(() => {
+        deletetask(task.id, task);
+      }, 0);
     });
   }
 }
@@ -330,6 +332,9 @@ async function inputacesstechnicall(task, contacts) {
 function deletetask(id, task) {
   const taskId = id;
   const taskElement = document.getElementById(taskId);
+  if (!taskElement) {
+    return;
+  }
   const parentFolder = taskElement.parentElement;
   const parentFolderId = parentFolder.id;
   deleteData(`users/1/tasks/${parentFolderId}/${taskId}`, task)
@@ -337,7 +342,9 @@ function deletetask(id, task) {
       taskElement.remove();
       displaynotasksmessage(parentFolder, parentFolderId);
     })
-    .catch((error) => {});
+    .catch((error) => {
+      console.error("Error deleting task:", error);
+    });
   closeoverlaytechnicaltemplate();
   loadtasks();
 }
@@ -433,6 +440,7 @@ async function closeoverlayprofiletemplate() {
  */
 async function closeoverlaytechnicaltemplate() {
   document.querySelector(".overlayss").style = "transform: translateX(250%);";
+  subtasks = [];
   setTimeout(() => {
     document
       .getElementById("overlaytechinical-task-template")
@@ -440,7 +448,6 @@ async function closeoverlaytechnicaltemplate() {
     document
       .getElementById("overlaytechinical-task-template")
       .classList.remove("overlayss");
-    subtasks = [];
   }, 1000);
 }
 

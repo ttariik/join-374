@@ -30,16 +30,26 @@ function duedatetemplate() {
   <div class="buttonsalignment_1-2">
                         Due Date <span class="required-indicator">*</span>
                       </div>
-                      <div class="emailinput">
-                        <input
-                          oninput="filternumbers(this)"
-                          class="emailinput2"
-                          type="datetime"
-                          name="date"
-                          id="date1"
-                          placeholder="dd/mm/yyyy"
-                          maxlength="10"
-                        />
+                      <div class="emailinput2">
+                      <input
+                        onchange="formatDateToDDMMYYYY(this)"
+                        class="emaildesign"
+                        type="date"
+                        name="date"
+                        min="2024-12-11"
+                        id="date"
+                        placeholder="dd/mm/yyyy"
+                        maxlength="10"
+                      />
+                      <input
+                        oninput="filternumbers(this)"
+                        class="emaildesign2"
+                        id="date23"
+                        type="text"
+                        placeholder="dd/mm/yyyy"
+                        maxlength="10"
+                      />
+                    </div>
                         <span class="spansubtaskdesign" id="spandate"></span>
                       </div>`;
 }

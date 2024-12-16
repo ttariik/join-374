@@ -135,7 +135,7 @@ function setPriorityForTechnicalTask(task) {
  */
 function setNonTechnicalTaskValues(task) {
   document.querySelector(".titleinputdesign").value = task.title;
-  document.getElementById("date1").value = task.duedate;
+  document.getElementById("date23").value = task.duedate;
   document.getElementById("button1-1").style.maxWidth = "136px";
   document.getElementById("button2-2").style.maxWidth = "136px";
   document.getElementById("button3-3").style.maxWidth = "136px";
