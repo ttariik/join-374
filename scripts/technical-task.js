@@ -5,7 +5,7 @@
  */
 function loadinfosifpart1(task) {
   document.getElementById("technicaltasktitle").children[1].value = task.title;
-  document.getElementById("date21").value = task.duedate;
+  document.getElementById("date23").value = task.duedate;
   document.getElementById("button11").style.maxWidth = "136px";
   document.getElementById("button22").style.maxWidth = "136px";
   document.getElementById("button33").style.maxWidth = "136px";
