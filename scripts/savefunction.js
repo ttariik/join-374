@@ -206,6 +206,7 @@ function setInitials(changes, task, initialsArray) {
  * @param {string} taskId - The unique ID of the task.
  */
 function setSubtasks(changes, task, subtasks) {
+  // Ensure both changes.subtask and task.subtask are arrays
   if (!Array.isArray(changes.subtask)) {
     changes.subtask = [];
   }
@@ -213,33 +214,42 @@ function setSubtasks(changes, task, subtasks) {
     task.subtask = [];
   }
 
-  // Create a map from task's existing subtasks for fast lookup
+  // Create a map for quick look-up of existing subtasks in task.subtask
   const existingSubtaskMap = new Map(
     task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
 
-  // Avoid duplicates by using a Set to track added subtasks
+  // We will use a Set to track added subtasks to avoid duplicates
   const addedSubtasks = new Set();
 
-  // Add or update subtasks from the provided subtasks array
-  subtasks.forEach((subtaskText) => {
-    if (!addedSubtasks.has(subtaskText)) {
-      // Only add if not already added
-      if (existingSubtaskMap.has(subtaskText)) {
-        changes.subtask.push({
-          subtask: subtaskText,
-          completed: existingSubtaskMap.get(subtaskText),
-        });
-      } else {
-        changes.subtask.push({ subtask: subtaskText, completed: false });
-      }
-      addedSubtasks.add(subtaskText);
+  // First, add all existing subtasks from task.subtask into changes.subtask
+  task.subtask.forEach((sub) => {
+    if (!addedSubtasks.has(sub.subtask)) {
+      // Add existing subtasks with their completion status
+      changes.subtask.push({
+        subtask: sub.subtask,
+        completed: sub.completed, // Keep the original completed status
+      });
+      addedSubtasks.add(sub.subtask); // Mark this subtask as added
     }
   });
 
-  // Remove subtasks from changes that are no longer in the subtasks array
+  // Now, add the new subtasks from the `subtasks` array (if they're not already added)
+  subtasks.forEach((subtaskText) => {
+    if (!addedSubtasks.has(subtaskText)) {
+      // Add new subtasks with completed set to false by default
+      changes.subtask.push({
+        subtask: subtaskText,
+        completed: false, // New subtasks are incomplete
+      });
+      addedSubtasks.add(subtaskText); // Mark this new subtask as added
+    }
+  });
+
+  // Remove any subtasks that are no longer in the subtasks array
   task.subtask.forEach((sub) => {
     if (!subtasks.includes(sub.subtask)) {
+      // Remove subtasks that aren't part of the new list
       changes.subtask = changes.subtask.filter(
         (change) => change.subtask !== sub.subtask
       );

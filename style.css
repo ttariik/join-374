@@ -8,11 +8,14 @@
   src: url("./fonts/PTSans-Bold.ttf") format("truetype");
 }
 
+body.overflow-auto {
+  overflow: auto; /* Show scrollbar if content overflows */
+}
+
 body {
   margin: 0;
   font-family: "PT-Sans" !important;
   background-color: rgb(246, 247, 248);
-  overflow: hidden;
 }
 
 @media (max-width: 1259px) {
@@ -39,12 +42,20 @@ body {
 }
 
 .messageDiv {
-  background-color: #2A3647;
+  background-color: #2a3647;
   color: white;
   padding: 20px;
   border-radius: 5px;
   text-align: center;
-  opacity: 0; 
+  opacity: 0;
   transition: opacity 0.5s ease-in-out;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.no-scroll {
+  overflow: hidden; /* Hides scrollbar when content does not overflow */
+}
+
+.overflow-auto {
+  overflow: auto; /* Shows scrollbar when content overflows */
 }

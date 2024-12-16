@@ -277,6 +277,8 @@ input:focus {
   display: flex;
   max-width: 1208px;
   gap: 24px;
+  max-height: 647px;
+  width: 100%;
 }
 
 .folder {
