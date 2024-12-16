@@ -87,41 +87,40 @@ function setButton3_3Listener(task) {
 async function loadinfos(task) {
   assignedtousers = [];
   initialsArray = [];
-
   if (!task || typeof task !== "object") {
     return;
   }
-
-  console.log("Loaded task:", task); // Log the task to verify its structure
-  console.log("Subtasks for task:", task.subtask); // Log the subtasks specifically
-
   const assignedUsersElement = document.getElementById("assignedusers1");
   if (assignedUsersElement) {
     assignedUsersElement.innerHTML = "";
   }
-
   if (!task.category) {
     return;
   }
-
   if (task.category === "Technical Task") {
-    // Check if the subtasks data is properly structured for Technical Task
-    console.log("Technical task subtasks:", task.subtask);
     subtasks = [];
-    loadinfosifpart1(task);
-    await loadsubtasks(task); // Load subtasks for Technical Task
-    setButton22Listener(task);
-    setButton33Listener(task);
-    setPriorityForTechnicalTask(task);
+    loadtechnicaltasak(task);
   } else {
-    setButton1_1Listener(task);
-    setButton2_2Listener(task);
-    setButton3_3Listener(task);
-    setNonTechnicalTaskValues(task);
-    showsavedinitials(task.id, task);
-    loadsubtasks(task); // Load subtasks for Non-Technical Task
-    setPriorityButtonListeners(task);
+    loaduserstory(task);
   }
+}
+
+async function loaduserstory(task) {
+  setButton1_1Listener(task);
+  setButton2_2Listener(task);
+  setButton3_3Listener(task);
+  setNonTechnicalTaskValues(task);
+  showsavedinitials(task.id, task);
+  loadsubtasks(task); // Load subtasks for Non-Technical Task
+  setPriorityButtonListeners(task);
+}
+
+async function loadtechnicaltasak(task) {
+  loadinfosifpart1(task);
+  await loadsubtasks(task);
+  setButton22Listener(task);
+  setButton33Listener(task);
+  setPriorityForTechnicalTask(task);
 }
 
 /**
