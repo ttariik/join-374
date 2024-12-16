@@ -89,19 +89,21 @@ async function loadinfos(task) {
   asignedtousers = [];
   initialsArray = [];
   document.getElementById("assignedusers1").innerHTML = "";
-  if (task.category === "Technical Task") {
-    loadinfosifpart1(task);
-    setButton22Listener(task);
-    setButton33Listener(task);
-    setPriorityForTechnicalTask(task);
-  } else {
-    setButton1_1Listener(task);
-    setButton2_2Listener(task);
-    setButton3_3Listener(task);
-    setNonTechnicalTaskValues(task);
-    showsavedinitials(task.id, task);
-    loadsubtasks(task);
-    setPriorityButtonListeners(task);
+  if (task.category) {
+    if (task.category === "Technical Task") {
+      loadinfosifpart1(task);
+      setButton22Listener(task);
+      setButton33Listener(task);
+      setPriorityForTechnicalTask(task);
+    } else {
+      setButton1_1Listener(task);
+      setButton2_2Listener(task);
+      setButton3_3Listener(task);
+      setNonTechnicalTaskValues(task);
+      showsavedinitials(task.id, task);
+      loadsubtasks(task);
+      setPriorityButtonListeners(task);
+    }
   }
 }
 
