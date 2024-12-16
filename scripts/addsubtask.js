@@ -191,25 +191,18 @@ function inputfielddesign(index) {
  * @param {Object} task - The task object containing subtasks.
  */
 async function loadsubtasks(task) {
-  // Ensure this starts with an empty array to avoid previous task subtasks being mixed up
   let subtasksHTML = "";
-
-  // Validate if task.subtask exists and is an array
   if (task.subtask && Array.isArray(task.subtask)) {
-    // Loop through subtasks and push them to the array
     task.subtask.forEach((subtask, index) => {
-      subtasks.push(subtask.subtask); // Add subtask text or data
+      subtasks.push(subtask.subtask);
       const subtaskIndex = index + 1;
 
-      // Generate HTML for the subtasks
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
       addingeventlistener(subtaskIndex);
     });
   }
-
-  // Append the subtasks HTML to the DOM
   document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
-  addingeventlisteners(); // Apply event listeners for hover or interaction
+  addingeventlisteners();
 }
 
 /**
