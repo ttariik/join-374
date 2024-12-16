@@ -35,12 +35,10 @@ document.querySelectorAll(".task").forEach((taskElement) => {
 async function openprofiletemplate(task, contacts) {
   document.getElementById("overlayprofile-template").classList.add("overlayss");
   document.getElementById("overlayprofile-template").classList.remove("d-none");
-  // Ensure the content is updated before starting the transition
   await inputacessprofile(task, contacts);
-  // Apply the transition after content is updated
   setTimeout(() => {
     document.querySelector(".overlayss").style.transform = "translateX(0%)";
-  }, 0); // A slight delay for the transform effect
+  }, 0);
 }
 
 function updateProfileTitle(task) {
@@ -181,32 +179,22 @@ async function inputaccess(task) {
 
 async function inputacesstechnicall(task, contacts) {
   await inputaccess(task);
-  // Render assigned persons and subtasks
   await assignedtotemplate(task, contacts);
   const subtaskHTML = await showsubtaskstemplate(task);
-
-  // Check if 'subtaskbox' exists before modifying its content
   const subtaskBox = document.getElementById("subtaskbox");
   if (subtaskBox) {
     subtaskBox.innerHTML = subtaskHTML;
   }
-
-  // Check if the buttons exist before cloning and replacing them
   const deleteButton = document.getElementById("btn1");
   const editButton = document.getElementById("btn2");
-
   if (deleteButton && editButton) {
     const newDeleteButton = deleteButton.cloneNode(true);
     const newEditButton = editButton.cloneNode(true);
-
     deleteButton.replaceWith(newDeleteButton);
     editButton.replaceWith(newEditButton);
-
-    // Add event listeners after replacing the buttons
     newDeleteButton.addEventListener("click", () => deletetask(task.id, task));
     newEditButton.addEventListener("click", () => editinputs(task));
   } else {
-    console.warn("Buttons btn1 or btn2 not found in the DOM.");
   }
 }
 
