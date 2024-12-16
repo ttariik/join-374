@@ -40,38 +40,42 @@ function firstpartsubtask(subtasks, subtaskinput1) {
       .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
   }
 
-  addingeventlisteners();
+  addingeventlisteners(subtaskNumber);
 }
 
 /**
  * Attaches event listeners to the save and delete buttons for the new subtask.
  * @param {Array} subtasks - The list of all subtasks.
  */
-function addingeventlistener(subtaskIndex) {
+function addingeventlisteners(subtaskNumber) {
   if (subtasks.length === 0) {
     return;
   }
   setTimeout(() => {
-    document
-      .getElementById(`savesub${subtaskIndex}`)
-      .addEventListener("click", function () {
-        const inputElement = document.getElementById(`inputsub${subtaskIndex}`);
-        if (inputElement && inputElement.value === "") {
-          displayError("spanplace", "hi");
-          return;
-        } else {
-          savesub(subtaskIndex);
-        }
-      });
-    addingeventlistenerdeletebutton(subtaskIndex);
+    if (document.getElementById(`savesub${subtaskNumber}`)) {
+      document
+        .getElementById(`savesub${subtaskNumber}`)
+        .addEventListener("click", function () {
+          const inputElement = document.getElementById(
+            `inputsub${subtaskNumber}`
+          );
+          if (inputElement && inputElement.value === "") {
+            displayError("spanplace", "hi");
+            return;
+          } else {
+            savesub(subtaskNumber);
+          }
+        });
+      addingeventlistenerdeletebutton(subtaskNumber);
+    }
   }, 0);
 }
 
-function addingeventlistenerdeletebutton(subtaskIndex) {
+function addingeventlistenerdeletebutton(subtaskNumber) {
   document
-    .getElementById(`deletesub${subtaskIndex}`)
+    .getElementById(`deletesub${subtaskNumber}`)
     .addEventListener("click", function () {
-      deletesub(subtaskIndex);
+      deletesub(subtaskNumber);
     });
 }
 
@@ -105,32 +109,55 @@ function earlyeditsubtask(index) {
  * Prepares a specific subtask for editing.
  * @param {number} index - The index of the subtask.
  */
-function editsubtask(index) {
+async function editsubtask(index) {
   const subboxElement = document.getElementById(`sub${index}`);
   earlyeditsubtask(index);
-  editsubtasklisteners(index);
+  await editsubtasklisteners(index);
   inputfielddesign(index);
   changeclasses(index);
 }
 
+function addSaveEventListener(index, inputElement) {
+  const saveButton = document.getElementById(`savesub${index}`);
+  if (saveButton) {
+    saveButton.addEventListener("click", function () {
+      if (inputElement.value === "") {
+        ifresult();
+      } else {
+        clearerrors(index);
+      }
+    });
+  } else {
+    console.error(`Save button with ID 'savesub${index}' not found.`);
+  }
+}
+
+function addDeleteEventListener(index) {
+  const deleteButton = document.getElementById(`deletesub${index}`);
+  if (deleteButton) {
+    deleteButton.addEventListener("click", function () {
+      deletesub(index);
+    });
+  } else {
+    console.error(`Delete button with ID 'deletesub${index}' not found.`);
+  }
+}
+
+function validateElementsExist(index) {
+  const inputElement = document.getElementById(`inputsub${index}`);
+  if (inputElement) {
+    addSaveEventListener(index, inputElement);
+  } else {
+    console.error(`Input element with ID 'inputsub${index}' not found.`);
+  }
+
+  addDeleteEventListener(index);
+}
+
 function editsubtasklisteners(index) {
-  setTimeout(() => {
-    document
-      .getElementById(`savesub${index}`)
-      .addEventListener("click", function () {
-        const inputElement = document.getElementById(`inputsub${index}`);
-        if (inputElement.value === "") {
-          ifresult();
-        } else {
-          clearerrors(index);
-        }
-      });
-    document
-      .getElementById(`deletesub${index}`)
-      .addEventListener("click", function () {
-        deletesub(index);
-      });
-  }, 0);
+  requestAnimationFrame(() => {
+    validateElementsExist(index);
+  });
 }
 
 function ifresult() {
@@ -192,6 +219,7 @@ function loadsubtasks(task) {
     task.subtask.forEach((subtask, index) => {
       subtasks.push(subtask.subtask);
       const subtaskIndex = index + 1;
+      console.log(subtasks);
 
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
       addingeventlistener(subtaskIndex);

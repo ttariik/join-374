@@ -469,9 +469,7 @@ function deletesub(index) {
   if (subtaskElement) {
     const result = subtaskElement.innerHTML.trim();
   }
-
   subtasks.splice(index - 1, 1);
-
   const subtaskContainer = document.getElementById(`subboxinput_${index}`);
   if (subtaskContainer) {
     subtaskContainer.remove();
