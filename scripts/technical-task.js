@@ -89,7 +89,7 @@ async function loadinfos(task) {
   asignedtousers = [];
   initialsArray = [];
   document.getElementById("assignedusers1").innerHTML = "";
-  if (task.category === "Technical Task") {
+  if (task.category && task.category === "Technical Task") {
     loadinfosifpart1(task);
     setButton22Listener(task);
     setButton33Listener(task);
@@ -152,7 +152,7 @@ function setPriorityButtonListeners(task) {
 }
 
 /**
- * Displays the saved initials for assigned users on the task. 
+ * Displays the saved initials for assigned users on the task.
  * Fetches the contacts and displays them as badges.
  * @param {string} id - The task ID.
  * @param {Object} task - The task object containing assigned users.

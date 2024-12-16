@@ -222,27 +222,29 @@ function setSubtasks(changes, task, subtasks) {
     task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
 
-  // Step 1: Create a unique map of subtasks to prevent duplication
-  const updatedSubtaskMap = new Map();
-
-  // Step 2: Start with existing subtasks (preserving their completion status)
-  task.subtask.forEach((sub) => {
-    updatedSubtaskMap.set(sub.subtask, sub.completed);
-  });
-
-  // Step 3: Add new subtasks from the UI (preserve existing ones or add as incomplete)
+  // Step 1: Add subtasks from the UI (preserve existing ones or add new ones as incomplete)
   subtasks.forEach((subtaskText) => {
-    if (!updatedSubtaskMap.has(subtaskText)) {
+    if (existingSubtaskMap.has(subtaskText)) {
+      // Preserve the existing completion status for subtasks that exist in the UI
+      changes.subtask.push({
+        subtask: subtaskText,
+        completed: existingSubtaskMap.get(subtaskText),
+      });
+    } else {
       // Add new subtasks as incomplete
-      updatedSubtaskMap.set(subtaskText, false);
+      changes.subtask.push({ subtask: subtaskText, completed: false });
     }
   });
 
-  // Step 4: Build changes.subtask as an array from the updated map
-  changes.subtask = Array.from(updatedSubtaskMap, ([subtask, completed]) => ({
-    subtask,
-    completed,
-  }));
+  // Step 2: Remove subtasks from `task.subtask` that are not present in the UI
+  task.subtask.forEach((sub) => {
+    if (!subtasks.includes(sub.subtask)) {
+      // If a subtask is not in the UI, exclude it from the `changes.subtask`
+      changes.subtask = changes.subtask.filter(
+        (change) => change.subtask !== sub.subtask
+      );
+    }
+  });
 
   // Optional Debugging
   console.log("Updated Subtasks:", changes.subtask);

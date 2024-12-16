@@ -186,6 +186,7 @@ function inputfielddesign(index) {
  * @param {Object} task - The task object containing subtasks.
  */
 function loadsubtasks(task) {
+  subtasks = [];
   let subtasksHTML = "";
   if (task.subtask && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtask, index) => {
