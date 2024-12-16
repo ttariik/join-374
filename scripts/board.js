@@ -281,7 +281,7 @@ async function inputaccess(task) {
     document.getElementById("technicaltasktitle").innerHTML =
       task.title || "Untitled Task";
     document.getElementById("descriptioninput").innerHTML =
-      task.description || "No description provided.";
+      task.description || "";
     document.getElementById("due-date-containerinput").innerHTML =
       task.duedate || "No due date.";
     if (task.prio) {

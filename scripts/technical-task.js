@@ -255,6 +255,9 @@ async function firstcondition() {
  * @param {Object} task - The task object containing task details.
  */
 async function resettemplate(task) {
+  asignedtousers = [];
+  initialsArray = [];
+  subtasks = [];
   if (task.category === "User Story") {
     firstcondition();
   } else {
