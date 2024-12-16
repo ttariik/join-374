@@ -47,10 +47,13 @@ async function setupprofilelayoutpart2(task) {
 }
 
 async function editprofile(task) {
-  if (task.subtask && Array.isArray(task.subtask)) {
+  if (task && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtaskObj) => {
-      subtasks.push(subtaskObj.subtask);
+      subtasks.push(subtaskObj.subtask); // Add subtasks to the subtasks array
     });
+  } else {
+    // If task or task.subtask is not defined, handle accordingly
+    console.warn("No subtasks found for this task or task is undefined.");
   }
   await setupprofilelayoutpart1(task);
   await setupprofilelayoutpart2(task);

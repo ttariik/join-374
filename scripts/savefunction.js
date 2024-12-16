@@ -205,30 +205,42 @@ function setInitials(changes, task, initialsArray) {
  * @param {HTMLElement} parentElement - The parent element of the task.
  * @param {string} taskId - The unique ID of the task.
  */
-function initializeSubtasks(changes, task) {
-  if (!task.subtask && !changes.subtask) {
-    changes.subtask = [];
-  } else {
-    changes.subtask = [...(task.subtask || []), ...(changes.subtask || [])];
+// Initialize subtasks if they are not present in changes or task
+// Initialize subtasks if they are not present in changes or task
+function setSubtasks(changes, task, subtasks) {
+  // If changes.subtask doesn't exist, initialize it as an empty array
+  if (!changes.subtask) {
+    changes.subtask = {};
   }
-}
 
-function mergeSubtasks(changes, subtasks) {
+  // If task.subtask doesn't exist, initialize it as an empty array
+  if (!task.subtask) {
+    task.subtask = {};
+  }
+
+  // Step 1: Create a map of existing subtasks with their completion status for easy access
   const existingSubtaskMap = new Map(
-    changes.subtask.map((existing) => [existing.subtask, existing.completed])
+    task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
 
-  changes.subtask = subtasks.map((subtask) => ({
-    subtask,
-    completed: existingSubtaskMap.has(subtask)
-      ? existingSubtaskMap.get(subtask)
-      : false,
+  // Step 2: Add all existing subtasks to changes.subtask (preserving completion status)
+  changes.subtask = task.subtask.map((sub) => ({
+    subtask: sub.subtask,
+    completed: sub.completed, // Retain the completion status of existing subtasks
   }));
-}
 
-function setSubtasks(changes, task, subtasks) {
-  initializeSubtasks(changes, task); // Step 1: Ensure subtasks array exists
-  mergeSubtasks(changes, subtasks); // Step 2: Merge and update subtasks
+  // Step 3: Add any new subtasks (that aren't already in task.subtask) with completed = false
+  subtasks.forEach((subtaskText) => {
+    if (!existingSubtaskMap.has(subtaskText)) {
+      changes.subtask.push({ subtask: subtaskText, completed: false });
+    }
+  });
+
+  // Step 4: After changes are made, filter changes.subtask to include only the current subtasks in the UI
+  // (subtasks is the current list of subtasks that the user has interacted with)
+  changes.subtask = changes.subtask.filter((sub) =>
+    subtasks.includes(sub.subtask)
+  );
 }
 
 /**
