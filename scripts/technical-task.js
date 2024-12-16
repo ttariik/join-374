@@ -89,7 +89,7 @@ async function loadinfos(task) {
   asignedtousers = [];
   initialsArray = [];
   document.getElementById("assignedusers1").innerHTML = "";
-  if (task.category && task.category === "Technical Task") {
+  if (task.category === "Technical Task") {
     loadinfosifpart1(task);
     setButton22Listener(task);
     setButton33Listener(task);
