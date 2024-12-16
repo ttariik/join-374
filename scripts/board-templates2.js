@@ -36,8 +36,7 @@ function duedatetemplate() {
                         class="emaildesign"
                         type="date"
                         name="date"
-                        min="2024-12-11"
-                        id="date"
+                        id="date21"
                         placeholder="dd/mm/yyyy"
                         maxlength="10"
                       />

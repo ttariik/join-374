@@ -72,7 +72,11 @@ function handleLiveValidation(event) {
  * Initializes the form validation by setting up event listeners.
  */
 function initializeFormCheck() {
-  // Input elements
+  if (document.getElementById("date")) {
+    const dateInput = document.getElementById("date");
+    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    dateInput.min = today; // Set the 'min' attribute to today's date
+  }
   const titleInput = document.getElementById("title");
   const dateInput = document.getElementById("date2");
   const categoryInput = document.getElementById("selectedcategory"); // Updated for custom dropdown
@@ -163,22 +167,18 @@ function validateCategory(input) {
 function validateDateField(input) {
   const dateValue = input;
   const regex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-
   if (!regex.test(dateValue)) {
     displayError("spandate", "Invalid date format. Please use dd/mm/yyyy.");
     return false;
   }
-
   const [day, month, year] = dateValue.split("/").map(Number);
   const inputDate = new Date(year, month - 1, day);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
   if (inputDate < today) {
     displayError("spandate", "The date cannot be in the past.");
     return false;
   }
-
   clearError("spandate");
   return true;
 }
@@ -211,6 +211,9 @@ function formatDateToDDMMYYYY(input) {
     const [year, month, day] = dateValue.split("-"); // Split the input value into year, month, and day
     const formattedDate = `${day}/${month}/${year}`; // Convert to dd/mm/yyyy format
     document.getElementById("date2").value = formattedDate; // Set it to the manual input (date2)
+    if (document.getElementById("date23")) {
+      document.getElementById("date23").value = formattedDate; // Set it to the manual input (date2)
+    }
     validateDateField(formattedDate);
   }
 }

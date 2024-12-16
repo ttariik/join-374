@@ -66,6 +66,7 @@ async function editprofile(task) {
     task.subtask.forEach((subtaskObj) => {
       subtasks.push(subtaskObj.subtask);
     });
+    todaydate();
   } else {
     console.warn("No subtasks found for this task or task is undefined.");
   }
@@ -124,6 +125,7 @@ async function setuptechnicallayoutpart1(task) {
   if (type) {
     type.remove();
   }
+  todaydate();
   document.getElementById("layoutid").style.gap = "10px";
   document.querySelector(".header").style.justifyContent = "flex-end";
   document.getElementById("technicaltasktitle").innerHTML = titletemplate(task);
@@ -137,6 +139,14 @@ async function setuptechnicallayoutpart1(task) {
   document.getElementById("priority-containercontent").style.flexDirection =
     "column";
   document.getElementById("priority-containercontent").style.gap = "10px";
+}
+
+function todaydate() {
+  if (document.getElementById("date21")) {
+    const dateInput = document.getElementById("date21");
+    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+    dateInput.min = today; // Set the 'min' attribute to today's date
+  }
 }
 
 /**

@@ -40,21 +40,21 @@ function firstpartsubtask(subtasks, subtaskinput1) {
       .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
   }
 
-  addingeventlisteners();
+  addingeventlisteners(subtaskNumber);
 }
 
 /**
  * Attaches event listeners to the save and delete buttons for the new subtask.
  * @param {Array} subtasks - The list of all subtasks.
  */
-function addingeventlistener(subtaskIndex) {
+function addingeventlistener(subtaskNumber) {
   if (subtasks.length === 0) {
     return;
   }
   setTimeout(() => {
-    if (document.getElementById(`savesub${subtaskIndex}`)) {
+    if (document.getElementById(`savesub${subtaskNumber}`)) {
       document
-        .getElementById(`savesub${subtaskIndex}`)
+        .getElementById(`savesub${subtaskNumber}`)
         .addEventListener("click", function () {
           const inputElement = document.getElementById(
             `inputsub${subtaskIndex}`
@@ -63,19 +63,19 @@ function addingeventlistener(subtaskIndex) {
             displayError("spanplace", "hi");
             return;
           } else {
-            savesub(subtaskIndex);
+            savesub(subtaskNumber);
           }
         });
-      addingeventlistenerdeletebutton(subtaskIndex);
+      addingeventlistenerdeletebutton(subtaskNumber);
     }
   }, 0);
 }
 
-function addingeventlistenerdeletebutton(subtaskIndex) {
+function addingeventlistenerdeletebutton(subtaskNumber) {
   document
-    .getElementById(`deletesub${subtaskIndex}`)
+    .getElementById(`deletesub${subtaskNumber}`)
     .addEventListener("click", function () {
-      deletesub(subtaskIndex);
+      deletesub(subtaskNumber);
     });
 }
 
