@@ -135,7 +135,7 @@ async function setuptechnicallayoutpart1(task) {
     "gap: 10px;flex-direction:column;!important";
   document.getElementById("priority-containercontent").innerHTML =
     prioritytemplatetechnicaltask();
-  document.getElementById("date1").style.marginBottom = "unset";
+  document.getElementById("date23").style.marginBottom = "unset";
   document.getElementById("priority-containercontent").style.flexDirection =
     "column";
   document.getElementById("priority-containercontent").style.gap = "10px";
