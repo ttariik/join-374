@@ -1,3 +1,8 @@
+/**
+ * Loads tasks either for a specific task and folder or all tasks.
+ * @param {string|null} specificTaskId - The ID of a specific task to load (optional).
+ * @param {string|null} specificFolderId - The ID of a specific folder to load (optional).
+ */
 async function loadtasks(specificTaskId = null, specificFolderId = null) {
   if (specificTaskId && specificFolderId) {
     await reloadTask(specificTaskId, specificFolderId);
@@ -22,11 +27,19 @@ async function loadtasks(specificTaskId = null, specificFolderId = null) {
   }
 }
 
+/**
+ * Fetches task data for a user.
+ * @returns {Promise<Object>} The task data of the user.
+ */
 async function fetchTaskData() {
   const response = await fetch(GLOBAL + `users/1/tasks.json`);
   return await response.json();
 }
 
+/**
+ * Ensures that the folder structure for tasks exists.
+ * @param {Object} userData - The user's task data.
+ */
 async function ensureFolderStructure(userData) {
   if (userData === null) {
     await putData("users/1/tasks/todofolder", { todofolder: "" });
@@ -45,11 +58,20 @@ async function ensureFolderStructure(userData) {
   }
 }
 
+/**
+ * Fetches updated task data for the user.
+ * @returns {Promise<Object>} The updated task data for the user.
+ */
 async function fetchUpdatedTaskData() {
   const response = await fetch(GLOBAL + `users/1/tasks.json`);
   return await response.json();
 }
 
+/**
+ * Classifies tasks into different folders based on their status.
+ * @param {Object} updatedUserData - The updated task data.
+ * @returns {Object} The classified tasks by their status.
+ */
 function classifyTasks(updatedUserData) {
   const todos = [];
   const inprogress = [];
@@ -83,6 +105,9 @@ function classifyTasks(updatedUserData) {
   return { todos, inprogress, awaitingfeedback, donetasks };
 }
 
+/**
+ * Clears the content of all task folders.
+ */
 function clearFolders() {
   const folders = [
     "todo-folder",
@@ -96,6 +121,14 @@ function clearFolders() {
   });
 }
 
+/**
+ * Renders all task folders with the tasks classified by status.
+ * @param {Object} tasks - An object containing classified tasks for each folder.
+ * @param {Array} tasks.todos - The tasks to display in the "To Do" folder.
+ * @param {Array} tasks.inprogress - The tasks to display in the "In Progress" folder.
+ * @param {Array} tasks.awaitingfeedback - The tasks to display in the "Awaiting Feedback" folder.
+ * @param {Array} tasks.donetasks - The tasks to display in the "Done" folder.
+ */
 async function renderAllFolders({
   todos,
   inprogress,
@@ -108,6 +141,11 @@ async function renderAllFolders({
   await renderTasksWithTemplate(donetasks, "done-folder");
 }
 
+/**
+ * Renders tasks into a specific folder using templates.
+ * @param {Array} tasks - The list of tasks to render.
+ * @param {string} containerId - The ID of the container to render the tasks into.
+ */
 async function renderTasksWithTemplate(tasks, containerId) {
   const container = document.getElementById(containerId);
   const response2 = await fetch(GLOBAL + "users/1/contacts.json");
@@ -133,6 +171,13 @@ async function renderTasksWithTemplate(tasks, containerId) {
   });
 }
 
+/**
+ * Adds drag and click event handlers to a task element.
+ * @param {Object} task - The task object.
+ * @param {string} containerId - The ID of the folder container.
+ * @param {string} taskId - The ID of the task.
+ * @param {Array} contacts - The list of contacts.
+ */
 function addDragAndClickHandlers(task, containerId, taskId, contacts) {
   const taskElement = document.getElementById(taskId);
   if (taskElement) {
@@ -152,6 +197,9 @@ function addDragAndClickHandlers(task, containerId, taskId, contacts) {
   });
 }
 
+/**
+ * Displays messages in folders if no tasks are present.
+ */
 function displayAllNoTasksMessages() {
   displayNoTasksMessage("todo-folder", "No tasks to do");
   displayNoTasksMessage("inprogress-folder", "No tasks in progress");
@@ -162,6 +210,11 @@ function displayAllNoTasksMessages() {
   displayNoTasksMessage("done-folder", "No tasks done");
 }
 
+/**
+ * Displays a message in a folder if it contains no tasks.
+ * @param {string} folderId - The ID of the folder.
+ * @param {string} message - The message to display if the folder is empty.
+ */
 function displayNoTasksMessage(folderId, message) {
   const folderElement = document.getElementById(folderId);
   if (folderElement && folderElement.children.length === 0) {
@@ -169,6 +222,11 @@ function displayNoTasksMessage(folderId, message) {
   }
 }
 
+/**
+ * Reloads a task from the specified folder and task ID.
+ * @param {string} taskId - The ID of the task to reload.
+ * @param {string} parentFolderId - The ID of the folder containing the task.
+ */
 async function reloadTask(taskId, parentFolderId) {
   try {
     const task = await fetchTaskDataById(taskId, parentFolderId);
@@ -183,6 +241,12 @@ async function reloadTask(taskId, parentFolderId) {
   }
 }
 
+/**
+ * Fetches task data by task ID and folder ID.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} parentFolderId - The ID of the folder containing the task.
+ * @returns {Promise<Object>} The task data.
+ */
 async function fetchTaskDataById(taskId, parentFolderId) {
   const response = await fetch(
     `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
@@ -190,11 +254,22 @@ async function fetchTaskDataById(taskId, parentFolderId) {
   return await response.json();
 }
 
+/**
+ * Fetches contacts data for the user.
+ * @returns {Promise<Object>} The contacts data.
+ */
 async function fetchContacts() {
   const response = await fetch(`${GLOBAL}users/1/contacts.json`);
   return await response.json();
 }
 
+/**
+ * Generates HTML for a task.
+ * @param {Object} task - The task object.
+ * @param {string} taskId - The ID of the task.
+ * @param {Array} contacts - The list of contacts.
+ * @returns {Promise<string>} The generated HTML for the task.
+ */
 async function getTaskHTML(task, taskId, contacts) {
   if (task.category === "Technical Task") {
     return await Technicaltasktemplate({ ...task, id: taskId }, contacts);
@@ -203,6 +278,14 @@ async function getTaskHTML(task, taskId, contacts) {
   }
 }
 
+/**
+ * Updates a task element in the DOM.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} parentFolderId - The ID of the folder.
+ * @param {string} taskHTML - The generated HTML for the task.
+ * @param {Object} task - The task object.
+ * @param {Array} contacts - The list of contacts.
+ */
 function updateTaskElement(taskId, parentFolderId, taskHTML, task, contacts) {
   const taskElement = document.getElementById(taskId);
   if (taskElement) {
@@ -213,6 +296,13 @@ function updateTaskElement(taskId, parentFolderId, taskHTML, task, contacts) {
   }
 }
 
+/**
+ * Reattaches event listeners to the updated task element.
+ * @param {string} taskId - The ID of the task.
+ * @param {string} parentFolderId - The ID of the folder.
+ * @param {Object} task - The task object.
+ * @param {Array} contacts - The list of contacts.
+ */
 function reattachEventListeners(taskId, parentFolderId, task, contacts) {
   const updatedTaskElement = document.getElementById(taskId);
   updatedTaskElement.setAttribute("draggable", "true");
@@ -230,6 +320,11 @@ function reattachEventListeners(taskId, parentFolderId, task, contacts) {
   });
 }
 
+/**
+ * Appends a task to the specified folder.
+ * @param {string} taskHTML - The generated HTML for the task.
+ * @param {string} parentFolderId - The ID of the folder.
+ */
 function appendTaskToFolder(taskHTML, parentFolderId) {
   const folderElement = document.getElementById(parentFolderId);
   if (folderElement) {
