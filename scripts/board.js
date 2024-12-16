@@ -423,6 +423,7 @@ function closeaddtasktemplate() {
 async function closeoverlayprofiletemplate() {
   asignedtousers = [];
   initialsArray = [];
+  subtasks = [];
   if (document.getElementById("assignedusers1")) {
     document.getElementById("assignedusers1").innerHTML = "";
   }

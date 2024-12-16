@@ -50,8 +50,6 @@ function firstpartsubtask(subtasks, subtaskinput1) {
  * @param {Array} subtasks - The list of all subtasks.
  */
 function addingeventlistener(subtaskNumber) {
-  console.log(`Adding delete listener for: deletesub${subtaskNumber}`);
-
   if (subtasks.length === 0) {
     return;
   }
