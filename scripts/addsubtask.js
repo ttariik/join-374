@@ -97,12 +97,12 @@ function showeditsubtasks(subtaskNumber) {
  * @param {number} index - The index of the subtask.
  */
 function earlyeditsubtask(index) {
-  if (
-    document.getElementById("dot") &&
-    document.getElementById(`editsub${index}`)
-  ) {
-    document.getElementById("dot").classList.add("d-none");
-    document.getElementById(`editsub${index}`).classList.add("d-none");
+  const dotElement = document.querySelector(`#dot_${index}`);
+  const editButton = document.querySelector(`#editsub${index}`);
+
+  if (dotElement && editButton) {
+    dotElement.classList.add("d-none"); // Hide the dot for this subtask only
+    editButton.classList.add("d-none"); // Hide the edit button for this subtask only
   }
 }
 
