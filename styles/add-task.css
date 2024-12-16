@@ -87,6 +87,10 @@
   background-color: #2a3647;
 }
 
+.buttondesign0:hover {
+  cursor: pointer;
+}
+
 .buttondesign0 {
   border: none;
   background: none;
@@ -301,6 +305,8 @@ label {
   align-items: center;
   justify-content: space-between;
 }
+
+.buttondesign0 
 
 /* Options dropdown */
 .custom-select-options {
@@ -979,12 +985,12 @@ select {
     max-width: 550px;
   }
 
-  .bt1{
+  .bt1 {
     width: 150px;
     height: 40px;
   }
 
-  .bt2{
+  .bt2 {
     width: 150px;
     height: 40px;
   }
