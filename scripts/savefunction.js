@@ -27,11 +27,16 @@ function getParentElementId(taskId) {
  * @returns {Object} An object containing the extracted values.
  */
 function extractCurrentValues(task) {
-  const title = document.querySelector(".titleinputdesign").value;
+  const title = document.querySelector(".titleinputdesign")
+    ? document.querySelector(".titleinputdesign").value
+    : "";
   const description =
     document.querySelector(".description")?.children[1]?.value ||
-    document.getElementById("descriptioninput")?.children[1]?.value;
-  const duedate = document.getElementById("date23").value;
+    document.getElementById("descriptioninput")?.children[1]?.value ||
+    "";
+  const duedate = document.getElementById("date23")
+    ? document.getElementById("date23").value
+    : "";
   const taskId = task.id;
   return { title, description, duedate, taskId };
 }
@@ -206,7 +211,6 @@ function setInitials(changes, task, initialsArray) {
  * @param {string} taskId - The unique ID of the task.
  */
 function setSubtasks(changes, task, subtasks) {
-  // Ensure both changes.subtask and task.subtask are arrays
   if (!Array.isArray(changes.subtask)) {
     changes.subtask = [];
   }
@@ -214,42 +218,34 @@ function setSubtasks(changes, task, subtasks) {
     task.subtask = [];
   }
 
-  // Create a map for quick look-up of existing subtasks in task.subtask
   const existingSubtaskMap = new Map(
     task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
 
-  // We will use a Set to track added subtasks to avoid duplicates
   const addedSubtasks = new Set();
 
-  // First, add all existing subtasks from task.subtask into changes.subtask
   task.subtask.forEach((sub) => {
     if (!addedSubtasks.has(sub.subtask)) {
-      // Add existing subtasks with their completion status
       changes.subtask.push({
         subtask: sub.subtask,
-        completed: sub.completed, // Keep the original completed status
+        completed: sub.completed,
       });
-      addedSubtasks.add(sub.subtask); // Mark this subtask as added
+      addedSubtasks.add(sub.subtask);
     }
   });
 
-  // Now, add the new subtasks from the `subtasks` array (if they're not already added)
   subtasks.forEach((subtaskText) => {
     if (!addedSubtasks.has(subtaskText)) {
-      // Add new subtasks with completed set to false by default
       changes.subtask.push({
         subtask: subtaskText,
-        completed: false, // New subtasks are incomplete
+        completed: false,
       });
-      addedSubtasks.add(subtaskText); // Mark this new subtask as added
+      addedSubtasks.add(subtaskText);
     }
   });
 
-  // Remove any subtasks that are no longer in the subtasks array
   task.subtask.forEach((sub) => {
     if (!subtasks.includes(sub.subtask)) {
-      // Remove subtasks that aren't part of the new list
       changes.subtask = changes.subtask.filter(
         (change) => change.subtask !== sub.subtask
       );
