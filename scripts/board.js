@@ -147,7 +147,8 @@ function updateProfilePriority(task) {
 function updateProfileIcon(task) {
   const profileIconElement = document.getElementById("profileicon");
   if (profileIconElement) {
-    profileIconElement.src = `../img/${task.prio || "default"}.png`;
+    if (task.prio === "")
+      profileIconElement.src = task.prio ? `../img/${task.prio}.png` : "";
   }
 }
 
