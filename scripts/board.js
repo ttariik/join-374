@@ -272,17 +272,24 @@ function generatecontactbadgehtml(matchingInitials, contact, badgeHTML) {
  */
 async function inputaccess(task) {
   setupEditButton();
+
   if (document.getElementById("technicaltasktitle")) {
-    document.getElementById("technicaltasktitle").innerHTML = task.title;
-    document.getElementById("descriptioninput").innerHTML = task.description;
-    document.getElementById("due-date-containerinput").innerHTML = task.duedate;
-    if (task.prio === "") {
-      if (document.getElementById("prioiconid")) {
-        document.getElementById("prioiconid").innerHTML = "";
-      }
+    // Update title, description, and due date
+    document.getElementById("technicaltasktitle").innerHTML =
+      task.title || "Untitled Task";
+    document.getElementById("descriptioninput").innerHTML =
+      task.description || "No description provided.";
+    document.getElementById("due-date-containerinput").innerHTML =
+      task.duedate || "No due date.";
+    if (task.prio) {
+      document.getElementById("showprio").innerHTML = task.prio; // Set priority text
+      document.getElementById(
+        "technicaltaskprio"
+      ).src = `/img/${task.prio}.png`; // Set priority image
     } else {
-      document.getElementById("showprio").innerHTML = task.prio;
-      document.getElementById("prioiconid").src = `/img/${task.prio}.png`;
+      document.getElementById("showprio").innerHTML = ""; // Default placeholder text
+      document.getElementById("technicaltaskprio").src = ""; // Clear the image
+      document.getElementById("technicaltaskprio").style.display = "none"; // Hide the image
     }
   }
 }
