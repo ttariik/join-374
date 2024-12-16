@@ -14,7 +14,6 @@ function loadinfosifpart1(task) {
   document.getElementById("button33").style.height = "56px";
   setButton11Listener(task);
   showsavedinitials(task.id, task);
-  loadsubtasks(task);
   document
     .querySelectorAll(".text1")
     .forEach((input) => (input.value = task.description));
@@ -88,34 +87,31 @@ function setButton3_3Listener(task) {
 async function loadinfos(task) {
   asignedtousers = [];
   initialsArray = [];
-
+  if (!task || typeof task !== "object") {
+    return;
+  }
   const assignedUsersElement = document.getElementById("assignedusers1");
   if (assignedUsersElement) {
     assignedUsersElement.innerHTML = "";
   } else {
-    console.warn("Element with id 'assignedusers1' not found.");
   }
-
-  if (task.category) {
-    if (task.category === "Technical Task") {
-      loadinfosifpart1(task);
-      setButton22Listener(task);
-      setButton33Listener(task);
-      setPriorityForTechnicalTask(task);
-    } else {
-      setButton1_1Listener(task);
-      setButton2_2Listener(task);
-      setButton3_3Listener(task);
-      setNonTechnicalTaskValues(task);
-      showsavedinitials(task.id, task);
-      loadsubtasks(task);
-      setPriorityButtonListeners(task);
-    }
-  } else {
-    console.warn("Task has no category property:", task);
-  }
-  if (!task || typeof task !== "object") {
+  if (!task.category) {
     return;
+  }
+  if (task.category === "Technical Task") {
+    loadinfosifpart1(task);
+    loadsubtasks(task);
+    setButton22Listener(task);
+    setButton33Listener(task);
+    setPriorityForTechnicalTask(task);
+  } else {
+    setButton1_1Listener(task);
+    setButton2_2Listener(task);
+    setButton3_3Listener(task);
+    setNonTechnicalTaskValues(task);
+    showsavedinitials(task.id, task);
+    loadsubtasks(task);
+    setPriorityButtonListeners(task);
   }
 }
 
