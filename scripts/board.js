@@ -566,3 +566,9 @@ document
  * This allows tasks to be dragged over the folder.
  */
 document.getElementById("done-folder").addEventListener("dragover", allowDrop);
+
+document
+  .getElementById("add-tasktemplate")
+  .addEventListener("click", function () {
+    calladdtasktemplate();
+  });
