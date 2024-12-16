@@ -208,39 +208,44 @@ function setInitials(changes, task, initialsArray) {
 // Initialize subtasks if they are not present in changes or task
 // Initialize subtasks if they are not present in changes or task
 function setSubtasks(changes, task, subtasks) {
-  // If changes.subtask doesn't exist, initialize it as an empty array
-  if (!changes.subtask) {
-    changes.subtask = {};
+  // Initialize changes.subtask and task.subtask as arrays if undefined
+  if (!Array.isArray(changes.subtask)) {
+    changes.subtask = [];
   }
 
-  // If task.subtask doesn't exist, initialize it as an empty array
-  if (!task.subtask) {
-    task.subtask = {};
+  if (!Array.isArray(task.subtask)) {
+    task.subtask = [];
   }
 
-  // Step 1: Create a map of existing subtasks with their completion status for easy access
+  // Create a map of existing subtasks with their completion status
   const existingSubtaskMap = new Map(
     task.subtask.map((sub) => [sub.subtask, sub.completed])
   );
 
-  // Step 2: Add all existing subtasks to changes.subtask (preserving completion status)
-  changes.subtask = task.subtask.map((sub) => ({
-    subtask: sub.subtask,
-    completed: sub.completed, // Retain the completion status of existing subtasks
-  }));
+  // Step 1: Create a unique map of subtasks to prevent duplication
+  const updatedSubtaskMap = new Map();
 
-  // Step 3: Add any new subtasks (that aren't already in task.subtask) with completed = false
+  // Step 2: Start with existing subtasks (preserving their completion status)
+  task.subtask.forEach((sub) => {
+    updatedSubtaskMap.set(sub.subtask, sub.completed);
+  });
+
+  // Step 3: Add new subtasks from the UI (preserve existing ones or add as incomplete)
   subtasks.forEach((subtaskText) => {
-    if (!existingSubtaskMap.has(subtaskText)) {
-      changes.subtask.push({ subtask: subtaskText, completed: false });
+    if (!updatedSubtaskMap.has(subtaskText)) {
+      // Add new subtasks as incomplete
+      updatedSubtaskMap.set(subtaskText, false);
     }
   });
 
-  // Step 4: After changes are made, filter changes.subtask to include only the current subtasks in the UI
-  // (subtasks is the current list of subtasks that the user has interacted with)
-  changes.subtask = changes.subtask.filter((sub) =>
-    subtasks.includes(sub.subtask)
-  );
+  // Step 4: Build changes.subtask as an array from the updated map
+  changes.subtask = Array.from(updatedSubtaskMap, ([subtask, completed]) => ({
+    subtask,
+    completed,
+  }));
+
+  // Optional Debugging
+  console.log("Updated Subtasks:", changes.subtask);
 }
 
 /**

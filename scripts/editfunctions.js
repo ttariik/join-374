@@ -70,6 +70,14 @@ async function editprofile(task) {
   loadinfos(task);
 }
 
+async function renderSubtasks(task) {
+  const subtaskHTML = await showsubtaskstemplate(task);
+  const subtaskArea = document.getElementById("subtaskarea");
+  if (subtaskArea) {
+    subtaskArea.innerHTML = subtaskHTML;
+  }
+}
+
 /**
  * Edits input fields and updates the UI for a specific task.
  * @param {Object} task - The task object containing data to populate the UI.
