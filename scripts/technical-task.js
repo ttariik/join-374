@@ -86,9 +86,21 @@ function setButton3_3Listener(task) {
  * @param {Object} task - The task object containing task details.
  */
 async function loadinfos(task) {
+  if (!task || typeof task !== "object") {
+    console.error("Invalid or undefined task:", task); // Debug log
+    return; // Exit early if task is undefined or invalid
+  }
+
   asignedtousers = [];
   initialsArray = [];
-  document.getElementById("assignedusers1").innerHTML = "";
+
+  const assignedUsersElement = document.getElementById("assignedusers1");
+  if (assignedUsersElement) {
+    assignedUsersElement.innerHTML = "";
+  } else {
+    console.warn("Element with id 'assignedusers1' not found.");
+  }
+
   if (task.category) {
     if (task.category === "Technical Task") {
       loadinfosifpart1(task);
@@ -104,6 +116,8 @@ async function loadinfos(task) {
       loadsubtasks(task);
       setPriorityButtonListeners(task);
     }
+  } else {
+    console.warn("Task has no category property:", task);
   }
 }
 
