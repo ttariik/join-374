@@ -115,7 +115,7 @@ async function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
     } else {
       inputacesstechnicall(changes, contacts);
     }
-  }, 15);
+  }, 150);
 }
 
 /**
