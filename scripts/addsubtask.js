@@ -29,6 +29,8 @@ function addsubtask(event) {
  * @param {string} subtaskinput1 - The input value of the newly added subtask.
  */
 function firstpartsubtask(subtasks, subtaskinput1) {
+  console.log("hello");
+
   const subtaskNumber = subtasks.length;
   if (document.getElementById("subtasksbox11")) {
     document
@@ -40,7 +42,7 @@ function firstpartsubtask(subtasks, subtaskinput1) {
       .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
   }
 
-  addingeventlisteners(subtaskNumber);
+  addingeventlistener(subtaskNumber);
 }
 
 /**
@@ -48,6 +50,8 @@ function firstpartsubtask(subtasks, subtaskinput1) {
  * @param {Array} subtasks - The list of all subtasks.
  */
 function addingeventlistener(subtaskNumber) {
+  console.log(`Adding delete listener for: deletesub${subtaskNumber}`);
+
   if (subtasks.length === 0) {
     return;
   }
@@ -67,6 +71,7 @@ function addingeventlistener(subtaskNumber) {
           }
         });
       addingeventlistenerdeletebutton(subtaskNumber);
+      addingeventlisteners(subtaskNumber);
     }
   }, 0);
 }
@@ -83,8 +88,8 @@ function addingeventlistenerdeletebutton(subtaskNumber) {
  * Shows edit buttons for a specific subtask.
  * @param {number} index - The index of the subtask.
  */
-function showeditsubtasks(index) {
-  const subtaskBox = document.getElementById(`subboxinput_${index}`);
+function showeditsubtasks(subtaskNumber) {
+  const subtaskBox = document.getElementById(`subboxinput_${subtaskNumber}`);
   if (subtaskBox) {
     const buttons = subtaskBox.querySelectorAll(".buttondesign");
     buttons.forEach((button) => button.classList.remove("d-none"));
