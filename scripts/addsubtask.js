@@ -29,8 +29,6 @@ function addsubtask(event) {
  * @param {string} subtaskinput1 - The input value of the newly added subtask.
  */
 function firstpartsubtask(subtasks, subtaskinput1) {
-  console.log("hello");
-
   const subtaskNumber = subtasks.length;
   if (document.getElementById("subtasksbox11")) {
     document
@@ -193,20 +191,37 @@ function inputfielddesign(index) {
  * @param {Object} task - The task object containing subtasks.
  */
 function loadsubtasks(task) {
-  subtasks = [];
+  // Clear the global subtasks array before adding new subtasks
+  let subtasks = []; // Define subtasks inside this function to avoid global accumulation
   let subtasksHTML = "";
+
+  // Clear the container before rendering new subtasks
+  const subtasksBox = document.getElementById("subtasksbox11");
+  subtasksBox.innerHTML = ""; // Clear existing subtasks
+
+  // Only process if the task has subtasks
   if (task.subtask && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtask, index) => {
-      subtasks.push(subtask.subtask);
-      const subtaskIndex = index + 1;
-      console.log(subtasks);
+      const subtaskIndex = index + 1; // Use the correct subtask index
 
+      // Append HTML for each subtask
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
-      addingeventlistener(subtaskIndex);
+
+      // Add the subtask to the subtasks array for later reference
+      subtasks.push(subtask.subtask);
     });
   }
-  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
-  addingeventlisteners();
+
+  // Update the subtasks container with the new HTML content
+  subtasksBox.innerHTML = subtasksHTML;
+
+  // Add event listeners to the newly added subtasks
+  subtasks.forEach((_, index) => {
+    addingeventlisteners(index + 1); // Start from 1 as index + 1 is the subtask number
+    addingeventlistenerdeletebutton(index + 1);
+  });
+
+  // Add any other necessary event listeners like hover actions
 }
 
 /**
