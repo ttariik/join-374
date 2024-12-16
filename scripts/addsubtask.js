@@ -190,38 +190,26 @@ function inputfielddesign(index) {
  * Loads subtasks for a given task and updates the UI.
  * @param {Object} task - The task object containing subtasks.
  */
-function loadsubtasks(task) {
-  // Clear the global subtasks array before adding new subtasks
-  let subtasks = []; // Define subtasks inside this function to avoid global accumulation
+async function loadsubtasks(task) {
+  // Ensure this starts with an empty array to avoid previous task subtasks being mixed up
   let subtasksHTML = "";
 
-  // Clear the container before rendering new subtasks
-  const subtasksBox = document.getElementById("subtasksbox11");
-  subtasksBox.innerHTML = ""; // Clear existing subtasks
-
-  // Only process if the task has subtasks
+  // Validate if task.subtask exists and is an array
   if (task.subtask && Array.isArray(task.subtask)) {
+    // Loop through subtasks and push them to the array
     task.subtask.forEach((subtask, index) => {
-      const subtaskIndex = index + 1; // Use the correct subtask index
+      subtasks.push(subtask.subtask); // Add subtask text or data
+      const subtaskIndex = index + 1;
 
-      // Append HTML for each subtask
+      // Generate HTML for the subtasks
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
-
-      // Add the subtask to the subtasks array for later reference
-      subtasks.push(subtask.subtask);
+      addingeventlistener(subtaskIndex);
     });
   }
 
-  // Update the subtasks container with the new HTML content
-  subtasksBox.innerHTML = subtasksHTML;
-
-  // Add event listeners to the newly added subtasks
-  subtasks.forEach((_, index) => {
-    addingeventlisteners(index + 1); // Start from 1 as index + 1 is the subtask number
-    addingeventlistenerdeletebutton(index + 1);
-  });
-
-  // Add any other necessary event listeners like hover actions
+  // Append the subtasks HTML to the DOM
+  document.getElementById("subtasksbox11").innerHTML = subtasksHTML;
+  addingeventlisteners(); // Apply event listeners for hover or interaction
 }
 
 /**
