@@ -120,7 +120,6 @@ h2 {
   display: flex;
   align-items: center;
   margin-top: 20px;
-  margin-right: 20px;
   width: 100%;
   max-width: 504px;
   gap: 32px;
@@ -551,7 +550,7 @@ input:focus {
 
   .drag-drop-content {
     height: 220px;
-    margin-bottom: 150px;
+    margin-bottom: 80px;
   }
 
   .task {
@@ -586,7 +585,6 @@ input:focus {
   .drag-drop-content {
     overflow: scroll;
     scrollbar-width: none;
-    margin-bottom: 150px;
   }
 }
 
