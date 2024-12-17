@@ -7,7 +7,6 @@ const GLOBAL =
 
 let selectedPriority = null; // Currently selected priority.
 let subtasks = []; // Array for subtasks.
-let initialsarra = []; // Array for user initials.
 let selectedbutton = null; // Currently selected button.
 let asignedtousers = []; // Assigned users.
 let usernamecolor = []; // Array of colors for usernames.
