@@ -61,19 +61,17 @@ async function editprofile(task) {
     updateOverlayTemplateBasedOnCategory,
     task
   );
-  if (task && Array.isArray(task.subtask)) {
-    task.subtask.forEach((subtaskObj) => {
-      // Push the entire subtask object, retaining both the text and completed status
-      subtasks.push({
-        subtask: subtaskObj.subtask, // The subtask text
-        completed: subtaskObj.completed, // The completion status
-      });
-    });
-    await loadinfos(task);
 
-    todaydate();
-  } else {
+  subtasks = []; // Reset the subtasks array
+  console.log(task.subtask);
+
+  if (!task.subtask === undefined) {
+    task.subtask.forEach((subtaskObj) => {
+      subtasks.push(subtaskObj.subtask);
+    });
   }
+  await loadinfos(task);
+  todaydate();
 }
 
 async function renderSubtasks(task) {

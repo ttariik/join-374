@@ -171,7 +171,7 @@ function setupDeleteButton(task) {
  * Sets up the edit button for the task profile.
  * @param {object} task The task object to edit.
  */
-function setupEditButton(task) {
+async function setupEditButton(task) {
   const btn2_11 = document.getElementById("btn2-11");
   if (btn2_11) {
     btn2_11.addEventListener("click", function () {
