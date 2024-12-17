@@ -43,15 +43,12 @@
 }
 
 /* Style for checked state */
-.custom-checkbox input[type="checkbox"]:checked + .checkmark {
+.custom-checkbox input[type="checkbox"]:checked+.checkmark {
   background-image: url("/img/checked.png");
 }
 
 /* Specific designlayout customization */
-.designlayout
-  .custom-checkbox
-  input[type="checkbox"]:checked
-  + .checkmark::after {
+.designlayout .custom-checkbox input[type="checkbox"]:checked+.checkmark::after {
   content: "";
   position: absolute;
   left: 1px;
@@ -65,7 +62,8 @@
 
 /* Ensure the custom checkmark only applies within designlayout */
 .designlayout .custom-checkbox .checkmark {
-  border-radius: 4px; /* Optional for design differentiation */
+  border-radius: 4px;
+  /* Optional for design differentiation */
   transition: all 0.2s ease-in-out;
 }
 
@@ -79,6 +77,9 @@
   font-size: 23px;
   font-weight: 400;
   overflow-wrap: anywhere;
+  height: 30px;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .due-date-container {
