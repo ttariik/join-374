@@ -135,7 +135,9 @@ async function userstorytemplate(task, contacts) {
           ${initialsHTML}
           ${extraCircleHTML}
         </div>
-        ${taskPrio ? `<img src="/img/${taskPrio}.png" alt="">` : ""}      </div>
+        ${
+          task.prio ? `<img src="/img/${task.prio}.png" alt="Priority">` : ""
+        }      
     </div>
   `;
 }
