@@ -32,6 +32,9 @@ h2 {
 
 .section-one {
   font-size: 23px;
+  height: 30px;
+    overflow: scroll;
+    scrollbar-width: none;
 }
 
 .alignment1 {
