@@ -245,8 +245,9 @@ function resetForm() {
   document.getElementById("assignedusers").innerHTML = "";
   document.getElementById("subtasksbox").innerHTML = "";
   document.getElementById("selectedcategory").removeAttribute("data-value");
-  document.getElementById("selectedcategory").innerHTML =
-    "Select Task Category";
+  document.getElementById(
+    "selectedcategory"
+  ).innerHTML = `<span>Select contacts to assign</span ><img src="/img/arrow_drop_down.png" alt="" />`;
 }
 
 /**
