@@ -286,6 +286,7 @@ input:focus {
   display: flex;
   align-items: center;
   cursor: pointer;
+  display: none;
 }
 
 .buttonbackground2 {
@@ -295,6 +296,7 @@ input:focus {
   display: flex;
   align-items: center;
   cursor: pointer;
+  display: none;
 }
 
 .buttonbackground1:hover,
@@ -617,6 +619,11 @@ input:focus {
   .content {
     margin: 0;
     margin-left: 10px;
+  }
+
+  .buttonbackground1,
+  .buttonbackground2 {
+    display: flex;
   }
 
   .drag-drop-content {
