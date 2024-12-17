@@ -216,8 +216,6 @@ async function resetsearchbar(event) {
   }
 }
 
-
-
 /**
  * Handles the display of the contact box.
  */
@@ -305,6 +303,7 @@ function processContacts(responsestoJson) {
  * @param {HTMLElement} contactsBox - The contacts box element.
  */
 function initializeSearchBar(contactsBox) {
+  openContactsBox(contactsBox);
   const selectButton =
     document.getElementById("selectbutton1") ||
     document.getElementById("selectbutton");
