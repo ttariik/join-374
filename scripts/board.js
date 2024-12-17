@@ -145,10 +145,13 @@ function updateProfilePriority(task) {
  * @param {object} task The task object containing the priority.
  */
 function updateProfileIcon(task) {
-  const profileIconElement = document.getElementById("profileicon");
-  if (profileIconElement) {
-    if (task.prio === "")
-      profileIconElement.src = task.prio ? `../img/${task.prio}.png` : "";
+  const profileIconElement = document.getElementById("profileicon"); // Get the profile icon element
+
+  // Only update if task.prio is not an empty string
+  if (task.prio !== "") {
+    profileIconElement.src = `../img/${task.prio}.png`; // Set the image based on task.prio
+  } else {
+    profileIconElement.src = ""; // Clear the image if task.prio is an empty string
   }
 }
 
