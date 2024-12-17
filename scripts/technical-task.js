@@ -85,8 +85,6 @@ function setButton3_3Listener(task) {
  * @param {Object} task - The task object containing task details.
  */
 async function loadinfos(task) {
-  assignedtousers = [];
-  initialsArray = [];
   if (!task || typeof task !== "object") {
     return;
   }
@@ -98,10 +96,15 @@ async function loadinfos(task) {
     return;
   }
   if (task.category === "Technical Task") {
+    assignedtousers = [];
+    initialsArray = [];
     subtasks = [];
-    loadtechnicaltasak(task);
+    await loadtechnicaltask(task);
   } else {
-    loaduserstory(task);
+    assignedtousers = [];
+    initialsArray = [];
+    subtasks = [];
+    await loaduserstory(task);
   }
 }
 
@@ -115,7 +118,7 @@ async function loaduserstory(task) {
   setPriorityButtonListeners(task);
 }
 
-async function loadtechnicaltasak(task) {
+async function loadtechnicaltask(task) {
   loadinfosifpart1(task);
   await loadsubtasks(task);
   setButton22Listener(task);

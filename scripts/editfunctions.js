@@ -61,11 +61,16 @@ async function editprofile(task) {
     updateOverlayTemplateBasedOnCategory,
     task
   );
-  await loadinfos(task);
   if (task && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtaskObj) => {
-      subtasks.push(subtaskObj.subtask);
+      // Push the entire subtask object, retaining both the text and completed status
+      subtasks.push({
+        subtask: subtaskObj.subtask, // The subtask text
+        completed: subtaskObj.completed, // The completion status
+      });
     });
+    await loadinfos(task);
+
     todaydate();
   } else {
     console.warn("No subtasks found for this task or task is undefined.");

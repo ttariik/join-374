@@ -129,7 +129,7 @@ async function updateOverlayTemplateBasedOnCategory(task, contacts, changes) {
  * @param {Object} task - The task object.
  * @param {string} title - The updated title of the task.
  */
-function setTitle(changes, task, title) {
+async function setTitle(changes, task, title) {
   changes.title = title || task.title;
 }
 
@@ -139,7 +139,7 @@ function setTitle(changes, task, title) {
  * @param {Object} task - The task object.
  * @param {string} description - The updated description of the task.
  */
-function setDescription(changes, task, description) {
+async function setDescription(changes, task, description) {
   changes.description = description === "" ? task.description : description;
 }
 
@@ -149,7 +149,7 @@ function setDescription(changes, task, description) {
  * @param {Object} task - The task object.
  * @param {string} duedate - The updated due date of the task.
  */
-function setDueDate(changes, task, duedate) {
+async function setDueDate(changes, task, duedate) {
   changes.duedate = duedate === "" ? task.duedate : duedate;
 }
 
@@ -159,7 +159,7 @@ function setDueDate(changes, task, duedate) {
  * @param {Object} task - The task object.
  * @param {string|null} selectedPriority - The selected priority of the task.
  */
-function setpriority(changes, task, selectedPriority) {
+async function setpriority(changes, task, selectedPriority) {
   changes.prio = selectedPriority === null ? task.prio : selectedPriority;
 }
 
@@ -168,7 +168,7 @@ function setpriority(changes, task, selectedPriority) {
  * @param {Object} changes - The changes object.
  * @param {Object} task - The task object.
  */
-function getid(changes, task) {
+async function getid(changes, task) {
   changes.id = task.id;
 }
 
@@ -177,7 +177,7 @@ function getid(changes, task) {
  * @param {Object} changes - The changes object.
  * @param {Object} task - The task object.
  */
-function setCategory(changes, task) {
+async function setCategory(changes, task) {
   changes.category = task.category;
 }
 
@@ -187,9 +187,9 @@ function setCategory(changes, task) {
  * @param {Object} task - The task object.
  * @param {Array} asignedtousers - The list of assigned users.
  */
-function setAssignedTo(changes, task, asignedtousers) {
-  changes.asignedto =
-    asignedtousers.length === 0 ? task.asignedto : asignedtousers;
+async function setAssignedTo(changes, task, asignedtousers) {
+  // Combine existing assigned users with the new ones, avoiding duplicates
+  changes.asignedto = [...new Set([...task.asignedto, ...asignedtousers])];
 }
 
 /**
@@ -199,7 +199,15 @@ function setAssignedTo(changes, task, asignedtousers) {
  * @param {Array} initialsArray - The list of initials.
  */
 function setInitials(changes, task, initialsArray) {
-  changes.initials = initialsArray.length === 0 ? task.initials : initialsArray;
+  // Merge task initials and initialsArray, then deduplicate
+  const combined = [...task.initials, ...initialsArray];
+  const uniqueInitials = new Map();
+
+  combined.forEach((item) => {
+    uniqueInitials.set(item.id, item); // 'id' is the unique key
+  });
+
+  changes.initials = Array.from(uniqueInitials.values());
 }
 
 /**
@@ -210,17 +218,13 @@ function setInitials(changes, task, initialsArray) {
  * @param {HTMLElement} parentElement - The parent element of the task.
  * @param {string} taskId - The unique ID of the task.
  */
-function setSubtasks(changes, task, subtasks) {
+async function setSubtasks(changes, task, subtasks) {
   if (!Array.isArray(changes.subtask)) {
     changes.subtask = [];
   }
   if (!Array.isArray(task.subtask)) {
     task.subtask = [];
   }
-
-  const existingSubtaskMap = new Map(
-    task.subtask.map((sub) => [sub.subtask, sub.completed])
-  );
 
   const addedSubtasks = new Set();
 
@@ -262,14 +266,14 @@ function setSubtasks(changes, task, subtasks) {
  * @param {string} duedate - The updated due date of the task.
  * @param {string} id - The unique ID of the task.
  */
-function templatemap(changes, task, title, description, duedate, id) {
-  setTitle(changes, task, title);
-  getid(changes, task, id);
-  setDescription(changes, task, description);
-  setDueDate(changes, task, duedate);
-  setpriority(changes, task, selectedPriority);
-  setCategory(changes, task);
-  setAssignedTo(changes, task, asignedtousers);
-  setInitials(changes, task, initialsArray);
-  setSubtasks(changes, task, subtasks);
+async function templatemap(changes, task, title, description, duedate, id) {
+  await setTitle(changes, task, title);
+  await getid(changes, task, id);
+  await setDescription(changes, task, description);
+  await setDueDate(changes, task, duedate);
+  await setpriority(changes, task, selectedPriority);
+  await setCategory(changes, task);
+  await setAssignedTo(changes, task, asignedtousers);
+  await setInitials(changes, task, initialsArray);
+  await setSubtasks(changes, task, subtasks);
 }

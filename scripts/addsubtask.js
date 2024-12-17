@@ -124,7 +124,7 @@ function editsubtasklisteners(index) {
       .getElementById(`savesub${index}`)
       .addEventListener("click", function () {
         const inputElement = document.getElementById(`inputsub${index}`);
-        if (inputElement.value === "") {
+        if (inputElement && inputElement.value === "") {
           ifresult();
         } else {
           clearerrors(index);
