@@ -277,7 +277,29 @@ input:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+}
+
+.buttonbackground1 {
+  background: none;
+  border: none;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.buttonbackground2 {
+  background: none;
+  border: none;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.buttonbackground1:hover,
+.buttonbackground2:hover {
+  background-color: #dfdfdf;
 }
 
 .drag-drop-content {
