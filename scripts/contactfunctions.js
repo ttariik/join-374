@@ -303,11 +303,11 @@ function processContacts(responsestoJson) {
  * @param {HTMLElement} contactsBox - The contacts box element.
  */
 function initializeSearchBar(contactsBox) {
-  openContactsBox(contactsBox);
   const selectButton =
     document.getElementById("selectbutton1") ||
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
+
   selectButton.onclick = resetsearchbar;
   document.getElementById("contacts-box").addEventListener("click", (event) => {
     event.stopPropagation();
@@ -340,6 +340,8 @@ function clickbodylistener() {
     ) {
       return;
     }
+    openContactsBox(contactsBox);
+
     resetsearchbar(event);
   });
 }
