@@ -124,6 +124,8 @@ async function userstorytemplate(task, contacts) {
     }">
       <div class="task-detailss">
         <span>${taskCategory}</span>
+        <div class="pointerbox"><img src="/img/arrow_upsidedown.png" alt="">
+        <img src="/img/arrow_drop_down.png" alt=""></div>
       </div>
       <div class="titlecontainer">
         <div class="section-one">${taskTitle}</div>

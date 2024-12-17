@@ -33,8 +33,8 @@ h2 {
 .section-one {
   font-size: 23px;
   height: 30px;
-    overflow: scroll;
-    scrollbar-width: none;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .alignment1 {
@@ -266,6 +266,18 @@ input:focus {
   max-width: 1056px;
   width: 100%;
   gap: 32px;
+}
+
+.task-detailss {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pointerbox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
 }
 
 .drag-drop-content {
