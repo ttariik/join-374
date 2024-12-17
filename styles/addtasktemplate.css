@@ -25,8 +25,8 @@
 
 #contacts-box {
   position: absolute;
-  top: 74%;
-  left: 0px;
+  top: 85%;
+  left: 0;
   width: 100%;
   z-index: 2;
   display: none;
@@ -39,7 +39,7 @@
   margin-top: 5px;
   flex-direction: column;
   border-top: none;
-  max-width: 323px;
+  max-width: 436px;
   scrollbar-width: thin;
 }
 
