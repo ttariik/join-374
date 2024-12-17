@@ -73,7 +73,6 @@ async function editprofile(task) {
 
     todaydate();
   } else {
-    console.warn("No subtasks found for this task or task is undefined.");
   }
 }
 
