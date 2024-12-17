@@ -61,10 +61,7 @@ async function editprofile(task) {
     updateOverlayTemplateBasedOnCategory,
     task
   );
-
   subtasks = []; // Reset the subtasks array
-  console.log(task.subtask);
-
   if (!task.subtask === undefined) {
     task.subtask.forEach((subtaskObj) => {
       subtasks.push(subtaskObj.subtask);
