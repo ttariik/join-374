@@ -169,7 +169,6 @@
   display: flex;
   overflow-wrap: anywhere;
   font-size: 32px;
-  font-weight: bold;
   margin-top: 20px;
 }
 
@@ -184,7 +183,6 @@
 }
 
 .titlebox span {
-  font-weight: 700;
   font-size: 32px;
   width: 100%;
 }
@@ -193,13 +191,13 @@
   max-width: 445px;
   width: 100%;
   font-weight: 400;
-  font-size: 23px;
+  font-size: 20px;
   overflow-wrap: anywhere;
 }
 
 .description span {
   font-weight: 400;
-  font-size: 23px;
+  font-size: 20px;
 }
 
 .selectbox {
