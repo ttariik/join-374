@@ -346,13 +346,20 @@ function Technicaltasktemplatetemplate(
   extraCircleHTML,
   progressBarHTML
 ) {
-  return ` <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${
-    task.id
-  }">
-        <div class="task-category">
+  return /*html*/ `
+    
+   <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${
+     task.id
+   }"> <div class="task-category">
           <span class="task-category-name">${
             task.category || "Uncategorized"
           }</span>
+          <div class="pointerbox"><button onclick="changefolder(${
+            task.id
+          })" class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
+       <button onclick="changefolder(${
+         task.id
+       })" class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
         </div>
         <div class="task-details">
           <div class="task-title">${task.title || "Untitled Task"}</div>

@@ -405,6 +405,12 @@ input:focus {
   align-items: center;
 }
 
+.task-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .task-category-name {
   max-width: 113px;
   width: 100%;
