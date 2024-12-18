@@ -280,6 +280,7 @@ input:focus {
   align-items: center;
   width: 25px;
   height: 25px;
+  gap: 5px;
 }
 
 .buttonbackground1 {
