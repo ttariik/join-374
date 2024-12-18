@@ -279,27 +279,35 @@ input:focus {
   flex-direction: column;
   align-items: center;
   width: 25px;
-  height: 30px;
+  height: 25px;
 }
 
 .buttonbackground1 {
   background: none;
   border: none;
-  height: 13px;
+  height: fit-content;
   display: flex;
   align-items: center;
   cursor: pointer;
   display: none;
+  width: fit-content;
 }
 
 .buttonbackground2 {
   background: none;
   border: none;
-  height: 13px;
+  height: fit-content;
   display: flex;
   align-items: center;
   cursor: pointer;
   display: none;
+  width: fit-content;
+}
+
+.buttonbackground1 img,
+.buttonbackground2 img {
+  height: 10px;
+  width: 10px;
 }
 
 .buttonbackground1:hover,
