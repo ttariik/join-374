@@ -400,7 +400,7 @@ async function opentechnicaltemplate(task, contacts) {
     .getElementById("overlaytechinical-task-template")
     .classList.remove("d-none");
   setTimeout(() => {
-    document.querySelector(".overlayss").style = "transform: translateX(0%);";
+    document.querySelector(".overlayss").style.transform = "translateX(0%)";
   }, 0);
   inputacesstechnicall(task, contacts);
 }
@@ -416,7 +416,7 @@ function closeaddtasktemplate() {
     document.getElementById("overlay-addtask").classList.remove("overlayss");
     emptyinputs();
     resetsearchbar();
-  }, 1000);
+  }, 400);
 }
 
 /**
@@ -435,7 +435,7 @@ async function closeoverlayprofiletemplate() {
     document
       .getElementById("overlayprofile-template")
       .classList.remove("overlayss");
-  }, 1000);
+  }, 400);
 }
 
 /**
@@ -451,7 +451,7 @@ async function closeoverlaytechnicaltemplate() {
     document
       .getElementById("overlaytechinical-task-template")
       .classList.remove("overlayss");
-  }, 1000);
+  }, 400);
 }
 
 /**
@@ -464,7 +464,7 @@ async function calladdtasktemplate() {
   setTimeout(() => {
     document.getElementById("overlay-addtask").style.transform =
       "translateX(0%)";
-  }, 0.9);
+  }, 100);
 }
 
 /**
