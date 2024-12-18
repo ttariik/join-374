@@ -151,11 +151,12 @@ async function renderTasksWithTemplate(tasks, containerId) {
   const response2 = await fetch(GLOBAL + "users/1/contacts.json");
   const contacts = await response2.json();
 
-  tasks.forEach(async (task) => {
+  for (const task of tasks) {
     if (task && task.category) {
       const taskId = task.id;
       let taskHTML;
 
+      // Handle "Technical Task"
       if (task.category === "Technical Task") {
         taskHTML = await Technicaltasktemplate(
           { ...task, id: taskId },
@@ -165,25 +166,31 @@ async function renderTasksWithTemplate(tasks, containerId) {
         taskHTML = await userstorytemplate({ ...task, id: taskId }, contacts);
       }
 
+      // Insert the task HTML into the container
       container.insertAdjacentHTML("beforeend", taskHTML);
+
+      // Add event listeners to buttons
+      upanddownbuttonslisteners(task.id, task); // No need to pass event
+
+      // Add drag and click handlers for the task
       addDragAndClickHandlers(task, containerId, taskId, contacts);
-      // Add condition to check if the task is in the "done-folder"
+
+      // Add specific condition for "done-folder" and "todo-folder"
       if (containerId === "done-folder") {
-        // Add the 'd-none' class to the "up" button for tasks in the done-folder
         const upButton = document.getElementById(`downbutton${taskId}`);
         if (upButton) {
           upButton.classList.add("d-none");
         }
       }
+
       if (containerId === "todo-folder") {
         const downButton = document.getElementById(`upbutton${taskId}`);
         if (downButton) {
           downButton.classList.add("d-none");
         }
       }
-      upanddownbuttonslisteners(task.id, task, event);
     }
-  });
+  }
 }
 
 /**
@@ -212,25 +219,25 @@ async function addDragAndClickHandlers(task, containerId, taskId, contacts) {
   });
 }
 
-function upanddownbuttonslisteners(taskId, task, event) {
-  if (
-    document.getElementById(`${taskId}`) &&
-    document.getElementById(`downbutton${taskId}`)
-  ) {
-    const parentFolderId = document.getElementById(`${taskId}`).parentElement
-      .id;
-    document
-      .getElementById(`upbutton${taskId}`)
-      .addEventListener("click", function (event) {
-        event.stopPropagation();
-        changefolder(taskId, parentFolderId, task, event);
-      });
-    document
-      .getElementById(`downbutton${taskId}`)
-      .addEventListener("click", function (event) {
-        event.stopPropagation();
-        changefolder1(taskId, parentFolderId, task, event);
-      });
+function upanddownbuttonslisteners(taskId, task) {
+  const taskElement = document.getElementById(taskId);
+  const upButton = document.getElementById(`upbutton${taskId}`);
+  const downButton = document.getElementById(`downbutton${taskId}`);
+  if (taskElement && upButton && downButton) {
+    const parentFolderId = taskElement.parentElement.id;
+
+    // Add event listener for the up button
+    upButton.addEventListener("click", function (event) {
+      event.stopPropagation();
+      changefolder1(taskId, parentFolderId, task, event);
+    });
+
+    // Add event listener for the down button
+    downButton.addEventListener("click", function (event) {
+      event.stopPropagation();
+      changefolder(taskId, parentFolderId, task, event);
+    });
+  } else {
   }
 }
 
@@ -366,5 +373,52 @@ function appendTaskToFolder(taskHTML, parentFolderId) {
   const folderElement = document.getElementById(parentFolderId);
   if (folderElement) {
     folderElement.insertAdjacentHTML("beforeend", taskHTML);
+  }
+}
+
+/**
+ * Reloads a specific folder with tasks.
+ * @param {string} folderId - The ID of the folder to reload (e.g., "todo-folder").
+ */
+async function reloadFolder(folderId) {
+  try {
+    const userData = await fetchTaskData();
+    await ensureFolderStructure(userData); // Ensure folder structure
+    const updatedUserData = await fetchUpdatedTaskData();
+    const { todos, inprogress, awaitingfeedback, donetasks } =
+      classifyTasks(updatedUserData);
+
+    // Clear the specific folder's content
+    const folderContent = document.getElementById(folderId);
+    if (folderContent) folderContent.innerHTML = "";
+
+    // Render the tasks for the specific folder
+    switch (folderId) {
+      case "todo-folder":
+        await renderTasksWithTemplate(todos, "todo-folder");
+        break;
+      case "inprogress-folder":
+        await renderTasksWithTemplate(inprogress, "inprogress-folder");
+        break;
+      case "awaiting-feedback-folder":
+        await renderTasksWithTemplate(
+          awaitingfeedback,
+          "awaiting-feedback-folder"
+        );
+        break;
+      case "done-folder":
+        await renderTasksWithTemplate(donetasks, "done-folder");
+        break;
+      default:
+        console.warn(`Unknown folder: ${folderId}`);
+    }
+
+    // Display the "No tasks" message if the folder is empty
+    displayNoTasksMessage(
+      folderId,
+      `No tasks in ${folderId.replace("-", " ")}`
+    );
+  } catch (error) {
+    console.error(`Error reloading folder ${folderId}:`, error);
   }
 }
