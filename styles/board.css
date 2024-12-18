@@ -285,7 +285,7 @@ input:focus {
 .buttonbackground1 {
   background: none;
   border: none;
-  height: fit-content;
+  height: 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -296,7 +296,7 @@ input:focus {
 .buttonbackground2 {
   background: none;
   border: none;
-  height: fit-content;
+  height: 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
