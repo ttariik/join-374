@@ -124,7 +124,7 @@ async function userstorytemplate(task, contacts) {
     }">
       <div class="task-detailss">
         <span>${taskCategory}</span>
-        <div class="pointerbox"><button id="upbutton${
+        <div class="pointerbox" style="pointer-events: auto;"><button id="upbutton${
           task.id
         }"  class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
        <button id="downbutton${
@@ -352,7 +352,7 @@ function Technicaltasktemplatetemplate(
      task.id
    }"> <div class="task-category">
           <span class="task-category-name">${task.category || ""}</span>
-          <div class="pointerbox"><button id="upbutton${
+          <div class="pointerbox" style="pointer-events: auto;"><button id="upbutton${
             task.id
           }" type="button"  class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
        <button type="button" id="downbutton${

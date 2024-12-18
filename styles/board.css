@@ -278,6 +278,8 @@ input:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 25px;
+  height: 30px;
 }
 
 .buttonbackground1 {
@@ -303,6 +305,19 @@ input:focus {
 .buttonbackground1:hover,
 .buttonbackground2:hover {
   background-color: #dfdfdf;
+}
+
+.buttonbackground1,
+.buttonbackground2 {
+  pointer-events: auto; /* Ensure the buttons handle their own clicks */
+}
+
+.task-container {
+  pointer-events: none; /* Disable parent click handling by default */
+}
+
+.task-container > * {
+  pointer-events: auto; /* Re-enable child elements like buttons */
 }
 
 .drag-drop-content {

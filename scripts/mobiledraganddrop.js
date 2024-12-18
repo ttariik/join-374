@@ -1,5 +1,4 @@
 async function changefolder(taskId, parentFolderId, task, event) {
-  event.stopPropagation();
   const taskDataJson = await getTaskDataJson(taskId, parentFolderId);
   const updatedParentFolderId = forwardslogic(parentFolderId);
 
@@ -86,7 +85,6 @@ function reattachTaskToParent(taskelement, parentFolderId) {
 }
 
 async function changefolder1(taskId, parentFolderId, task, event) {
-  event.stopPropagation();
   const taskDataJson = await getTaskDataJson(taskId, parentFolderId);
   const updatedParentFolderId = backwardslogic(parentFolderId);
 

@@ -154,28 +154,28 @@ async function renderTasksWithTemplate(tasks, containerId) {
   for (const task of tasks) {
     if (task && task.category) {
       const taskId = task.id;
-      let taskHTML;
 
-      // Handle "Technical Task"
-      if (task.category === "Technical Task") {
-        taskHTML = await Technicaltasktemplate(
-          { ...task, id: taskId },
-          contacts
-        );
-      } else {
-        taskHTML = await userstorytemplate({ ...task, id: taskId }, contacts);
-      }
+      // Add the task template HTML
+      const taskHTML =
+        task.category === "Technical Task"
+          ? await Technicaltasktemplate({ ...task, id: taskId }, contacts)
+          : await userstorytemplate({ ...task, id: taskId }, contacts);
 
-      // Insert the task HTML into the container
       container.insertAdjacentHTML("beforeend", taskHTML);
 
-      // Add event listeners to buttons
-      upanddownbuttonslisteners(task.id, task); // No need to pass event
+      // Attach up and down button listeners
+      upanddownbuttonslisteners(task.id, task);
 
-      // Add drag and click handlers for the task
-      addDragAndClickHandlers(task, containerId, taskId, contacts);
+      // Attach parent click listener
+      document.getElementById(taskId).addEventListener("click", (event) => {
+        if (task.category === "Technical Task") {
+          opentechnicaltemplate(task, contacts);
+        } else {
+          openprofiletemplate(task, contacts);
+        }
+      });
 
-      // Add specific condition for "done-folder" and "todo-folder"
+      // Handle folder-specific logic for showing/hiding buttons
       if (containerId === "done-folder") {
         const upButton = document.getElementById(`downbutton${taskId}`);
         if (upButton) {
@@ -220,24 +220,24 @@ async function addDragAndClickHandlers(task, containerId, taskId, contacts) {
 }
 
 function upanddownbuttonslisteners(taskId, task) {
-  const taskElement = document.getElementById(taskId);
   const upButton = document.getElementById(`upbutton${taskId}`);
   const downButton = document.getElementById(`downbutton${taskId}`);
-  if (taskElement && upButton && downButton) {
-    const parentFolderId = taskElement.parentElement.id;
+  const parentFolderId = document.getElementById(taskId)?.parentElement?.id;
 
-    // Add event listener for the up button
+  // Add click listener to the up button
+  if (upButton) {
     upButton.addEventListener("click", function (event) {
-      event.stopPropagation();
-      changefolder1(taskId, parentFolderId, task, event);
+      event.stopImmediatePropagation(); // Prevents all bubbling and sibling event handlers
+      changefolder1(taskId, parentFolderId, task, event); // Trigger folder change
     });
+  }
 
-    // Add event listener for the down button
+  // Add click listener to the down button
+  if (downButton) {
     downButton.addEventListener("click", function (event) {
-      event.stopPropagation();
-      changefolder(taskId, parentFolderId, task, event);
+      event.stopImmediatePropagation(); // Prevents all bubbling and sibling event handlers
+      changefolder(taskId, parentFolderId, task, event); // Trigger folder change
     });
-  } else {
   }
 }
 
