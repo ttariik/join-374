@@ -126,10 +126,10 @@ async function userstorytemplate(task, contacts) {
         <span>${taskCategory}</span>
         <div class="pointerbox"><button onclick="changefolder(${
           task.id
-        })" class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
+        },event)" class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
        <button onclick="changefolder(${
          task.id
-       })" class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
+       },event)" class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
       </div>
       <div class="titlecontainer">
         <div class="section-one">${taskTitle}</div>
@@ -351,18 +351,16 @@ function Technicaltasktemplatetemplate(
    <div class="task-container task" draggable="true" ondragstart="drag(event)" id="${
      task.id
    }"> <div class="task-category">
-          <span class="task-category-name">${
-            task.category || "Uncategorized"
-          }</span>
-          <div class="pointerbox"><button onclick="changefolder(${
+          <span class="task-category-name">${task.category || ""}</span>
+          <div class="pointerbox"><button id="upbutton${
             task.id
-          })" class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
-       <button onclick="changefolder(${
+          }" type="button"  class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
+       <button type="button" id="downbutton${
          task.id
-       })" class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
+       }"  class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
         </div>
         <div class="task-details">
-          <div class="task-title">${task.title || "Untitled Task"}</div>
+          <div class="task-title">${task.title || ""}</div>
           <div class="task-description">${task.description || ""}</div>
         </div>
         ${progressBarHTML}

@@ -167,6 +167,21 @@ async function renderTasksWithTemplate(tasks, containerId) {
 
       container.insertAdjacentHTML("beforeend", taskHTML);
       addDragAndClickHandlers(task, containerId, taskId, contacts);
+      // Add condition to check if the task is in the "done-folder"
+      if (containerId === "done-folder") {
+        // Add the 'd-none' class to the "up" button for tasks in the done-folder
+        const upButton = document.getElementById(`downbutton${taskId}`);
+        if (upButton) {
+          upButton.classList.add("d-none");
+        }
+      }
+      if (containerId === "todo-folder") {
+        const downButton = document.getElementById(`upbutton${taskId}`);
+        if (downButton) {
+          downButton.classList.add("d-none");
+        }
+      }
+      upanddownbuttonslisteners(task.id, task, event);
     }
   });
 }
@@ -178,7 +193,7 @@ async function renderTasksWithTemplate(tasks, containerId) {
  * @param {string} taskId - The ID of the task.
  * @param {Array} contacts - The list of contacts.
  */
-function addDragAndClickHandlers(task, containerId, taskId, contacts) {
+async function addDragAndClickHandlers(task, containerId, taskId, contacts) {
   const taskElement = document.getElementById(taskId);
   if (taskElement) {
     taskElement.setAttribute("draggable", "true");
@@ -188,13 +203,35 @@ function addDragAndClickHandlers(task, containerId, taskId, contacts) {
     });
   }
 
-  document.getElementById(taskId).addEventListener("click", () => {
+  document.getElementById(taskId).addEventListener("click", (event) => {
     if (task.category === "Technical Task") {
       opentechnicaltemplate(task, contacts);
     } else {
       openprofiletemplate(task, contacts);
     }
   });
+}
+
+function upanddownbuttonslisteners(taskId, task, event) {
+  if (
+    document.getElementById(`${taskId}`) &&
+    document.getElementById(`downbutton${taskId}`)
+  ) {
+    const parentFolderId = document.getElementById(`${taskId}`).parentElement
+      .id;
+    document
+      .getElementById(`upbutton${taskId}`)
+      .addEventListener("click", function (event) {
+        event.stopPropagation();
+        changefolder(taskId, parentFolderId, task, event);
+      });
+    document
+      .getElementById(`downbutton${taskId}`)
+      .addEventListener("click", function (event) {
+        event.stopPropagation();
+        changefolder1(taskId, parentFolderId, task, event);
+      });
+  }
 }
 
 /**
@@ -311,7 +348,7 @@ function reattachEventListeners(taskId, parentFolderId, task, contacts) {
     event.dataTransfer.setData("parentFolderId", parentFolderId);
   });
 
-  updatedTaskElement.addEventListener("click", () => {
+  updatedTaskElement.addEventListener("click", (event) => {
     if (task.category === "Technical Task") {
       opentechnicaltemplate(task, contacts);
     } else {
