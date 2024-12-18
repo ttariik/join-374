@@ -126,12 +126,10 @@ async function userstorytemplate(task, contacts) {
         <span>${taskCategory}</span>
         <div class="pointerbox"><button id="upbutton${
           task.id
-        }" onclick="changefolder(${
-    task.id
-  },event)" class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
-       <button id="downbutton${task.id}" onclick="changefolder(${
-    task.id
-  },event)" class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
+        }"  class="buttonbackground1"><img src="/img/arrow_upsidedown.png" alt=""></button>
+       <button id="downbutton${
+         task.id
+       }"  class="buttonbackground2"><img src="/img/arrow_drop_down.png" alt=""></button> </div>
       </div>
       <div class="titlecontainer">
         <div class="section-one">${taskTitle}</div>
