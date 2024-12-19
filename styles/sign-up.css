@@ -188,7 +188,7 @@ input[type="email"] {
   color: red;
   margin-top: -18px;
   font-size: 0.875rem;
-  display: none; /* Hidden by default */
+  display: none;
 }
 
 input[type="password"] {
@@ -266,7 +266,7 @@ input[type="password"] {
   transition: 100ms ease-in-out;
 }
 
-.checkbox-wrapper-29 .checkbox__input:checked~.checkbox__label:after {
+.checkbox-wrapper-29 .checkbox__input:checked ~ .checkbox__label:after {
   border-top-style: none;
   border-right-style: none;
   -ms-transform: rotate(-45deg);
@@ -311,7 +311,7 @@ input[type="password"] {
   font-weight: 700;
   border: 1px solid #2a3647;
   border-radius: 8px;
-  background-color: #2a3647; 
+  background-color: #2a3647;
   line-height: 19px;
   color: #ffffff;
   cursor: pointer;
@@ -319,18 +319,17 @@ input[type="password"] {
 }
 
 .sign-up-button-footer:hover {
-  background-color: #29ABE2; 
-  border-color: #29ABE2; 
+  background-color: #29abe2;
+  border-color: #29abe2;
   box-shadow: 0 5px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
 }
 
 .sign-up-button-footer:disabled {
-    background-color: #2a3647b2; 
-    border-color: #ffffff; 
-    pointer-events: none;
+  background-color: #2a3647b2;
+  border-color: #ffffff;
+  pointer-events: none;
 }
-
 
 footer {
   display: flex;
@@ -362,14 +361,14 @@ a {
 }
 
 .legal-links a {
-  color: #A8A8A8;
+  color: #a8a8a8;
   text-decoration: none;
 }
 
 .legal-links a:hover {
-  color: #29ABE2;
+  color: #29abe2;
   scale: 1.05;
-  font-family: 'PT-sans-bold';
+  font-family: "PT-sans-bold";
 }
 
 .checkbox-text {
@@ -391,8 +390,7 @@ a {
   top: 580px;
 }
 
-@media (max-width:699px) {
-
+@media (max-width: 699px) {
   html,
   body {
     overflow: unset;
@@ -419,8 +417,7 @@ a {
   }
 }
 
-@media (max-width:499px) {
-
+@media (max-width: 499px) {
   .logo {
     width: 80px;
     margin-top: 80px;
@@ -458,8 +455,7 @@ a {
   }
 }
 
-@media (max-width:409px) {
-
+@media (max-width: 409px) {
   .container {
     width: 300px;
   }
@@ -488,8 +484,7 @@ a {
   }
 }
 
-@media (max-width:409px) {
-
+@media (max-width: 409px) {
   .container {
     width: 300px;
     margin-top: 120px;
