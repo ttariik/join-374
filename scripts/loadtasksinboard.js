@@ -150,23 +150,15 @@ async function renderTasksWithTemplate(tasks, containerId) {
   const container = document.getElementById(containerId);
   const response2 = await fetch(GLOBAL + "users/1/contacts.json");
   const contacts = await response2.json();
-
   for (const task of tasks) {
     if (task && task.category) {
       const taskId = task.id;
-
-      // Add the task template HTML
       const taskHTML =
         task.category === "Technical Task"
           ? await Technicaltasktemplate({ ...task, id: taskId }, contacts)
           : await userstorytemplate({ ...task, id: taskId }, contacts);
-
       container.insertAdjacentHTML("beforeend", taskHTML);
-
-      // Attach up and down button listeners
       upanddownbuttonslisteners(task.id, task);
-
-      // Attach parent click listener
       document.getElementById(taskId).addEventListener("click", (event) => {
         if (task.category === "Technical Task") {
           opentechnicaltemplate(task, contacts);
@@ -174,15 +166,12 @@ async function renderTasksWithTemplate(tasks, containerId) {
           openprofiletemplate(task, contacts);
         }
       });
-
-      // Handle folder-specific logic for showing/hiding buttons
       if (containerId === "done-folder") {
         const upButton = document.getElementById(`downbutton${taskId}`);
         if (upButton) {
           upButton.classList.add("d-none");
         }
       }
-
       if (containerId === "todo-folder") {
         const downButton = document.getElementById(`upbutton${taskId}`);
         if (downButton) {
@@ -224,22 +213,19 @@ function upanddownbuttonslisteners(taskId, task) {
   const downButton = document.getElementById(`downbutton${taskId}`);
   const parentFolderId = document.getElementById(taskId)?.parentElement?.id;
 
-  // Add click listener to the up button
   if (upButton) {
     upButton.addEventListener("click", function (event) {
-      event.stopImmediatePropagation(); // Prevents all bubbling and sibling event handlers
-      changefolder1(taskId, parentFolderId, task, event); // Trigger folder change
+      event.stopImmediatePropagation(); 
+      changefolder1(taskId, parentFolderId, task, event); 
     });
   }
 
-  // Add click listener to the down button
   if (downButton) {
     downButton.addEventListener("click", function (event) {
-      event.stopImmediatePropagation(); // Prevents all bubbling and sibling event handlers
-      changefolder(taskId, parentFolderId, task, event); // Trigger folder change
+      event.stopImmediatePropagation(); 
+      changefolder(taskId, parentFolderId, task, event); 
     });
-  }
-}
+  }}
 
 /**
  * Displays messages in folders if no tasks are present.
@@ -383,16 +369,14 @@ function appendTaskToFolder(taskHTML, parentFolderId) {
 async function reloadFolder(folderId) {
   try {
     const userData = await fetchTaskData();
-    await ensureFolderStructure(userData); // Ensure folder structure
+    await ensureFolderStructure(userData);
     const updatedUserData = await fetchUpdatedTaskData();
     const { todos, inprogress, awaitingfeedback, donetasks } =
       classifyTasks(updatedUserData);
 
-    // Clear the specific folder's content
     const folderContent = document.getElementById(folderId);
     if (folderContent) folderContent.innerHTML = "";
 
-    // Render the tasks for the specific folder
     switch (folderId) {
       case "todo-folder":
         await renderTasksWithTemplate(todos, "todo-folder");
@@ -413,7 +397,6 @@ async function reloadFolder(folderId) {
         console.warn(`Unknown folder: ${folderId}`);
     }
 
-    // Display the "No tasks" message if the folder is empty
     displayNoTasksMessage(
       folderId,
       `No tasks in ${folderId.replace("-", " ")}`

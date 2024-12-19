@@ -8,7 +8,6 @@ function initializeButtonListeners(
   updateOverlayTemplateBasedOnCategory,
   task
 ) {
-  // Remove previous event listeners (if any) to avoid multiple triggers
   const okSaveButton = document.getElementById("oksavebutton");
   const closeBtn = document.getElementById("closebtn");
   okSaveButton.addEventListener("click", function () {

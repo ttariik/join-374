@@ -4,7 +4,6 @@
  * @param {HTMLInputElement} input - The input element containing the date string.
  */
 function filternumbers(input) {
-  // Remove invalid characters (anything that is not a number or "/")
   let value = input.value.replace(/[^0-9\/]/g, "");
   if (value.length > 2 && value[2] !== "/") {
     value = value.slice(0, 2) + "/" + value.slice(2);
@@ -31,9 +30,9 @@ function filternumbers(input) {
     displayError("spandate", "Invalid date format.");
     return;
   }
-  const inputDate = new Date(year, month - 1, day); // JavaScript months are 0-based
+  const inputDate = new Date(year, month - 1, day); 
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Remove time from the current date for comparison
+  today.setHours(0, 0, 0, 0); 
   if (inputDate < today) {
     displayError("spandate", "The date cannot be in the past.");
     return;

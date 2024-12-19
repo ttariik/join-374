@@ -19,7 +19,6 @@ const firebaseConfig = {
   measurementId: "G-D3K960J8WM"
 };
 
-// Firebase services initialization
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
@@ -218,7 +217,6 @@ function updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline) {
   document.getElementById("due-date").textContent = upcomingDeadline || "No Date";
 }
 
-// Initialize task counts for a predefined user ID
 /**
  * Predefined user ID for testing purposes.
  * @type {string}
@@ -226,7 +224,6 @@ function updateTaskCountsDisplay(taskCounts, totalTasks, upcomingDeadline) {
 const userId = "1"; 
 loadTaskCounts(userId);
 
-// Display a greeting based on the time of day
 /**
  * Array of greeting messages based on the time of day.
  * @type {string[]}
@@ -242,13 +239,11 @@ const greet = [
 if (document.getElementById("welcomeText")) document.getElementById("welcomeText").innerHTML = greet;
 if (document.getElementById("welcomeText-mobile")) document.getElementById("welcomeText-mobile").innerHTML = greet;
 
-// Fade out the welcome wrapper after 2 seconds
 setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.opacity = "0";
 }, 2000);
 
-// Hide the welcome wrapper after 3 seconds
 setTimeout(function() {
   const welcomeWrapper = document.getElementById("welcomeWrapper");
   if (welcomeWrapper) welcomeWrapper.style.display = "none";

@@ -3,7 +3,7 @@ import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstati
 import { getFirestore } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 /**
- * Firebase-Konfigurationsobjekt für die Verbindung zur Firebase-Datenbank.
+ * Firebase configuration object for connecting to the Firebase database.
  * @type {Object}
  */
 const firebaseConfig = {
@@ -18,27 +18,27 @@ const firebaseConfig = {
 };
 
 /**
- * Initialisiert die Firebase-App mit der angegebenen Konfiguration.
+ * Initializes the Firebase app with the provided configuration.
  * @type {Object}
  */
 const app = initializeApp(firebaseConfig);
 
 /**
- * Firebase-Authentifizierungsinstanz.
+ * Firebase authentication instance.
  * @type {Object}
  */
 const auth = getAuth();
 
 /**
- * Firebase Firestore-Datenbankinstanz.
+ * Firebase Firestore database instance.
  * @type {Object}
  */
 const db = getFirestore();
 
 /**
- * Zeigt eine Nachricht in einem bestimmten HTML-Div an.
- * @param {string} message - Die Nachricht, die angezeigt werden soll.
- * @param {string} divId - Die ID des Divs, in dem die Nachricht angezeigt werden soll.
+ * Displays a message in a specified HTML div.
+ * @param {string} message - The message to display.
+ * @param {string} divId - The ID of the div where the message should be displayed.
  */
 function showMessage(message, divId) {
     const messageDiv = document.getElementById(divId);
@@ -49,8 +49,8 @@ function showMessage(message, divId) {
 }
 
 /**
- * Behandelt das Anmelden eines Benutzers mit E-Mail und Passwort.
- * @param {Event} event - Das Ereignis, das beim Absenden des Anmeldeformulars ausgelöst wird.
+ * Handles user sign-in using email and password.
+ * @param {Event} event - The event triggered when the sign-in form is submitted.
  */
 function handleSignIn(event) {
     event.preventDefault();
@@ -67,8 +67,8 @@ function handleSignIn(event) {
 }
 
 /**
- * Behandelt das Gast-Login, bei dem der Benutzer entweder abgemeldet oder keine Anmeldung erforderlich ist.
- * @param {Event} event - Das Ereignis, das beim Klick auf den Gast-Login-Button ausgelöst wird.
+ * Handles guest login where the user is either signed out or no sign-in is required.
+ * @param {Event} event - The event triggered when the guest login button is clicked.
  */
 function handleGuestLogin(event) {
     event.preventDefault();
@@ -84,7 +84,7 @@ function handleGuestLogin(event) {
 }
 
 /**
- * Löscht die Daten des Gast-Logins und leitet den Benutzer zur Zusammenfassungsseite weiter.
+ * Clears guest login data and redirects the user to the summary page.
  */
 function clearGuestData() {
     localStorage.removeItem('loggedInUserId');
@@ -94,7 +94,7 @@ function clearGuestData() {
 }
 
 /**
- * Behandelt die Funktion "Angemeldet bleiben" und speichert die E-Mail-Adresse des Benutzers.
+ * Handles the "Remember Me" functionality and stores the user's email address.
  */
 function handleRememberMe() {
     const rememberMeCheckbox = document.getElementById('rememberMe');
@@ -110,14 +110,11 @@ function handleRememberMe() {
     }
 }
 
-// Event Listener für die Anmelde- und Gastlogin-Buttons
 document.getElementById('submitSignIn').addEventListener('click', handleSignIn);
 document.getElementById('guestLogin').addEventListener('click', handleGuestLogin);
 
-// Funktion für "Angemeldet bleiben" aufrufen
 handleRememberMe();
 
-// Funktion zur Überprüfung der Eingabefelder
 function validateForm() {
     const submitButton = document.getElementById('submitSignIn');
     submitButton.disabled = !document.getElementById('email').value || !document.getElementById('password').value;

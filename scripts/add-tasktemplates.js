@@ -71,25 +71,21 @@ document.addEventListener("DOMContentLoaded", () => {
     );
     const options = categoryDropdown.querySelectorAll(".custom-option");
 
-    // Add click event listeners to options
     options.forEach((option) => {
       option.addEventListener("click", () => {
         const value = option.dataset.value;
         const text = option.textContent;
 
-        // Update selected display and data-value
         selectedElement.textContent = text;
         selectedElement.dataset.value = value;
       });
     });
 
-    // Mimic .value on the custom dropdown container
     Object.defineProperty(categoryDropdown, "value", {
       get() {
         return selectedElement.dataset.value;
       },
       set(value) {
-        // Optionally, set the value programmatically if needed
         const option = categoryDropdown.querySelector(
           `[data-value="${value}"]`
         );

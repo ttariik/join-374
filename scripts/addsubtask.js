@@ -19,7 +19,6 @@ function addsubtask(event) {
     event.currentTarget.parentElement.children[6].style =
       "overflow-y: scroll; scrollbar-width: thin;";
   }
-
   firstpartsubtask(subtasks, subtaskinput1);
 }
 
@@ -39,7 +38,6 @@ function firstpartsubtask(subtasks, subtaskinput1) {
       .getElementById("subtasksbox")
       .insertAdjacentHTML("beforeend", subtaskstemplate(subtaskinput1));
   }
-
   addingeventlistener(subtaskNumber);
 }
 

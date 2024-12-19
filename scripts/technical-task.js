@@ -114,7 +114,7 @@ async function loaduserstory(task) {
   setButton3_3Listener(task);
   setNonTechnicalTaskValues(task);
   showsavedinitials(task.id, task);
-  loadsubtasks(task); // Load subtasks for Non-Technical Task
+  loadsubtasks(task); 
   setPriorityButtonListeners(task);
 }
 

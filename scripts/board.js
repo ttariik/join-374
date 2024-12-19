@@ -1,43 +1,9 @@
-/**
- * Tracks the number of completed tasks.
- * @type {number}
- */
 let completedtasks = 0;
-
-/**
- * Holds the full names of tasks.
- * @type {Array<string>}
- */
 let fullnames = [];
-
-/**
- * Holds the colors for tasks.
- * @type {Array<string>}
- */
 let colors = [];
-
-/**
- * Array to store todo tasks.
- * @type {Array<object>}
- */
 let todos = [];
-
-/**
- * Array to store in-progress tasks.
- * @type {Array<object>}
- */
 let inprogress = [];
-
-/**
- * Array to store tasks awaiting feedback.
- * @type {Array<object>}
- */
 let awaitingfeedback = [];
-
-/**
- * Array to store tasks marked as done.
- * @type {Array<object>}
- */
 let donetasks = [];
 
 /**
@@ -278,9 +244,7 @@ function generatecontactbadgehtml(matchingInitials, contact, badgeHTML) {
  */
 async function inputaccess(task) {
   setupEditButton();
-
   if (document.getElementById("technicaltasktitle")) {
-    // Update title, description, and due date
     document.getElementById("technicaltasktitle").innerHTML =
       task.title || "Untitled Task";
     document.getElementById("descriptioninput").innerHTML =
@@ -288,14 +252,14 @@ async function inputaccess(task) {
     document.getElementById("due-date-containerinput").innerHTML =
       task.duedate || "No due date.";
     if (task.prio) {
-      document.getElementById("showprio").innerHTML = task.prio; // Set priority text
+      document.getElementById("showprio").innerHTML = task.prio; 
       document.getElementById(
         "technicaltaskprio"
-      ).src = `/img/${task.prio}.png`; // Set priority image
+      ).src = `/img/${task.prio}.png`; 
     } else {
-      document.getElementById("showprio").innerHTML = ""; // Default placeholder text
-      document.getElementById("technicaltaskprio").src = ""; // Clear the image
-      document.getElementById("technicaltaskprio").style.display = "none"; // Hide the image
+      document.getElementById("showprio").innerHTML = ""; 
+      document.getElementById("technicaltaskprio").src = ""; 
+      document.getElementById("technicaltaskprio").style.display = "none"; 
     }
   }
 }

@@ -7,10 +7,8 @@ function validateTaskForm() {
   const dateInput = document.getElementById("date2");
   const category = getCategory();
 
-  // Safely retrieve title value
   const title = titleInput ? titleInput.value.trim() : "";
 
-  // Validate fields and return result
   return validateTaskFields(title, dateInput, category);
 }
 
@@ -57,9 +55,8 @@ function handleLiveValidation(event) {
   const input = event.target;
 
   if (input.id === "date2") {
-    validateDatefield(input); // Specific validation for date2 field
+    validateDatefield(input); 
   } else {
-    // Generic validation for other inputs
     if (input.value.trim() === "") {
       displayError("spantitle", "This field is required.");
     } else {
@@ -74,40 +71,35 @@ function handleLiveValidation(event) {
 function initializeFormCheck() {
   if (document.getElementById("date")) {
     const dateInput = document.getElementById("date");
-    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
-    dateInput.min = today; // Set the 'min' attribute to today's date
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.min = today; 
   }
   const titleInput = document.getElementById("title");
   const dateInput = document.getElementById("date2");
-  const categoryInput = document.getElementById("selectedcategory"); // Updated for custom dropdown
+  const categoryInput = document.getElementById("selectedcategory"); 
   const createTaskButton = document.querySelector(".bt2");
 
-  // Add individual input event listeners
   titleInput.addEventListener("input", (event) => {
-    validateTitle(event.target); // Validate the title
+    validateTitle(event.target); 
   });
 
   dateInput.addEventListener("input", (event) => {
-    validateDatefield(event.target); // Validate the date
+    validateDatefield(event.target);
   });
 
-  // Custom logic for category validation
   const customSelect = document.querySelector(".custom-select");
   customSelect.addEventListener("click", (event) => {
     if (event.target.classList.contains("custom-option")) {
-      validateCategory(categoryInput); // Trigger category validation after selection
+      validateCategory(categoryInput); 
     }
   });
 
-  // Add event listener for button click
   createTaskButton.addEventListener("click", (event) => {
     event.preventDefault();
 
-    // Run all validations on form submission
     if (validateTaskForm()) {
-      addtask(event); // Form is valid, proceed with task creation
+      addtask(event);
     } else {
-      // Handle form errors if needed
     }
   });
 }
@@ -206,13 +198,13 @@ function validateDatefield(input) {
  * Formats a selected date to dd/mm/yyyy and sets it to the manual input field.
  */
 function formatDateToDDMMYYYY(input) {
-  const dateValue = input.value; // This value will be in yyyy-mm-dd format
+  const dateValue = input.value; 
   if (dateValue) {
-    const [year, month, day] = dateValue.split("-"); // Split the input value into year, month, and day
-    const formattedDate = `${day}/${month}/${year}`; // Convert to dd/mm/yyyy format
-    document.getElementById("date2").value = formattedDate; // Set it to the manual input (date2)
+    const [year, month, day] = dateValue.split("-"); 
+    const formattedDate = `${day}/${month}/${year}`; 
+    document.getElementById("date2").value = formattedDate; 
     if (document.getElementById("date23")) {
-      document.getElementById("date23").value = formattedDate; // Set it to the manual input (date2)
+      document.getElementById("date23").value = formattedDate; 
     }
     validateDateField(formattedDate);
   }
@@ -301,6 +293,12 @@ function initializeFormValidation() {
   );
 }
 
+/**
+ * Validates if an email is valid and matches the provided top-level domains (TLDs).
+ * @param {string} email - The email address to validate.
+ * @param {string[]} tlds - An array of valid top-level domains.
+ * @returns {boolean} True if the email is valid, false otherwise.
+ */
 function isEmailValidWithTLDs(email, tlds) {
   const regex = new RegExp(
     `^[^\\s@]+@[a-zA-Z0-9-]+\\.(${tlds.join("|")})$`,
@@ -309,6 +307,19 @@ function isEmailValidWithTLDs(email, tlds) {
   return regex.test(email.trim());
 }
 
+/**
+ * Sets up the save button to validate input fields and handle form submission.
+ * @param {HTMLButtonElement} saveButton - The save button element.
+ * @param {HTMLInputElement} nameInput - The input field for the name.
+ * @param {HTMLInputElement} emailInput - The input field for the email.
+ * @param {HTMLInputElement} phoneInput - The input field for the phone number.
+ * @param {HTMLElement} nameError - The element to display name validation errors.
+ * @param {HTMLElement} emailError - The element to display email validation errors.
+ * @param {HTMLElement} phoneError - The element to display phone validation errors.
+ * @param {Function} isNameValid - The validation function for the name.
+ * @param {Function} isEmailValid - The validation function for the email.
+ * @param {Function} isPhoneValid - The validation function for the phone number.
+ */
 function setupSaveButton(
   saveButton,
   nameInput,
@@ -351,6 +362,11 @@ function setupSaveButton(
   });
 }
 
+/**
+ * Provides an appropriate error message for invalid email addresses.
+ * @param {string} email - The email address to validate.
+ * @returns {string} The error message, or an empty string if valid.
+ */
 function getEmailError(email) {
   if (email.trim() === "") return "Email cannot be empty.";
   if (!email.includes("@")) return "Email must include '@'.";
@@ -363,6 +379,14 @@ function getEmailError(email) {
   return ""; // No error
 }
 
+/**
+ * Validates an input field and updates its visual state and error message.
+ * @param {HTMLInputElement} input - The input field to validate.
+ * @param {Function} validator - The validation function for the input value.
+ * @param {HTMLElement} errorMessageElement - The element to display validation errors.
+ * @param {Function} errorMessageFunc - The function to generate error messages.
+ * @returns {boolean} True if the input is valid, false otherwise.
+ */
 function performCustomValidation(
   input,
   validator,

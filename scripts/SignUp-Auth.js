@@ -16,7 +16,6 @@ const firebaseConfig = {
     measurementId: "G-D3K960J8WM"
 };
 
-// Firebase initializations
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
@@ -151,10 +150,8 @@ function handleSignUpError(error) {
     showMessage(message, 'signUpMessage');
 }
 
-// Event listener for the sign-up button
 document.getElementById('submitSignUp').addEventListener('click', handleSignUp);
 
-// Funktion zur Validierung des Sign-Up-Formulars
 function validateSignUpForm() {
     const email = document.getElementById('rEmail').value;
     const password = document.getElementById('rPassword').value;
@@ -173,5 +170,5 @@ function validateSignUpForm() {
 document.querySelectorAll('#rEmail, #rPassword, #rConfirmPassword, #rName, #checkPrivacy')
     .forEach(el => el.addEventListener('input', validateSignUpForm));
 
-validateSignUpForm(); // Initiale Überprüfung
+validateSignUpForm(); 
 
