@@ -341,7 +341,6 @@ function clickbodylistener() {
       return;
     }
     openContactsBox(contactsBox);
-
     resetsearchbar(event);
   });
 }
@@ -382,7 +381,6 @@ function renderContacts(contactList) {
   const contactHTML = generateContactHTML(contactList);
   const contactsBox = getContactsBox();
   contactsBox.innerHTML = contactHTML;
-
   if (isAssignedUsersPopulated()) {
     highlightAssignedUsers();
   }
@@ -453,7 +451,6 @@ function highlightContact(contact) {
   const contactElement = document.querySelector(
     `#contacts-box1 #div${contact.id}`
   );
-
   if (contactElement) {
     contactElement.classList.add("dark-blue");
     document.getElementById(`checkbox${contact.id}`).checked = true;

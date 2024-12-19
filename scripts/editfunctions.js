@@ -60,7 +60,7 @@ async function editprofile(task) {
     updateOverlayTemplateBasedOnCategory,
     task
   );
-  subtasks = []; // Reset the subtasks array
+  subtasks = [];
   if (!task.subtask === undefined) {
     task.subtask.forEach((subtaskObj) => {
       subtasks.push(subtaskObj.subtask);
@@ -104,7 +104,6 @@ async function editinputs(task) {
     .addEventListener("click", function () {
       savechanges(task.id, task);
     });
-  /** Sets up the second part of the technical layout for the task. */
   setuptechnicallayoutpart2(task);
   if (!task.subtask === undefined) {
     task.subtask.forEach((subtaskObj) => {

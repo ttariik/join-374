@@ -59,15 +59,12 @@ function closecontactstemplate() {
 function contactsmenutemplate(contact) {
   let firstLetter = contact.name.charAt(0).toUpperCase();
   let title = "";
-
   if (!displayedLetters.has(firstLetter)) {
     title = `<h2>${firstLetter}</h2>
              <div class="lineseperator"></div>`;
     displayedLetters.add(firstLetter);
   }
-
   const color = getColorFromString(contact.name);
-
   return /*html*/ `
       ${title}
       <div class="align" id="${contact.key}" onclick="showcontacttemplate('${
