@@ -121,6 +121,8 @@ body {
   margin-top: 10px;
   border-radius: 20px;
   background-color: rgb(246, 247, 248);
+  max-width: 100%;
+  width: 85%;
 }
 
 .align:hover {
