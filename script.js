@@ -38,13 +38,11 @@ function reloadLastPage() {
   }
 }
 
-// Save the current page URL to `localStorage` before the user leaves the page.
 window.addEventListener("beforeunload", function () {
   const currentUrl = window.location.href;
   localStorage.setItem("lastVisitedPage", currentUrl);
 });
 
-// Attach the reloadLastPage function to the reload button after the DOM loads.
 document.addEventListener("DOMContentLoaded", function () {
   const reloadButton = document.getElementById("reloadLastPage");
   if (reloadButton) {
@@ -62,7 +60,6 @@ function toggleDropdown() {
     dropdownMenu.style.display === "block" ? "none" : "block";
 }
 
-// Close all dropdown menus when clicking outside of a `.user-initials` element.
 window.onclick = function (event) {
   if (!event.target.matches(".user-initials")) {
     const dropdowns = document.getElementsByClassName("dropdown-menu");
@@ -75,7 +72,6 @@ window.onclick = function (event) {
   }
 };
 
-// Adds animations and fades out the overlay when the window loads.
 window.onload = function () {
   const logo = document.querySelector(".logo");
   const overlay = document.querySelector(".overlay");
