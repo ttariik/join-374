@@ -47,21 +47,25 @@ async function setupprofilelayoutpart2(task) {
   document.getElementById("subtaskbox").innerHTML = "";
 }
 
-async function editprofile(task) {
+async function firstparteditprofile(task) {
   await setupprofilelayoutpart1(task);
   await setupprofilelayoutpart2(task);
   document.getElementById("subtaskarea").innerHTML = subtaskboxemplate();
   document.getElementById("subtaskarea").style = "padding: 6px 0px 60px 0";
   document.getElementById("selectbutton1").parentElement.style = "gap: unset";
   document.querySelector(".scrollbar").style =
-    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;"; // Adjust scrollbar style
+    "overflow-x: hidden;  overflow-y: scroll; scrollbar-width: thin; height: 700px; margin: 10px 0 10px 0;padding-right: 8px;";
+}
+
+async function editprofile(task) {
+  await firstparteditprofile(task);
   initializeButtonListeners(
     savechanges,
     updateOverlayTemplateBasedOnCategory,
     task
   );
-  subtasks = [];
-  if (!task.subtask === undefined) {
+  const subtasks = [];
+  if (task.subtask !== undefined && Array.isArray(task.subtask)) {
     task.subtask.forEach((subtaskObj) => {
       subtasks.push(subtaskObj.subtask);
     });
