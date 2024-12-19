@@ -157,7 +157,6 @@ function resetcontact(contactDiv, checkbox, id, initials, event) {
   contactDiv.classList.remove("dark-blue");
   asignedtousers = asignedtousers.filter((item) => item !== initials);
   initialsArray = initialsArray.filter((item) => item.id !== id);
-
   const badge = document.querySelector(
     `.badgeassigned[data-initials="${initials}"]`
   );
@@ -199,7 +198,6 @@ function searchbar() {
 async function resetsearchbar(event) {
   const contactsBox = document.getElementById("contacts-box");
   const contactsBox1 = document.getElementById("contacts-box1");
-
   if (contactsBox1) {
     document.getElementById("selectbutton1").innerHTML = `
         <span>Select contacts to assign</span>
@@ -307,12 +305,10 @@ function initializeSearchBar(contactsBox) {
     document.getElementById("selectbutton1") ||
     document.getElementById("selectbutton");
   selectButton.innerHTML = searchbar();
-
   selectButton.onclick = resetsearchbar;
   document.getElementById("contacts-box").addEventListener("click", (event) => {
     event.stopPropagation();
   });
-
   if (document.getElementById("contacts-box1")) {
     document
       .getElementById("contacts-box1")

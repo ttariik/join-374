@@ -59,7 +59,7 @@ function dragleave(event) {
   if (nothingDiv) {
     nothingDiv.remove();
   }
-  let messagediv = targetFolder.querySelector(".nothing"); // Change to let
+  let messagediv = targetFolder.querySelector(".nothing");
   if (!messagediv && targetFolder.children.length === 0) {
     messagediv = document.createElement("div");
     messagediv.className = "nothing";
@@ -98,24 +98,28 @@ async function drop(event) {
   event.preventDefault();
   const taskDetails = await dropinputs(event);
   if (!taskDetails) {
-    return;}
+    return;
+  }
   const { taskId, taskElement, parentFolderId, targetFolder } = taskDetails;
   try {
     taskElement.setAttribute("draggable", "false");
     const response = await fetch(
-      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`);
+      `${GLOBAL}users/1/tasks/${parentFolderId}/${taskId}.json`
+    );
     const taskData = await response.json();
     lastpartdropfunction(
       targetFolder,
       taskId,
       taskData,
       parentFolderId,
-      taskElement);
+      taskElement
+    );
   } catch (error) {
     console.error("Error during drop operation:", error);
   } finally {
     taskElement.setAttribute("draggable", "true");
-  }}
+  }
+}
 
 async function lastpartdropfunction(
   targetFolder,

@@ -111,13 +111,11 @@ function updateProfilePriority(task) {
  * @param {object} task The task object containing the priority.
  */
 function updateProfileIcon(task) {
-  const profileIconElement = document.getElementById("profileicon"); // Get the profile icon element
-
-  // Only update if task.prio is not an empty string
+  const profileIconElement = document.getElementById("profileicon");
   if (task.prio !== "") {
-    profileIconElement.src = `../img/${task.prio}.png`; // Set the image based on task.prio
+    profileIconElement.src = `../img/${task.prio}.png`;
   } else {
-    profileIconElement.src = ""; // Clear the image if task.prio is an empty string
+    profileIconElement.src = "";
   }
 }
 
@@ -252,14 +250,14 @@ async function inputaccess(task) {
     document.getElementById("due-date-containerinput").innerHTML =
       task.duedate || "No due date.";
     if (task.prio) {
-      document.getElementById("showprio").innerHTML = task.prio; 
+      document.getElementById("showprio").innerHTML = task.prio;
       document.getElementById(
         "technicaltaskprio"
-      ).src = `/img/${task.prio}.png`; 
+      ).src = `/img/${task.prio}.png`;
     } else {
-      document.getElementById("showprio").innerHTML = ""; 
-      document.getElementById("technicaltaskprio").src = ""; 
-      document.getElementById("technicaltaskprio").style.display = "none"; 
+      document.getElementById("showprio").innerHTML = "";
+      document.getElementById("technicaltaskprio").src = "";
+      document.getElementById("technicaltaskprio").style.display = "none";
     }
   }
 }

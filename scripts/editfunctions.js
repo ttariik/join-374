@@ -87,11 +87,6 @@ async function renderSubtasks(task) {
  * @param {Object} task - The task object containing data to populate the UI.
  */
 async function editinputs(task) {
-  /**
-   * Checks for subtasks in the provided task and pushes them to the subtasks array.
-   * @property {Array} task.subtask - An array of subtask objects.
-   */
-
   setuptechnicallayoutpart1(task);
   document.getElementById("assigned-containercontent").innerHTML =
     reselectionofcontacts(task);
