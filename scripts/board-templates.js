@@ -670,7 +670,7 @@ function subtaskboxemplate() {
       >
         <img src="/img/plusblack.png" alt="" />
       </button>
-      ${subtaskboxemplate1()} <!-- Correct way to embed the result of subtaskboxemplate1 -->
+      ${subtaskboxemplate1()} 
     </div>
   `;
 }

@@ -1,7 +1,7 @@
 /**
  * Global variables
  */
-let users = []; // Array to hold user data.
+let users = [];
 const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
 let selectedPriority = null;
