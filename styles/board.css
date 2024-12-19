@@ -318,15 +318,15 @@ input:focus {
 
 .buttonbackground1,
 .buttonbackground2 {
-  pointer-events: auto; /* Ensure the buttons handle their own clicks */
+  pointer-events: auto;
 }
 
 .task-container {
-  pointer-events: none; /* Disable parent click handling by default */
+  pointer-events: none;
 }
 
 .task-container > * {
-  pointer-events: auto; /* Re-enable child elements like buttons */
+  pointer-events: auto;
 }
 
 .drag-drop-content {
