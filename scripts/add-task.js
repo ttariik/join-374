@@ -101,23 +101,21 @@ function createUsersArray(UserKeyArray, userResponse) {
  * @returns {Object} - The prepared task data object.
  */
 function prepareTaskData(title, description, duedate, category, users) {
-  // Prepare the task data object
   const taskData = {
     title,
     description,
-    asignedto: asignedtousers, // Ensure this variable is defined elsewhere
-    prio: selectedPriority, // Ensure this variable is defined elsewhere
+    asignedto: asignedtousers,
+    prio: selectedPriority,
     duedate,
     category,
-    initials: initialsArray, // Ensure this variable is defined elsewhere
-    // Ensure subtasks are included, even if empty, as an empty array
+    initials: initialsArray,
     subtask:
       subtasks.length > 0
         ? subtasks.map((subtask) => ({
             subtask,
             completed: false,
           }))
-        : [], // Return an empty array if no subtasks
+        : [],
   };
 
   return taskData;
@@ -177,7 +175,7 @@ async function closing(taskData) {
   await submitTask(taskData);
   emptyinputs();
   showsuccesstaskmessage();
-  const currentPage = window.location.pathname; // Get current page path
+  const currentPage = window.location.pathname;
   setTimeout(() => {
     if (currentPage.includes("add-task.html")) {
       window.location.href = "board.html";
@@ -314,7 +312,7 @@ function clearerrorspans() {
       "#spantitle, #spandescription, #spantasignedbox, #spandate, #spanprio, #spancategory, #spansubtask"
     )
     .forEach((element) => {
-      element.innerHTML = ""; // Clear the content of each element
+      element.innerHTML = "";
     });
 }
 
@@ -560,7 +558,6 @@ function subtaskiconseventlisteners(index) {
 function smallerfunction() {
   const contactsBox1 = document.getElementById("contacts-box1");
   const contactsBox = document.getElementById("contacts-box");
-
   if (contactsBox1) {
     contactsBox1.style.display = "flex";
     contactsBox1.style.top = "34%";
