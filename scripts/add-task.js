@@ -4,14 +4,13 @@
 let users = []; // Array to hold user data.
 const GLOBAL =
   "https://join-backend-dd268-default-rtdb.europe-west1.firebasedatabase.app/";
-
-let selectedPriority = null; // Currently selected priority.
-let subtasks = []; // Array for subtasks.
-let selectedbutton = null; // Currently selected button.
-let asignedtousers = []; // Assigned users.
-let usernamecolor = []; // Array of colors for usernames.
-let initialsArray = []; // Array for user initials.
-let contacts = []; // Array to hold contact data.
+let selectedPriority = null;
+let subtasks = [];
+let selectedbutton = null;
+let asignedtousers = [];
+let usernamecolor = [];
+let initialsArray = [];
+let contacts = [];
 
 /**
  * Resets the input fields of a form.
@@ -35,7 +34,6 @@ async function putData(path = "", data = {}) {
     },
     body: JSON.stringify(data),
   });
-
   return await response.json();
 }
 
@@ -70,7 +68,6 @@ async function getFormData() {
   }
   const category = document.getElementById("Category").value;
   const UserKeyArray = Object.keys(userResponse);
-
   return { title, description, duedate, category, UserKeyArray, userResponse };
 }
 
@@ -101,7 +98,11 @@ function createUsersArray(UserKeyArray, userResponse) {
  * @returns {Object} - The prepared task data object.
  */
 function prepareTaskData(title, description, duedate, category, users) {
-  const taskData = {
+  return createTaskData(title, description, duedate, category, users);
+}
+
+function createTaskData(title, description, duedate, category, users) {
+  return {
     title,
     description,
     asignedto: asignedtousers,
@@ -109,16 +110,17 @@ function prepareTaskData(title, description, duedate, category, users) {
     duedate,
     category,
     initials: initialsArray,
-    subtask:
-      subtasks.length > 0
-        ? subtasks.map((subtask) => ({
-            subtask,
-            completed: false,
-          }))
-        : [],
+    subtask: createSubtasks(subtasks),
   };
+}
 
-  return taskData;
+function createSubtasks(subtasks) {
+  return subtasks.length > 0
+    ? subtasks.map((subtask) => ({
+        subtask,
+        completed: false,
+      }))
+    : [];
 }
 
 /**
@@ -540,6 +542,10 @@ function subtaskiconseventlisteners(index) {
         savesub(index);
       }
     });
+  secondpartsubtaskiconeventlisteners(index);
+}
+
+function secondpartsubtaskiconeventlisteners(index) {
   document
     .getElementById(`editsub${index}`)
     .addEventListener("click", function () {
@@ -574,7 +580,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const requiredmessage = document.getElementById("requiredmessage");
   const parent = document.getElementById("parent");
   const spanplace = document.getElementById("spanplace");
-
   if (requiredmessage && parent && spanplace) {
     window.addEventListener("resize", () => {
       if (window.innerWidth < 400) {
