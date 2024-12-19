@@ -37,7 +37,6 @@ function eventlistenerforcategory(selected, options, customSelect) {
       customSelect.classList.toggle("open");
       e.stopPropagation();
     });
-
     options.addEventListener("click", (e) => {
       if (e.target.classList.contains("custom-option")) {
         selected.textContent = e.target.textContent;

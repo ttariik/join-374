@@ -13,13 +13,17 @@ function addsubtask(event) {
     subtaskinput1 = document.getElementById("subtaskinput0").value;
     document.getElementById("subtaskinput0").value = "";
   }
+  addsubtaskpart1(subtaskinput1, event);
+  addsubtaskpart2(subtasks, subtaskinput1);
+}
+
+function addsubtaskpart1(subtaskinput1, event) {
   subtasks.push(subtaskinput1);
   if (subtasks.length > 2) {
     event.currentTarget.parentElement.style.height = "150px";
     event.currentTarget.parentElement.children[6].style =
       "overflow-y: scroll; scrollbar-width: thin;";
   }
-  firstpartsubtask(subtasks, subtaskinput1);
 }
 
 /**
@@ -27,7 +31,7 @@ function addsubtask(event) {
  * @param {Array} subtasks - The list of all subtasks.
  * @param {string} subtaskinput1 - The input value of the newly added subtask.
  */
-function firstpartsubtask(subtasks, subtaskinput1) {
+function addsubtaskpart2(subtasks, subtaskinput1) {
   const subtaskNumber = subtasks.length;
   if (document.getElementById("subtasksbox11")) {
     document
@@ -54,20 +58,22 @@ function addingeventlistener(subtaskNumber) {
       document
         .getElementById(`savesub${subtaskNumber}`)
         .addEventListener("click", function () {
-          const inputElement = document.getElementById(
-            `inputsub${subtaskIndex}`
-          );
-          if (inputElement && inputElement.value === "") {
-            displayError("spanplace", "hi");
-            return;
-          } else {
-            savesub(subtaskNumber);
-          }
+          partinsideeventlistener(subtaskNumber);
         });
       addingeventlistenerdeletebutton(subtaskNumber);
       addingeventlisteners(subtaskNumber);
     }
   }, 0);
+}
+
+function partinsideeventlistener(subtaskIndex) {
+  const inputElement = document.getElementById(`inputsub${subtaskIndex}`);
+  if (inputElement && inputElement.value === "") {
+    displayError("spanplace", "hi");
+    return;
+  } else {
+    savesub(subtaskNumber);
+  }
 }
 
 function addingeventlistenerdeletebutton(subtaskNumber) {
@@ -97,7 +103,6 @@ function showeditsubtasks(subtaskNumber) {
 function earlyeditsubtask(index) {
   const dotElement = document.querySelector(`#dot_${index}`);
   const editButton = document.querySelector(`#editsub${index}`);
-
   if (dotElement && editButton) {
     dotElement.classList.add("d-none"); // Hide the dot for this subtask only
     editButton.classList.add("d-none"); // Hide the edit button for this subtask only
@@ -171,12 +176,9 @@ function changeclasses(index) {
  */
 function inputfielddesign(index) {
   const result = subtasks[index - 1];
-
   const subboxInput = document.getElementById(`subboxinput_${index}`);
   subboxInput.style.background = "#dedede";
-
   subboxInput.innerHTML = subtaskdesign(index);
-
   const inputField = document.getElementById(`inputsub${index}`);
   if (inputField) {
     inputField.value = result;
@@ -194,7 +196,6 @@ async function loadsubtasks(task) {
     task.subtask.forEach((subtask, index) => {
       subtasks.push(subtask.subtask);
       const subtaskIndex = index + 1;
-
       subtasksHTML += subtaskitemtemplateload(subtaskIndex, subtask);
       addingeventlistener(subtaskIndex);
     });
