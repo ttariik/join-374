@@ -145,8 +145,8 @@ async function setuptechnicallayoutpart1(task) {
 function todaydate() {
   if (document.getElementById("date21")) {
     const dateInput = document.getElementById("date21");
-    const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
-    dateInput.min = today; // Set the 'min' attribute to today's date
+    const today = new Date().toISOString().split("T")[0];
+    dateInput.min = today;
   }
 }
 
@@ -156,10 +156,8 @@ function todaydate() {
  * @param {Object} task - The task object to use for layout configuration.
  */
 async function setuptechnicallayoutpart2(task) {
-  /** Clears and populates the subtask box template. */
   document.getElementById("subtaskbox").innerHTML = "";
   document.getElementById("subtaskbox").innerHTML = subtaskboxemplate();
-  /** Adds an event listener to the close button to reset the template. */
   document.getElementById("closebtn").addEventListener("click", function () {
     resettemplate(task);
   });
@@ -168,12 +166,15 @@ async function setuptechnicallayoutpart2(task) {
   document.getElementById("closebtn1").addEventListener("click", function () {
     resettemplate(task);
   });
+  setuptechnicallayoutpart2design();
+  await loadinfos(task);
+}
+
+function setuptechnicallayoutpart2design() {
   document.getElementById("button1").style.maxWidth = "136px";
   document.getElementById("button2").style.maxWidth = "136px";
   document.getElementById("button3").style.maxWidth = "136px";
   document.getElementById("button1").style.height = "56px";
   document.getElementById("button2").style.height = "56px";
   document.getElementById("button3").style.height = "56px";
-  /** Loads additional information related to the task. */
-  await loadinfos(task);
 }
